@@ -1,0 +1,216 @@
+var mypageInquiryCtrl = (function(){
+	
+	"use strict";
+	
+	var searchMore = null;
+	var pageType = null;
+	
+	var popObj = {};
+	
+	//지점검색조건
+	var fn_select_brch_change = function(brchCd)
+	{
+		$("#brchCd").val(brchCd);
+		
+		fn_search();
+	}
+	
+	//접수상태검색조건
+	var fn_select_status_change = function(status)
+	{
+		$("#status").val(status);
+		
+		fn_search();
+	}
+	
+	//팝업 셀렉트 박스
+	var fn_select_Div_change = function(obj,cd)
+	{
+		if($(obj).parent().hasClass('cd1'))
+		{
+			$("#clCd").val(cd);
+		//	alert("구분cd=" + $("#clCd").val());
+		}
+		else if ($(obj).parent().hasClass('cd2'))
+		{
+			$("#strCd").val(cd);
+		//	alert("지점cd=" + $("#strCd").val());
+		}
+	}
+	
+	var fn_select_detail = function(target, seq, url){
+		
+		var strPam = location.search.substr(location.search.indexOf("?") + 1);
+
+    	if(target == null && seq == null){
+    		location.href = url;
+    	}else{
+    		if (strPam.indexOf(target + "=") < 0)
+    		{
+    			location.href = url + "?" + (strPam ? "&" : "") + target + "=" + seq;
+    		}
+    		else
+    		{
+    			var paramArr = strPam.split("&").map(function(value){
+    				return value.indexOf(target + "=") < 0 ? value : target + "=" + seq;
+    			});
+
+    			location.href = url + "?" + paramArr.join("&");
+    		}
+    	}
+		
+	};
+	
+	var fn_detail = function(obj , seq){
+       // var ds = obj.parentElement.dataset;
+        //alert("ds===" + ds);
+        var param = "onlnQuesSeqno="+seq;
+        location.href = "/mypage/inquiry/view.do?" + param;
+    }
+	
+	//문의글 삭제
+	var fn_delete_inquiry = function(obj){
+		
+		if(!confirm("삭제하시겠습니까?")) return;
+		
+		fnc.frmAjax(function(data){
+			
+			if(parseInt(data.actCnt, 10) > 0)
+        	{
+        		alert("삭제되었습니다.");
+        		location.href="./list.do";
+        	}
+			else
+			{
+				alert("삭제 실패했습니다.")
+				return false;
+			}
+            
+        }, "/mypage/inquiry/delete.ajax", $("#inquiryFrm"), null, false, true, true);
+		
+	}
+	
+	//textarea
+	var textarea_onkeyup = function(obj){
+        fnc.checkMaxLength(obj);
+        $(obj).parents(".form_textarea").find(".check_byte .r_byte").html(obj.value.length);
+    }
+	
+	//검색
+	var fn_search = function() {
+		
+		searchMore.pageIndex = 1;
+		searchMore.search();
+	}
+	
+	//초기화
+	var init = function() {
+		var initObj = {
+				form : $("#frmInquiry")
+				, container : $("#listContainer")
+				, moreBtn : $("#moreBtn")
+				, url : "/mypage/inquiry/list.ajax"
+				, pageIndex : $("#frmInquiry #pageIndex").val()
+				, listCnt : $("#frmInquiry #listCnt").val()
+				, callbackFunc : function() { $("#totCnt").text(searchMore.totCnt  + "개"); }
+		}
+	
+		searchMore = new fnc.SearchMore(initObj);
+		searchMore.search();
+		
+	}
+	
+	//문의 팝업
+	var fn_open_popup = function(popupId)
+	{
+		commonScript.openPopupFn(popupId, $(this));
+	}
+	//팝업 닫기
+	var fn_close_popup = function()
+	{
+		$("#inquiryRegPop").find(".btn_close").click();
+		//입력박스
+		$("#inquiryRegFrm").find("input").not("input[type='hidden'], input[readonly]").val("");
+		$("#inquiryRegFrm").find("textarea").val('');
+		$("#inquiryRegFrm").find(".check_byte .r_byte").html('0');
+		
+		//셀렉트박스 초기화
+		//$("#inquiryRegFrm").find(".form_select_div .list_wrap").find("a:eq(1)").click();
+		//$("#inquiryRegFrm").find("input[type='checkbox']").prop("checked", false);
+		/*$("#inquiryRegFrm").each(function (){
+			this.reset();
+		});*/
+	}
+	
+	var fn_save_popup = function()
+	{
+		var frm = {
+				form : $("#inquiryRegFrm"),
+				obj  : function(name){
+					return this.form.find("[name='"+name+"']")
+				}
+		}
+		
+		if(frm.obj("titNm").val().trim() =="")
+		{
+			alert("제목을 입력해주세요.");
+			frm.obj("titNm").focus();
+			return false;
+		}
+		if($("#clCd").val() =="")
+		{
+			alert("문의 유형을 선택해주세요.");
+			return false;
+		}
+		if($("#strCd").val() =="")
+		{
+			alert("지점을 선택해주세요");
+			return false;
+		}
+		if(frm.obj("quesCont").val().trim() == "")
+		{
+			alert("내용을 입력해주세요");
+			frm.obj("quesCont").focus();
+			return false;
+		}
+		else
+		{
+			
+			if(!confirm("등록하시겠습니까?")) return;
+			
+			fnc.frmAjax(function(data){
+	            
+            	if(parseInt(data.actCnt, 10) > 0)
+            	{
+            		//alert("등록되었습니다.");
+            		location.href="./success.do";
+            		//fn_close_popup();
+            	}
+       	        }, "/mypage/inquiry/insert.ajax", $("#inquiryRegFrm"), "json", true, false, true);
+		}
+		
+	}
+	
+	$(document).ready(function(){
+		
+		pageType = $("#frmInquiry").data("pageType");
+
+        if(pageType == "list"){
+        	init();
+        }
+		
+	});
+	
+	 return {
+		   detail	  : fn_select_detail
+		 , detail2	  : fn_detail
+		 , deleteInq  : fn_delete_inquiry
+		 , selectBrch : fn_select_brch_change
+		 , selectStatus : fn_select_status_change
+		 , selectDiv  : fn_select_Div_change
+		 , textareaOnkeyup: textarea_onkeyup
+		 , openPopup  : fn_open_popup
+		 , close	  : fn_close_popup
+		 , save		  : fn_save_popup
+	 }
+}());

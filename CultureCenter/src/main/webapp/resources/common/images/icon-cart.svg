@@ -1,0 +1,7 @@
+<svg id="icon-cart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="container" width="24" height="24" opacity="0.004"/>
+  <g id="ico_cart" transform="translate(-1 -1)">
+    <path id="패스_14675" data-name="패스 14675" d="M17,19H1L2,6H16Z" transform="translate(4 3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="패스_14676" data-name="패스 14676" d="M9,1H9A4,4,0,0,0,5,5V6h8V5A4,4,0,0,0,9,1Z" transform="translate(4 3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>
