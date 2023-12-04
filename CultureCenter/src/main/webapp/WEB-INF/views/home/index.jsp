@@ -146,112 +146,112 @@
 						
 						<div class="img_con_w fir">						
 							<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533029151.jpg" alt="메인_성인_공예.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533193383.jpg" alt="메인_성인_노래.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533306673.jpg" alt="메인_성인_댄스.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260542406471.jpg" alt="메인_성인_드로잉.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260545030363.jpg" alt="메인_성인_라이프스타일.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260546325223.jpg" alt="메인_성인_악기.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260547571393.jpg" alt="메인_성인_어학.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260549229583.jpg" alt="메인_성인_인문학.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260551002553.jpg" alt="메인_성인_재테크.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260552512823.jpg" alt="메인_성인_커리어.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260554154173.jpg" alt="메인_성인_쿠킹.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260556304753.jpg" alt="메인_성인_피트니스.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558211673.jpg" alt="메인_영유아_오감발달.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558354653.jpg" alt="메인_아동_창의체험.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558478873.jpg" alt="메인_영유아_음악미술.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559050132.jpg" alt="메인_영유아_언어사회성.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559206703.jpg" alt="메인_영유아_신체활동.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559321243.jpg" alt="메인_아동_신체활동.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559439523.jpg" alt="메인_영유아_창의체험.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260600003284.jpg" alt="메인_아동_음악미술.jpg">
-												</p>
-											</div>
-										<div class="img_con">
-												<p class="img_resize_w">
-													<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260600132862.jpg" alt="메인_아동_언어사회성.jpg">
-												</p>
-											</div>
-										</div>
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533029151.jpg" alt="메인_성인_공예.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533193383.jpg" alt="메인_성인_노래.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260533306673.jpg" alt="메인_성인_댄스.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260542406471.jpg" alt="메인_성인_드로잉.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260545030363.jpg" alt="메인_성인_라이프스타일.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260546325223.jpg" alt="메인_성인_악기.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260547571393.jpg" alt="메인_성인_어학.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260549229583.jpg" alt="메인_성인_인문학.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260551002553.jpg" alt="메인_성인_재테크.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260552512823.jpg" alt="메인_성인_커리어.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260554154173.jpg" alt="메인_성인_쿠킹.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260556304753.jpg" alt="메인_성인_피트니스.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558211673.jpg" alt="메인_영유아_오감발달.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558354653.jpg" alt="메인_아동_창의체험.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260558478873.jpg" alt="메인_영유아_음악미술.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559050132.jpg" alt="메인_영유아_언어사회성.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559206703.jpg" alt="메인_영유아_신체활동.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559321243.jpg" alt="메인_아동_신체활동.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260559439523.jpg" alt="메인_영유아_창의체험.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260600003284.jpg" alt="메인_아동_음악미술.jpg">
+								</p>
+							</div>
+							<div class="img_con">
+								<p class="img_resize_w">
+									<img src="" data-src="https://culture.lotteshopping.com/files/CUL_ONL/2023/4/202304260600132862.jpg" alt="메인_아동_언어사회성.jpg">
+								</p>
+							</div>
 						</div>
+					</div>
 					<div class="right">
 						<div class="category_con_w">
 							<div class="category_con" id="categoyContainer"></div>
