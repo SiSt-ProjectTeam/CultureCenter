@@ -75,11 +75,9 @@
 				<span class="only_pc">관심있는 강좌를 찾아보세요</span> <span class="only_mobile">관심 강좌 찾기</span>
 			</a>
 		</p>
-		<u:isLogin>
 			<p class="mypage_icon">
 				<a href="javascript:" title="마이페이지" onclick="common.getCount(this);"></a>
 			</p>
-		</u:isLogin>	
 		
 		<p class="cart_icon ">
 			<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
@@ -99,25 +97,17 @@
 			
 			<span class="cart_num">0</span>
 		</p>
-
-		<u:isAdmin>
+		
 			<p class="admin_icon">
 				<a href="/administrator/index.do" title="관리자페이지"></a>
 				<a href="javascript:fnc.moveLogout();" title="로그아웃"></a>
-			</p>
-		</u:isAdmin>	
-				
-		<u:notLogin>		
+			</p>	
 			<p class="login_icon "><!-- 로그아웃일 경우 logout class 추가 -->
 			   	<a href="javascript:fnc.moveLoginPage();" title="로그인"></a>
 			</p>
-		</u:notLogin>
-		
-		<u:isLogin>		
 			<p class="login_icon logout"><!-- 로그아웃일 경우 logout class 추가 -->
 				<a href="javascript:fnc.moveLogout();" title="로그아웃"></a>
 			</p>
-		</u:isLogin>
 	</div>
 
 	<div class="header_srch_pop_area">
