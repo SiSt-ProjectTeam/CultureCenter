@@ -1,0 +1,90 @@
+<script type="text/javascript">
+
+	/*===========================================================================*/
+	//점별 지도 생성 
+	/*===========================================================================*/
+		kakao.maps.load(function()  {
+
+		var lat = "37.51223"; //위도
+		var lng = "127.09922"; //경도
+
+		var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+		var mapOption = { // 지도 옵션 
+			center : new kakao.maps.LatLng(lat,lng), // 지도의 중심좌표
+			level : 3
+		// 지도의 확대 레벨
+		};
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+		var iwContent = '<div style="width:135px;text-align:center;margin:5px 5px 5px 5px;font:12px/1.5 sans-serif"><strong>롯데문화센터 잠실점</strong></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		iwPosition = new kakao.maps.LatLng(lat,lng), //인포윈도우 표시 위치입니다
+		iwRemoveable = false; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+		// 인포윈도우를 생성하고 지도에 표시합니다
+		var infowindow = new kakao.maps.InfoWindow({
+			map : map, // 인포윈도우가 표시될 지도
+			position : iwPosition,
+			content : iwContent,
+			removable : iwRemoveable
+		});
+	})
+</script>
+
+	<div class="con on">
+		<div class="sub_con_section">
+			<div class="store_info_area">
+				<div class="store_info_swiper">
+					<div class="swiper-container">
+							<div class="swiper-wrapper">
+								<a href="javascript:" class="swiper-slide">
+										<p class="img img_resize_w">
+											<img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/3/202303280548075623.jpg" alt="_DSF8555.jpg">
+										</p>
+									</a>
+								<a href="javascript:" class="swiper-slide">
+										<p class="img img_resize_w">
+											<img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/3/202303280548076714.jpg" alt="_DSF8498.jpg">
+										</p>
+									</a>
+								<a href="javascript:" class="swiper-slide">
+										<p class="img img_resize_w">
+											<img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/3/202303280548076715.jpg" alt="_DSF8645.jpg">
+										</p>
+									</a>
+								<a href="javascript:" class="swiper-slide">
+										<p class="img img_resize_w">
+											<img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/3/202303280548076876.jpg" alt="_DSF8479.jpg">
+										</p>
+									</a>
+								<a href="javascript:" class="swiper-slide">
+										<p class="img img_resize_w">
+											<img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/3/202303280548076877.jpg" alt="_DSF8620.jpg">
+										</p>
+									</a>
+								</div>
+<!-- 							<div class="swiper-button-next"></div> -->
+<!-- 							<div class="swiper-button-prev"></div> -->
+							<div class="swiper-pagination"></div>
+					</div>
+				</div>
+				<div class="store_txt_wrap">
+					<p class="txt f_body2">
+						서울특별시 송파구 올림픽로 240<br class="only_pc">롯데백화점 잠실점 12층</p>
+					<p class="txt f_body2">02-411-5785</p>
+					<p class="txt f_body2">강의실 11실</p>
+				</div>
+			</div>
+		</div>
+		<!-- 2023-02-13 지점안내 내 기획전 영역 삭제 -->
+		<!---->
+		<!-- 2023-02-13 지점안내 내 기획전 영역 삭제 -->
+		<div class="sub_con_section">
+			<p class="sub_tit_area f_h2">잠실점 오시는 길</p>
+			<p class="map_area">
+				<div id="map" style="width: 100%; height: 470px;"/>
+			</p>
+		</div>
+	</div>
+
+	

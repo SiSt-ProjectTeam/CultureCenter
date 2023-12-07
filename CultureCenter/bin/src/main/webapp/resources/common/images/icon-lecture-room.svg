@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="icon-lecture-room" transform="translate(-15 41)">
+    <rect id="area" width="40" height="40" transform="translate(15 -41)" fill="none"/>
+    <g id="그룹_5837" data-name="그룹 5837" transform="translate(19 -37)">
+      <rect id="사각형_2533" data-name="사각형 2533" width="22" height="31.25" rx="1" transform="translate(5)" fill="none" stroke="#222" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <rect id="사각형_2534" data-name="사각형 2534" width="32" height="2" rx="1" transform="translate(0 30.25)" fill="#222"/>
+      <rect id="사각형_2535" data-name="사각형 2535" width="3" height="3" rx="1.5" transform="translate(20.445 14.237)" fill="#222"/>
+    </g>
+  </g>
+</svg>

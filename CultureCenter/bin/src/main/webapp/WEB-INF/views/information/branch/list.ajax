@@ -1,0 +1,15 @@
+<div class="swiper-container">
+	<div class="swiper-wrapper honeyBee">
+		<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0002')"data-brchCd="0002" class="btn swiper-slide useBrch on"><span>잠실점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0001')"data-brchCd="0001" class="btn swiper-slide useBrch "><span>본점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0013')"data-brchCd="0013" class="btn swiper-slide useBrch "><span>강남점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0028')"data-brchCd="0028" class="btn swiper-slide useBrch "><span>건대스타시티점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0006')"data-brchCd="0006" class="btn swiper-slide useBrch "><span>관악점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0340')"data-brchCd="0340" class="btn swiper-slide useBrch "><span>김포공항점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0022')"data-brchCd="0022" class="btn swiper-slide useBrch "><span>노원점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0026')"data-brchCd="0026" class="btn swiper-slide useBrch "><span>미아점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0010')"data-brchCd="0010" class="btn swiper-slide useBrch "><span>영등포점</span></a>
+				<a href="javascript:" onclick="branchCtrl.selectBrch(this , '0004')"data-brchCd="0004" class="btn swiper-slide useBrch "><span>청량리점</span></a>
+				</div>
+</div>
+<button type="button" class="drop_btn"></button>
