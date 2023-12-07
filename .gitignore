@@ -7,3 +7,5 @@
 .springBeans
 .DS_Store
 /Servers/*
+pom.properties
+root-context.xml
