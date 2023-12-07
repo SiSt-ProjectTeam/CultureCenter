@@ -15,7 +15,7 @@ var mypage_cart = (function(){
 	// 리스트 콜백
 	var fn_list_callback = function(html){
 		$('a.remove_bag').remove();
-		$('div.course_history_w').append(html);
+		$('div.course_history_w').remove().append(html);
 	}
 	
 	// 지점 변경
@@ -265,7 +265,6 @@ var mypage_cart = (function(){
 			}
 		}
 	}
-	
 	 return {
 		 changeBrchCd : fn_change_brchCd
 		 , clickAllCheckbox : fn_click_all_checkbox
@@ -276,3 +275,8 @@ var mypage_cart = (function(){
 		 , payment : fn_payment
 	 }
 }());
+
+$(document).ready(function() {
+	let pageIndex = $("#pageIndex").val();
+	mypage_cart.fn_list(pageIndex);
+});
