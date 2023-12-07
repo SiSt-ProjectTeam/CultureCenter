@@ -331,55 +331,22 @@
 							<div class="content only_pc">
 								<div class="list_w">
 
-									<div class="list">
-               		<p class="f_body3">서울점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0002" class="f_body1">잠실점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0001" class="f_body1">본점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0013" class="f_body1">강남점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0028" class="f_body1">건대스타시티점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0006" class="f_body1">관악점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0340" class="f_body1">김포공항점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0022" class="f_body1">노원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0026" class="f_body1">미아점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0010" class="f_body1">영등포점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0004" class="f_body1">청량리점</a></p>
-	                  	</div>
-               	</div>
-              <div class="list">
-               		<p class="f_body3">수도권점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0344" class="f_body1">인천점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0399" class="f_body1">동탄점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0335" class="f_body1">구리점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0008" class="f_body1">분당점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0349" class="f_body1">수원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0336" class="f_body1">안산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0011" class="f_body1">일산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0334" class="f_body1">중동점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0341" class="f_body1">평촌점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0350" class="f_body1">롯데몰광명점</a></p>
-	                  	</div>
-               	</div>
-              <div class="list">
-               		<p class="f_body3">지방점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0005" class="f_body1">부산본점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0333" class="f_body1">광복점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0007" class="f_body1">광주점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0023" class="f_body1">대구점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0012" class="f_body1">대전점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0016" class="f_body1">동래점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0354" class="f_body1">마산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0024" class="f_body1">상인점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0027" class="f_body1">센텀시티점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0015" class="f_body1">울산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0025" class="f_body1">전주점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0017" class="f_body1">창원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0014" class="f_body1">포항점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0361" class="f_body1">롯데몰군산점</a></p>
-	                  	</div>
-               	</div>
+									<c:choose>
+								        <c:when test="${not empty map}">
+								            <c:forEach var="entry" items="${map}">
+								                <div class="list">
+								                    <p class="f_body3">${entry.key}</p>
+								                    <div class="txt_w">
+								                        <c:forEach var="dto" items="${entry.value}">
+								                                <p class="txt">
+								                                    <a href="/resources/application/search/list.do?type=branch&branch_id=${dto.branch_id}" class="f_body1">${dto.branch_nm}</a>
+								                                </p>
+								                        </c:forEach>
+								                    </div>
+								                </div>
+								            </c:forEach>
+								        </c:when>
+								    </c:choose>
               </div>
               
               <div class="img_w">
