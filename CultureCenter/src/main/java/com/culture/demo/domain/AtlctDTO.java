@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtlctDTO {
+		private int tot_cnt;					// 총 강좌수
 	    
 	    // 주문  class_order
 	    private int order_sq;					// 주문번호
