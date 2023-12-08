@@ -13,17 +13,4 @@
 	WHERE branch_tp_id = #{branch_tp_id}
 	</select>
 	
-
-	<!--소분류 클릭하면 지점 정보 조회
-	public List<BranchDTO> selectBranchInfo(int branch_id); -->
-	<select id="selectBranchInfo" resultType="com.culture.demo.domain.BranchDTO">
-	SELECT b.branch_id, p.branch_tp, b.branch_nm, b.branch_addr, b.tel, b.lat, b.lng, i.branch_img,
-		(SELECT MAX(c1.classroom_nm) 
-		 FROM classroom c1 
-		 WHERE c1.branch_id = b.branch_id) AS classroom_nm
-	FROM branch_type p JOIN branch b ON p.branch_tp_id = b.branch_tp_id
-	JOIN branch_image i ON b.branch_id = i.branch_id
-	WHERE b.branch_id = #{b.branch_id}	
-	</select>
-
 </mapper>

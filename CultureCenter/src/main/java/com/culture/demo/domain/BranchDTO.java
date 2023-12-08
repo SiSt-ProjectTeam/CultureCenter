@@ -17,5 +17,8 @@ public class BranchDTO {
 	private String tel;							// 지점 전화번호
 	private int lat;							// 지점 위도
 	private int lng;							// 지점 경도
+	
+	// 지점유형 / branch_type	
+	private String branch_tp;		// 지점 유형
  	
 }

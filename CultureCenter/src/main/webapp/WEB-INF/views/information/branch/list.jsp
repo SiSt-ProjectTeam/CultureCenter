@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="ko">
@@ -54,12 +53,9 @@
 										<div class="border_tab_area tab_btn_area">
 											<div class="swiper-container">
 												<div class="swiper-wrapper">
-													<a href="javascript:branchCtrl.tabClCd(1);"
-														class="btn swiper-slide on" data-cd="1"><span>서울점</span></a>
-													<a href="javascript:branchCtrl.tabClCd(2);"
-														class="btn swiper-slide " data-cd="2"><span>수도권점</span></a>
-													<a href="javascript:branchCtrl.tabClCd(3);"
-														class="btn swiper-slide " data-cd="3"><span>지방점</span></a>
+													<a href="javascript:branchCtrl.tabClCd(1);" class="btn swiper-slide on" data-cd="1"><span>서울점</span></a>
+													<a href="javascript:branchCtrl.tabClCd(2);" class="btn swiper-slide " data-cd="2"><span>수도권점</span></a>
+													<a href="javascript:branchCtrl.tabClCd(3);" class="btn swiper-slide " data-cd="3"><span>지방점</span></a>
 												</div>
 											</div>
 										</div>
