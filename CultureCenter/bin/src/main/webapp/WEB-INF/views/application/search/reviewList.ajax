@@ -1,0 +1,55 @@
+<div class="thum_list_wrap" data-tot-cnt="2">
+				<a href="javascript:search.reviewDtl('0001', '2023', '2', '0579', '017617', '200109536', this);" class="thum_list">
+					<div class="txt_wrap">
+						<div class="thum_left">
+							<div class="label_div">
+								<p class="label small black_gray">본점</p>
+							</div>
+							<p class="title">[6/14 외부] 안도타다오와 뮤지엄산, 건축과 예술을 아는 길</p>
+							<p class="sub_title limit_line f_body2">안도타다오와의 설레는 만남</p>
+						</div>
+						<div class="thum_right">
+							<div class="star_rating">
+								<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+									</div>
+							<div class="type_div">
+								<p class="type f_caption2">박*빈</p>
+								<p class="type f_caption2">2023.06.16</p>
+								<p class="comment_num f_caption2">0</p>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		<div class="thum_list_wrap" data-tot-cnt="2">
+				<a href="javascript:search.reviewDtl('0001', '2023', '2', '0541', '017617', '190824699', this);" class="thum_list">
+					<div class="txt_wrap">
+						<div class="thum_left">
+							<div class="label_div">
+								<p class="label small black_gray">본점</p>
+							</div>
+							<p class="title">[5/31 외부] 안도타다오와 뮤지엄산, 건축과 예술을 아는 길</p>
+							<p class="sub_title limit_line f_body2">뮤지엄 산과 안도 타다오!</p>
+						</div>
+						<div class="thum_right">
+							<div class="star_rating">
+								<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+										<span class="star"></span>
+									</div>
+							<div class="type_div">
+								<p class="type f_caption2">이*연</p>
+								<p class="type f_caption2">2023.06.08</p>
+								<p class="comment_num f_caption2">0</p>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		
