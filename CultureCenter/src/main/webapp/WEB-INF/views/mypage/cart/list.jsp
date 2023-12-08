@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 
 header에 data-url 부분 다름 아래로 바꿔줘야함 
 <div class="m_navi_bar " data-url="/mypage/cart/list.do"> 
@@ -9,9 +8,9 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 <div class="cont_wrap shopbag_w">
 
 	<form id="frm_search" name="frm_search">
-		<input type="hidden" id="pageIndex" name="pageIndex" value="${param.pageIndex}" />
-		<input type="hidden" id="brchCd" name="brchCd" value="" />
-		<input type="hidden" id="brchNm" name="brchNm" value="" />
+		<input type="hidden" id="pageIndex" name="pageIndex" value="${params.pageIndex}" />
+		<input type="hidden" id="brchCd" name="brchCd" value="${params.brchCd}" />
+		<input type="hidden" id="brchNm" name="brchNm" value="${params.brchNm}" />
 	</form>
  
 	<div class="cont_inner no_pb">
@@ -43,7 +42,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 								<div class="filter_bar_div">
 									<div class="left">
 										<p class="f_caption2">
-											목록 <span class="point">${list.size()}개</span>
+											목록 <span class="point"></span>
 										</p>
 									</div>
 									<div class="right">
@@ -158,96 +157,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 					</div>
 
 					<!-- 장바구니 목록 -->
-					<div class="course_history_w" data-mbr-grde-cd="" data-mvg-blstr-cd="">
-						<c:choose>
-							<c:when test="${empty list}">
-								<div class="no_srch_area no_pb">
-									<div class="no_srch_div">
-										<p class="txt f_h2">
-											<span class="normal_value">장바구니가 비어있습니다.</span>
-										</p>
-									</div>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${list}" var="dto" varStatus="i">							
-									<div class="cour_his_list"
-									    data-lect-stlm-amt="${dto.ex_charge + dto.class_fee}"
-										data-cart-seqno="${dto.detail_class_sq}" data-brch-cd="${dto.branch_id}" data-yy="${dto.open_year}"
-										data-lect-smster-cd="${dto.open_smst_id}" data-lect-cd="${class_id}"
-										data-lect-stat-cd="${dto.class_st_id}" data-mvg-dsply-use-yn="N"
-										data-optn-seqno=""
-										data-lect-nm="${dto.class_nm}"
-										data-optn-use-yn=N 
-										data-pbl-pmprcust-parnt-brch-cd="" 
-										data-pbl-pmprcust-parnt-lect-cd=""
-										data-pbl-pmprcust-parnt-brch-cd-nm="" 
-										data-atlct-dupl-yn="N"
-										data-lect-dupl-yn="N" 
-										data-optn-validate-yn="Y">
-										
-										<div class="cour_top_area">
-											<div class="form_checkbox">
-												<input type="checkbox" id="shopbagAgree${i.index+1}" name=""
-													onclick="mypage_cart.clickCheckbox(this)"
-													autocomplete="off"><label for="shopbagAgree${i.index+1}"></label>
-											</div>
-											<div class="left">
-												<div class="left_info">
-													<div class="label_div">
-														<p class="label small lime">${dto.class_st}</p>
-														<p class="label small black_gray">${dto.branch_nm}</p>
-													</div>
-													<p class="tit f_h2">
-														<a href="/application/search/view.do?brchCd=0001&yy=2023&lectSmsterCd=4&lectCd=0520">
-															<span>${dto.class_nm}</span>
-														</a>
-													</p>
-												</div>
-											</div>
-											<div class="right">
-												<ul class="txt_wrap">
-													<li class="dl f_body2">
-														<p class="dt only_pc">강사명</p>
-														<p class="dd f_body1">${dto.teacher_nm}</p>
-													</li>
-													<li class="dl f_body2">
-														<p class="dt only_pc">학기명</p>
-														<p class="dd f_body1">${dto.open_year}년 ${dto.smst_nm}</p>
-													</li>
-													<li class="dl f_body2">
-														<p class="dt only_pc">강좌정보</p>
-														<p class="dd f_body1"><fmt:formatDate value="${dto.schedule_start_dt}" pattern="yyyy.MM.dd"/>  ~ <fmt:formatDate value="${dto.schedule_end_dt}" pattern="yyyy.MM.dd"/>
-															(${dto.day}) ${dto.start_time}~${dto.end_time} / ${dto.class_cnt}회</p>
-													</li>
-												</ul>
-												<ul class="txt_wrap">
-													<li class="dl f_body2">
-														<p class="dt">강좌료</p>
-														<p class="dd f_body1"><fmt:formatNumber value="${dto.class_fee}" type="currency" currencySymbol=""/>원</p>
-													</li>
-												
-													<c:if test="${not empty dto.ex_charge and dto.ex_charge != '0'}">
-														<li class="dl f_body2">
-							                            	<p class="dt">재료비/대여료</p>
-							                            	<p class="dd f_body1"><fmt:formatNumber value="${dto.ex_charge}" type="currency" currencySymbol=""/>원</p>
-										                </li>
-													</c:if>
-													
-													<li class="dl total_pay f_body2">
-														<p class="dt">총금액</p>
-														<p class="dd f_body1"><fmt:formatNumber value="${dto.ex_charge + dto.class_fee}" type="currency" currencySymbol=""/>원</p>
-													</li>
-												</ul>
-											</div>
-											<a href="javascript:" class="f_btn delete_btn" role="button"
-												onclick="mypage_cart.removeCart(this)"></a>
-										</div>
-									</div>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</div>
+					<div class="course_history_w" data-mbr-grde-cd="" data-mvg-blstr-cd=""></div>
 
 
 					<!-- 장바구니 비우기 -->

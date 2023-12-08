@@ -20,5 +20,8 @@ public class FrmSearchDTO {
 	
 	private String prevSesterYy;
 	private int prevSesterLectSmsterCd;
+	
+	private int brchCd;
+	private String brchNm;
 
 } // class

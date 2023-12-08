@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.MyPageCartMapper">
+	
+	<!-- 장바구니 목록 가져오기 public void getCarts(String id) -->
+	<select id="getCarts" resultType="com.culture.demo.domain.CartDTO">
+		SELECT
+		b.member_sq, b.detail_class_sq
+		, dc.start_time, dc.end_time, dc.class_cnt
+		, TO_CHAR(cbs.open_year,'yyyy') AS open_year
+        , TO_CHAR(TRUNC(cbs.schedule_start_dt),'yy.MM.dd') as schedule_start_dt
+        , TO_CHAR(TRUNC(cbs.schedule_end_dt),'yy.MM.dd') as schedule_end_dt
+        , cbs.class_fee, cbs.ex_charge
+		, cbs.open_smst_id ,s.smst_nm
+		, c.class_nm, c.class_id
+		, cs.class_st_id, cs.class_st
+		, bh.branch_id, bh.branch_nm
+		, t.teacher_nm
+		, CASE 
+            WHEN MON = 'Y' THEN '월' 
+            WHEN TUE = 'Y' THEN '화'
+            WHEN WED = 'Y' THEN '수'
+            WHEN THU = 'Y' THEN '목'
+            WHEN FRI = 'Y' THEN '금'
+            WHEN SAT = 'Y' THEN '토'
+            WHEN SUN = 'Y' THEN '일'
+         END as day
+		FROM basket b 
+		    LEFT JOIN detail_class dc ON b.detail_class_sq = dc.detail_class_sq
+		    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+		    LEFT JOIN semester s ON cbs.open_smst_id = s.open_smst_id
+		    LEFT JOIN class c ON c.class_id = cbs.class_id
+		    LEFT JOIN class_state cs ON c.class_st_id = cs.class_st_id
+		    LEFT JOIN branch bh ON bh.branch_id = c.branch_id
+		    LEFT JOIN teacher t ON c.member_sq = t.member_sq
+		WHERE b.member_sq = #{member_sq}
+		
+		<if test="branch_id != null and branch_id != 0">
+			AND bh.branch_id = #{branch_id}
+		</if>
+		
+		ORDER BY cbs.schedule_start_dt
+	</select>
+</mapper>

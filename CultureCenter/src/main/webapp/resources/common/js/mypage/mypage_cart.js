@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	mypage_cart.list();
+});
+
 var mypage_cart = (function(){
 	
 	"use strict";
@@ -7,7 +11,6 @@ var mypage_cart = (function(){
 		if(pageIndex == undefined){
 			pageIndex = 1;
 		}
-		
 		$('#frm_search').find('#pageIndex').val(pageIndex);
 		fnc.frmAjax(fn_list_callback, "/mypage/cart/list.ajax", $('#frm_search'), "html");
 	}
@@ -15,7 +18,7 @@ var mypage_cart = (function(){
 	// 리스트 콜백
 	var fn_list_callback = function(html){
 		$('a.remove_bag').remove();
-		$('div.course_history_w').remove().append(html);
+		$('div.course_history_w').append(html);
 	}
 	
 	// 지점 변경
@@ -273,10 +276,6 @@ var mypage_cart = (function(){
 		 , removeCart : fn_remove_cart
 		 , removeCartCheck : fn_remove_cartCheck
 		 , payment : fn_payment
+		 , list : fn_list
 	 }
 }());
-
-$(document).ready(function() {
-	let pageIndex = $("#pageIndex").val();
-	mypage_cart.fn_list(pageIndex);
-});
