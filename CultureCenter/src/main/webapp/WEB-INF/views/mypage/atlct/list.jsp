@@ -9,7 +9,7 @@
 		<input type="hidden" id="q" name="q" value="${frmSearchDTO.q}" />
 		<input type="hidden" id="atlctRsvNo" name="atlctRsvNo" value="${frmSearchDTO.atlctRsvNo}" />
 		<input type="hidden" id="initIndex" name="initIndex" value="1"/>
-		<input type="hidden" id="listCnt" name="listCnt" value="4"/>		
+		<input type="hidden" id="listCnt" name="listCnt" value="1"/>		
 		
 		<input type="hidden" id="prevSesterYy" name="prevSesterYy" value="${frmSearchDTO.prevSesterYy}"/>
 		<input type="hidden" id="prevSesterLectSmsterCd" name="prevSesterLectSmsterCd" value="${frmSearchDTO.prevSesterLectSmsterCd}"/>	
