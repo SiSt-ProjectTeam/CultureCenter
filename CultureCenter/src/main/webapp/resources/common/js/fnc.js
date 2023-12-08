@@ -176,7 +176,6 @@ console.log("Request URL: " + url);
                     }
                 },
                 success: function(data, status, xhr) {
-                    debugger;
                     if (callbackAjax) {
                         callbackAjax(data);
                     }
