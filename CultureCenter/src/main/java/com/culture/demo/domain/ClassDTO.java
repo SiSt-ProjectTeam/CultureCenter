@@ -17,4 +17,12 @@ public class ClassDTO {
 	// 지점유형 / branch_type	
 	private String branch_tp;		// 지점 유형
 	
+	// 대분류 / large_category
+	private String lrclsCtegryCd;	// 대분류코드
+	private String lrclsCtegry;		// 대분류명
+	
+	// 중분류 / medium_category
+	private String mdclsCtegryCd;	// 중분류코드
+	private String mdclsCtegry;		// 중분류명
+	
 }

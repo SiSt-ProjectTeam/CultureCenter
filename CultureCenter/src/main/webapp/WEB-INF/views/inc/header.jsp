@@ -332,14 +332,14 @@
 								<div class="list_w">
 
 									<c:choose>
-								        <c:when test="${not empty map}">
-								            <c:forEach var="entry" items="${map}">
+								        <c:when test="${not empty bmap}">
+								            <c:forEach var="entry" items="${bmap}">
 								                <div class="list">
 								                    <p class="f_body3">${entry.key}</p>
 								                    <div class="txt_w">
 								                        <c:forEach var="dto" items="${entry.value}">
 								                                <p class="txt">
-								                                    <a href="/resources/application/search/list.do?type=branch&branch_id=${dto.branch_id}" class="f_body1">${dto.branch_nm}</a>
+								                                    <a href="/application/search/list.do?type=branch&brchCd=${dto.branch_id}" class="f_body1">${dto.branch_nm}</a>
 								                                </p>
 								                        </c:forEach>
 								                    </div>
@@ -462,42 +462,23 @@
           	<div class="content only_pc">
               <div class="list_w">
               
-              	<div class="list">
-		                  <p class="f_body3">성인강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0101" class="f_body1">공예</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0102" class="f_body1">노래</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0103" class="f_body1">댄스</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0104" class="f_body1">드로잉</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0105" class="f_body1">라이프스타일</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0106" class="f_body1">악기</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0107" class="f_body1">어학</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0108" class="f_body1">인문학</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0109" class="f_body1">재테크</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0110" class="f_body1">커리어</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0111" class="f_body1">쿠킹</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0112" class="f_body1">피트니스</a></p>
-		                  		</div>
-		                </div>
-	                <div class="list">
-		                  <p class="f_body3">영·유아강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0202" class="f_body1">오감발달</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0201" class="f_body1">창의·체험</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0203" class="f_body1">음악·미술</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0204" class="f_body1">언어·사회성</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0205" class="f_body1">신체활동</a></p>
-		                  		</div>
-		                </div>
-	                <div class="list">
-		                  <p class="f_body3">아동강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0302" class="f_body1">신체활동</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0303" class="f_body1">창의·체험</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0301" class="f_body1">음악·미술</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0304" class="f_body1">언어·사회성</a></p>
-		                  		</div>
-		                </div>
+              	<c:choose>
+			        <c:when test="${not empty cmap}">
+			            <c:forEach var="entry" items="${cmap}">
+			                <div class="list">
+			                    <p class="f_body3">${entry.key}</p>
+			                    <div class="txt_w">
+			                        <c:forEach var="dto" items="${entry.value}">
+		                                <p class="txt">
+		                                    <a href="/application/search/list.do?type=category&lrclsCtegryCd=${dto.lrclsCtegryCd}&mdclsCtegryCd=${dto.mdclsCtegryCd}" class="f_body1">${dto.mdclsCtegry}</a>
+		                                </p>
+			                        </c:forEach>
+			                    </div>
+			                </div>
+			            </c:forEach>
+			        </c:when>
+			    </c:choose>
+			    
 	                </div>
               <div class="img_w">
                 <div class="img_div">
