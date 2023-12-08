@@ -1,5 +1,4 @@
 var fnc = (function() {
-
 	var pathname = "/" + window.location.pathname.split("/")[1];
 	var origin = window.location.origin;	
 	var contextPath = origin + pathname;
@@ -130,6 +129,7 @@ console.log("Request URL: " + url);
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
+    
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -148,12 +148,25 @@ console.log("Request URL: " + url);
             if (typeof sync == "undefined") {
                 sync = true;
             }
-
+					
+			// 폼 데이터를 배열로 가져오기	
+			var formDataArray = $(formObj).serializeArray();
+			
+			// 배열을 객체로 변환
+			var formDataObject = {};
+			$.each(formDataArray, function(i, field) {
+			    formDataObject[field.name] = field.value;
+			});
+			
+			// JSON 형식으로 변환
+			var jsonData = JSON.stringify(formDataObject);
+			
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: $(formObj).serializeArray(),
+                data: jsonData,
+                contentType : "application/json; charset=utf-8",
                 dataType: dataType,
                 async: sync,
                 cache: false,
@@ -163,6 +176,7 @@ console.log("Request URL: " + url);
                     }
                 },
                 success: function(data, status, xhr) {
+                    debugger;
                     if (callbackAjax) {
                         callbackAjax(data);
                     }
@@ -208,14 +222,19 @@ console.log("Request URL: " + url);
             if (typeof sync == "undefined") {
                 sync = true;
             }
-
-
+		       
+		    
+		      // JSON 형식으로 변환
+		      //var jsonData = JSON.stringify(data);
+		    
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: data,
+                data:data,
+                //data: jsonData,
                 dataType: dataType,
+                //contentType : "application/json; charset=utf-8",
                 async: sync,
                 cache: false,
                 beforeSend: function() {

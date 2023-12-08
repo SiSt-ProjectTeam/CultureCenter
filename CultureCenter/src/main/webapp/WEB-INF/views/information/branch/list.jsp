@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
-<html lang="ko">
-
-<!-- head -->
-<tiles:insertAttribute name="head" />
-
-<body class="">
-	<div id="wrap" data-is-app="" data-is-mobile="" data-is-login="Y">
-	
-		<!-- header -->
-		<tiles:insertAttribute name="header" />
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d427a7c1718f571750db2822740d0465&autoload=false"></script>
+		<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=efbc4130e2adea23fd9ccc926fe0b9e0&autoload=false"></script>
 		<div class="cont_wrap">
 			<div class="cont_inner no_pb">
 				<form id="frmSearch" name="frmSearch">
@@ -53,9 +42,9 @@
 										<div class="border_tab_area tab_btn_area">
 											<div class="swiper-container">
 												<div class="swiper-wrapper">
-													<a href="javascript:branchCtrl.tabClCd(1);" class="btn swiper-slide on" data-cd="1"><span>서울점</span></a>
-													<a href="javascript:branchCtrl.tabClCd(2);" class="btn swiper-slide " data-cd="2"><span>수도권점</span></a>
-													<a href="javascript:branchCtrl.tabClCd(3);" class="btn swiper-slide " data-cd="3"><span>지방점</span></a>
+													<a href="javascript:branchCtrl.tabClCd('1');" class="btn swiper-slide on" data-cd="1"><span>서울점</span></a>
+													<a href="javascript:branchCtrl.tabClCd('2');" class="btn swiper-slide " data-cd="2"><span>수도권점</span></a>
+													<a href="javascript:branchCtrl.tabClCd('3');" class="btn swiper-slide " data-cd="3"><span>지방점</span></a>
 												</div>
 											</div>
 										</div>
@@ -75,19 +64,4 @@
 		</div>
 
 		<script type="text/javascript" src="/resources/common/js/branch/branchCtrl.js"></script>
-		<!-- footer -->
-	</div>
-	<!--  end wrap -->
-
-	<script type="text/javascript" src="/resources/common/netfunnel/netfunnel.js" charset="UTF-8"></script>
-
-	<script>
-		if (true) {
-			common.logOutTimer.start();
-		}
-		commonScript.headerFooterFn();
-		commonScript.formChkFn();
-	</script>
-
-</body>
-</html>
+		
