@@ -1,0 +1,23 @@
+<div class="info_list">
+			<div class="writer_info">
+				<p class="item_name f_body1">ddddd</p>
+				<a href="javascript:javascript:mypageMember.deleteFamily(1)" class="comment_remove f_caption1">삭제</a>
+			</div>
+			<div class="type_div">
+				<p class="type">자녀</p>
+				<p class="type">2015.01.01</p>
+				<p class="type">남성</p>
+			</div>
+		</div>
+		<div class="info_list">
+			<div class="writer_info">
+				<p class="item_name f_body1">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
+				<a href="javascript:javascript:mypageMember.deleteFamily(2)" class="comment_remove f_caption1">삭제</a>
+			</div>
+			<div class="type_div">
+				<p class="type">자녀</p>
+				<p class="type">2020.10.23</p>
+				<p class="type">남성</p>
+			</div>
+		</div>
+		

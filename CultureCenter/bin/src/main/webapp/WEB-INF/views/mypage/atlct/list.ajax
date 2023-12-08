@@ -1,0 +1,201 @@
+<div class="cour_his_list more_list" data-tot-cnt="2">
+				<div class="info_area">
+					<div class="txt_box">
+						<p class="f_body4">주문번호 2340002m5Lzp</p>
+						<p class="f_body4">결제일 2023.11.16 00:16</p>
+					</div>
+					<div class="flex_btn_wrap small_btn">
+						<a class="border_btn" href="javascript:" onclick="mypage_atlct.moveDtl('2340002m5Lzp')">
+							<span class="f_btn">내역보기</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="content_w ">
+					<div class="cour_top_area">
+						<div class="left">
+							<div class="label_div">
+								<p class="label small border">잠실점</p>
+								</div>
+							<p class="tit f_h2">
+								<a href="/application/search/view.do?brchCd=0001&yy=2023&lectSmsterCd=4&lectCd=0494">[12/7] 신형철 평론가의 영상시대의 문학: 인지적 공감을 위하여</a>
+							</p>
+						</div>
+						<div class="right">
+							<ul class="txt_wrap">
+								<li class="dl f_body2">
+									<p class="dd f_body1">전문강사</p>
+								</li>
+								<li class="dl f_body2">
+									<p class="dd f_body1">2023년 겨울학기</p>
+								</li>
+								<li class="dl f_body2">
+									<p class="dd f_body1">2023.12.07 ~ 2023.12.07 (목) 19:00~20:30 / 1회 </p>
+								</li>
+							</ul>
+							<ul class="txt_wrap">
+								<li class="dl f_body2">
+									<p class="dt">강좌료<span class="colon">:</span>
+									</p>
+									<p class="dd f_body1">
+										5,000원</p>
+								</li>
+								</ul>
+						</div>
+					</div>
+					<div class="cour_detail_w plural">
+						<div class="cour_detail ">
+								<div class="txt_wrap">
+									<li>
+										<div class="tit">
+											<p>유희진(본인)</p>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+												<p>접수상태</p>
+											</div>
+											<div class="right f_body4">
+												<p>결제취소</p>
+													</div>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+														<p>취소(환불)금액</p>
+													</div>
+													<div class="right f_body4">
+														<p>
+															5,000원</p>
+													</div>
+												</div>
+									</li>
+								</div>
+							</div>
+						<div class="cour_detail hiding_con">
+								<div class="txt_wrap">
+									<li>
+										<div class="tit">
+											<p>ddddd(자녀)</p>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+												<p>접수상태</p>
+											</div>
+											<div class="right f_body4">
+												<p>결제취소</p>
+													</div>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+														<p>취소(환불)금액</p>
+													</div>
+													<div class="right f_body4">
+														<p>
+															5,000원</p>
+													</div>
+												</div>
+									</li>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 강좌가 2개 이상이거나 강좌가 1개인데 실수강자가 여러명인경우 -->
+				<a href="javascript:" class="txt drop_type">
+						<p class="f_btn">정보 더보기</p>				<!-- 2022-12-07 텍스트 수정-->
+						<span class="drop_btn"></span>
+					</a>
+				</div>
+		<div class="cour_his_list " data-tot-cnt="2">
+				<div class="info_area">
+					<div class="txt_box">
+						<p class="f_body4">주문번호 2330002tlGb1</p>
+						<p class="f_body4">결제일 2023.11.07 16:18</p>
+					</div>
+					<div class="flex_btn_wrap small_btn">
+						<a class="border_btn" href="javascript:" onclick="mypage_atlct.moveDtl('2330002tlGb1')">
+							<span class="f_btn">내역보기</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="cour_top_area">
+						<div class="left">
+							<div class="label_div">
+								<p class="label small border">잠실점</p>
+								</div>
+							<p class="tit f_h2">
+								<a href="/application/search/view.do?brchCd=0002&yy=2023&lectSmsterCd=3&lectCd=0216">[11/19] 힙하게 즐기는 전통주 시음 &amp; 페어링</a>
+							</p>
+						</div>
+						<div class="right">
+							<ul class="txt_wrap">
+								<li class="dl f_body2">
+									<p class="dd f_body1">강예진</p>
+								</li>
+								<li class="dl f_body2">
+									<p class="dd f_body1">2023년 가을학기</p>
+								</li>
+								<li class="dl f_body2">
+									<p class="dd f_body1">2023.11.19 ~ 2023.11.19 (일) 14:00~15:30 / 1회 </p>
+								</li>
+							</ul>
+							<ul class="txt_wrap">
+								<li class="dl f_body2">
+									<p class="dt">강좌료<span class="colon">:</span>
+									</p>
+									<p class="dd f_body1">
+										10,000원</p>
+								</li>
+								<li class="dl f_body2">
+										<p class="dt">재료비/대여료<span class="colon">:</span>
+										</p>
+										<p class="dd f_body1">
+											15,000원
+											<span>(재료비)</span>
+										</p>
+									</li>
+								</ul>
+						</div>
+					</div>
+					<div class="cour_detail_w ">
+						<div class="cour_detail ">
+								<div class="txt_wrap">
+									<li>
+										<div class="tit">
+											<p>유희진(본인)</p>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+												<p>접수상태</p>
+											</div>
+											<div class="right f_body4">
+												<p>결제취소</p>
+													</div>
+										</div>
+									</li>
+									<li>
+										<div class="txt">
+											<div class="left f_body4">
+														<p>취소(환불)금액</p>
+													</div>
+													<div class="right f_body4">
+														<p>
+															25,000원</p>
+													</div>
+												</div>
+									</li>
+								</div>
+							</div>
+						</div>
+					<!-- 강좌가 2개 이상이거나 강좌가 1개인데 실수강자가 여러명인경우 -->
+				</div>
+		

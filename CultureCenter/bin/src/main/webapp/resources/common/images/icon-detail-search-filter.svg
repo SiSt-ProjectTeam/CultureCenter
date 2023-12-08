@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="icon-detail-search-filter" transform="translate(-328 -185)">
+    <rect id="사각형_14" data-name="사각형 14" width="20" height="20" transform="translate(328 185)" fill="#111" opacity="0"/>
+    <g id="그룹_6039" data-name="그룹 6039" transform="translate(0.055 0.5)">
+      <path id="Path_2" data-name="Path 2" d="M0,0,3.784,3.784" transform="translate(341.963 198.499) rotate(0.261)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+      <g id="Oval" transform="translate(329.445 185.999)" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="1.5">
+        <circle cx="7.5" cy="7.5" r="7.5" stroke="none"/>
+        <circle cx="7.5" cy="7.5" r="6.75" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>

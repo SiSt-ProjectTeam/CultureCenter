@@ -1,0 +1,8 @@
+<svg id="back_32" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <rect id="container" width="32" height="32" fill="#111" opacity="0.004"/>
+  <g id="arrow_back" transform="translate(7.646 146.514) rotate(-135)">
+    <rect id="slope" width="2" height="14" rx="1" transform="translate(95.572 103.002) rotate(180)"/>
+    <rect id="slope-2" data-name="slope" width="2" height="14" rx="1" transform="translate(95.572 89.002) rotate(90)"/>
+    <rect id="bar" width="24" height="2" rx="1" transform="translate(76.48 106.679) rotate(-45)"/>
+  </g>
+</svg>

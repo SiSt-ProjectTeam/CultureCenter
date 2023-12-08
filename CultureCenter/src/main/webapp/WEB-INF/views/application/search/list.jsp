@@ -38,8 +38,8 @@
 									<div class="scroll_area">
 										<div class="branch">
 												<p class="sub_tit f_caption1">서울점</p>
-												<a class="active" href="/application/search/list.do?type=branch&brchCd=0002"><p class="f_desc">잠실점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0001"><p class="f_desc">본점</p></a>
+												<a class="active" href="/application/search/list.do?type=branch&brchCd=2"><p class="f_desc">잠실점</p></a>
+												<a class="" href="/application/search/list.do?type=branch&brchCd=1"><p class="f_desc">본점</p></a>
 												<a class="" href="/application/search/list.do?type=branch&brchCd=0013"><p class="f_desc">강남점</p></a>
 												<a class="" href="/application/search/list.do?type=branch&brchCd=0028"><p class="f_desc">건대스타시티점</p></a>
 												<a class="" href="/application/search/list.do?type=branch&brchCd=0006"><p class="f_desc">관악점</p></a>
