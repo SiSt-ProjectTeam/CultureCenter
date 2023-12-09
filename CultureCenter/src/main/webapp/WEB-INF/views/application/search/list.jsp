@@ -194,7 +194,7 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/resources/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
 																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
