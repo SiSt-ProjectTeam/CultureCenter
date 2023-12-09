@@ -65,13 +65,14 @@
 							</div>
 							<div class="right">
 								<div class="flex_btn_wrap">
-									<a class="border_btn" href="javascript:mypage_atlct.openCnclPopup(true)" role="button"> <span>전체취소</span></a>
-									<a class="border_btn" href="javascript:mypage_atlct.openCnclPopup(false)" role="button"> <span>취소</span></a>
+									<c:if test="${!allRfndCk}">
+										<a class="border_btn" href="javascript:mypage_atlct.openCnclPopup(true)" role="button"> <span>전체취소</span></a>
+										<a class="border_btn" href="javascript:mypage_atlct.openCnclPopup(false)" role="button"> <span>취소</span></a>
+									</c:if>
 								</div>
 							</div>
 						</div>
 						<div class="course_history_w">
-	<!--********************************** -->
 						<c:forEach var="atlctDTO" items="${atlctList}">
 							<div class="cour_his_list">
 			                      <div class="cour_top_area">
@@ -80,7 +81,7 @@
 			                            <p class="label small border">${atlctDTO.branch_nm}</p>
 			                            </div>
 			                          <p class="tit f_h2">
-			                          	<a href="/application/search/view.do?brchCd=${atlctDTO.branch_tp_id}&yy=${atlctDTO.branch_tp_id}&lectSmsterCd=${atlctDTO.open_smst_id}&lectCd=${atlctDTO.detail_class_sq}">${atlctDTO.class_nm}</a>
+			                          	<a href="/application/search/view.do?brchCd=${atlctDTO.branch_id}&yy=${atlctDTO.open_year}&lectSmsterCd=${atlctDTO.open_smst_id}&lectCd=${atlctDTO.detail_class_sq}">${atlctDTO.class_nm}</a>
 			                          </p>
 			                        </div>
 			                        <div class="right">
@@ -107,120 +108,117 @@
 			                        </div>
 			                      </div>
 			                      <div class="cour_detail_w plural">
-			                      
-				                      <c:forEach var="atlctPersonalDTO" items="${atlctDTO.personalList}">
-				                      		<div class="cour_detail check_detail">
-					                          <div class="left">
-					                          	<div class="form_checkbox agree_chk" data-rfnd-optn-use-yn="N" data-free-rfnd-yn="Y" data-fgft-app-no="" data-recp-yn="" data-wdw-yn="">
-							                        <c:if test="${ atlctPersonalDTO.receipt_status_id < 4 }">
-							                        	<input type="checkbox" id="actlAtlctNpleSeqno${ atlctPersonalDTO.order_detail_sq }" name="rfndChk" value="${ atlctPersonalDTO.order_detail_sq }">
-							                        </c:if>
-							                        <label for="actlAtlctNpleSeqno${ atlctPersonalDTO.order_detail_sq }">${ atlctPersonalDTO.children_nm }</label>
-							                    </div>
-					                          </div>
-					                          <div class="right">
-					                          	                              
-					                              <c:choose>
-						                              <c:when test="${ atlctPersonalDTO.receipt_status_id == 4 }">
-						                              	<ul class="txt_wrap">
-							                              	<li class="f_body3">
-								                                <div class="txt_con">
-								                                  <div class="tit">접수상태</div>
-								                                  <div class="txt">
-								                                    <p>${ atlctPersonalDTO.receipt_status }</p>
-								                                  </div>
-								                                </div>
-								                              </li>
-								                              
-								                              <li class="f_body3">
-										                        <div class="txt_con">
-										                          <div class="tit">취소(환불)일 </div>
-										                          <div class="txt">
-										                            <p>${ atlctPersonalDTO.cancel_dt }</p>
-										                          </div>
-										                        </div>
-										                      </li>
-										                      <li class="f_body3">
-										                        <div class="txt_con show"><!-- 2022-12-19 class 추가 -->
-										                          <div class="tit">취소(환불)금액</div>
-										                          <div class="txt drop_type">
-										                            <p>${ atlctPersonalDTO.cancel_amt }원</p>
-										                            <a href="javascript:" class="drop_btn"></a>
-										                          </div>
-										                        </div>
-										                        
-										                        <div class="hide_con_w">
-												                      <div class="hide_con">
-												                        <ul class="price_wrap">
-												                          <li class="f_body4">
-												                            <p class="name">강좌료</p>
-												                            <div class="price">0원</div>
-												                          </li>
-												                        </ul>
-												                      </div>
-													            	  <c:if test="${ atlctPersonalDTO.ex_charge } > 0">
-													                    <div class="hide_con">
-													                      <ul class="price_wrap">
-													                        <li class="f_body4">
-														                          <p class="name">재료비/대여료</p>
-														                          <div class="price">0원</div>
-													                        </li>
-													                      </ul>
-													                    </div>
-													                </c:if>
-												                  </div>
-										                      </li>
-								                            </ul>
-								                            
-								                         <p class="caution f_caption2">취소(환불) 사유 : ${ atlctPersonalDTO.cancel_reason }</p>
-						                              </c:when>
-						                              <c:otherwise>
-						                              	<ul class="txt_wrap">
-										                      <li class="f_body3">
-										                        <div class="txt_con">
-										                          <div class="tit">접수상태</div>
-										                          <div class="txt">
-										                            <p>${ atlctPersonalDTO.receipt_status }</p>
-										                          </div>
-										                        </div>
-										                      </li>
-												              <li class="f_body3">
-													              <div class="txt_con show"><!-- 2022-12-19 class 추가 -->
-													                <div class="tit">주문금액</div><!-- 2022-11-23 텍스트 수정 -->
-													                <div class="txt drop_type">
-													                  <p>${ atlctPersonalDTO.class_fee + atlctPersonalDTO.ex_charge }원</p>
-													                  <a href="javascript:" class="drop_btn"></a>
-													                </div>
-													              </div>
-													              <div class="hide_con_w">
-													                <div class="hide_con">
-													                  <ul class="price_wrap">
-													                    <li class="f_body4">
-													                      <p class="name">강좌료</p>
-													                      <div class="price">${ atlctPersonalDTO.class_fee }원</div>
-													                      <c:if test="${ atlctPersonalDTO.ex_charge } > 0">
-														                      <p class="name">재료비/대여료</p>
-														                      <div class="price">${ atlctPersonalDTO.ex_charge }원</div>
-													                      </c:if>
-													                    </li>
-													                    </ul>
-													              	</div>
-													              </div>
-												              </li>
-									                      </ul>
-						                              </c:otherwise>
-					                              	</c:choose>
-					                              	
-					                            </div>
+				                    <c:forEach var="atlctPersonalDTO" items="${atlctDTO.personalList}">
+				                    	<div class="cour_detail check_detail">
+					                      <div class="left">
+					                      	<div class="form_checkbox agree_chk" data-rfnd-optn-use-yn="N" data-free-rfnd-yn="Y" data-fgft-app-no="" data-recp-yn="" data-wdw-yn="">
+							                    <c:if test="${ atlctPersonalDTO.receipt_status_id < 4 }">
+							                    	<input type="checkbox" id="actlAtlctNpleSeqno${ atlctPersonalDTO.order_detail_sq }" name="rfndChk" value="${ atlctPersonalDTO.order_detail_sq }">
+							                    </c:if>
+							                    <label for="actlAtlctNpleSeqno${ atlctPersonalDTO.order_detail_sq }">${ atlctPersonalDTO.children_nm }</label>
+							                </div>
+					                      </div>
+					                      <div class="right">
+					                      	                              
+					                          <c:choose>
+						                          <c:when test="${ atlctPersonalDTO.receipt_status_id == 4 }">
+						                          	<ul class="txt_wrap">
+							                          	<li class="f_body3">
+								                            <div class="txt_con">
+								                              <div class="tit">접수상태</div>
+								                              <div class="txt">
+								                                <p>${ atlctPersonalDTO.receipt_status }</p>
+								                              </div>
+								                            </div>
+								                          </li>
+								                          
+								                          <li class="f_body3">
+								                        <div class="txt_con">
+								                          <div class="tit">취소(환불)일 </div>
+								                          <div class="txt">
+								                            <p>${ atlctPersonalDTO.cancel_dt }</p>
+								                          </div>
+								                        </div>
+								                      </li>
+								                      <li class="f_body3">
+								                        <div class="txt_con show"><!-- 2022-12-19 class 추가 -->
+								                          <div class="tit">취소(환불)금액</div>
+								                          <div class="txt drop_type">
+								                            <p>${ atlctPersonalDTO.cancel_amt }원</p>
+								                            <a href="javascript:" class="drop_btn"></a>
+								                          </div>
+								                        </div>
+								                        
+								                        <div class="hide_con_w">
+										                    <div class="hide_con">
+										                      <ul class="price_wrap">
+										                        <li class="f_body4">
+										                          <p class="name">강좌료</p>
+										                          <div class="price">0원</div>
+										                        </li>
+										                      </ul>
+										                    </div>
+											              <c:if test="${ atlctPersonalDTO.ex_charge } > 0">
+											                  <div class="hide_con">
+											                    <ul class="price_wrap">
+											                      <li class="f_body4">
+												                        <p class="name">재료비/대여료</p>
+												                        <div class="price">0원</div>
+											                      </li>
+											                    </ul>
+											                  </div>
+											              </c:if>
+										                </div>
+								                      </li>
+								                      </ul>
+								                        
+								                     <p class="caution f_caption2">취소(환불) 사유 : ${ atlctPersonalDTO.cancel_reason }</p>
+						                          </c:when>
+						                          <c:otherwise>
+						                          	<ul class="txt_wrap">
+								                      <li class="f_body3">
+								                        <div class="txt_con">
+								                          <div class="tit">접수상태</div>
+								                          <div class="txt">
+								                            <p>${ atlctPersonalDTO.receipt_status }</p>
+								                          </div>
+								                        </div>
+								                      </li>
+										              <li class="f_body3">
+											              <div class="txt_con show"><!-- 2022-12-19 class 추가 -->
+											                <div class="tit">주문금액</div><!-- 2022-11-23 텍스트 수정 -->
+											                <div class="txt drop_type">
+											                  <p>${ atlctPersonalDTO.class_fee + atlctPersonalDTO.ex_charge }원</p>
+											                  <a href="javascript:" class="drop_btn"></a>
+											                </div>
+											              </div>
+											              <div class="hide_con_w">
+											                <div class="hide_con">
+											                  <ul class="price_wrap">
+											                    <li class="f_body4">
+											                      <p class="name">강좌료</p>
+											                      <div class="price">${ atlctPersonalDTO.class_fee }원</div>
+											                      <c:if test="${ atlctPersonalDTO.ex_charge } > 0">
+												                      <p class="name">재료비/대여료</p>
+												                      <div class="price">${ atlctPersonalDTO.ex_charge }원</div>
+											                      </c:if>
+											                    </li>
+											                    </ul>
+											              	</div>
+											              </div>
+										              </li>
+								                    </ul>
+						                          </c:otherwise>
+					                          	</c:choose>
+					                          	
 					                        </div>
-				                      	</c:forEach>
-			                      	    
-			                        </div>
+					                    </div>
+				                    </c:forEach>
+			                      </div>
 			                    </div>
 						
 						</c:forEach>
-						
-	<!--********************************** -->						
+										
 						</div>
 					</div>
 					
