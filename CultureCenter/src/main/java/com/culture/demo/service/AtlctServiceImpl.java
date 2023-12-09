@@ -30,36 +30,23 @@ public class AtlctServiceImpl implements AtlctService {
 	}
 
 	
-	// 3.
-	
-	
-	
-	// 4. 수강상세내역  조회
+	// 3. 수강내역 조회
 	@Override
-	public AtlctDTO getAtlctDetail( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException{
-		AtlctDTO dto = null;
-	   
-	    return dto;
-	} // getAtlctDetail()
-	
-	
-	// 5. 수강내역 조회
-	@Override
-	public ArrayList<AtlctDTO> getAtlctList( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException{
+	public ArrayList<AtlctDTO> getAtlctList( FrmSearchDTO frmSearchDTO, int member_sq ) throws SQLException{
 		log.info("> AtlctServiceImpl.getAtlctList...");
 		
-		return this.atlctMapper.selectAtlctList( frmSearchDTO, member_sq, order_sq );
+		return this.atlctMapper.selectAtlctList( frmSearchDTO, member_sq );
 	}
 
 
-	// 6. 수강내역 html 생성
+	// 4. 수강내역 html 생성
 	@Override
-	public String createAtlctHtml( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException {
+	public String createAtlctHtml( FrmSearchDTO frmSearchDTO, int member_sq ) throws SQLException {
 		log.info("> AtlctServiceImpl.createAtlctHtml...");
 		
 		StringBuilder html = new StringBuilder();
-		ArrayList<AtlctDTO> atlctList = getAtlctList( frmSearchDTO, member_sq, order_sq );
-		System.out.println();
+		ArrayList<AtlctDTO> atlctList = getAtlctList( frmSearchDTO, member_sq );
+		
 	    if (atlctList.isEmpty()) {
 	        html.append( "<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n" );
 	        html.append( "	<div class=\"no_srch_div\">\r\n" );
@@ -76,7 +63,7 @@ public class AtlctServiceImpl implements AtlctService {
 			    html.append( "		<p class=\"f_body4\">결제일 " + atlct.getOrder_dt() + "</p>\r\n" );
 			    html.append( "	</div>\r\n" );
 			    html.append( "	<div class=\"flex_btn_wrap small_btn\">\r\n" );
-			    html.append( "		<a class=\"border_btn\" href=\"javascript:\" onclick=\"mypage_atlct.moveDtl('" + atlct.getOrder_sq() + "')\">\r\n" );
+			    html.append( "		<a class=\"border_btn\" href=\"javascript:\" onclick=\"mypage_atlct.moveDtl(" + atlct.getOrder_sq() + ")\">\r\n" );
 			    html.append( "			<span class=\"f_btn\">내역보기</span>\r\n" );
 			    html.append( "		</a>\r\n" );
 			    html.append( "	</div>\r\n" );
