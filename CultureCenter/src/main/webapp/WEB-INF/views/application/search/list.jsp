@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="cont_wrap">
 	<form id="searchBranch" name="searchBranch">
-		<input type="hidden" id="type" name="type" value=""/>
-		<input type="hidden" id="brchCd" name="brchCd" value=""/>
+		<input type="hidden" id="type" name="type" value="<%= request.getParameter("type")%>"/>
+		<input type="hidden" id="brchCd" name="brchCd" value="<%= request.getParameter("brchCd") %>"/>
 		<input type="hidden" id="lrclsCtegryCd" name="lrclsCtegryCd" value=""/>
 		<input type="hidden" id="mdclsCtegryCd" name="mdclsCtegryCd" value=""/>
 		<input type="hidden" id="smclsCtegryCd" name="smclsCtegryCd" value=""/>
@@ -194,8 +194,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0101');" class="swiper-slide ">
@@ -261,8 +261,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0202');" class="swiper-slide ">
@@ -298,8 +298,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0302');" class="swiper-slide ">

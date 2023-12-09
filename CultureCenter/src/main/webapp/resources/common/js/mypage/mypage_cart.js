@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	mypage_cart.list();
+});
+
 var mypage_cart = (function(){
 	
 	"use strict";
@@ -7,7 +11,6 @@ var mypage_cart = (function(){
 		if(pageIndex == undefined){
 			pageIndex = 1;
 		}
-		
 		$('#frm_search').find('#pageIndex').val(pageIndex);
 		fnc.frmAjax(fn_list_callback, "/mypage/cart/list.ajax", $('#frm_search'), "html");
 	}
@@ -265,7 +268,6 @@ var mypage_cart = (function(){
 			}
 		}
 	}
-	
 	 return {
 		 changeBrchCd : fn_change_brchCd
 		 , clickAllCheckbox : fn_click_all_checkbox
@@ -274,5 +276,6 @@ var mypage_cart = (function(){
 		 , removeCart : fn_remove_cart
 		 , removeCartCheck : fn_remove_cartCheck
 		 , payment : fn_payment
+		 , list : fn_list
 	 }
 }());

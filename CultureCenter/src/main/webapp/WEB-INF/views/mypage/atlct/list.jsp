@@ -3,16 +3,16 @@
 <div class="cont_wrap" data-page-type="list">
 	<form id="frm_search" name="frm_search">
 		<input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
-		<input type="hidden" id="type" name="type" value="cmplt" />
-		<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="" />
-		<input type="hidden" id="yy" name="yy" value="" />
-		<input type="hidden" id="q" name="q" value="" />
-		<input type="hidden" id="atlctRsvNo" name="atlctRsvNo" value="" />
+		<input type="hidden" id="type" name="type" value="${ empty frmSearchDTO.type ? 'cmplt' : frmSearchDTO.type }" />
+		<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="${ frmSearchDTO.lectSmsterCd }" />
+		<input type="hidden" id="yy" name="yy" value="${frmSearchDTO.yy}" />
+		<input type="hidden" id="q" name="q" value="${frmSearchDTO.q}" />
+		<input type="hidden" id="atlctRsvNo" name="atlctRsvNo" value="0" />
 		<input type="hidden" id="initIndex" name="initIndex" value="1"/>
-		<input type="hidden" id="listCnt" name="listCnt" value="6"/>
+		<input type="hidden" id="listCnt" name="listCnt" value="1"/>		
 		
-		<input type="hidden" id="prevSesterYy" name="prevSesterYy" value="2023"/>
-		<input type="hidden" id="prevSesterLectSmsterCd" name="prevSesterLectSmsterCd" value="3"/>	
+		<input type="hidden" id="prevSesterYy" name="prevSesterYy" value="${frmSearchDTO.prevSesterYy}"/>
+		<input type="hidden" id="prevSesterLectSmsterCd" name="prevSesterLectSmsterCd" value="${frmSearchDTO.prevSesterLectSmsterCd}"/>	
 	</form>
 
 	<div class="cont_inner no_pb">
@@ -71,8 +71,8 @@
 		                    <div class="border_tab_area">
 		                      <div class="swiper-container">
 		                        <div class="swiper-wrapper">
-		                          <a href="/mypage/atlct/list.do?type=cmplt" class="swiper-slide on"><span>수강내역 조회</span></a>
-		                          <a href="/mypage/atlct/list.do?type=rfnd" class="swiper-slide"><span>취소내역 조회</span></a>
+		                          <a href="/mypage/atlct/list.do?type=cmplt" class="swiper-slide ${ frmSearchDTO.type eq 'rfnd' ? '' : 'on' }"><span>수강내역 조회</span></a>
+		                          <a href="/mypage/atlct/list.do?type=rfnd" class="swiper-slide ${ frmSearchDTO.type eq 'rfnd' ? 'on' : '' }"><span>취소내역 조회</span></a>
 		                        </div>
 		                      </div>
 		                    </div>
@@ -81,7 +81,7 @@
 							<div class="form_search_w">
 								<div class="form_search">
 									<div class="form_search_div">
-										<input type="text" placeholder="주문번호/강좌명으로 검색하세요" title="주문번호/강좌명 입력" name="q" onkeydown="mypage_atlct.keydownAtlctRsvNo(this, event, 'rfnd')" value="">
+										<input type="text" placeholder="주문번호/강좌명으로 검색하세요" title="주문번호/강좌명 입력" name="q" onkeydown="mypage_atlct.keydownAtlctRsvNo(this, event, 'rfnd')" value="${frmSearchDTO.q}">
 										<div class="input_btn_wrap">
 											<button type="button" class="btn_delete" title="지우기"></button>
 											<button type="button" class="btn_search" title="검색" onclick="mypage_atlct.list('rfnd', 1);"></button>
