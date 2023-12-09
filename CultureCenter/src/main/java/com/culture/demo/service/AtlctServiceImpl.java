@@ -41,6 +41,7 @@ public class AtlctServiceImpl implements AtlctService {
 	// 3-1. 모두 취소되었는지 확인
 	@Override
 	public boolean allRefundCheck(int atlctRsvNo) throws SQLException {
+		log.info("> AtlctServiceImpl.allRefundCheck...");
 		
 		return this.atlctMapper.isAllCancel(atlctRsvNo) == 1;
 	}

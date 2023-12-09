@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header class="pc">
 	<div class="logo">
-		<a href="/" title="롯데문화센터 메인으로 이동"></a>
+		<a href="/index.do" title="롯데문화센터 메인으로 이동"></a>
 	</div>
 
 	<nav>
@@ -164,20 +164,18 @@
 							</a>
 							<a href="/mypage/coupon/list.do" class="mypage_info">
 								<p class="f_caption2">나의 쿠폰</p>
-								<p class="info" ><span id="cpnCnt"></span></p>
+								<p class="info"><span id="cpnCnt">0</span></p>
 							</a>
 							<a href="javascript:" class="mypage_info">
-								<p class="f_caption2">L.POINT</p>
-								<p class="info blue_txt">
-									<span id="lpointSpan" onclick="javascript:common.getLpoint()">조회하기</span>
-								</p>
+								<p class="f_caption2">POINT</p>
+								<p class="info"><span id="pointSpan"></span></p>
 							</a>
 						</div>
 						<div class="mypage_div">
 							<a href="/mypage/cart/list.do" class="mypage_box on">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-class-cart.png" alt=""></p>
 								<p class="f_caption2">장바구니</p>
-								<p class="num" id="cartCnt">2</p>
+								<p class="num" id="cartCnt"></p>
 							</a>
 							<a href="/mypage/atlct/list.do" class="mypage_box">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-class-history.png" alt=""></p>
@@ -202,7 +200,7 @@
 							<a href="/mypage/teachereval/list.do" class="mypage_box eval">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-satisfaction-evaluation.png" alt=""></p>
 								<p class="f_caption2">만족도 평가</p>
-								<p class="num" id="tcevlCnt"></p>
+								<p class="num" id="tcevlCnt">0</p>
 							</a>
 						</div>
 						<div class="mypage_list">
