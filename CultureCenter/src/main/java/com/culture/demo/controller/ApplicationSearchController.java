@@ -43,7 +43,6 @@ public class ApplicationSearchController {
 	
 	@GetMapping("/application/search/list.do")
 	public String listPage(Locale locale, Model model, @RequestParam("type") String type, @RequestParam("brchCd") String branch_id) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		log.info("> /list.do ApplicationSearchController.listPage() GET 호출");
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
