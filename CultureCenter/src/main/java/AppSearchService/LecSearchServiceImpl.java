@@ -1,4 +1,4 @@
-package com.culture.demo.service;
+package AppSearchService;
 
 import java.util.List;
 

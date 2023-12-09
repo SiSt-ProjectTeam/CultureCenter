@@ -29,27 +29,42 @@ public class HomeController {
 
 	ClassDTO dto = null;
 
-	@GetMapping(value = "/index.do")
+	@GetMapping({"/index.do", })
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Map<String, List<ClassDTO>> map = new HashMap<>();
-		List<ClassDTO> list = lecSearchService.getBranch();
-		List<ClassDTO> plist = null;
+		Map<String, List<ClassDTO>> bmap = new HashMap<>();
+		List<ClassDTO> blist = lecSearchService.getBranch();
+		List<ClassDTO> bplist = null;
 		
-		for(int i=0; i<list.size(); i++) {
-			String type = list.get(i).getBranch_tp();
-			if (map.containsKey(type)) {
-				map.get(type).add(list.get(i));
+		for(int i=0; i<blist.size(); i++) {
+			String type = blist.get(i).getBranch_tp();
+			if (bmap.containsKey(type)) {
+				bmap.get(type).add(blist.get(i));
 			} else {
-				plist = new ArrayList<>();
-				plist.add(list.get(i));
-				map.put(type, plist);
+				bplist = new ArrayList<>();
+				bplist.add(blist.get(i));
+				bmap.put(type, bplist);
 			}
 		}
 		
-		System.out.println(map);
-		model.addAttribute("map", map);
+		Map<String, List<ClassDTO>> cmap = new HashMap<>();
+		List<ClassDTO> clist = lecSearchService.getCategory();
+		List<ClassDTO> cplist = null;
+		
+		for(int i=0; i<clist.size(); i++) {
+			String lrclsCtegry = clist.get(i).getLrclsCtegry();
+			if(cmap.containsKey(lrclsCtegry)) {
+				cmap.get(lrclsCtegry).add(clist.get(i));
+			} else {
+				cplist = new ArrayList<>();
+				cplist.add(clist.get(i));
+				cmap.put(lrclsCtegry, cplist);
+			}
+		}
+		
+		model.addAttribute("bmap", bmap);
+		model.addAttribute("cmap", cmap);
 		
 		return "home.index";
 	}
