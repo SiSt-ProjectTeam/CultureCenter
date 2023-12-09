@@ -118,6 +118,7 @@ var common = (function(){
 			{
 				//$(".mypage_pop_area").find("#cpnCnt").text(data.cpnCnt);
 				$(".mypage_pop_area").find("#cartCnt").text(data.basket_cnt);
+				$(".mypage_pop_area").find("#pointSpan").text(data.point);
 				$(".mypage_pop_area").find("#atlctCnt").text(data.order_class_cnt);
 				$(".mypage_pop_area").find("#waitingCnt").text(data.late_class_cnt);
 				$(".mypage_pop_area").find("#certfCnt").text(data.complete_class_cnt);
