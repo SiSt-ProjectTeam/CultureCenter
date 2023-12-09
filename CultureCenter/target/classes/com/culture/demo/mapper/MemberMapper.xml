@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.MemberMapper">
+
+	<!-- 1. 마이페이지 정보 조회 -->
+	<select id="selectMypageInfo" resultType="com.culture.demo.domain.MemberDTO">
+	    SELECT name, branch_nm, point, basket_cnt, order_class_cnt, late_class_cnt, complete_class_cnt, review_cnt
+		FROM member m LEFT JOIN branch b ON m.branch_id=b.branch_id
+		WHERE member_sq = #{memberSq}
+	</select>
+		
+</mapper>

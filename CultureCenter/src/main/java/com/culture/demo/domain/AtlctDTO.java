@@ -38,7 +38,7 @@ public class AtlctDTO {
 		private String teacher_nm;				// 강사 이름
 		
 	    // 지점 branch
-	 	private int branch_tp_id;				// 지점 유형 아이디
+	 	private int branch_id;				// 지점 유형 아이디
 	 	private String branch_nm;				// 지점명
 
 	 	private List<AtlctPersonalDTO> personalList;

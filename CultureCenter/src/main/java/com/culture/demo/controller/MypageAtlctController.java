@@ -58,6 +58,7 @@ public class MypageAtlctController {
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
 		model.addAttribute("atlctList", this.atlctService.getAtlctList(frmSearchDTO, member_sq));
+		model.addAttribute("allRfndCk", this.atlctService.allRefundCheck(frmSearchDTO.getAtlctRsvNo()));
 		
 		return "mypage.atlct.view";
 	}
