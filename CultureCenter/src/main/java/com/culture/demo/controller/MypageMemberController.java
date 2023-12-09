@@ -29,13 +29,13 @@ public class MypageMemberController {
 		
 	@GetMapping(value = "/count.ajax", produces = "application/json; charset=UTF-8")
 	public ResponseEntity<String> getMypageInfo() throws SQLException, JsonProcessingException {  /* , Principal principal */
-		log.info("> /mypage/member/count.ajax... POST : MypageAtlctController.getAtlctList()");
+		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
 		String mypageInfo = "";
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
 		ObjectMapper objectMapper = new ObjectMapper();
 		mypageInfo = objectMapper.writeValueAsString( this.memberServiceImpl.getMypageInfo(member_sq) );
-		System.out.println(mypageInfo);
+		
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
