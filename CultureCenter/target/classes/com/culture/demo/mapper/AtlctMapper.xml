@@ -50,7 +50,7 @@
 		<result property="class_nm" column="class_nm"/>
 		<result property="teacher_sq" column="teacher_sq"/>
 		<result property="teacher_nm" column="teacher_nm"/>
-		<result property="branch_tp_id" column="branch_tp_id"/>
+		<result property="branch_id" column="branch_id"/>
 		<result property="branch_nm" column="branch_nm"/>
 		<collection property="personalList" resultMap="atlctPersonalMap" />
 	</resultMap>
