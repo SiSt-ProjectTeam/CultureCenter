@@ -111,41 +111,18 @@ var common = (function(){
 		}
 	}
 	
-	//LPOINT 가져오기
-	var fn_get_lpoint = function(){
-		fnc.bscAjax(function(data){
-			if(data.lpoint)
-			{
-				$(".mypage_pop_area").find("#lpointSpan").text(fnc.fn_numberComma(parseInt(data.lpoint)));
-			}
-	    	
-        }, "/mypage/member/lpoint.ajax", "json", false, false);
-	}
-	
 	//마이페이지 카운트 정보
 	var fn_mypage_count = function(obj){
 		fnc.bscAjax(function(data){
-			if(data.mypageInfo)
+			if(data)
 			{
-				$(".mypage_pop_area").find("#cpnCnt").text(parseInt(data.mypageInfo.cpnCnt));
-				$(".mypage_pop_area").find("#cartCnt").text(parseInt(data.mypageInfo.cartCnt));
-				$(".mypage_pop_area").find("#atlctCnt").text(parseInt(data.mypageInfo.atlctCnt));
-				$(".mypage_pop_area").find("#waitingCnt").text(parseInt(data.mypageInfo.waitingCnt));
-				$(".mypage_pop_area").find("#certfCnt").text(parseInt(data.mypageInfo.certfCnt));
-				$(".mypage_pop_area").find("#rvwCnt").text(parseInt(data.mypageInfo.rvwCnt));
-				$(".mypage_pop_area").find("#tcevlCnt").text(parseInt(data.mypageInfo.tcevlCnt));
-				
-				// 추가요청사항 알럿 해제 2023.03.31
-				// if(data.mypageInfo.tcevlCnt)
-				// {
-				// 	setTimeout(function(){
-				// 		//만족도 평가 항목 존재 시
-				// 		if(confirm("작성하실 만족도 평가가 있습니다. 바로 작성하시겠습니까?"))
-				// 		{
-				// 			location.href = "/mypage/teachereval/list.do";
-				// 		}
-				// 	}, 600);
-				// }
+				//$(".mypage_pop_area").find("#cpnCnt").text(data.cpnCnt);
+				$(".mypage_pop_area").find("#cartCnt").text(data.basket_cnt);
+				$(".mypage_pop_area").find("#atlctCnt").text(data.order_class_cnt);
+				$(".mypage_pop_area").find("#waitingCnt").text(data.late_class_cnt);
+				$(".mypage_pop_area").find("#certfCnt").text(data.complete_class_cnt);
+				$(".mypage_pop_area").find("#rvwCnt").text(data.review_cnt);
+				//$(".mypage_pop_area").find("#tcevlCnt").text(data.tcevlCnt);
 			}
         }, "/mypage/member/count.ajax", "json", false, false);
 	}
@@ -246,7 +223,6 @@ var common = (function(){
     	showItrstPop: fn_show_itrst_popup,
     	alertItrst	: fn_alert_itrst,
     	saveItrst	: fn_save_itrst,
-    	getLpoint : fn_get_lpoint,
     	getCount  : fn_mypage_count,
     	integrationSearch : integrationSearch,
     	integrationRemove : integrationRemove

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+  <g id="icon-comment" transform="translate(-518.963 -653)">
+    <rect id="continer" width="12" height="12" transform="translate(518.963 653)" fill="#fff" opacity="0"/>
+    <path id="message" d="M12.1-43.888H4.9a.9.9,0,0,0-.9.9v8.1l1.8-1.8h6.3a.9.9,0,0,0,.9-.9v-5.4a.9.9,0,0,0-.9-.9Z" transform="translate(516.463 698.387)" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1" fill-rule="evenodd"/>
+    <path id="패스_14703" data-name="패스 14703" d="M523.163,657.045h3.615" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1"/>
+    <path id="패스_14704" data-name="패스 14704" d="M523.163,657.045h3.615" transform="translate(0 1.955)" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1"/>
+  </g>
+</svg>

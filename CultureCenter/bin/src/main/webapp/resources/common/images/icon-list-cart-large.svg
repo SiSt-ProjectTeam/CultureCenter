@@ -1,0 +1,5 @@
+<svg id="cart" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <rect id="Icon_basket_outline_background" data-name="Icon_basket_outline background" width="32" height="32" fill="#fd2f1e" opacity="0"/>
+  <path id="패스_13866" data-name="패스 13866" d="M22.333,23.333H1L2.333,6H21Z" transform="translate(4.333 4.667)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path id="패스_13867" data-name="패스 13867" d="M10.333,1h0A5.334,5.334,0,0,0,5,6.333V7.667H15.667V6.333A5.334,5.334,0,0,0,10.333,1Z" transform="translate(5.667 3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</svg>

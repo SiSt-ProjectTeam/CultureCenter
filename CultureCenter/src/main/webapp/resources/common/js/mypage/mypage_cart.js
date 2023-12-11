@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	mypage_cart.list();
+});
+
 var mypage_cart = (function(){
 	
 	"use strict";
@@ -7,14 +11,13 @@ var mypage_cart = (function(){
 		if(pageIndex == undefined){
 			pageIndex = 1;
 		}
-		
 		$('#frm_search').find('#pageIndex').val(pageIndex);
 		fnc.frmAjax(fn_list_callback, "/mypage/cart/list.ajax", $('#frm_search'), "html");
 	}
 	
 	// 리스트 콜백
 	var fn_list_callback = function(html){
-		$('a.remove_bag').remove();
+		//$('a.remove_bag').remove();
 		$('div.course_history_w').append(html);
 	}
 	
@@ -95,7 +98,7 @@ var mypage_cart = (function(){
 				arrCartSeqno.push("'"+ $(this).data('cartSeqno') +"'");
 			}
 		});
-		
+		console.log(arrCartSeqno);
 		if(arrCartSeqno.length > 0){
 			if(confirm("선택한 강좌를 삭제하시겠습니까?")){
 				fnc.paramAjax(fn_remove_callback, "/mypage/cart/delete.ajax", {type:'check', cartSeqno : arrCartSeqno.join()}, "json");
@@ -108,6 +111,7 @@ var mypage_cart = (function(){
 	
 	// 장바구니 삭제 콜백
 	var fn_remove_callback = function(rtnMap){
+		console.log(rtnMap);
 		if(rtnMap.cnt > 0){
 			if(rtnMap.type == 'all'){
 				alert("강좌가 모두 삭제되었습니다.");
@@ -170,8 +174,8 @@ var mypage_cart = (function(){
 			var brchCd, yy, lectSmsterCd, lectCd, optnSeqno;
 			var arrBrchCd = [], arrYy = [], arrLectSmsterCd = [], arrLectCd = [], arrOptnSeqno = [], arrOptnUseYn = [];
 			for(var i=0;i<arrLect.length;i++){
-				if(arrLect[i].lectStatCd == '01' || arrLect[i].lectStatCd == '04' || arrLect[i].lectStatCd == '05' || arrLect[i].lectStatCd == '06' || arrLect[i].lectStatCd == '07'){
-					// 접수예정, 대기신청, 지점문의, 접수마감, 강의종료 상태 결제불가
+				if(arrLect[i].lectStatCd != '2'){
+					// 접수예정, 지점문의, 대기접수, 접수마감, 강의종료, 접수불가, 등록중 결제 불가능
 					lectStatYn = false;
 				}
 				if(!lectStatYn){
@@ -265,7 +269,6 @@ var mypage_cart = (function(){
 			}
 		}
 	}
-	
 	 return {
 		 changeBrchCd : fn_change_brchCd
 		 , clickAllCheckbox : fn_click_all_checkbox
@@ -274,5 +277,6 @@ var mypage_cart = (function(){
 		 , removeCart : fn_remove_cart
 		 , removeCartCheck : fn_remove_cartCheck
 		 , payment : fn_payment
+		 , list : fn_list
 	 }
 }());

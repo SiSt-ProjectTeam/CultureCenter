@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+/* font settings - Start */
+
+/* Noto Sans */
+@font-face {
+  font-family: "NotoSans_Black";
+  src: url(../fonts/NotoSans-Black.eot);
+  src: url(../fonts/NotoSans-Black.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Black.woff) format("woff"), url(../fonts/NotoSans-Black.ttf) format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NotoSans_Bold";
+  src: url(../fonts/NotoSans-Bold.eot);
+  src: url(../fonts/NotoSans-Bold.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Bold.woff) format("woff"), url(../fonts/NotoSans-Bold.ttf) format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NotoSans_Medium";
+  src: url(../fonts/NotoSans-Medium.eot);
+  src: url(../fonts/NotoSans-Medium.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Medium.woff) format("woff"), url(../fonts/NotoSans-Medium.ttf) format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSans_Regular";
+  src: url(../fonts/NotoSans-Regular.eot);
+  src: url(../fonts/NotoSans-Regular.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Regular.woff) format("woff"), url(../fonts/NotoSans-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSans_Light";
+  src: url(../fonts/NotoSans-Light.eot);
+  src: url(../fonts/NotoSans-Light.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Light.woff) format("woff"), url(../fonts/NotoSans-Light.ttf) format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSans_Thin";
+  src: url(../fonts/NotoSans-Thin.eot);
+  src: url(../fonts/NotoSans-Thin.eot?#iefix) format("embedded-opentype"), url(../fonts/NotoSans-Thin.woff) format("woff"), url(../fonts/NotoSans-Thin.ttf) format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+/* Noto Sans */
+
+/* General Sans */
+@font-face {
+  font-family: "GeneralSans_Bold";
+  src: url(../fonts/GeneralSans-Bold.eot);
+  src: url(../fonts/GeneralSans-Bold.eot?#iefix) format("embedded-opentype"), url(../fonts/GeneralSans-Bold.woff) format("woff"), url(../fonts/GeneralSans-Bold.ttf) format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeneralSans_Semibold";
+  src: url(../fonts/GeneralSans-Semibold.eot);
+  src: url(../fonts/GeneralSans-Semibold.eot?#iefix) format("embedded-opentype"), url(../fonts/GeneralSans-Semibold.woff) format("woff"), url(../fonts/GeneralSans-Semibold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeneralSans_Medium";
+  src: url(../fonts/GeneralSans-Medium.eot);
+  src: url(../fonts/GeneralSans-Medium.eot?#iefix) format("embedded-opentype"), url(../fonts/GeneralSans-Medium.woff) format("woff"), url(../fonts/GeneralSans-Medium.ttf) format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeneralSans_Regular";
+  src: url(../fonts/GeneralSans-Regular.eot);
+  src: url(../fonts/GeneralSans-Regular.eot?#iefix) format("embedded-opentype"), url(../fonts/GeneralSans-Regular.woff) format("woff"), url(../fonts/GeneralSans-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeneralSans_Light";
+  src: url(../fonts/GeneralSans-Light.eot);
+  src: url(../fonts/GeneralSans-Light.eot?#iefix) format("embedded-opentype"), url(../fonts/GeneralSans-Light.woff) format("woff"), url(../fonts/GeneralSans-Light.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* font settings - End */
+
+
+

@@ -95,11 +95,11 @@ var reviewCtrl = (function(){
     }
 
     var init_list = function(){
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
-	var searchMore = null;
+		var pathname = "/" + window.location.pathname.split("/")[1];
+		var origin = window.location.origin;	
+		var contextPath = origin + pathname;
+		
+		var searchMore = null;
 
         // 수강후기 리스트 
 		var initObj = {
@@ -148,7 +148,7 @@ var reviewCtrl = (function(){
 
     $(document).ready(function() {
         pageType = $("#reviewForm").data("pageType");
-
+        
         if(pageType == "list"){
 		    init_list();
         }

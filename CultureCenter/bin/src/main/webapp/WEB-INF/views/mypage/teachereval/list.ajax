@@ -1,0 +1,10 @@
+<!-- 2022-12-23 thum_list_w클래스로 한번 더 감쌈 -->
+        <div class="thum_list_w" data-tot-cnt="0">
+            <div class="no_srch_area no_pb">
+                <div class="no_srch_div">
+                <p class="txt f_h2"><span class="normal_value">신청강좌가 없습니다.</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- // 2022-12-23 thum_list_w클래스로 한번 더 감쌈 -->
+	
