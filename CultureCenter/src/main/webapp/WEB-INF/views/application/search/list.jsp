@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="cont_wrap">
 	<form id="searchBranch" name="searchBranch">
-		<input type="hidden" id="type" name="type" value="<%= request.getParameter("type")%>"/>
-		<input type="hidden" id="brchCd" name="brchCd" value="<%= request.getParameter("brchCd") %>"/>
+		<input type="hidden" id="type" name="type" value="<%=request.getParameter("type")%>"/>
+		<input type="hidden" id="brchCd" name="brchCd" value="<%=request.getParameter("brchCd")%>"/>
 		<input type="hidden" id="lrclsCtegryCd" name="lrclsCtegryCd" value=""/>
 		<input type="hidden" id="mdclsCtegryCd" name="mdclsCtegryCd" value=""/>
 		<input type="hidden" id="smclsCtegryCd" name="smclsCtegryCd" value=""/>
@@ -714,7 +714,7 @@
 																	<div class="form_input">
 																		<input type="text" title="검색될 최소 금액 입력" placeholder="최소금액" value="" maxlength="14" name="stAmt" oninput="this.value=this.value.replace(/[^0-9]/g,'');this.value=fnc.fn_numberComma(this.value);">
 																	</div>
-																	<span class="tilde">~</span>
+																	<span class="tilde">~</span> 
 																	<div class="form_input">
 																		<input type="text" title="검색될 최대 금액 입력" placeholder="최대금액" value="" maxlength="14" name="endAmt" oninput="this.value=this.value.replace(/[^0-9]/g,'');this.value=fnc.fn_numberComma(this.value);">
 																	</div>

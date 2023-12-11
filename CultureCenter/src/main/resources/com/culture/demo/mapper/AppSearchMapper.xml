@@ -21,14 +21,14 @@
 		WHERE c.branch_id = #{branch_id}  
 		
 		<!-- 카테고리 클릭 -->
-		<if test="searchBranchDTO.lrclsCtegryCd != null and !searchBranchDTO.lrclsCtegryCd.isEmpty()">
+		<if test="searchBranchDTO.lrclsCtegryCd neq null and !searchBranchDTO.lrclsCtegryCd.equals('')">
 			AND lc.lrclsCtegryCd = #{searchBranchDTO.lrclsCtegryCd} 
 		</if>
-		<if test="searchBranchDTO.mdclsCtegryCd != null and !searchBranchDTO.mdclsCtegryCd.isEmpty()">
+		<if test="searchBranchDTO.mdclsCtegryCd neq null and !searchBranchDTO.mdclsCtegryCd.equals('')">
 			AND mc.mdclsCtegryCd = #{searchBranchDTO.mdclsCtegryCd} 
 		</if>
-		<if test="searchBranchDTO.smclsctegrycd != null and !searchBranchDTO.smclsctegrycd.isEmpty()">
-			AND sc.smclsctegrycd = #{searchBranchDTO.smclsctegrycd} 
+		<if test="searchBranchDTO.smclsCtegryCd neq null and !searchBranchDTO.smclsCtegryCd.equals('')">
+			AND sc.smclsctegrycd = #{searchBranchDTO.smclsCtegryCd} 
 		</if>
 		
 		<!-- 학기 -->
@@ -53,7 +53,7 @@
 		<if test="lectstl != null and lectstl.length > 0">
 			AND (
 			<foreach collection="lectstl" item="lectst" separator=" OR ">
-				c.class_st_id = #{lectst - 1}
+				c.class_st_id = #{lectst}
 			</foreach>
 			) 
 		</if>
@@ -94,26 +94,26 @@
 		    AND (
 		    <foreach collection="timel" item="time"  separator=" OR ">
 		        <choose>
-		            <when test="time.equals('A')">
-		                start_time &lt; 1000
+		            <when test='time.equals("A")'>
+			            <![CDATA[ start_time < 1000 ]]>
 		            </when>
-		            <when test="time.equals('B')">
+		            <when test='time.equals("B")'>
 		                start_time BETWEEN 1000 AND 1200
 		            </when>
-		            <when test="time.equals('C')">
+		            <when test='time.equals("C")'>
 		                start_time BETWEEN 1200 AND 1400
 		            </when>
-		            <when test="time.equals('D')">
+		            <when test='time.equals("D")'>
 		                start_time BETWEEN 1400 AND 1600
 		            </when>
-		            <when test="time.equals('E')">
+		            <when test='time.equals("E")'>
 		                start_time BETWEEN 1600 AND 1800
 		            </when>
-		            <when test="time.equals('F')">
+		            <when test='time.equals("F")'>
 		                start_time BETWEEN 1800 AND 2000
 		            </when>
-		            <when test="time.equals('G')">
-		                start_time &gt; 2000
+		            <when test='time.equals("G")'>
+		                <![CDATA[ start_time > 2000 ]]>
 		            </when>
 		        </choose>
 		    </foreach>
@@ -125,26 +125,26 @@
 		    AND (
 		    <foreach collection="amtl" item="amt" separator=" OR ">
 		        <choose>
-		            <when test="amt == 'A'">
+		            <when test='amt.equals("A")'>
 		                class_fee = 0
 		            </when>
-		            <when test="amt == 'B'">
-		                class_fee &lt; 5000
+		            <when test='amt.equals("B")'>
+		                <![CDATA[ class_fee < 5000 ]]>
 		            </when>
-		            <when test="amt == 'C'">
+		            <when test='amt.equals("C")'>
 		                class_fee BETWEEN 5000 AND 10000
 		            </when>
-		            <when test="amt == 'D'">
+		            <when test='amt.equals("D")'>
 		                class_fee BETWEEN 10000 AND 30000
 		            </when>
-		            <when test="amt == 'E'">
+		            <when test='amt.equals("E")'>
 		                class_fee BETWEEN 30000 AND 50000
 		            </when>
-		            <when test="amt == 'F'">
+		            <when test='amt.equals("F")'>
 		                class_fee BETWEEN 50000 AND 100000
 		            </when>
-		            <when test="amt == 'G'">
-		                class_fee &gt; 100000
+		            <when test='amt.equals("G")'>
+		                <![CDATA[ class_fee < 100000 ]]>
 		            </when>
 		        </choose>
 		    </foreach>
@@ -153,12 +153,12 @@
 		
 		<!-- 수강료 - 입력(최소) -->
 		<if test="searchBranchDTO.stAmt != null and !searchBranchDTO.stAmt.isEmpty()">
-			AND class_fee &gt; #{searchBranchDTO.stAmt} 
+			<![CDATA[ AND class_fee > #{searchBranchDTO.stAmt} ]]>
 		</if>
 		
 		<!-- 수강료 - 입력(최대) -->
 		<if test="searchBranchDTO.endAmt != null and !searchBranchDTO.endAmt.isEmpty()">
-			AND class_fee &lt; #{searchBranchDTO.stAmt} 
+			<![CDATA[ AND class_fee < #{searchBranchDTO.endAmt} ]]>
 		</if>
 		
 		<!-- 강좌명 or 강사명으로 검색 -->

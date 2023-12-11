@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +84,7 @@ public class ApplicationSearchController {
 	}
 	
 	@PostMapping(value="/search/list.ajax", produces = "application/text; charset=UTF-8")
-	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
+	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO, HttpServletRequest request) throws Exception {
 		log.info("> /list.ajax ApplicationSearchController.getBranchList() POST 호출");
 		log.info("> SearchBranchDTO : " + searchBranchDTO);
 		
@@ -97,16 +99,12 @@ public class ApplicationSearchController {
 		if(!searchBranchDTO.getYyList().isEmpty()) yyl = searchBranchDTO.getYyList().split(",");
 		if(!searchBranchDTO.getLectClCdList().isEmpty()) lectcll = searchBranchDTO.getLectClCdList().split(",");
 		if(!searchBranchDTO.getLectStatCdList().isEmpty()) lectstl = searchBranchDTO.getLectStatCdList().split(",");
-		if(!searchBranchDTO.getStDaywCdList().isEmpty()) {
-			searchBranchDTO.getStDaywCdList().replaceAll("Y", "1");
-			searchBranchDTO.getStDaywCdList().replaceAll("N", "0");
-			dayl = searchBranchDTO.getStDaywCdList().split(",");
-		}
+		if(!searchBranchDTO.getStDaywCdList().isEmpty()) dayl = searchBranchDTO.getStDaywCdList().split(",");
 		if(!searchBranchDTO.getTimeTypeList().isEmpty()) timel = searchBranchDTO.getTimeTypeList().split(",");
 		if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 		
 		String html = "";
-		html = this.appSearchService.LecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
+		html = this.appSearchService.LecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl, request);
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)

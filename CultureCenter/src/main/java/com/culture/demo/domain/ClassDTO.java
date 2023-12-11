@@ -79,7 +79,7 @@ public class ClassDTO {
 	
 	// 강사 teacher
 	private int teacher_sq;				// 강사 번호
-	private String teacher_nm;
+	private String name;				// 강사 이름
 	
 	private String classTime;			// 강의 시간
 	private String receptionPeriod;		// 접수 기간
