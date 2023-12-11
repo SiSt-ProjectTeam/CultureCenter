@@ -1,6 +1,9 @@
 package com.culture.demo.domain;
 
+import java.sql.Date;
 import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +20,8 @@ public class MemberDTO {
 	    private String name;
 	    private String email;
 	    private String phone;
-	    private LocalDate birth_dt;
+
+		private Date birth_dt; 
 	    private String addr;
 	    private String car_no;
 	    

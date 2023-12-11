@@ -15,17 +15,18 @@
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"    value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="scott"></property>
-		<property name="password" value="tiger"></property> 
+		<property name="username" value="mvcpro"></property>
+		<property name="password" value="mvc1team"></property> 
 	</bean>
 		
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 	 	<constructor-arg ref="hikariConfig"></constructor-arg>
 	</bean>
 	
-	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
+<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="mapperLocations" value="classpath:com/culture/demo/**/*.xml" />
+</bean>
 	   
 	<mybatis-spring:scan base-package="com.culture.demo.mapper"/>
 	

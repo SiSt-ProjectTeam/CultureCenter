@@ -5,14 +5,81 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<!-- 에러 : spring-security-4.2.xsd 수정. -->
-	<security:http pattern="/static/**" security="none"></security:http>   
-	<security:http pattern="/design/**" security="none"></security:http>   
+    <!-- 에러 : spring-security-4.2.xsd 수정. -->	
+
+    <!-- css, js, image 등등의 접근 제어 대상이 아니기에 보안필터 체인을 적용하지 않도록 하는 코딩. -->	 		
+	<security:http pattern="/static/**" security="none"></security:http>	
+	<security:http pattern="/design/**" security="none"></security:http>	
+	<security:http pattern="/css/**" security="none"></security:http>	
+	<security:http pattern="/js/**" security="none"></security:http>	
 	
-	<security:http> 
-	   <security:form-login/>  
-	</security:http>   
+ <security:http use-expressions="true"> 
+      <!-- 접근 권한 설정  -->
+      <!-- 
+      <security:intercept-url pattern="/user/loginForm.htm" access="permitAll" />
+      <security:intercept-url pattern="/admin/manager/**" access="hasAuthority('ROLE_MANAGER')" />
+      <security:intercept-url pattern="/member/**" access="isAuthenticated()" />
+      <security:intercept-url pattern="/**" access="permitAll" />
+       -->
+      
+     <!--   URL에 접근하려면 사용자가 인증되어 있어야 한다 -->
+<security:intercept-url pattern="/customer/noticeReg.htm" access="isAuthenticated()"/>
+<!--  URL에 접근하려면 사용자가 'ROLE_ADMIN' 권한을 가져야 한다 -->
+<security:intercept-url pattern="/customer/noticeDel.htm" access="hasRole('ROLE_ADMIN')"/>
+<!-- 누구나 접근 가능 -->
+<security:intercept-url pattern="/**" access="permitAll" />
+    
+      <!-- 1) 접근 금지 발생시 특정URL로 이동 : error-page 설정. -->
+      <!-- <security:access-denied-handler error-page="/common/accessError.htm"/> -->
+      <!-- 2) 접근 금지 발생시 직접 구현 -->
+<security:access-denied-handler ref="customAccessDeniedHandler"/>
+   
+      <!-- <security:form-login/> -->
+	   
+	   <!-- 커스텀 로그인 페이지 -->  
+<security:form-login
+    login-page="/member/login.do" 
+    authentication-success-handler-ref="customLoginSuccessHandler"
+    authentication-failure-url="/member/login.do?error=true"
+    default-target-url="/index.do"
+/>
+
+
+	   <!-- 로그아웃 경로 만들기 -->
+<security:logout logout-url="/joinus/logout.htm"  
+    invalidate-session="true"
+    logout-success-url="/index.do"
+/>
+
+	    
+	</security:http>	
+
 	
-	<security:authentication-manager> 
-	</security:authentication-manager>
+	<!-- CSRF 토큰 사용하지 않겠다. -->
+	<!-- <security:csrf disabled="true"/> -->
+	
+<!-- 	'{noop}'는 암호화를 사용하지 않음
+	 authorities-by-username-query는 특정 사용자에게 부여된 권한(authorities)을 조회하는 쿼리를 설정한다.
+    'MEMBER' 테이블에서 'ID'가 특정 사용자의 아이디와 일치하는 경우, 해당 사용자에게 'ROLE_USER' 권한을 부여한다 -->
+<security:authentication-manager>
+    <security:authentication-provider>
+        <security:jdbc-user-service data-source-ref="dataSource"
+            users-by-username-query="SELECT ID as username, '{noop}' || PW as password, ENABLED FROM MEMBER WHERE ID=?"
+            authorities-by-username-query="SELECT ID, 'ROLE_USER' FROM MEMBER WHERE ID=?"/>
+    </security:authentication-provider>
+        <!-- 메모리 기반으로 정의된 사용자 -->
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="hong" authorities="ROLE_MANAGER" password="{noop}4321"/>
+                <security:user name="admin" authorities="ROLE_USER, ROLE_MANAGER, ROLE_ADMIN" password="{noop}4321"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
 </beans>
+
+
+
+
+
+

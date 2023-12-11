@@ -910,15 +910,15 @@
 								<ul class="txt_wrap">
 									<li class="dl f_body2">
 										<p class="dt">이름</p>
-										<p class="dd f_body1">유희진</p>
+										<p class="dd f_body1">${name}</p>
 									</li>
 									<li class="dl f_body2">
 										<p class="dt">생년월일</p>
-										<p class="dd f_body1">1997.09.21</p>
+										<p class="dd f_body1">${birth_dt}</p>
 									</li>
 									<li class="dl f_body2">
 										<p class="dt">휴대전화</p>
-										<p class="dd f_body1">010-4911-7043</p>
+										<p class="dd f_body1">${phone}</p>
 									</li>
 								</ul>
 							</div>
@@ -926,19 +926,19 @@
 								<ul class="txt_wrap">
 									<li class="dl f_body2">
 										<p class="dt">아이디</p>
-										<p class="dd f_body1">heejin740@naver.com</p>
+										<p class="dd f_body1">${id}</p>
 									</li>
 									<li class="dl f_body2">
 										<p class="dt">이메일</p>
-										<p class="dd f_body1">heejin740@naver.com</p>
+										<p class="dd f_body1">${email}</p>
 									</li>
 									<li class="dl f_body2">
 										<p class="dt">주소</p>
-										<p class="dd f_body1">경기 구리시 안골로63번길&nbsp;38, 1723호&nbsp;(수택동,클래시아구리오피스텔)</p>
+										<p class="dd f_body1">${addr}</p>
 									</li>
 									<li class="dl f_body2">
 										<p class="dt">백화점 마케팅 수신동의</p>
-										<p class="dd f_body1">
+										<p class="dd f_body1">			경기 구리시 안골로63번길&nbsp;38, 1723호&nbsp;(수택동,클래시아구리오피스텔)
 											SMS : 수신거부<br> 
 											이메일 : 수신거부</p>
 									</li>
