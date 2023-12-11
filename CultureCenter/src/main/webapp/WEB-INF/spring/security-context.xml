@@ -64,10 +64,13 @@
 <!-- 	'{noop}'는 암호화를 사용하지 않음
 	 authorities-by-username-query는 특정 사용자에게 부여된 권한(authorities)을 조회하는 쿼리를 설정한다.
     'MEMBER' 테이블에서 'ID'가 특정 사용자의 아이디와 일치하는 경우, 해당 사용자에게 'ROLE_USER' 권한을 부여한다 -->
+              			<!--  1 as enabled는 사용자가 활성화 -> 데이터 추가 안하고 고정값으로 했
+           				사용자의 권한 정보를 가져오는 SQL 쿼리 -->
 <security:authentication-manager>
     <security:authentication-provider>
         <security:jdbc-user-service data-source-ref="dataSource"
-            users-by-username-query="SELECT ID as username, '{noop}' || PW as password, ENABLED FROM MEMBER WHERE ID=?"
+
+            users-by-username-query="SELECT ID as username, '{noop}' || PW as password, 1 as enabled FROM MEMBER WHERE ID=?"
             authorities-by-username-query="SELECT ID, 'ROLE_USER' FROM MEMBER WHERE ID=?"/>
     </security:authentication-provider>
         <!-- 메모리 기반으로 정의된 사용자 -->
