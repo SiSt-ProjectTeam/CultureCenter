@@ -155,7 +155,7 @@
 					<a href="javascript:fnc.moveLogout()" class="logout_txt"><span>로그아웃</span></a>
 					<div class="mypage_inner">
 						<p class="name">
-							<a href="/mypage/member/info.do"><span>유희진</span></a>
+							<a href="/mypage/member/info.do"><span id="name"></span></a>
 						</p>
 						<div class="mypage_info_w">
 							<a href="javascript:common.showItrstPop()" class="mypage_info">

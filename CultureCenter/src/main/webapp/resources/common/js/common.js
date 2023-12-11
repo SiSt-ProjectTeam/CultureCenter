@@ -116,6 +116,7 @@ var common = (function(){
 		fnc.bscAjax(function(data){
 			if(data)
 			{
+				$(".mypage_pop_area").find("#name").text(data.name);
 				//$(".mypage_pop_area").find("#cpnCnt").text(data.cpnCnt);
 				$(".mypage_pop_area").find("#cartCnt").text(data.basket_cnt);
 				$(".mypage_pop_area").find("#pointSpan").text(data.point);
