@@ -30,9 +30,15 @@ public class CartDTO {
     private String class_st;
     
     private int branch_id;
+    
     private String branch_nm;
     private String teacher_nm;
     
     // 수업요일
     private String day;
+    
+    // 삭제하기 위한 data
+    private String type;
+    private String cartSeqno;
+    
 }
