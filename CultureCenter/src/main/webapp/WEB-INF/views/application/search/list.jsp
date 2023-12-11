@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="cont_wrap">
 	<form id="searchBranch" name="searchBranch">
-		<input type="hidden" id="type" name="type" value="branch"/>
-		<input type="hidden" id="brchCd" name="brchCd" value="0002"/>
+		<input type="hidden" id="type" name="type" value="<%=request.getParameter("type")%>"/>
+		<input type="hidden" id="brchCd" name="brchCd" value="<%=request.getParameter("brchCd")%>"/>
 		<input type="hidden" id="lrclsCtegryCd" name="lrclsCtegryCd" value=""/>
 		<input type="hidden" id="mdclsCtegryCd" name="mdclsCtegryCd" value=""/>
 		<input type="hidden" id="smclsCtegryCd" name="smclsCtegryCd" value=""/>
@@ -29,59 +29,54 @@
 				<div class="top_area move_area">
 					<a href="javascript:fnc.back();" class="page_prev_btn" title="뒤로가기"></a>
 					<a href="javascript:" class="tit_div arrow" title="지점 팝업 열기">
-						<p class="tit f_h1"><span class="more_tit"></span></p>
+						<p class="tit f_h1"></p>
 					</a>
 					<div class="tit_popup">
 						<div class="pop_wrap">
 							<div class="pop_cont">
 								<div class="for_padding">
 									<div class="scroll_area">
-										<div class="branch">
-												<p class="sub_tit f_caption1">서울점</p>
-												<a class="active" href="/application/search/list.do?type=branch&brchCd=2"><p class="f_desc">잠실점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=1"><p class="f_desc">본점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0013"><p class="f_desc">강남점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0028"><p class="f_desc">건대스타시티점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0006"><p class="f_desc">관악점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0340"><p class="f_desc">김포공항점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0022"><p class="f_desc">노원점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0026"><p class="f_desc">미아점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0010"><p class="f_desc">영등포점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0004"><p class="f_desc">청량리점</p></a>
-												</div>
-										<div class="branch">
-												<p class="sub_tit f_caption1">수도권점</p>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0344"><p class="f_desc">인천점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0399"><p class="f_desc">동탄점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0335"><p class="f_desc">구리점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0008"><p class="f_desc">분당점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0349"><p class="f_desc">수원점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0336"><p class="f_desc">안산점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0011"><p class="f_desc">일산점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0334"><p class="f_desc">중동점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0341"><p class="f_desc">평촌점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0350"><p class="f_desc">롯데몰광명점</p></a>
-												</div>
-										<div class="branch">
-												<p class="sub_tit f_caption1">지방점</p>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0005"><p class="f_desc">부산본점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0333"><p class="f_desc">광복점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0007"><p class="f_desc">광주점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0023"><p class="f_desc">대구점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0012"><p class="f_desc">대전점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0016"><p class="f_desc">동래점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0354"><p class="f_desc">마산점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0024"><p class="f_desc">상인점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0027"><p class="f_desc">센텀시티점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0015"><p class="f_desc">울산점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0025"><p class="f_desc">전주점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0017"><p class="f_desc">창원점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0014"><p class="f_desc">포항점</p></a>
-												<a class="" href="/application/search/list.do?type=branch&brchCd=0361"><p class="f_desc">롯데몰군산점</p></a>
-												</div>
+										<c:choose>
+									        <c:when test="${not empty bmap}">
+									            <c:forEach var="entry" items="${bmap}">
+									                <div class="branch">
+									                    <p class="sub_tit f_caption1">${entry.key}</p>
+								                        <c:forEach var="dto" items="${entry.value}">
+								                        	<a class="" href="/application/search/list.do?type=branch&brchCd=${dto.branch_id}"><p class="f_desc">${dto.branch_nm}</p></a>
+								                        </c:forEach>
+									                </div>
+									            </c:forEach>
+									        </c:when>
+									    </c:choose>
 										<script type="text/javascript">
-										  	var title = document.querySelector(".cont_wrap .tit_popup .scroll_area a[class=active] .f_desc").innerText;
-											document.querySelector(".cont_wrap .inner .f_h1").prepend(title);
+										
+										    $(".page_title_area .tit_popup .branch a").on("click", function() {
+										    	alert("클릭");
+							                    var txtVal = $(this).find('p.f_desc').text();
+												console.log(txtVal);
+												alert("콘솔");
+
+							                    $("body").removeClass("stop_scroll");
+							                    $("body, html").off("scroll touchmove mousewheel");
+							                    $(this).addClass("active").siblings().removeClass("active").parent().siblings(".branch").find("a").removeClass("active");
+							                    $(this).parents(".page_title_area").find(".m_pop_dimd").stop(true, true).fadeOut(300);
+							                    $(this).parents(".page_title_area").find(".tit_popup").stop(true, true).slideUp();
+							                    $(this).parents(".page_title_area").find(".tit_div").removeClass("active");
+							                    $(this).parents(".page_title_area").find(".tit_div.arrow .tit").html(txtVal + "<span class='more_tit'></span>");
+							                    $(this).parents(".page_title_area").removeClass("bg_white");
+							                    $("footer").removeClass("law_index");
+							                    setTimeout(function() {
+							                        $(".btn_top").removeClass("law_index");
+							                    }, 300);
+							                });
+										    /* 
+										    var title = $(".page_title_area .tit_popup .branch a[class=active]").find('p.f_desc').text();
+											
+										    console.log(title);
+										    $(".page_title_area .tit_popup .branch a").parents(".page_title_area").find(".tit_div.arrow .tit").html(txtVal + "<span class='more_tit'></span>");
+											document.querySelector(".cont_wrap .inner p.tit.f_h1").prepend(title);
+											//document.querySelector(".cont_wrap .inner .f_h1").prepend(title);
+											 */
 										</script>
 									</div>
 								</div>
@@ -199,8 +194,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0101');" class="swiper-slide ">
@@ -266,8 +261,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0202');" class="swiper-slide ">
@@ -303,8 +298,8 @@
 													<div class="swiper-container">
 														<div class="swiper-wrapper">
 															<a href="javascript:search.twoDepthCtgy_click('');" class="swiper-slide total on">
-																<p class="img only_pc img_resize_w"><img src="/common/images/img-two-depth-circle-00.jpg" alt=""></p>
-																<p class="img only_mobile img_resize_w"><img src="/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
+																<p class="img only_pc img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00.jpg" alt=""></p>
+																<p class="img only_mobile img_resize_w"><img src="/resources/common/images/img-two-depth-circle-00-m.jpg" alt=""></p>
 																<p class="txt">전체</p>
 															</a>
 												<a href="javascript:search.twoDepthCtgy_click('0302');" class="swiper-slide ">
@@ -719,7 +714,7 @@
 																	<div class="form_input">
 																		<input type="text" title="검색될 최소 금액 입력" placeholder="최소금액" value="" maxlength="14" name="stAmt" oninput="this.value=this.value.replace(/[^0-9]/g,'');this.value=fnc.fn_numberComma(this.value);">
 																	</div>
-																	<span class="tilde">~</span>
+																	<span class="tilde">~</span> 
 																	<div class="form_input">
 																		<input type="text" title="검색될 최대 금액 입력" placeholder="최대금액" value="" maxlength="14" name="endAmt" oninput="this.value=this.value.replace(/[^0-9]/g,'');this.value=fnc.fn_numberComma(this.value);">
 																	</div>
@@ -747,4 +742,4 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="/common/js/application/search/searchList_branch.js"></script>
+<script type="text/javascript" src="/resources/common/js/application/search/searchList_branch.js"></script>

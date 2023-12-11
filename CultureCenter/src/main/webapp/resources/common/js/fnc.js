@@ -94,13 +94,11 @@ var fnc = (function() {
                 async: sync,
                 cache: false,
                 beforeSend: function() {
-console.log("Request URL: " + url);
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
                 },
                 success: function(data, status, xhr) {
-// console.log("success data : " + data);	
                     if (callbackAjax) {
                         callbackAjax(data);
                     }
@@ -129,7 +127,7 @@ console.log("Request URL: " + url);
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
-    
+ 
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -221,13 +219,16 @@ console.log("Request URL: " + url);
             if (typeof sync == "undefined") {
                 sync = true;
             }
-
-
+			console.log(data);
+			//넘어온 data json객체로
+			var jsonData = JSON.stringify(data);	
+			console.log(jsonData);
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: data,
+                data: jsonData,
+                contentType: "application/json; charset=utf-8",
                 dataType: dataType,
                 async: sync,
                 cache: false,
@@ -855,9 +856,14 @@ console.log("Request URL: " + url);
     // 장바구니
     var cartBtn = function(brchCd, yy, lectSmsterCd, lectCd, lectStatCd) {
         fnc.bscAjax(function(data) {
+        	console.log("cartBtn bscAjax callback_data :");
+        	console.log(data);
             if (data.lgnYn) {
-                fnc.paramAjax(function(data) {
-                    var rtnMap = data.rtnMap;
+            	console.log("carBtn paramAjax");
+                fnc.paramAjax(function(rtnMap) {
+                	console.log("carBtn paramAjax callback_data :");
+                	console.log(rtnMap);
+                    //var rtnMap = data.rtnMap;
                     if (rtnMap.result == "S") {
 
                         if (Number($('div.util_area p.cart_icon span.cart_num').text()) < 50) {
@@ -874,12 +880,12 @@ console.log("Request URL: " + url);
                         alert(rtnMap.msg);
                         return;
                     }
-                }, "/mypage/cart/insert.ajax", {
-                    brchCd: brchCd,
-                    yy: yy,
-                    lectSmsterCd: lectSmsterCd,
-                    lectCd: lectCd,
-                    lectStatCd: lectStatCd
+                }, "/mypage/cart/insert.ajax",{
+                    branch_id: brchCd,
+                    open_year: yy,
+                    open_smst_id: lectSmsterCd,
+                    detail_class_sq: lectCd,
+                    class_st_id: lectStatCd
                 }, "json", false, false);
             } else {
                 if (confirm("로그인이 필요한 서비스입니다.")) {
