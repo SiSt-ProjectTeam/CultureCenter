@@ -170,7 +170,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 </div>
 <!--결제하기 클릭시 날릴 form태그 -->
 <form id="frm_submit" name="frm_submit" action="/payment/step1.do" method="POST">
-	<input type="hidden" name="csrfPreventionSalt" value="wNMtwqBUuEtJJBjwBN1o" />
+	<!--csrf : <input type="hidden" name="csrfPreventionSalt" value="wNMtwqBUuEtJJBjwBN1o" /> -->
 	<input type="hidden" name="brchCd" value="" />
 	<input type="hidden" name="yy" value="" />
 	<input type="hidden" name="lectSmsterCd" value="" /> 
