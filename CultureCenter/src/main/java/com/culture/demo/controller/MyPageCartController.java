@@ -54,7 +54,7 @@ public class MyPageCartController {
 		log.info("/mypage/cart/list.ajax + POST : MyPageCartController.getList() 장바구니목록");
 		//System.out.println(principal.getName());
 		//int member_sq = Integer.parseInt(principal.getName());
-		int member_sq = 12;
+		int member_sq = 79;
 		String html = cartService.createCartHtml(member_sq,params);
 		
 		return !html.isEmpty()? new ResponseEntity<>(html,HttpStatus.OK)
@@ -69,11 +69,11 @@ public class MyPageCartController {
 		System.out.println(params);
 		Map<String, String> rtnMap = new HashedMap();
 		//int member_sq = Integer.parseInt(principal.getName());
-		//cartService.insert(member_sq,params.getDetail_class_sq());
+		int member_sq = 79;
 		
 		int resultCtn = 0;
 		try {
-			resultCtn = cartService.insert(12,params.getDetail_class_sq());
+			resultCtn = cartService.insert(member_sq,params.getDetail_class_sq());
 			if(resultCtn==1) {
 				rtnMap.put("result", "S");
 				rtnMap.put("msg", "장바구니에 담겼습니다. 확인하시겠습니까?");
@@ -91,15 +91,24 @@ public class MyPageCartController {
 	public @ResponseBody ResponseEntity<Map<String, Object>> deleteCart(@RequestBody CartDTO params
 																		//, Principal principal
 																		) throws Exception{
-		log.info("/mypage/cart/delete.ajax + POST : MyPageCartController.insertCart() 장바구니추가");
-		System.out.println("cartSeqnos : "+params.getCartSeqno());
-		System.out.println("type : "+params.getType());
+		log.info("/mypage/cart/delete.ajax + POST : MyPageCartController.deleteCart() 장바구니삭제");
+		String type = params.getType();
+		String cartSeqno = params.getCartSeqno();
+		System.out.println("cartSeqnos : "+cartSeqno+" / "+"type : "+type);
 		Map<String, Object> rtnMap = new HashedMap();
-		//int member_sq = Integer.parseInt(principal.getName());
-		//cartService.insert(member_sq,params.getDetail_class_sq());
-		//cartService.delete(12,params.getCartSeqno());
-		rtnMap.put("cnt", 1);
-		rtnMap.put("type", params.getType());
+		
+		//int member_sq = Integer.parseInt(principal.getName());		
+		int member_sq = 79;
+		int cnt = 0;
+		try {
+			cnt = cartService.delete(member_sq,type,cartSeqno);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		rtnMap.put("cnt", cnt);
+		rtnMap.put("type", type);
 		return ResponseEntity.ok(rtnMap);
 	}
 }

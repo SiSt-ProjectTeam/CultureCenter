@@ -11,4 +11,7 @@ public interface CartService {
 	
 	// 장바구니 추가
 	int insert(int member_sq, int detail_class_sq) throws SQLException, ClassNotFoundException;
+
+	// 장바구니 삭제
+	int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException;
 }

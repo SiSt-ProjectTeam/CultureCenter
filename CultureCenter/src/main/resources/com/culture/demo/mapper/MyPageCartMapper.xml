@@ -45,11 +45,18 @@
 		ORDER BY cbs.schedule_start_dt
 	</select>
 	
-	<!-- 장바구니 추가 -->
-	<!-- int insert(@Param("member_sq")int member_sq,@Param("detail_class_sq")int detail_class_sq) -->
+	<!-- 장바구니 추가 int insert(@Param("member_sq")int member_sq,@Param("detail_class_sq")int detail_class_sq)-->
 	<insert id="insert">
 	INSERT INTO basket
 	VALUES(#{member_sq},#{detail_class_sq})
 	</insert>
 	
+	<!-- 장바구니 삭제 int delete(@Param("member_sq")int member_sq,@Param("type")String type,@Param("cartSeqno")String cartSeqno) -->
+	<delete id="delete">
+	DELETE FROM basket
+	WHERE member_sq=#{member_sq} 
+    <if test="type != 'all'">
+        AND detail_class_sq IN (${cartSeqno})
+    </if>
+	</delete>
 </mapper>
