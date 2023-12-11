@@ -84,7 +84,9 @@ var mypage_cart = (function(){
 	// 장바구니 삭제
 	var fn_remove_cart = function(obj){
 		var cartSeqno = $(obj).closest('div.cour_his_list').data('cartSeqno');
+		console.log(cartSeqno);
 		cartSeqno = "'"+ cartSeqno +"'";
+		console.log(cartSeqno);
 		if(confirm("선택한 강좌를 삭제하시겠습니까?")){
 			fnc.paramAjax(fn_remove_callback, "/mypage/cart/delete.ajax", {type:'select', cartSeqno : cartSeqno}, "json");
 		}
@@ -111,6 +113,7 @@ var mypage_cart = (function(){
 	
 	// 장바구니 삭제 콜백
 	var fn_remove_callback = function(rtnMap){
+		console.log(rtnMap);
 		if(rtnMap.cnt > 0){
 			if(rtnMap.type == 'all'){
 				alert("강좌가 모두 삭제되었습니다.");

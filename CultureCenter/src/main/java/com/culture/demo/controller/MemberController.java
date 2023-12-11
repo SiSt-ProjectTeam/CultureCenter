@@ -13,19 +13,16 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberController {
 	
-	/*
-	 * @RequestMapping(value = "/index.do", method = RequestMethod.GET) public
-	 * String home(Locale locale, Model model) {
-	 * logger.info("Welcome home! The client locale is {}.", locale);
-	 * 
-	 * return "index"; }
-	 */
-	
+	//로그인 체크
 	@GetMapping("/lgnCheck.ajax")
-	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck() throws Exception { //principal
+	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck() throws Exception { // Principal principal;
 		log.info("> /lgnCheck.ajax : MemberController.loginCheck() ... ");
 		//principal 존재유무 판단
-	    Map<String, Boolean> response = Map.of("lgnYn", true);
+		
+		Map<String, Boolean> response;
+		//if(principal.getName().isEmpty()) response = Map.of("lgnYn", true);
+		//else response = Map.of("lgnYn", false);
+		response = Map.of("lgnYn", true);
 	    return ResponseEntity.ok(response);
 	}
 }

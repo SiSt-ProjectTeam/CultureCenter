@@ -44,4 +44,12 @@
 		
 		ORDER BY cbs.schedule_start_dt
 	</select>
+	
+	<!-- 장바구니 추가 -->
+	<!-- int insert(@Param("member_sq")int member_sq,@Param("detail_class_sq")int detail_class_sq) -->
+	<insert id="insert">
+	INSERT INTO basket
+	VALUES(#{member_sq},#{detail_class_sq})
+	</insert>
+	
 </mapper>

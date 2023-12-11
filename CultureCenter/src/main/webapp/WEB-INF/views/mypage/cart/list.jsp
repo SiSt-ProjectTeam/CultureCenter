@@ -22,6 +22,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 					<a href="javascript:fnc.back();" class="page_prev_btn" title="뒤로가기"></a>
 					<div class="tit_div">
 						<p class="tit f_h1">장바구니</p>
+						<a href="javascript:" onclick="fnc.cartBtn('1', '2023', '4', '3', '3')">장바구니추가 되나?</a>
 					</div>
 				</div>
 			</div>
@@ -177,10 +178,6 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 	<input type="hidden" name="optnSeqno" value="" /> 
 	<input type="hidden" name="optnUseYn" value="" />
 </form>
-
-<script>
-fnc.cartBtn();	
-</script>
 
 <script type="text/javascript" src="/resources/common/js/mypage/mypage_cart.js"></script>
 
