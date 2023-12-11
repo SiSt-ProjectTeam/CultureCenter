@@ -100,7 +100,8 @@ var common = (function(){
 			}
 			
 			fnc.paramAjax(function(data) {
-				if(data.rtnCnt > 0)
+				// if(data.rtnCnt > 0)
+				if(data > 0)
 				{
 					alert("관심지점이 설정되었습니다.");
 					

@@ -1,6 +1,7 @@
 package com.culture.demo.controller;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,14 +40,15 @@ public class MypageMemberController {
 	
 	
 	@PostMapping("/setItrst.ajax")
-	public ResponseEntity<String> setInterestBranch(@RequestBody int itrstBrchCd) {
+	public ResponseEntity<Integer> setInterestBranch(@RequestBody Map<String, Integer> requestBody) {
 		log.info("> /setItrst.ajax... POST : MypageMemberController.setInterestBranch()");
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
 		
+		int rtnCnt = this.memberServiceImpl.correctionInterestBranch(member_sq, requestBody.get("itrstBrchCd"));
 		
-		return this.memberServiceImpl.correctionInterestBranch(member_sq, itrstBrchCd) == 1
-				? new ResponseEntity<>("success", HttpStatus.OK)
+		return rtnCnt > 0
+				? new ResponseEntity<>(rtnCnt, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 		

@@ -27,7 +27,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int correctionInterestBranch(int member_sq, int itrstBrchCd) {
 		log.info("> MemberServiceImpl.correctionInterestBranch...");
-		
 		return this.memberMapper.updateInterestBranch(member_sq, itrstBrchCd);
 	}
 
