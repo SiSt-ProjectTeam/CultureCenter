@@ -1,7 +1,7 @@
 package com.culture.demo.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class MemberController {
 	    	return "login/loginResult";
 	    }
 	    
-	    return "login/index";
+	    return "login.index";
 	}
 
 
@@ -87,7 +87,7 @@ public class MemberController {
 	@GetMapping("/mbrJoin.do")
 	public String writeForm() throws Exception {
 		log.info("mbrJoin으로........");
-		 return "mypage/member/mbrJoin";
+		 return "mypage.member.mbrJoin";
 	}
 	
 	
@@ -98,23 +98,19 @@ public class MemberController {
 		service.insert(dto);
 		
 		
-		return "redirect:/index.do";
+		return "redirect:.index.do";
 	}
 	
 	
+	 @RequestMapping("/logout.do")
+	    public String logoutSuccess(HttpServletRequest request, HttpSession session, Model model) {
+		 // 세션 무효화
+		    session.invalidate();
+	        return "login.logout"; 
+	    }
 	
 	
+
 	
-	
-	
-	
-	@GetMapping("logout.do")
-	public String logout( HttpSession session )  throws Exception {
-		//로그아웃 처리 세션정보를 지운다.
-		session.removeAttribute("login");
-		
-		log.info("로그아웃 처리");
-		
-		return "login/index";
-	}
+
 }

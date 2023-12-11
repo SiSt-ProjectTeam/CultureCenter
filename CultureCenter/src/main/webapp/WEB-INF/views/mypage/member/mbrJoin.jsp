@@ -80,6 +80,7 @@
 
 
 		<br> <br> 
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<button class="btn btn-default" >등록</button>
 		<button class="btn btn-default" type="reset">새로입력</button>
 		<button class="btn btn-default cancelBtn" type="button" onclick="cancelRegistration()">취소</button>

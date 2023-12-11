@@ -453,15 +453,19 @@ console.log("Request URL: " + url);
      * fnc.moveLogout
      * note : 로그아웃
      */
+   
     var moveLogout = function(noConfirm) {
-        if (!noConfirm) {
-            if (confirm("로그아웃 하시겠습니까?")) {
-                members.logout();
-            }
-        } else { 
-            members.logout();
+    if (!noConfirm) {
+        if (confirm("로그아웃 하시겠습니까?")) {
+            // 사용자가 확인을 눌렀을 때, 로그아웃 URL 호출
+            window.location.href = '/login/logout.do';
         }
+    } else {
+        // 확인을 묻지 않고 바로 로그아웃 URL 호출
+        window.location.href = '/login/logout.do';
     }
+}
+    
 
     /*
      * fnc.maskingName
