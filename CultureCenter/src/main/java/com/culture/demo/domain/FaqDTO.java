@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FaqDTO {
 	
-	//private int faq_sq;				//자주하는문의 아이디
-	//private int faq_tp_id;			//문의유형아이디
-	//private int faq_tp;				//문의유형
-	//private String faq_title;		//문의제목
-	//private String faq_content;		//문의내용
+	private int faq_sq;				//자주하는문의 아이디
+	private int faq_tp_id;			//문의유형아이디
+	private int faq_tp;				//문의유형
+	private String faq_title;		//문의제목
+	private String faq_content;		//문의내용
 	
 	private int clCd;				//문의유형아이디
 	private int faqSeqno;			

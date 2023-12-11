@@ -34,7 +34,12 @@
 				</div>
 				<div class="form_search">
 					<div class="form_search_div">
-						<input type="text" name="q" value="" placeholder="검색어를 입력해주세요" title="검색어 입력" onkeyup="if(window.event.keyCode == 13) faqCtrl.fn_search();">
+						<input type="text" 
+							   name="q" 
+							   value="" 
+							   placeholder="검색어를 입력해주세요" 
+							   title="검색어 입력" 
+							   onkeypress="if(event.keyCode == '13'){event.preventDefault(); faqCtrl.fn_search();}">
 						<div class="input_btn_wrap">
 							<button type="button" class="btn_delete" title="지우기"></button>
 							<button type="button" class="btn_search" title="검색" onclick="faqCtrl.search_btn();"></button>
@@ -43,7 +48,6 @@
 				</div>
 				<div class="m_pop_dimd"></div>
 			</div>
-			<!-- // 2022-11-23 구조 수정 -->
 		</form>
 		<div class="page_cont_area">
 			<div class="inner">
@@ -143,7 +147,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 	</form>	 -->
 	</div>
 </div>
 
