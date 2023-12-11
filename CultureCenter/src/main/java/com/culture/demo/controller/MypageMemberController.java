@@ -2,8 +2,6 @@ package com.culture.demo.controller;
 
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.service.MemberServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +19,6 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class MypageMemberController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(MypageMemberController.class);
 
 	@Autowired
 	private MemberServiceImpl memberServiceImpl;

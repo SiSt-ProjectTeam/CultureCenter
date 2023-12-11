@@ -86,7 +86,7 @@ var common = (function(){
 	
 	//관심지점 설정 저장
 	var fn_save_itrst = function(){
-		
+		console.log("관심지점 설정");
 		var slctBrchBtn = $(".place_pop_area .btn_flex_box .on");
 		
 		if(slctBrchBtn.length == 0)
