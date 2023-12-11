@@ -18,7 +18,7 @@ public class BranchDTO {
 	private int lat;							// 지점 위도
 	private int lng;							// 지점 경도
 	
-	private String branch_img;			// 지점 사진
+	private String branch_img;					// 지점 사진
 	private String classroom_nm;				// 지점 강의실
  	
 }

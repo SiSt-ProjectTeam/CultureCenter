@@ -24,7 +24,7 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	@Override
 	public List<BranchDTO> getBranchList(int branch_tp_id) {	
 		log.info("> BranchInfoServiceImpl.selectBranchList ...");		
-		return this.branchInfoMapper.getBranchList( branch_tp_id);
+		return this.branchInfoMapper.getBranchList(branch_tp_id);
 	}
 
 	//지점 목록 html

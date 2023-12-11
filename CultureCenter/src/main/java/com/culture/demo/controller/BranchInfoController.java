@@ -29,7 +29,7 @@ public class BranchInfoController {
 	
 	
 	@GetMapping(value = "/list.do")
-	public String home(Locale locale, Model model) {
+	public String goBranchInfo(Locale locale, Model model) {
 		log.info("> /information/branch/list.do... GET");
 				    
 	    return "information.branch.list";

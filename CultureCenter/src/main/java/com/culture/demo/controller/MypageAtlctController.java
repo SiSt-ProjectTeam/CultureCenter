@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,24 +31,36 @@ public class MypageAtlctController {
 	private AtlctServiceImpl atlctService;
 	
 	@GetMapping(value = "/list.do")
-	public String home() {
-		log.info("> /mypage/atlct/list.do... GET");
+	public String goAtlct(@ModelAttribute("frmSearchDTO") FrmSearchDTO frmSearchDTO) {
+		log.info("> /mypage/atlct/list.do... GET : MypageAtlctController.goAtlct()");
 
 		return "mypage.atlct.list";
 	}
 	
 	@PostMapping(value = "/list.ajax", produces = "application/text; charset=UTF-8")
 	public ResponseEntity<String> getAtlctList(@RequestBody FrmSearchDTO frmSearchDTO) throws SQLException {  /* , Principal principal */
-		log.info("> /mypage/atlct/list.ajax... POST");
+		log.info("> /mypage/atlct/list.ajax... POST : MypageAtlctController.getAtlctList()");
 		log.info(">>>> frmSearchDTO: " + frmSearchDTO);
 		String html = "";
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
-		html = this.atlctService.createAtlctHtml(frmSearchDTO, member_sq, 0);
+		html = this.atlctService.createAtlctHtml(frmSearchDTO, member_sq);
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)
-				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping(value = "/view.do")
+	public String goAtlctDetail(@ModelAttribute("frmSearchDTO") FrmSearchDTO frmSearchDTO, Model model) throws SQLException {
+		log.info("> /mypage/atlct/list.do... GET : MypageAtlctController.goAtlctDetail()");
+
+		int member_sq = 12;
+		// int member_sq = Integer.parseInt( principal.getName() );
+		model.addAttribute("atlctList", this.atlctService.getAtlctList(frmSearchDTO, member_sq));
+		model.addAttribute("allRfndCk", this.atlctService.allRefundCheck(frmSearchDTO.getAtlctRsvNo()));
+		
+		return "mypage.atlct.view";
 	}
 	
 	

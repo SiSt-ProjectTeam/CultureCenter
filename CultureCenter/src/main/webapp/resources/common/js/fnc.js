@@ -94,13 +94,11 @@ var fnc = (function() {
                 async: sync,
                 cache: false,
                 beforeSend: function() {
-console.log("Request URL: " + url);
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
                 },
                 success: function(data, status, xhr) {
-// console.log("success data : " + data);	
                     if (callbackAjax) {
                         callbackAjax(data);
                     }
@@ -176,7 +174,6 @@ console.log("Request URL: " + url);
                     }
                 },
                 success: function(data, status, xhr) {
-                    debugger;
                     if (callbackAjax) {
                         callbackAjax(data);
                     }

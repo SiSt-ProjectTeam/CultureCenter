@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.AppSearchMapper">
+
+	<select id="selectClassList" resultType="com.culture.demo.domain.ClassDTO">
+		SELECT c.branch_id, TO_CHAR(open_year, 'YYYY') open_year, s.open_smst_id, s.class_semester_sq, class_img, class_st, branch_nm, class_nm, smst_nm, m.name, start_time, end_time, class_cnt, class_fee
+			, mon, tue, wed, thu, fri, sat, sun 																																		 					
+		FROM class c JOIN class_by_semester s ON s.class_id = c.class_id 																																	
+			LEFT JOIN detail_class d ON s.class_semester_sq = d.class_semester_sq 																															
+			LEFT JOIN class_state st ON st.class_st_id = c.class_st_id 																																		
+			LEFT JOIN branch b ON b.branch_id = c.branch_id 																																				
+			LEFT JOIN semester sem ON sem.open_smst_id = s.open_smst_id 																																	
+			LEFT JOIN member m ON m.member_sq = c.member_sq 																																				
+		    LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id																																	
+		    LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd 																																
+		    LEFT JOIN medium_category mc ON mc.mdclsCtegryCd = ct.mdclsctegrycd																																
+		    LEFT JOIN small_category sc ON sc.smclsctegrycd = ct.smclsctegrycd																																
+		WHERE c.branch_id = #{branch_id}  
+		
+		<!-- 카테고리 클릭 -->
+		<if test="searchBranchDTO.lrclsCtegryCd != null and !searchBranchDTO.lrclsCtegryCd.isEmpty()">
+			AND lc.lrclsCtegryCd = #{searchBranchDTO.lrclsCtegryCd} 
+		</if>
+		<if test="searchBranchDTO.mdclsCtegryCd != null and !searchBranchDTO.mdclsCtegryCd.isEmpty()">
+			AND mc.mdclsCtegryCd = #{searchBranchDTO.mdclsCtegryCd} 
+		</if>
+		<if test="searchBranchDTO.smclsctegrycd != null and !searchBranchDTO.smclsctegrycd.isEmpty()">
+			AND sc.smclsctegrycd = #{searchBranchDTO.smclsctegrycd} 
+		</if>
+		
+		<!-- 학기 -->
+		<if test="yyl != null and yyl.length > 0">
+			AND (
+			<foreach collection="yyl" item="yy" separator=" OR ">
+				TO_CHAR(open_year, 'YYYY') || '||' || s.open_smst_id = #{yy}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 강좌구분 -->
+		<if test="lectcll != null and lectcll.length > 0">
+			AND (
+			<foreach collection="lectcll" item="lectcl" separator=" OR ">
+				class_div_id = #{lectcl}
+			</foreach>
+			) 
+		</if>
+
+		<!-- 강좌상태 -->
+		<if test="lectstl != null and lectstl.length > 0">
+			AND (
+			<foreach collection="lectstl" item="lectst" separator=" OR ">
+				c.class_st_id = #{lectst - 1}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 요일 -->
+		<if test="dayl != null and dayl.length > 0">
+			AND (
+	    	<foreach collection="dayl" item="day" separator=" OR ">
+		        <choose>
+		             <when test="day == 1">
+		                mon = 'Y'
+		            </when>
+		            <when test="day == 2">
+		                tue = 'Y'
+		            </when>
+		            <when test="day == 3">
+		                wed = 'Y'
+		            </when>
+		            <when test="day == 4">
+		                thu = 'Y'
+		            </when>
+		            <when test="day == 5">
+		                fri = 'Y'
+		            </when>
+		            <when test="day == 6">
+		                sat = 'Y'
+		            </when>
+		            <when test="day == 7">
+		                sun = 'Y'
+		            </when>
+		        </choose>
+			</foreach>
+		   	) 
+		</if>
+		
+		<!-- 시간대 -->
+		<if test="timel != null and timel.length > 0">
+		    AND (
+		    <foreach collection="timel" item="time"  separator=" OR ">
+		        <choose>
+		            <when test="time.equals('A')">
+		                start_time &lt; 1000
+		            </when>
+		            <when test="time.equals('B')">
+		                start_time BETWEEN 1000 AND 1200
+		            </when>
+		            <when test="time.equals('C')">
+		                start_time BETWEEN 1200 AND 1400
+		            </when>
+		            <when test="time.equals('D')">
+		                start_time BETWEEN 1400 AND 1600
+		            </when>
+		            <when test="time.equals('E')">
+		                start_time BETWEEN 1600 AND 1800
+		            </when>
+		            <when test="time.equals('F')">
+		                start_time BETWEEN 1800 AND 2000
+		            </when>
+		            <when test="time.equals('G')">
+		                start_time &gt; 2000
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 범위 -->
+		<if test="amtl != null and amtl.length > 0">
+		    AND (
+		    <foreach collection="amtl" item="amt" separator=" OR ">
+		        <choose>
+		            <when test="amt == 'A'">
+		                class_fee = 0
+		            </when>
+		            <when test="amt == 'B'">
+		                class_fee &lt; 5000
+		            </when>
+		            <when test="amt == 'C'">
+		                class_fee BETWEEN 5000 AND 10000
+		            </when>
+		            <when test="amt == 'D'">
+		                class_fee BETWEEN 10000 AND 30000
+		            </when>
+		            <when test="amt == 'E'">
+		                class_fee BETWEEN 30000 AND 50000
+		            </when>
+		            <when test="amt == 'F'">
+		                class_fee BETWEEN 50000 AND 100000
+		            </when>
+		            <when test="amt == 'G'">
+		                class_fee &gt; 100000
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 입력(최소) -->
+		<if test="searchBranchDTO.stAmt != null and !searchBranchDTO.stAmt.isEmpty()">
+			AND class_fee &gt; #{searchBranchDTO.stAmt} 
+		</if>
+		
+		<!-- 수강료 - 입력(최대) -->
+		<if test="searchBranchDTO.endAmt != null and !searchBranchDTO.endAmt.isEmpty()">
+			AND class_fee &lt; #{searchBranchDTO.stAmt} 
+		</if>
+		
+		<!-- 강좌명 or 강사명으로 검색 -->
+		<if test="searchBranchDTO.q != null and !searchBranchDTO.q.isEmpty()">
+			AND ( class_nm LIKE '%' || #{searchBranchDTO.q} || '%' OR name LIKE '%' || #{searchBranchDTO.q} || '%' ) 
+		</if>
+		
+		<!-- 정렬 -->
+		<if test="searchBranchDTO.orderSet != null and !searchBranchDTO.orderSet.isEmpty()">
+		    <choose>
+		        <when test='searchBranchDTO.orderSet == "A"'>
+		            ORDER BY reception_end_dt ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "B"'>
+		            ORDER BY people_tot ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "C"'>
+		            ORDER BY schedule_start_dt ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "D"'>
+		            ORDER BY class_fee ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "E"'>
+		            ORDER BY class_fee DESC 
+		        </when>
+		    </choose>
+		</if>
+	</select>
+
+</mapper>

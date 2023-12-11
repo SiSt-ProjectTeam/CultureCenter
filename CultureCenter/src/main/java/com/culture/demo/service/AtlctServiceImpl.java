@@ -30,44 +30,29 @@ public class AtlctServiceImpl implements AtlctService {
 	}
 
 	
-	// 3.
-	
-	
-	
-	// 4. 수강상세내역  조회
+	// 3. 수강내역 조회
 	@Override
-	public AtlctDTO getAtlctDetail( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException{
-		AtlctDTO dto = null;
-	   
-	    return dto;
-	} // getAtlctDetail()
-	
-	
-	// 5. 수강내역 조회
-	@Override
-	public ArrayList<AtlctDTO> getAtlctList( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException{
-		try {log.info("> AtlctServiceImpl.getAtlctList...");
+	public ArrayList<AtlctDTO> getAtlctList( FrmSearchDTO frmSearchDTO, int member_sq ) throws SQLException{
+		log.info("> AtlctServiceImpl.getAtlctList...");
 		
-		this.atlctMapper.selectAtlctList(frmSearchDTO, member_sq, order_sq );
-		}catch(Exception e) {
-			e.printStackTrace();
-			e.getMessage();
-			System.err.println();
-		}
-
-		return this.atlctMapper.selectAtlctList( frmSearchDTO, member_sq, order_sq );
+		return this.atlctMapper.selectAtlctList( frmSearchDTO, member_sq );
 	}
 
-
-	// 6. 수강내역 html 생성
+	// 3-1. 모두 취소되었는지 확인
 	@Override
-	public String createAtlctHtml( FrmSearchDTO frmSearchDTO, int member_sq, int order_sq ) throws SQLException {
+	public boolean allRefundCheck(int atlctRsvNo) throws SQLException {
+		log.info("> AtlctServiceImpl.allRefundCheck...");
+		
+		return this.atlctMapper.isAllCancel(atlctRsvNo) == 1;
+	}
+
+	// 4. 수강내역 html 생성
+	@Override
+	public String createAtlctHtml( FrmSearchDTO frmSearchDTO, int member_sq ) throws SQLException {
 		log.info("> AtlctServiceImpl.createAtlctHtml...");
 		
 		StringBuilder html = new StringBuilder();
-		ArrayList<AtlctDTO> atlctList = getAtlctList( frmSearchDTO, member_sq, order_sq );
-
-		System.out.println();
+		ArrayList<AtlctDTO> atlctList = getAtlctList( frmSearchDTO, member_sq );
 		
 	    if (atlctList.isEmpty()) {
 	        html.append( "<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n" );
@@ -77,18 +62,15 @@ public class AtlctServiceImpl implements AtlctService {
 	        html.append( "</div>" );
 			
 		} else {
-			try {
-				System.out.println();
-			int totCnt = atlctList.size();
 			for(AtlctDTO atlct : atlctList){
-				html.append( "<div class=\"cour_his_list more_list\" data-tot-cnt=\"" + totCnt + "\">\r\n" );
+				html.append( "<div class=\"cour_his_list more_list\" data-tot-cnt=\"" + atlct.getTot_cnt() + "\">\r\n" );
 			    html.append( "<div class=\"info_area\">\r\n" );
 			    html.append( "	<div class=\"txt_box\">\r\n" );
 			    html.append( "		<p class=\"f_body4\">주문번호 " + atlct.getOrder_sq() + "</p>\r\n" );
 			    html.append( "		<p class=\"f_body4\">결제일 " + atlct.getOrder_dt() + "</p>\r\n" );
 			    html.append( "	</div>\r\n" );
 			    html.append( "	<div class=\"flex_btn_wrap small_btn\">\r\n" );
-			    html.append( "		<a class=\"border_btn\" href=\"javascript:\" onclick=\"mypage_atlct.moveDtl('" + atlct.getOrder_sq() + "')\">\r\n" );
+			    html.append( "		<a class=\"border_btn\" href=\"javascript:\" onclick=\"mypage_atlct.moveDtl(" + atlct.getOrder_sq() + ")\">\r\n" );
 			    html.append( "			<span class=\"f_btn\">내역보기</span>\r\n" );
 			    html.append( "		</a>\r\n" );
 			    html.append( "	</div>\r\n" );
@@ -98,7 +80,7 @@ public class AtlctServiceImpl implements AtlctService {
 			    html.append( "		<div class=\"left\">\r\n" );
 			    html.append( "			<div class=\"label_div\"><p class=\"label small border\">" + atlct.getBranch_nm() + "</p></div>\r\n" );
 			    html.append( "			<p class=\"tit f_h2\">\r\n" );
-			    html.append( "				<a href=\"/application/search/view.do?brchCd=" + atlct.getBranch_tp_id() + "&amp;yy=" + atlct.getOpen_year() + "&amp;lectSmsterCd=" + atlct.getOpen_smst_id() + "&amp;lectCd=" + atlct.getDetail_class_sq() + "\">" + atlct.getClass_nm() + "</a>\r\n" );
+			    html.append( "				<a href=\"/application/search/view.do?brchCd=" + atlct.getBranch_id() + "&amp;yy=" + atlct.getOpen_year() + "&amp;lectSmsterCd=" + atlct.getOpen_smst_id() + "&amp;lectCd=" + atlct.getDetail_class_sq() + "\">" + atlct.getClass_nm() + "</a>\r\n" );
 			    html.append( "			</p>\r\n" );
 			    html.append( "		</div>\r\n" );
 			    html.append( "		<div class=\"right\">\r\n" );
@@ -119,9 +101,9 @@ public class AtlctServiceImpl implements AtlctService {
 				}
 			    html.append( "			</ul>\r\n" );
 			    
-			    if (frmSearchDTO.getType().equals("rfnd")) {
+			    if (frmSearchDTO.getType().equals("cmplt")) {
 			    	 html.append( "  	<div class=\"full_btn_w\"><div class=\"btn_box\"><div class=\"flex_btn_wrap\">\r\n" );
-			         html.append( "      	<a class=\"s_color_btn gray\" href=\"/application/search/list.do?type=branch&amp;brchCd=" + atlct.getBranch_tp_id() + "&amp;tcCdNo=" + atlct.getTeacher_sq() + "\" style=\"background: #e0f55c;\">\r\n" );
+			         html.append( "      	<a class=\"s_color_btn gray\" href=\"/application/search/list.do?type=branch&amp;brchCd=" + atlct.getBranch_id() + "&amp;tcCdNo=" + atlct.getTeacher_sq() + "\" style=\"background: #e0f55c;\">\r\n" );
 			         html.append( "        		<span style=\"font-size:14px; line-height:38px;\">이 강사의 강좌 더보기</span>\r\n" );
 			         html.append( "      	</a>\r\n" );
 			         html.append( "  	</div></div></div>\r\n" );
@@ -180,15 +162,12 @@ public class AtlctServiceImpl implements AtlctService {
 			    html.append( "</div>" );
 			    
 			}; // atlctList.forEach()
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println();
-			}
 			
 		} // if
 		
 		return html.toString();
 	    
 	} // createAtlctHtml()
+
+
 }

@@ -1,4 +1,4 @@
-package com.culture.demo.service;
+package AppSearchService;
 
 public interface SampleService {
 	

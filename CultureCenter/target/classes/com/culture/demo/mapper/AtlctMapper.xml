@@ -34,6 +34,7 @@
 	
 	<!-- 4. 수강 내역 조회 -->
 	<resultMap type="com.culture.demo.domain.AtlctDTO" id="atlctMap">
+		<result property="tot_cnt" column="tot_cnt"/>
 		<result property="order_sq" column="order_sq"/>
 		<result property="order_dt" column="order_dt"/>
 		<result property="order_amt" column="order_amt"/>
@@ -49,7 +50,7 @@
 		<result property="class_nm" column="class_nm"/>
 		<result property="teacher_sq" column="teacher_sq"/>
 		<result property="teacher_nm" column="teacher_nm"/>
-		<result property="branch_tp_id" column="branch_tp_id"/>
+		<result property="branch_id" column="branch_id"/>
 		<result property="branch_nm" column="branch_nm"/>
 		<collection property="personalList" resultMap="atlctPersonalMap" />
 	</resultMap>
@@ -65,50 +66,65 @@
 		<result property="class_fee" column="class_fee"/>
 		<result property="ex_charge" column="ex_charge"/>
 	</resultMap>
-	 <!-- 
-	<resultMap type="com.culture.demo.domain.AtlctDTO" id="atlctMap" >
-		<collection property="personalList" resultMap="atlctPersonalMap" />
-	</resultMap>
-	<resultMap type="com.culture.demo.domain.AtlctPersonalDTO" id="atlctPersonalMap" />
-	 -->
 	<select id="selectAtlctList" parameterType="map" resultMap="atlctMap">
-		SELECT co.order_sq, TO_CHAR(co.order_dt, 'YYYY.MM.DD HH24:MI') order_dt, co.order_amt, co.add_point, co.total_amt                
-		       , od.order_detail_sq, od.children_nm, TO_CHAR(od.cancel_dt, 'YYYY.MM.DD HH24:MI') cancel_dt, od.cancel_amt, ors.receipt_status, ors.receipt_status_id, cr.cancel_reason
-		       , dc.detail_class_sq, c.branch_id, b.branch_nm   
-		       , TO_CHAR(cs.schedule_start_dt, 'YYYY.MM.DD')||' ~ '||TO_CHAR(cs.schedule_end_dt, 'YYYY.MM.DD')
-		       		||' ('||DECODE(dc.mon,'Y','월','')||DECODE(dc.tue,'Y','화','')||DECODE(dc.wed,'Y','수','')||DECODE(dc.thu,'Y','목','')||DECODE(dc.fri,'Y','금','')||DECODE(dc.sat,'Y','토','')||DECODE(dc.sun,'Y','일','') ||')'
-		       		||SUBSTR(dc.start_time,1,2)||':'||SUBSTR(dc.start_time,3,2)||' ~ '||SUBSTR(dc.end_time,1,2)||':'||SUBSTR(dc.end_time,3,2)
-		       		||' /'||dc.class_cnt||'회'  class_schedule        
-		       , TO_CHAR(cs.open_year, 'YYYY') open_year, cs.open_smst_id, cs.class_fee, cs.ex_charge, s.smst_nm, c.class_nm, m.name , c.member_sq                
-		FROM class_order co RIGHT JOIN order_detail od 			ON co.order_sq=od.order_sq                
-		                    LEFT JOIN order_receipt_status ors 	ON od.receipt_status_id = ors.receipt_status_id                
-		                    LEFT JOIN detail_class dc 			ON od.detail_class_sq = dc.detail_class_sq                
-		                    LEFT JOIN class_by_semester cs 		ON dc.class_semester_sq = cs.class_semester_sq                
-		                    LEFT JOIN class c 					ON cs.class_id = c.class_id                
-		                    LEFT JOIN member m 					ON c.member_sq = m.member_sq                
-		                    LEFT JOIN branch b 					ON c.branch_id = b.branch_id                
-		                    LEFT JOIN semester s 				ON cs.open_smst_id = s.open_smst_id                
-		                    LEFT JOIN cancel_reason cr          ON od.cancel_reason_id = cr.cancel_reason_id                
-		WHERE co.member_sq = #{member_sq}
 		<choose>
-			<!-- 주문 상세 조회 -->
-			<when test="order_sq > 0"> 
-				AND co.order_sq = #{order_sq}
+			<when test='frmSearchDTO.atlctRsvNo == 0'>
+				SELECT *
+				FROM (
+					SELECT COUNT(DISTINCT co.order_sq) OVER() tot_cnt
+					       , DENSE_RANK() OVER( ORDER BY co.order_sq DESC ) rank
+						   , 
 			</when>
-			<!-- 주문 목록 조회 -->
-			<otherwise> 
-				AND ors.receipt_status_id <if test="frmSearchDTO.type.equals('rfnd')">NOT</if> IN (4)
-				<!-- 필터 -->
-				<if test="!frmSearchDTO.yy.equals('')">
-					AND TO_CHAR(cs.open_year, 'YYYY') = #{frmSearchDTO.yy} 
-					<if test="frmSearchDTO.lectSmsterCd > 0"> AND cs.open_smst_id = #{frmSearchDTO.lectSmsterCd} </if>
-				</if>
-				<!-- 검색 -->
-				<if test="!frmSearchDTO.q.equals('')">
-					AND ( INSTR(c.class_nm, #{frmSearchDTO.q}) > 0   OR   INSTR(TO_CHAR(co.order_sq),#{frmSearchDTO.q}) > 0 )
-				</if>
+			<otherwise>
+				SELECT
 			</otherwise>
 		</choose>
-		ORDER BY co.order_sq DESC
+					 co.order_sq 
+				   , TO_CHAR(co.order_dt, 'YYYY.MM.DD HH24:MI') order_dt
+				   , co.order_amt, co.add_point, co.total_amt                
+			       , od.order_detail_sq, od.children_nm, TO_CHAR(od.cancel_dt, 'YYYY.MM.DD HH24:MI') cancel_dt, od.cancel_amt, ors.receipt_status, ors.receipt_status_id, cr.cancel_reason
+			       , dc.detail_class_sq, c.branch_id, b.branch_nm   
+			       , TO_CHAR(cs.schedule_start_dt, 'YYYY.MM.DD')||' ~ '||TO_CHAR(cs.schedule_end_dt, 'YYYY.MM.DD')
+			       		||' ('||DECODE(dc.mon,'Y','월','')||DECODE(dc.tue,'Y','화','')||DECODE(dc.wed,'Y','수','')||DECODE(dc.thu,'Y','목','')||DECODE(dc.fri,'Y','금','')||DECODE(dc.sat,'Y','토','')||DECODE(dc.sun,'Y','일','') ||')'
+			       		||SUBSTR(dc.start_time,1,2)||':'||SUBSTR(dc.start_time,3,2)||' ~ '||SUBSTR(dc.end_time,1,2)||':'||SUBSTR(dc.end_time,3,2)
+			       		||' /'||dc.class_cnt||'회'  class_schedule        
+			       , TO_CHAR(cs.open_year, 'YYYY') open_year, cs.open_smst_id, cs.class_fee, cs.ex_charge, s.smst_nm, c.class_nm, m.name teacher_nm, c.member_sq                
+			FROM class_order co RIGHT JOIN order_detail od 			ON co.order_sq=od.order_sq                
+			                    LEFT JOIN order_receipt_status ors 	ON od.receipt_status_id = ors.receipt_status_id                
+			                    LEFT JOIN detail_class dc 			ON od.detail_class_sq = dc.detail_class_sq                
+			                    LEFT JOIN class_by_semester cs 		ON dc.class_semester_sq = cs.class_semester_sq                
+			                    LEFT JOIN class c 					ON cs.class_id = c.class_id                
+			                    LEFT JOIN member m 					ON c.member_sq = m.member_sq                
+			                    LEFT JOIN branch b 					ON c.branch_id = b.branch_id                
+			                    LEFT JOIN semester s 				ON cs.open_smst_id = s.open_smst_id                
+			                    LEFT JOIN cancel_reason cr          ON od.cancel_reason_id = cr.cancel_reason_id                
+			WHERE co.member_sq = #{member_sq}
+			<choose>
+				<!-- 주문 상세 조회 -->
+				<when test='frmSearchDTO.atlctRsvNo > 0'> 
+					AND co.order_sq = #{frmSearchDTO.atlctRsvNo}
+				</when>
+				<!-- 주문 목록 조회 -->
+				<otherwise> 
+					AND ors.receipt_status_id <if test='frmSearchDTO.type.equals("cmplt")'>NOT</if> IN (4)
+					<!-- 필터 -->
+					<if test='!frmSearchDTO.yy.equals("")'>
+						AND TO_CHAR(cs.open_year, 'YYYY') = #{frmSearchDTO.yy} 
+						<if test="frmSearchDTO.lectSmsterCd > 0"> AND cs.open_smst_id = #{frmSearchDTO.lectSmsterCd} </if>
+					</if>
+					<!-- 검색 -->
+					<if test='!frmSearchDTO.q.equals("")'>
+						<![CDATA[
+							AND ( INSTR(c.class_nm, #{frmSearchDTO.q}) > 0   OR   INSTR(TO_CHAR(co.order_sq),#{frmSearchDTO.q}) > 0 )
+						]]>
+					</if>
+				</otherwise>
+			</choose>
+		<if test='frmSearchDTO.atlctRsvNo == 0'>
+			<![CDATA[
+				)
+				WHERE #{frmSearchDTO.initIndex}*(#{frmSearchDTO.pageIndex}-1) <= rank AND rank <= #{frmSearchDTO.pageIndex}*#{frmSearchDTO.listCnt}
+			]]>
+		</if>
 	</select>	
 </mapper>
