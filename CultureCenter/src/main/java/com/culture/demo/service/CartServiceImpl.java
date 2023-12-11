@@ -130,7 +130,12 @@ public class CartServiceImpl implements CartService{
 		}
 		return html.toString();
 	}
+
 	
-
-
+	// 장바구니 삭제
+	@Override
+	public int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException {
+		
+		return cartMapper.delete(member_sq,type,cartSeqno);
+	}
 }

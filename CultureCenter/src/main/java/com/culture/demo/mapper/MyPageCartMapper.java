@@ -14,6 +14,8 @@ public interface MyPageCartMapper {
 	
 	// 장바구니 추가
 	public int insert(@Param("member_sq")int member_sq,@Param("detail_class_sq")int detail_class_sq) throws ClassNotFoundException, SQLException;
-	
+
 	// 장바구니 삭제
+	public int delete(@Param("member_sq")int member_sq,@Param("type")String type,@Param("cartSeqno")String cartSeqno) throws ClassNotFoundException, SQLException;
+	
 }

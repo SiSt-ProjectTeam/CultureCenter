@@ -127,7 +127,7 @@ var fnc = (function() {
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
-    
+ 
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -219,10 +219,10 @@ var fnc = (function() {
             if (typeof sync == "undefined") {
                 sync = true;
             }
-			
+			console.log(data);
 			//넘어온 data json객체로
 			var jsonData = JSON.stringify(data);	
-			
+			console.log(jsonData);
             jQuery.ajax({
                 url: url,
                 type: "post",
