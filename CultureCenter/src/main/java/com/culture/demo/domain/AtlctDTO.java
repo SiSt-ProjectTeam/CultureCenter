@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtlctDTO {
+		private int tot_cnt;					// 총 강좌수
 	    
 	    // 주문  class_order
 	    private int order_sq;					// 주문번호
@@ -37,7 +38,7 @@ public class AtlctDTO {
 		private String teacher_nm;				// 강사 이름
 		
 	    // 지점 branch
-	 	private int branch_tp_id;				// 지점 유형 아이디
+	 	private int branch_id;				// 지점 유형 아이디
 	 	private String branch_nm;				// 지점명
 
 	 	private List<AtlctPersonalDTO> personalList;

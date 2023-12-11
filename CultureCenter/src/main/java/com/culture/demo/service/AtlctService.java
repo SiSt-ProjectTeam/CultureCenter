@@ -12,15 +12,13 @@ public interface AtlctService {
 	// 2. 수강 취소하기
 	boolean cancelAtlct(int memberSq, int orderSq, String orderDetailSqs, int cancelAmt, int cancelReasonId) throws SQLException;
 
-	// 3.
+	// 3. 수강내역 조회
+	ArrayList<AtlctDTO> getAtlctList(FrmSearchDTO frmSearchDTO , int memberSq) throws SQLException;  
+	
+	// 3-1. 모두 취소되었는지 확인
+	boolean allRefundCheck(int atlctRsvNo) throws SQLException;
 		
-	// 4. 수강상세내역  조회
-	AtlctDTO getAtlctDetail(FrmSearchDTO frmSearchDTO, int member_sq, int order_sq) throws SQLException;
-		
-	// 5. 수강내역 조회
-	ArrayList<AtlctDTO> getAtlctList( FrmSearchDTO frmSearchDTO , int memberSq, int order_sq ) throws SQLException;   
-		
-	// 6. 수강내역 html 생성
-	String createAtlctHtml( FrmSearchDTO frmSearchDTO, int memberSq, int order_sq ) throws SQLException;
+	// 4. 수강내역 html 생성
+	String createAtlctHtml(FrmSearchDTO frmSearchDTO, int memberSq) throws SQLException;
 	
 }
