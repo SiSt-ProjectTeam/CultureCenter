@@ -96,8 +96,7 @@ var common = (function(){
 		else
 		{
 			var paramObj = {
-					itrstBrchCd : slctBrchBtn.data("cd"),
-					itrstBrchNm	: slctBrchBtn.data("nm")
+					itrstBrchCd : slctBrchBtn.data("cd")
 			}
 			
 			fnc.paramAjax(function(data) {
@@ -117,6 +116,7 @@ var common = (function(){
 			if(data)
 			{
 				$(".mypage_pop_area").find("#name").text(data.name);
+				$(".mypage_pop_area").find("#Intrbranch").text(data.branch_nm);
 				//$(".mypage_pop_area").find("#cpnCnt").text(data.cpnCnt);
 				$(".mypage_pop_area").find("#cartCnt").text(data.basket_cnt);
 				$(".mypage_pop_area").find("#pointSpan").text(data.point);

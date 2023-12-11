@@ -12,4 +12,9 @@
 		WHERE member_sq = #{memberSq}
 	</select>
 		
+	<update id="updateInterestBranch">
+		UPDATE member
+		SET branch_id = #{itrstBrchCd}
+		WHERE member_sq = #{member_sq}
+	</update>
 </mapper>

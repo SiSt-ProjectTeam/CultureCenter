@@ -23,4 +23,12 @@ public class MemberServiceImpl implements MemberService {
 		return this.memberMapper.selectMypageInfo(memberSq);
 	}
 
+	// 2. 회원 관심 지점 수정
+	@Override
+	public int correctionInterestBranch(int member_sq, int itrstBrchCd) {
+		log.info("> MemberServiceImpl.correctionInterestBranch...");
+		
+		return this.memberMapper.updateInterestBranch(member_sq, itrstBrchCd);
+	}
+
 }

@@ -160,7 +160,7 @@
 						<div class="mypage_info_w">
 							<a href="javascript:common.showItrstPop()" class="mypage_info">
 								<p class="f_caption2">관심지점</p>
-								<p class="info"><span>잠실점</span></p>
+								<p class="info"><span id="Intrbranch"></span></p>
 							</a>
 							<a href="/mypage/coupon/list.do" class="mypage_info">
 								<p class="f_caption2">나의 쿠폰</p>
@@ -240,14 +240,14 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="2" data-nm="잠실점" class="place_btn brchBtn "><span>잠실점</span></a> 
 										<a href="javascript:" data-cd="1" data-nm="본점" class="place_btn brchBtn "><span>본점</span></a> 
-										<a href="javascript:" data-cd="0013" data-nm="강남점" class="place_btn brchBtn "><span>강남점</span></a> 
-										<a href="javascript:" data-cd="0028" data-nm="건대스타시티점" class="place_btn brchBtn "><span>건대스타시티점</span></a> 
-										<a href="javascript:" data-cd="0006" data-nm="관악점" class="place_btn brchBtn "><span>관악점</span></a> 
-										<a href="javascript:" data-cd="0340" data-nm="김포공항점" class="place_btn brchBtn "><span>김포공항점</span></a> 
-										<a href="javascript:" data-cd="0022" data-nm="노원점" class="place_btn brchBtn "><span>노원점</span></a> 
-										<a href="javascript:" data-cd="0026" data-nm="미아점" class="place_btn brchBtn "><span>미아점</span></a> 
-										<a href="javascript:" data-cd="0010" data-nm="영등포점" class="place_btn brchBtn "><span>영등포점</span></a> 
-										<a href="javascript:" data-cd="0004" data-nm="청량리점" class="place_btn brchBtn "><span>청량리점</span></a>
+										<a href="javascript:" data-cd="7" data-nm="강남점" class="place_btn brchBtn "><span>강남점</span></a> 
+										<a href="javascript:" data-cd="8" data-nm="건대스타시티점" class="place_btn brchBtn "><span>건대스타시티점</span></a> 
+										<a href="javascript:" data-cd="9" data-nm="관악점" class="place_btn brchBtn "><span>관악점</span></a> 
+										<a href="javascript:" data-cd="10" data-nm="김포공항점" class="place_btn brchBtn "><span>김포공항점</span></a> 
+										<a href="javascript:" data-cd="11" data-nm="노원점" class="place_btn brchBtn "><span>노원점</span></a> 
+										<a href="javascript:" data-cd="12" data-nm="미아점" class="place_btn brchBtn "><span>미아점</span></a> 
+										<a href="javascript:" data-cd="13" data-nm="영등포점" class="place_btn brchBtn "><span>영등포점</span></a> 
+										<a href="javascript:" data-cd="14" data-nm="청량리점" class="place_btn brchBtn "><span>청량리점</span></a>
 									</div>
 								</div>
 							</div>
@@ -259,14 +259,14 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="3" data-nm="인천점" class="place_btn brchBtn "><span>인천점</span></a> 
 										<a href="javascript:" data-cd="4" data-nm="동탄점" class="place_btn brchBtn "><span>동탄점</span></a> 
-										<a href="javascript:" data-cd="0335" data-nm="구리점" class="place_btn brchBtn "><span>구리점</span></a> 
-										<a href="javascript:" data-cd="0008" data-nm="분당점" class="place_btn brchBtn "><span>분당점</span></a> 
-										<a href="javascript:" data-cd="0349" data-nm="수원점" class="place_btn brchBtn "><span>수원점</span></a> 
-										<a href="javascript:" data-cd="0336" data-nm="안산점" class="place_btn brchBtn "><span>안산점</span></a> 
-										<a href="javascript:" data-cd="0011" data-nm="일산점" class="place_btn brchBtn "><span>일산점</span></a> 
-										<a href="javascript:" data-cd="0334" data-nm="중동점" class="place_btn brchBtn "><span>중동점</span></a> 
-										<a href="javascript:" data-cd="0341" data-nm="평촌점" class="place_btn brchBtn "><span>평촌점</span></a> 
-										<a href="javascript:" data-cd="0350" data-nm="롯데몰광명점" class="place_btn brchBtn "><span>롯데몰광명점</span></a>
+										<a href="javascript:" data-cd="15" data-nm="구리점" class="place_btn brchBtn "><span>구리점</span></a> 
+										<a href="javascript:" data-cd="16" data-nm="분당점" class="place_btn brchBtn "><span>분당점</span></a> 
+										<a href="javascript:" data-cd="17" data-nm="수원점" class="place_btn brchBtn "><span>수원점</span></a> 
+										<a href="javascript:" data-cd="18" data-nm="안산점" class="place_btn brchBtn "><span>안산점</span></a> 
+										<a href="javascript:" data-cd="19" data-nm="일산점" class="place_btn brchBtn "><span>일산점</span></a> 
+										<a href="javascript:" data-cd="20" data-nm="중동점" class="place_btn brchBtn "><span>중동점</span></a> 
+										<a href="javascript:" data-cd="21" data-nm="평촌점" class="place_btn brchBtn "><span>평촌점</span></a> 
+										<a href="javascript:" data-cd="22" data-nm="롯데몰광명점" class="place_btn brchBtn "><span>롯데몰광명점</span></a>
 									</div>
 								</div>
 							</div>
@@ -278,18 +278,18 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="5" data-nm="부산본점" class="place_btn brchBtn "><span>부산본점</span></a> 
 										<a href="javascript:" data-cd="6" data-nm="광복점" class="place_btn brchBtn "><span>광복점</span></a> 
-										<a href="javascript:" data-cd="0007" data-nm="광주점" class="place_btn brchBtn "><span>광주점</span></a> 
-										<a href="javascript:" data-cd="0023" data-nm="대구점" class="place_btn brchBtn "><span>대구점</span></a> 
-										<a href="javascript:" data-cd="0012" data-nm="대전점" class="place_btn brchBtn "><span>대전점</span></a> 
-										<a href="javascript:" data-cd="0016" data-nm="동래점" class="place_btn brchBtn "><span>동래점</span></a> 
-										<a href="javascript:" data-cd="0354" data-nm="마산점" class="place_btn brchBtn "><span>마산점</span></a> 
-										<a href="javascript:" data-cd="0024" data-nm="상인점" class="place_btn brchBtn "><span>상인점</span></a> 
-										<a href="javascript:" data-cd="0027" data-nm="센텀시티점" class="place_btn brchBtn "><span>센텀시티점</span></a> 
-										<a href="javascript:" data-cd="0015" data-nm="울산점" class="place_btn brchBtn "><span>울산점</span></a> 
-										<a href="javascript:" data-cd="0025" data-nm="전주점" class="place_btn brchBtn "><span>전주점</span></a> 
-										<a href="javascript:" data-cd="0017" data-nm="창원점" class="place_btn brchBtn "><span>창원점</span></a> 
-										<a href="javascript:" data-cd="0014" data-nm="포항점" class="place_btn brchBtn "><span>포항점</span></a> 
-										<a href="javascript:" data-cd="0361" data-nm="롯데몰군산점" class="place_btn brchBtn "><span>롯데몰군산점</span></a>
+										<a href="javascript:" data-cd="23" data-nm="광주점" class="place_btn brchBtn "><span>광주점</span></a> 
+										<a href="javascript:" data-cd="24" data-nm="대구점" class="place_btn brchBtn "><span>대구점</span></a> 
+										<a href="javascript:" data-cd="25" data-nm="대전점" class="place_btn brchBtn "><span>대전점</span></a> 
+										<a href="javascript:" data-cd="26" data-nm="동래점" class="place_btn brchBtn "><span>동래점</span></a> 
+										<a href="javascript:" data-cd="27" data-nm="마산점" class="place_btn brchBtn "><span>마산점</span></a> 
+										<a href="javascript:" data-cd="28" data-nm="상인점" class="place_btn brchBtn "><span>상인점</span></a> 
+										<a href="javascript:" data-cd="29" data-nm="센텀시티점" class="place_btn brchBtn "><span>센텀시티점</span></a> 
+										<a href="javascript:" data-cd="30" data-nm="울산점" class="place_btn brchBtn "><span>울산점</span></a> 
+										<a href="javascript:" data-cd="31" data-nm="전주점" class="place_btn brchBtn "><span>전주점</span></a> 
+										<a href="javascript:" data-cd="32" data-nm="창원점" class="place_btn brchBtn "><span>창원점</span></a> 
+										<a href="javascript:" data-cd="33" data-nm="포항점" class="place_btn brchBtn "><span>포항점</span></a> 
+										<a href="javascript:" data-cd="34" data-nm="롯데몰군산점" class="place_btn brchBtn "><span>롯데몰군산점</span></a>
 									</div>
 								</div>
 							</div>
