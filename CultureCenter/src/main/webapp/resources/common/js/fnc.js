@@ -856,8 +856,13 @@ console.log("Request URL: " + url);
     // 장바구니
     var cartBtn = function(brchCd, yy, lectSmsterCd, lectCd, lectStatCd) {
         fnc.bscAjax(function(data) {
+        	console.log(data);
             if (data.lgnYn) {
                 fnc.paramAjax(function(data) {
+                	console.log(data);
+                	//console.log(data.rtnMap);
+                	//console.log(data.rtnMap.result);
+                	//console.log(data.rtnMap.msg);
                     var rtnMap = data.rtnMap;
                     if (rtnMap.result == "S") {
 

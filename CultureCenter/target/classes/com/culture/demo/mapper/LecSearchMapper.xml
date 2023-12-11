@@ -11,7 +11,5 @@
 		FROM branch b JOIN branch_type t ON b.branch_tp_id = t.branch_tp_id
 	</select>
 	
-
 	
-
 </mapper>

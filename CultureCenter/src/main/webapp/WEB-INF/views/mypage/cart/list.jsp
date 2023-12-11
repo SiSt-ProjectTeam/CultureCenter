@@ -7,6 +7,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 -->
 <div class="cont_wrap shopbag_w">
 
+
 	<form id="frm_search" name="frm_search">
 		<input type="hidden" id="pageIndex" name="pageIndex" value="${params.pageIndex}" />
 		<input type="hidden" id="brchCd" name="brchCd" value="${params.brchCd}" />
@@ -45,6 +46,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 											목록 <span class="point"></span>
 										</p>
 									</div>
+									<!-- 지점 -->
 									<div class="right">
 										<div class="btn_area">
 											<div class="btn_wrap">
@@ -61,79 +63,25 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 														<a href="javascript:" role="button" class="close"></a>
 													</div>
 													<div class="scroll_wrap">
-														<a class="txt f_caption2 on"
-															href="javascript:mypage_cart.changeBrchCd('', '')">전체지점</a>
+														<a class="txt f_caption2 on" href="javascript:mypage_cart.changeBrchCd('0','')">전체지점</a>
 														<p class="sub_tit only_mobile">서울점</p>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0002', '잠실점')">잠실점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0001', '본점')">본점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0013', '강남점')">강남점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0028', '건대스타시티점')">건대스타시티점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0006', '관악점')">관악점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0340', '김포공항점')">김포공항점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0022', '노원점')">노원점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0026', '미아점')">미아점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0010', '영등포점')">영등포점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0004', '청량리점')">청량리점</a>
+														<c:forEach items="${brchList}" var="brchDto">
+															    <c:if test="${brchDto.branch_tp_id eq 1}">
+																	<a class="txt f_caption2"  href="javascript:mypage_cart.changeBrchCd('${brchDto.branch_id}', '${brchDto.branch_nm}')">${brchDto.branch_nm}</a>
+																</c:if>
+														</c:forEach>
 														<p class="sub_tit only_mobile">수도권점</p>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0344', '인천점')">인천점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0399', '동탄점')">동탄점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0335', '구리점')">구리점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0008', '분당점')">분당점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0349', '수원점')">수원점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0336', '안산점')">안산점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0011', '일산점')">일산점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0334', '중동점')">중동점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0341', '평촌점')">평촌점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0350', '롯데몰광명점')">롯데몰광명점</a>
+														<c:forEach items="${brchList}" var="brchDto">
+															    <c:if test="${brchDto.branch_tp_id eq 2}">
+																	<a class="txt f_caption2"  href="javascript:mypage_cart.changeBrchCd('${brchDto.branch_id}', '${brchDto.branch_nm}')">${brchDto.branch_nm}</a>
+																</c:if>
+														</c:forEach>
 														<p class="sub_tit only_mobile">지방점</p>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0005', '부산본점')">부산본점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0333', '광복점')">광복점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0007', '광주점')">광주점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0023', '대구점')">대구점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0012', '대전점')">대전점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0016', '동래점')">동래점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0354', '마산점')">마산점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0024', '상인점')">상인점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0027', '센텀시티점')">센텀시티점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0015', '울산점')">울산점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0025', '전주점')">전주점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0017', '창원점')">창원점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0014', '포항점')">포항점</a>
-														<a class="txt f_caption2 "
-															href="javascript:mypage_cart.changeBrchCd('0361', '롯데몰군산점')">롯데몰군산점</a>
+														<c:forEach items="${brchList}" var="brchDto">
+															    <c:if test="${brchDto.branch_tp_id eq 3}">
+																	<a class="txt f_caption2"  href="javascript:mypage_cart.changeBrchCd('${brchDto.branch_id}', '${brchDto.branch_nm}')">${brchDto.branch_nm}</a>
+																</c:if>
+														</c:forEach>
 													</div>
 												</div>
 											</div>
@@ -158,7 +106,6 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 
 					<!-- 장바구니 목록 -->
 					<div class="course_history_w" data-mbr-grde-cd="" data-mvg-blstr-cd=""></div>
-
 
 					<!-- 장바구니 비우기 -->
 					<div class="remove_btn_w">
@@ -231,4 +178,10 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 	<input type="hidden" name="optnUseYn" value="" />
 </form>
 
+<script>
+fnc.cartBtn();	
+</script>
+
 <script type="text/javascript" src="/resources/common/js/mypage/mypage_cart.js"></script>
+
+
