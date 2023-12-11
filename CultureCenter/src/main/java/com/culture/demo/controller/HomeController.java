@@ -29,7 +29,7 @@ public class HomeController {
 
 	ClassDTO dto = null;
 
-	@GetMapping({"/index.do", })
+	@GetMapping({"/index.do","/"})
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
