@@ -11,13 +11,6 @@ var reviewCtrl = (function(){
         $("input[name=orderSet]").val($("#orderSet").val());
         $("input[name=brchCd]").val($("#brchCd").val());
     }
-/* 수정하는중
-    var prcs_param = function(){
-        $("input[name=searchWord]").val($("#searchWord").val());
-        $("input[name=orderSet]").val($("#orderSet").val());
-        $("input[name=brchCd]").val($("#brchCd").val());
-    }
-*/
     var fn_search = function(){
         // form param setting
         prcs_param();
