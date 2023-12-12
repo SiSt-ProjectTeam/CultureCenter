@@ -88,18 +88,18 @@ var reviewCtrl = (function(){
     }
 
     var init_list = function(){
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
-	var searchMore = null;
+		var pathname = "/" + window.location.pathname.split("/")[1];
+		var origin = window.location.origin;	
+		var contextPath = origin + pathname;
+		
+		var searchMore = null;
 
         // 수강후기 리스트 
 		var initObj = {
             form : $("#reviewForm"),
             container : $("#listContainer"),
             moreBtn : $("#moreBtn"),
-            url : contextPath+"/community/review/list.ajax",
+            url : "/community/review/list.ajax",
             pageIndex : $("#reviewForm #pageIndex").val(),
             listCnt : $("#reviewForm #listCnt").val(),
             callbackFunc : function() {
@@ -141,7 +141,7 @@ var reviewCtrl = (function(){
 
     $(document).ready(function() {
         pageType = $("#reviewForm").data("pageType");
-
+        
         if(pageType == "list"){
 		    init_list();
         }
@@ -160,4 +160,4 @@ var reviewCtrl = (function(){
         queryOnkeyup: fn_query_onkeyup,
         registOnkeyup: fn_regist_onkeyup,
     }
-});
+}());

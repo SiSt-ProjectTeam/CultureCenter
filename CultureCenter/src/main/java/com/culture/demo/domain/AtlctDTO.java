@@ -1,5 +1,7 @@
 package com.culture.demo.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtlctDTO {
+		private int tot_cnt;					// 총 강좌수
 	    
 	    // 주문  class_order
 	    private int order_sq;					// 주문번호
@@ -18,14 +21,12 @@ public class AtlctDTO {
 
 		// 세부강좌 테이블  detail_class
 		private int detail_class_sq;			// 세부 강좌 번호
-		private String class_time;				// 강의 시간
-		private int class_cnt;					// 강의 횟수
+		private String class_schedule;			// 강의 기간 / 요일 / 시간 / 횟수
 	    
 		// 학기별 강좌 테이블  class_by_semester
 		private String open_year;				// 개강 연도
 		private int open_smst_id;				// 개강 학기 아이디
 		private String smst_nm;					// 개강 학기명
-		private String class_schedule;			// 강의 기간
 		private int class_fee;					// 수강료
 		private int ex_charge;					// 재료비/대여료
 	    
@@ -37,7 +38,8 @@ public class AtlctDTO {
 		private String teacher_nm;				// 강사 이름
 		
 	    // 지점 branch
-	 	private int branch_tp_id;				// 지점 유형 아이디
+	 	private int branch_id;				// 지점 유형 아이디
 	 	private String branch_nm;				// 지점명
 
+	 	private List<AtlctPersonalDTO> personalList;
 } // class

@@ -6,10 +6,11 @@
 <mapper namespace="com.culture.demo.mapper.ReviewMapper">
 	
 	<!-- 후기 목록조회 -->
+	
 	<select id="getReviewList" parameterType="map" resultType="com.culture.demo.domain.ReviewDTO">
-SELECT review_content, member_sq, review_sq, branch_id, branch_nm, review_title, class_id, class_nm, name, rating, date_writingout_dt, comment_cnt, open_smst_id, class_img 
+SELECT review_content, member_sq, review_sq, branch_tp_id, branch_id, branch_nm, review_title, class_id, class_nm, name, rating, date_writingout_dt, comment_cnt, open_smst_id, class_img 
 FROM (
-    SELECT r.review_content, r.member_sq, r.review_sq, b.branch_id, b.branch_nm, r.review_title, c.class_id, c.class_nm, 
+    SELECT r.review_content, r.member_sq, r.review_sq, b.branch_tp_id, b.branch_id, b.branch_nm, r.review_title, c.class_id, c.class_nm, 
            CASE  
                WHEN LENGTH(m.name) = 2 THEN  
                    SUBSTR(m.name, 1, 1) || '*'  
@@ -24,46 +25,34 @@ FROM (
     JOIN branch b ON c.branch_id = b.branch_id 
     <where>
 
-            <if test="branchNm == null or branchNm.equals('')">
-           		 b.branch_nm = #{branchNm}
-                <if test="q != null and q != '' ">
-                  (review_title LIKE '%' || #{q} || '%' OR review_content LIKE '%' || #{q} || '%')
-                </if>
+            <if test="branch_id != null and branch_id != 0">
+           		 AND b.branch_id = #{branch_id}
             </if>
+                <if test="q != null and q != '' ">
+                  AND (review_title LIKE '%' || #{q} || '%' OR review_content LIKE '%' || #{q} || '%')
+                </if>
      </where>        
-            <if test="orderSet == A">   
+            <if test="orderSet == 'A'">   
             	ORDER BY date_writingout_dt DESC 
             </if>
                   		
-         	<if test="orderSet == B">
+         	<if test="orderSet == 'B'">
             	ORDER BY rating DESC         				
          	</if>   
          ) a 
+         <![CDATA[
+         ) 
+         WHERE (#{reviewDTO.pageIndex}-1)*#{reviewDTO.listCnt} + 1 <= rank AND rank <= #{reviewDTO.pageIndex}*#{reviewDTO.listCnt}
+      	]]>
 	</select>
-	
-<!--           	WHERE NUM BETWEEN 1 + ( #{param1} -1)*5) AND (5 + (#{param1} -1)*5) -->	
-
-	<!-- 수강후기 전체 갯수 -->
-<!-- 
-	<select id="getCount" resultType="Integer">
-		SELECT COUNT(r.review_sq) AS review_count
-				 FROM review r LEFT JOIN detail_class d ON r.detail_class_sq = d.detail_class_sq
-				                    JOIN class_by_semester cbs ON d.class_semester_sq = cbs.class_semester_sq 
-				                    JOIN class c ON cbs.class_id = c.class_id 
-				                    JOIN branch b ON b.branch_id = c.branch_id 
-				<if test="branchNm != null">
-				 	WHERE b.branch_nm = {param1}
-				</if>
-	</select>
- -->	
  
 	<!-- 지점 선택 -->
-  
+  <!-- 
 	<select id="getBranch" resultType="com.culture.demo.domain.ReviewDTO">
 		SELECT branch_nm
         FROM branch
 	</select>
-
+ -->
 	<!--  -->
 	
 </mapper>

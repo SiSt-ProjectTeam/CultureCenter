@@ -16,7 +16,7 @@ public class ReviewDTO {
    private int teacherMember_sq; // 강사(회원)번호
    private int member_sq; // 회원번호
    private int rating; // 평점
-   private Date dateWritingout_dt; // 작성날짜
+   private Date date_writingout_dt; // 작성날짜
    private String review_title; // 후기제목
    private String review_content; // 후기내용
    private String review_img; // 후기이미지
@@ -27,7 +27,7 @@ public class ReviewDTO {
    private String name; // 이름(중간에 *표시)
    private String real_name; // 이름
    private String branch_nm; // 지점명
-   
+   private int branch_tp_id;
 
    private String smst_nm; // 학기
    private String class_nm; // 강좌명
@@ -47,17 +47,12 @@ public class ReviewDTO {
    private String class_img; // 강좌썸네일
    private int open_smst_id; // 학기아이디
    
-   // formSearch
+   // frmSearch
    private String pageIndex;
-   private String type;
    private String lectSmsterCd;
-   private String yy;
    private String q;
-   private String atlctRsvNo;
    private String initIndex;
    private String listCnt;
    private String orderSet;
-   
-   private String prevSesterYy;
-   private String prevSesterLectSmsterCd;
+ 
 }

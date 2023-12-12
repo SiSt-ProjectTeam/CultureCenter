@@ -1,7 +1,4 @@
 var mypage_atlct = (function(){
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;
-	var contextPath = origin + pathname;
 	
 	"use strict";
 	
@@ -104,7 +101,7 @@ var mypage_atlct = (function(){
 				$('#frm_update input#actlAtlctNpleSeqno').val(arrActlAtlctNpleSeqno.join(','));
 				if(partRfndPopupYn){
 					// 환불 팝업
-					fnc.frmAjax(fn_part_cncl_popup_callback, contextPath+"/mypage/atlct/getPartRfndData.ajax", $('#frm_update'), "html");
+					fnc.frmAjax(fn_part_cncl_popup_callback, "/mypage/atlct/getPartRfndData.ajax", $('#frm_update'), "html");
 				}else{
 					// 결제취소 팝업
 					$('#rfnd30 div.open_area a.btn_open span').text("선택");
@@ -180,7 +177,7 @@ var mypage_atlct = (function(){
 					$('#frm_update').find('input[name=rfndStatCd]').val("50");
 				}
 				$('#frm_update').attr('method', 'POST');
-				$('#frm_update').attr('action', contextPath+"/payment/paymentCancel.do");
+				$('#frm_update').attr('action', "/payment/paymentCancel.do");
 				$('#frm_update').submit();
 			}
 		}else{
@@ -192,7 +189,7 @@ var mypage_atlct = (function(){
 	// 내역보기
 	var fn_move_dtl = function(atlctRsvNo){
 		$('#frm_search').find('input[name=atlctRsvNo]').val(atlctRsvNo);
-		$('#frm_search').attr('action', contextPath+'/mypage/atlct/view.do');
+		$('#frm_search').attr('action', '/mypage/atlct/view.do');
 		$('#frm_search').attr('method', 'GET');
 		$('#frm_search').submit();
 	}
@@ -202,7 +199,7 @@ var mypage_atlct = (function(){
 				form : $("#frm_search")
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/mypage/atlct/list.ajax"
+				, url : "/mypage/atlct/list.ajax"
 				, pageIndex : $("#frm_search #pageIndex").val()
 				, listCnt : $("#frm_search #listCnt").val()
 				, callbackFunc : function() {

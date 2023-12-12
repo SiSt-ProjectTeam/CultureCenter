@@ -26,27 +26,28 @@ public class ReviewServiceImpl implements ReviewService{
 		return this.ReviewMapper.getReivewList(frmSearchDTO);
 	}
 */
-	// 지점 가져오기
-	@Override
-	public List<ReviewDTO> getBranch(String branch_nm) throws SQLException {
-		log.info(">ReviewServiceImpl.getBranch() 호출");
-		return reviewMapper.getBranch(branch_nm);
-	}
 	
 	// 후기 정보 조회
+	/*
 	@Override
-	public List<ReviewDTO> getReviewList(int branch_id, FrmSearchDTO frmSearchDTO) throws SQLException {
+	public List<ReviewDTO> getReviewList(int branch_id,String orderSet, FrmSearchDTO frmSearchDTO) throws SQLException {
 		log.info(">ReviewServiceImpl.getReviewList() 호출");
-		return reviewMapper.getReviewList(branch_id, frmSearchDTO);
+		return reviewMapper.getReviewList(branch_id, orderSet, frmSearchDTO);
 	}
-
+	 */
 
 	// 후기 ajax html
 	@Override
-	public String ReviewHTML(int branch_id, FrmSearchDTO frmSearchDTO) throws SQLException {
+	public String ReviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException {
 		log.info(">ReviewServiceImpl.ReviewHTML() 호출");
+		
+		
+		int branch_id = frmSearchDTO.getBrchCd();
+		String orderSet = frmSearchDTO.getOrderSet();
+		String q = frmSearchDTO.getQ();
+		List<ReviewDTO> list = reviewMapper.getReviewList(orderSet, branch_id, q, frmSearchDTO);
+		
 		StringBuilder html = new StringBuilder();
-		List<ReviewDTO> list = getReviewList(branch_id, frmSearchDTO);
 		int totCnt = list.size(); // 게시물 총 갯수
 			
 			  if(list.isEmpty() ) {
@@ -69,8 +70,8 @@ public class ReviewServiceImpl implements ReviewService{
 									  html.append("		<div class=\"thum_wrap\">\r\n");
 									  html.append("			<div class=\"img_resize_w thum_box reverse\">\r\n");
 									  html.append("				<img id=\"review_img\"\r\n");
-									html.append("				src=\"/"+dto.getClass_img()+
-									  "\"alt=\""+dto.getClass_img()+"\">\r\n");
+									  html.append("				src=\"/"+dto.getClass_img()+
+															"\"alt=\""+dto.getClass_img()+"\">\r\n");
 									  html.append("			</div>\r\n"); html.append("		</div>\r\n");
 									  html.append("		<div class=\"txt_wrap\">\r\n");
 									  html.append("			<div class=\"thum_left\">\r\n");
@@ -83,12 +84,10 @@ public class ReviewServiceImpl implements ReviewService{
 									  +dto.getClass_nm()+"</p>\r\n"); html.append("			</div>\r\n");
 									  html.append("				<div class=\"thum_right\">\r\n");
 									  html.append("					<div class=\"star_rating\">\r\n");
-									  html.append("						<span class=\"star\">"+dto.getRating()+
-									  "</span>\r\n"); html.append("					</div>\r\n");
+									  html.append("						<span class=\"star\">"+dto.getRating()+"</span>\r\n"); html.append("					</div>\r\n");
 									  html.append("						<div class=\"type_div\">\r\n");
-									  html.append("							<p class=\"I\">"+dto.getName()+
-									  "</p>\r\n");
-									  html.append("							<p class=\"type f_caption2\">/*+dto.getDateWritingoutDt()+</p>\r\n");
+									  html.append("							<p class=\"type f_caption2\">"+dto.getName()+"</p>\r\n");
+									  html.append("							<p class=\"type f_caption2\">"+dto.getDate_writingout_dt()+"</p>\r\n");
 									  html.append("							<p class=\"comment_num f_caption2\">"+dto.getComment_cnt()+"</p>\r\n");
 									  html.append("						</div>\r\n");
 									  html.append("					</div>\r\n");
@@ -98,8 +97,7 @@ public class ReviewServiceImpl implements ReviewService{
 					  }
 			  }
 
-			String result = html.toString();
-			return result;
+			return html.toString();
 	}
 
 	

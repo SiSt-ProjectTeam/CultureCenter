@@ -1,0 +1,11 @@
+<svg id="delete_24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Rectangle" fill="#f8f8f8" stroke="#979797" stroke-miterlimit="10" stroke-width="1" opacity="0">
+    <rect width="24" height="24" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" fill="none"/>
+  </g>
+  <circle id="타원_1287" data-name="타원 1287" cx="10" cy="10" r="10" transform="translate(2 2)" fill="#bababa"/>
+  <g id="close_10" transform="translate(7 7)">
+    <rect id="사각형_7" data-name="사각형 7" width="10" height="10" fill="#fff" opacity="0"/>
+    <path id="합치기_13" data-name="합치기 13" d="M6.511,7.217,3.682,4.388.853,7.217a.5.5,0,1,1-.707-.707L2.975,3.681.147.853A.5.5,0,1,1,.854.146L3.682,2.974,6.51.147a.5.5,0,1,1,.707.707L4.389,3.681,7.218,6.511a.5.5,0,0,1-.707.707Z" transform="translate(1.318 1.319)" fill="#fff"/>
+  </g>
+</svg>

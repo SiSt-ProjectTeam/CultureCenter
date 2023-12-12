@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Button_graph_check_20" data-name="Button / graph / check_20" transform="translate(-253 -288)">
+    <rect id="사각형_2372" data-name="사각형 2372" width="20" height="20" transform="translate(253 288)" fill="#fff" opacity="0"/>
+    <g id="그룹_5290" data-name="그룹 5290" transform="translate(172.613 199.917)">
+      <rect id="사각형_2258" data-name="사각형 2258" width="1.5" height="14" rx="0.75" transform="translate(86.687 105.498) rotate(180)"/>
+      <rect id="사각형_26" data-name="사각형 26" width="1.5" height="7" rx="0.75" transform="translate(90.886 94.618) rotate(135)"/>
+      <rect id="사각형_27" data-name="사각형 27" width="1.5" height="7" rx="0.75" transform="translate(85.937 89.669) rotate(45)"/>
+    </g>
+    <g id="그룹_5525" data-name="그룹 5525" transform="translate(353.387 396.083) rotate(180)">
+      <rect id="사각형_2258-2" data-name="사각형 2258" width="1.5" height="14" rx="0.75" transform="translate(86.687 105.498) rotate(180)"/>
+      <rect id="사각형_26-2" data-name="사각형 26" width="1.5" height="7" rx="0.75" transform="translate(90.886 94.618) rotate(135)"/>
+      <rect id="사각형_27-2" data-name="사각형 27" width="1.5" height="7" rx="0.75" transform="translate(85.937 89.669) rotate(45)"/>
+    </g>
+  </g>
+</svg>

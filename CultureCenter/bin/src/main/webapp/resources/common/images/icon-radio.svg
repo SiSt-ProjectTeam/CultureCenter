@@ -1,0 +1,7 @@
+<svg id="radio" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="circle_out" data-name="circle out" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1">
+    <rect width="24" height="24" rx="12" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" fill="none"/>
+  </g>
+  <rect id="circle_inner" data-name="circle inner" width="8" height="8" rx="4" transform="translate(8 8)" fill="#fff" opacity="0"/>
+</svg>

@@ -8,9 +8,9 @@
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
     <input type="hidden" id="listCnt" name="listCnt" value="5"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
-    <input type="hidden" name="q" value="">
-    <input type="hidden" name="orderSet" value="" />
-    <input type="hidden" name="brchCd" value="" />
+    <input type="hidden" name="q" value="${params.q}">
+    <input type="hidden" name="orderSet" value="${params.orderSet}">
+    <input type="hidden" name="brchCd" value="${params.brchCd}">
 </form>
 
 <div class="cont_wrap">
@@ -217,55 +217,31 @@
                                                     <a href="javascript:" role="button" class="close"></a>
                                                 </div>
                                                 <div class="scroll_wrap">
-                                                <!-- <a class="txt f_caption2" data-value="0002" href="javascript:" onclick="reviewCtrl.searchOpt(this);">{ i }</a> -->
-                                                    <a class="txt f_caption2 on" href="javacript:" onclick="reviewCtrl.searchOpt(this);">전체지점</a>
-                                                     <c:if test="${ not empty getBranch }">
-                                                     	
-                                                		<c:forEach items="${ getBranch }" var="blist">
-                                                    	<p class="sub_tit only_mobile">서울점</p>
-                                                    	<a class="txt f_caption2" data-value="0002" href="/community/review/list.do?type=branch&brchCd=${blist.branch_nm}" onclick="reviewCtrl.searchOpt(this);">${ blist }</a>
-                                                    <!-- 
+                                                    <a class="txt f_caption2 on" href="javascript:" onclick="reviewCtrl.searchOpt(this);">전체지점</a>
+
+                                                  
                                                     <p class="sub_tit only_mobile">서울점</p>
-                                                        <a class="txt f_caption2" data-value="0002" href="javascript:" onclick="reviewCtrl.searchOpt(this);">잠실점</a>
-                                                        <a class="txt f_caption2" data-value="0001" href="javascript:" onclick="reviewCtrl.searchOpt(this);">본점</a>
-                                                        <a class="txt f_caption2" data-value="0013" href="javascript:" onclick="reviewCtrl.searchOpt(this);">강남점</a>
-                                                        <a class="txt f_caption2" data-value="0028" href="javascript:" onclick="reviewCtrl.searchOpt(this);">건대스타시티점</a>
-                                                        <a class="txt f_caption2" data-value="0006" href="javascript:" onclick="reviewCtrl.searchOpt(this);">관악점</a>
-                                                        <a class="txt f_caption2" data-value="0340" href="javascript:" onclick="reviewCtrl.searchOpt(this);">김포공항점</a>
-                                                        <a class="txt f_caption2" data-value="0022" href="javascript:" onclick="reviewCtrl.searchOpt(this);">노원점</a>
-                                                        <a class="txt f_caption2" data-value="0026" href="javascript:" onclick="reviewCtrl.searchOpt(this);">미아점</a>
-                                                        <a class="txt f_caption2" data-value="0010" href="javascript:" onclick="reviewCtrl.searchOpt(this);">영등포점</a>
-                                                        <a class="txt f_caption2" data-value="0004" href="javascript:" onclick="reviewCtrl.searchOpt(this);">청량리점</a>
+                                                    	<c:forEach items="${bList}" var="brchList">
+                                                    		<c:if test="${brchList.branch_tp_id eq 1 }">                                
+                                                        		<a class="txt f_caption2" data-value="${brchList.branch_id}" href="javascript:" onclick="reviewCtrl.searchOpt(this);">${ brchList.branch_nm }</a>
+                                                            </c:if>                                                   
+                                                    	</c:forEach>
+                                                    	
                                                         <p class="sub_tit only_mobile">수도권점</p>
-                                                        <a class="txt f_caption2" data-value="0344" href="javascript:" onclick="reviewCtrl.searchOpt(this);">인천점</a>
-                                                        <a class="txt f_caption2" data-value="0399" href="javascript:" onclick="reviewCtrl.searchOpt(this);">동탄점</a>
-                                                        <a class="txt f_caption2" data-value="0335" href="javascript:" onclick="reviewCtrl.searchOpt(this);">구리점</a>
-                                                        <a class="txt f_caption2" data-value="0008" href="javascript:" onclick="reviewCtrl.searchOpt(this);">분당점</a>
-                                                        <a class="txt f_caption2" data-value="0349" href="javascript:" onclick="reviewCtrl.searchOpt(this);">수원점</a>
-                                                        <a class="txt f_caption2" data-value="0336" href="javascript:" onclick="reviewCtrl.searchOpt(this);">안산점</a>
-                                                        <a class="txt f_caption2" data-value="0011" href="javascript:" onclick="reviewCtrl.searchOpt(this);">일산점</a>
-                                                        <a class="txt f_caption2" data-value="0334" href="javascript:" onclick="reviewCtrl.searchOpt(this);">중동점</a>
-                                                        <a class="txt f_caption2" data-value="0341" href="javascript:" onclick="reviewCtrl.searchOpt(this);">평촌점</a>
-                                                        <a class="txt f_caption2" data-value="0350" href="javascript:" onclick="reviewCtrl.searchOpt(this);">롯데몰광명점</a>
+                                                        <c:forEach items="${bList}" var="brchList">
+                                                    			<c:if test="${brchList.branch_tp_id eq 2 }"> 
+                                                        			<a class="txt f_caption2" data-value="${brchList.branch_id}" href="javascript:" onclick="reviewCtrl.searchOpt(this);">${ brchList.branch_nm }</a>
+                                                        		</c:if>
+                                                        </c:forEach>
                                                         <p class="sub_tit only_mobile">지방점</p>
-                                                        <a class="txt f_caption2" data-value="0005" href="javascript:" onclick="reviewCtrl.searchOpt(this);">부산본점</a>
-                                                        <a class="txt f_caption2" data-value="0333" href="javascript:" onclick="reviewCtrl.searchOpt(this);">광복점</a>
-                                                        <a class="txt f_caption2" data-value="0007" href="javascript:" onclick="reviewCtrl.searchOpt(this);">광주점</a>
-                                                        <a class="txt f_caption2" data-value="0023" href="javascript:" onclick="reviewCtrl.searchOpt(this);">대구점</a>
-                                                        <a class="txt f_caption2" data-value="0012" href="javascript:" onclick="reviewCtrl.searchOpt(this);">대전점</a>
-                                                        <a class="txt f_caption2" data-value="0016" href="javascript:" onclick="reviewCtrl.searchOpt(this);">동래점</a>
-                                                        <a class="txt f_caption2" data-value="0354" href="javascript:" onclick="reviewCtrl.searchOpt(this);">마산점</a>
-                                                        <a class="txt f_caption2" data-value="0024" href="javascript:" onclick="reviewCtrl.searchOpt(this);">상인점</a>
-                                                        <a class="txt f_caption2" data-value="0027" href="javascript:" onclick="reviewCtrl.searchOpt(this);">센텀시티점</a>
-                                                        <a class="txt f_caption2" data-value="0015" href="javascript:" onclick="reviewCtrl.searchOpt(this);">울산점</a>
-                                                        <a class="txt f_caption2" data-value="0025" href="javascript:" onclick="reviewCtrl.searchOpt(this);">전주점</a>
-                                                        <a class="txt f_caption2" data-value="0017" href="javascript:" onclick="reviewCtrl.searchOpt(this);">창원점</a>
-                                                        <a class="txt f_caption2" data-value="0014" href="javascript:" onclick="reviewCtrl.searchOpt(this);">포항점</a>
-                                                        <a class="txt f_caption2" data-value="0361" href="javascript:" onclick="reviewCtrl.searchOpt(this);">롯데몰군산점</a>
-                                                         -->
-                                                	</c:forEach>
-                                            	 </c:if>
-                                                        </div>
+                                                        
+                                                        <c:forEach items="${bList}" var="brchList">
+                                                    		<c:if test="${brchList.branch_tp_id eq 3 }"> 
+                                                        		<a class="txt f_caption2" data-value="${brchList.branch_id}" href="javascript:" onclick="reviewCtrl.searchOpt(this);">${ brchList.branch_nm }</a>
+                                                        	</c:if>
+                                                    	</c:forEach>
+                                                     </div>
+                                                     
                                             </div>
                                         </div>
                                     </div>
@@ -276,8 +252,8 @@
                 </div>
 
                 <div id="listContainer" class="thum_list_w">
-
                 </div>
+               
                 <div id="moreBtn" class="more_btn_w" style="display:none;">
                     <a href="javascript:" class="more_btn no_motion">
                         <span>더보기 <strong class="total"></strong></span>
@@ -288,8 +264,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/common/js/teacher/teacherCommon.js"></script>
-<script type="text/javascript" src="/common/js/community/reviewController.js"></script>
+<script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
+<script type="text/javascript" src="/resources/common/js/teacher/teacherCommon.js"></script>
+
 			
 <!--  end wrap -->
 
