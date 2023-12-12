@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 <script>
 	/* function dataImg(){
 		
@@ -101,7 +101,8 @@
 						<ul class="txt_wrap">
 							<li class="dl f_body2">
 								<p class="dt">강좌료</p>
-								<p class="dd f_body1">${dto.class_fee}원</p>
+								<p class="dd f_body1">
+								<fmt:formatNumber value="${dto.class_fee}" currencySymbol=""></fmt:formatNumber> 원</p>
 							</li>
 							<c:if test="${dto.ex_charge != 0}">
 								<li class="dl f_body2">
