@@ -3,9 +3,118 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+  <title>회원가입</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top_area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page_prev_btn {
+      background: url('/resources/common/images/arrow-left.png') no-repeat;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+
+    .sub_title {
+      color: #333;
+      font-size: 1em;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .l_point {
+      vertical-align: middle;
+    }
+
+    .joinForm {
+      max-width: 400px;
+      margin: 20px auto;
+      
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .textForm {
+      margin-bottom: 15px;
+    }
+    
+
+    input {
+    
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="date"] {
+      width: calc(100% - 22px);
+      margin-top: 5px;
+    }
+
+   .addr input {
+      width: 100%; /* 변경된 부분 */
+      box-sizing: border-box; /* 변경된 부분 */
+      margin-top: 5px; /* 변경된 부분 */
+    }
+
+    .addr input[type="button"] {
+      width: 100%; /* 변경된 부분 */
+      margin-top: 5px; /* 변경된 부분 */
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #fff; /* 파란색에서 베이지(베이직)로 변경 */
+      color: #333; /* 파란색에서 베이지(베이직)로 변경 */
+      border: 1px solid #333; /* 파란색에서 베이지(베이직)로 변경 */
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .cancelBtn {
+      background-color: #ccc; /* 파란색에서 베이지(베이직)로 변경 */
+      color: #333; /* 파란색에서 베이지(베이직)로 변경 */
+      border: 1px solid #333; /* 파란색에서 베이지(베이직)로 변경 */
+    }
+  </style>
 
 <body class="">
 
+
+
+					<div class="page_title_area">
+						<div class="inner">
+							<div class="top_area">
+								<a href="/" class="page_prev_btn login_prev_btn" title="뒤로가기"></a>
+								<p class="tit_div">
+								<br>
+									
+								</p>
+							</div>
+						</div>
+						<p class="sub_title">
+							<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint"
+								class="l_point"> 통합 회원은 롯데 서비스를<br class="only_mobile">
+							하나의 ID로 이용할 수 있습니다.
+						</p>
+					</div>
 
 	<form action="" method="POST" class="joinForm" id="writeForm">
 
@@ -65,8 +174,8 @@
 		<!-- 주소 -->
 		<div class="addr">
 		    <input type="hidden" id="sample4_postcode" name="postcode" placeholder="우편번호">
-		    <input type="text" id="sample4_roadAddress" name="addr" placeholder="도로명주소" size="35">
 		    <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+		    <input type="text" id="sample4_roadAddress" name="addr" placeholder="도로명주소" size="35">
 		
 		    <input type="hidden" id="sample4_jibunAddress" name="jibunAddress" placeholder="지번주소" size="60">
 		    <span id="guide" style="color: #999; display: none"></span>
