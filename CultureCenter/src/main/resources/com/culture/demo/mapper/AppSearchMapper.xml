@@ -17,8 +17,11 @@
 		    LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id																																	
 		    LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd 																																
 		    LEFT JOIN medium_category mc ON mc.mdclsCtegryCd = ct.mdclsctegrycd																																
-		    LEFT JOIN small_category sc ON sc.smclsctegrycd = ct.smclsctegrycd																																
-		WHERE c.branch_id = #{branch_id}  
+		    LEFT JOIN small_category sc ON sc.smclsctegrycd = ct.smclsctegrycd		
+		<if test="branch_id>0">
+			WHERE c.branch_id = #{branch_id}
+		</if>																														
+		  
 		
 		<!-- 카테고리 클릭 -->
 		<if test="searchBranchDTO.lrclsCtegryCd neq null and !searchBranchDTO.lrclsCtegryCd.equals('')">

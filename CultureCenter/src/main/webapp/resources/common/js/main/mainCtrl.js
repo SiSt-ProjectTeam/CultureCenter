@@ -1,74 +1,17 @@
 var mainCtrl = (function(){
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;
-	var contextPath = origin + pathname;
-
-	"use strict";
 	
-	/*
-	//메인 공지 불러오기
-	var getMainNotice = function() {
-		var data = [
-			{name: 'path', value: 'mainNotice'}
-		]
-		
-		fnc.paramAjax(function(r){
-			$( r.jsonClassArray ).each( function(i, elem){
-				$("#mainNoticeContainer").append();
-			})
-			
-			if ($("#recommendationContainer").find("div").length == 0) {
-				$("#recommendationContainer").closest("section").remove();
-			} else {
-				mainScript.swiperFn();
-				$("#recommendationContainer img").each(function(){
-					$(this).load(function() {
-						.
-						imgResizingFn();
-					});
-				});
-			}
-		}, contextPath+"/getMainNotice.ajax", data, "json", false, true, false);
-	}
-	*/
+	"use strict";
 	
 	//추천 강좌 불러오기
 	var getRecommendationClassList = function() {
 		var data = [
-			{name: 'path', value: 'recommendation'}
+			{name: 'path', value: 'recommendation'}, {name: 'orderSet', value: 'F'}
 		]
 		
+				
 		fnc.paramAjax(function(r){
-			$( r.jsonClassArray ).each( function(i, elem){
-				$("#recommendationContainer").append(
-					`<div class="swiper-slide card_list_v">
-						<a href="`+contextPath+`/application/search/view.do?branch_id=${ elem.branchID }&amp;yy=${ elem.openYear }&amp;lectSmsterCd=${ elem.openSmstId }&amp;lectCd=${ elem.classSemesterSq }" class="lec_list">
-							<div class="img_resize_w img">
-								<img src="${ elem.classImg }" alt="thumbnail.jpg">
-							</div>
-							<div class="con">
-								<div class="label_div">
-									<p class="label large ${ elem.classSt == "접수중"? "lime" : "gray" }">${ elem.classSt }</p>
-									<p class="label large border">공동모객</p>
-								</div>
-								<p class="tit">${ elem.classNm }</p>
-								<div class="info_con">
-									<div class="type_div">
-										<p class="type">${ elem.smstNm }</p>
-										<p class="type">${ elem.teacherNm }</p>
-									</div>
-									<p class="time">${ elem.schedule }, 총 ${ elem.classCnt }회</p>
-								</div>
-							</div>
-						</a>
-						<div class="bottom_info">
-							<p class="price">${elem.classFee}원</p>
-							<button type="button" class="cart" onclick="fnc.cartBtn('0001', '2023', '4', '0490', '03');"></button>
-						</div>
-					</div>`);
-			})
-			
-			if ($("#recommendationContainer").find("div").length == 0) {
+			$("#recommendationContainer").html(r);
+			if($("#recommendationContainer").find("div").length == 0) {
 				$("#recommendationContainer").closest("section").remove();
 			} else {
 				mainScript.swiperFn();
@@ -78,7 +21,7 @@ var mainCtrl = (function(){
 					});
 				});
 			}
-		}, contextPath+"/getRecommendationClassList.ajax", data, "json", false, true, false);
+		}, "/getRecommendationClassList.ajax", data, "html", false, true, false);
 	}
 	
 	//카테고리 강좌 불러오기
@@ -87,41 +30,12 @@ var mainCtrl = (function(){
 		var mdclsCtegryCd = $(".category_wrap .scroll_wrap a[class*=on]").data("mdclsCtegryCd");
 		
 		var data = [
-			{name: 'lrclsCtegryCd', value: lrclsCtegryCd} , {name: 'mdclsCtegryCd', value: mdclsCtegryCd}
+			{name: 'orderSet', value: 'B'}, {name: 'lrclsCtegryCd', value: lrclsCtegryCd} , {name: 'mdclsCtegryCd', value: mdclsCtegryCd}
+			, {name: 'initIndex', value: '1'}, {name: 'pageIndex', value: '1'}, {name: 'listCnt', value: '4'}
 		]
 				
 		fnc.paramAjax(function(r){
-			$("#categoyContainer").html("");
-			$( r.jsonClassArray ).each( function(i, elem){
-				$("#categoyContainer").append(
-					`<div class="card_list_h">
-						<a href="`+contextPath+`/application/search/view.do?branch_id=${ elem.branchID }&amp;yy=${ elem.openYear }&amp;lectSmsterCd=${ elem.openSmstId }&amp;lectCd=${ elem.classSemesterSq }">
-							<div class="img_wrap">
-								<div class="img_resize_w img reverse">
-									<img src="${ elem.classImg }" alt="thumbnail.jpg">
-								</div>
-							</div>
-							<div class="con">
-								<div class="label_div">
-									<p class="label large ${ elem.classSt == "접수중"? "lime" : "gray" }">${ elem.classSt }</p>
-									<p class="label large black_gray">${ elem.branchNm }</p>
-								</div>
-								<p class="tit">${ elem.classNm }</p>
-								<div class="info_con">
-									<div class="type_div">
-										<p class="type">${ elem.smstNm }</p>
-										<p class="type">${ elem.teacherNm }</p>
-									</div>
-									<p class="time">${ elem.schedule }, 총 ${ elem.classCnt }회</p>
-								</div>
-							</div>
-						</a>
-						<div class="bottom_info">
-							<p class="price">${ elem.classFee }원</p>
-							<button type="button" class="cart" onclick="fnc.cartBtn('0001', '2023', '4', '0490', '03');"></button>
-						</div>
-					</div>`);
-			})
+			$("#categoyContainer").html(r);
 			
 			$("#categoyContainer img").each(function(){
 				$(this).load(function() {
@@ -136,7 +50,7 @@ var mainCtrl = (function(){
 			try{			
 				ScrollTrigger.refresh();
 			}catch(e){}
-		}, contextPath+"/getCategoryClassList.ajax", data, "json", false, true, false);
+		}, "/getCategoryClassList.ajax", data, "html", false, true, false);
 		
 		
 	}
@@ -144,42 +58,12 @@ var mainCtrl = (function(){
 	//신규 강좌 불러오기
 	var getNewClassList = function() {
 		var data = [
-			{name: 'orderSet', value: "G"}
+			{name: 'path', value: 'new'}, {name: 'orderSet', value: "G"}
+			, {name: 'initIndex', value: '1'}, {name: 'pageIndex', value: '1'}, {name: 'listCnt', value: '30'}
 		]
 				
 		fnc.paramAjax(function(r){
-			
-			$( r.jsonClassArray ).each( function(i, elem){
-				$("#newContainer").append(
-					`<div class="swiper-slide card_list_v swiper-slide-active">
-						<a href="`+contextPath+`/application/search/view.do?branch_id=${ elem.branchID }&amp;yy=${ elem.openYear }&amp;lectSmsterCd=${ elem.openSmstId }&amp;lectCd=${ elem.classSemesterSq }" class="lec_list">
-							<p class="small_label wide NEW"></p>
-							<div class="img_resize_w img">
-								<img src="${ elem.classImg }" alt="thumbnail.jpg">
-							</div>
-							<div class="con">
-								<div class="label_div">
-									<p class="label large ${ elem.classSt == "접수중"? "lime" : "gray" }">${ elem.classSt }</p>
-									<p class="label large black_gray">${ elem.branchNm }</p>
-								</div>
-								<p class="tit">${ elem.classNm }</p>
-								<div class="info_con">
-									<div class="type_div">
-										<p class="type">${ elem.smstNm }</p>
-										<p class="type">${ elem.teacherNm }</p>
-									</div>
-									<p class="time">${ elem.schedule }, 총 ${ elem.classCnt }회</p>
-								</div>
-							</div>
-						</a>
-						<div class="bottom_info">
-							<p class="price">${ elem.classFee }원</p>
-							<button type="button" class="cart" onclick="fnc.cartBtn('0001', '2023', '4', '0490', '03');"></button>
-						</div>
-					</div>`);
-			})
-			
-			$("#newContainer").html(  );
+			$("#newContainer").html(r);
 			if($("#newContainer").find("div").length == 0) {
 				$("#newContainer").closest("section").remove();
 			} else {
@@ -190,39 +74,7 @@ var mainCtrl = (function(){
 					});
 				});
 			}
-		}, contextPath+"/getNewClassList.ajax", data, "json", false, true, false);
-	}
-	
-	
-	//공지사항 이벤트 불러오기
-	var getNewsClassList = function() {
-		var data = [
-			{name: 'path', value: 'news'}
-		]
-				
-		fnc.paramAjax(function(r){
-			$( r.jsonClassArray ).each( function(i, elem){
-				$("#newsContainer").append(
-					`<a href="<%=contextPath %>/community/notice/view.do?noticeSq${ elem.noticeSq }" class="news">
-						<p class="tit">${ elem.postingTitle }</p>
-						<p class="txt">`+elem.postingContent.replace( /(<([^>]+)>)/ig , '')+`</p>
-						<p class="date">${ elem.writeDt }</p>
-					</a> `);
-			})
-			
-			$("#newContainer")
-				.html(  );
-			if($("#newContainer").find("div").length == 0) {
-				$("#newContainer").closest("section").remove();
-			} else {
-				mainScript.swiperFn();
-				$("#newContainer img").each(function(){
-					$(this).load(function() {
-						imgResizingFn();
-					});
-				});
-			}
-		}, contextPath+"/getNewsClassList.ajax", data, "json", false, true, false);
+		}, "/getNewClassList.ajax", data, "html", false, true, false);
 	}
 	
 	//메인 팝업 오픈
@@ -255,11 +107,9 @@ var mainCtrl = (function(){
 	}
 	
 	var init = function() {
-		//getMainNotice();
-		getRecommendationClassList();
-		getCategoryClassList();
-		getNewClassList();
-		getNewsClassList();
+		//getRecommendationClassList();
+		//getCategoryClassList();
+		//getNewClassList();
 		eventSwiperFn();
 		//openPopup();
 		//todayClose();

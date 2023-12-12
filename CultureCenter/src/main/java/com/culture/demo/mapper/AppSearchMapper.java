@@ -18,4 +18,6 @@ public interface AppSearchMapper {
 								    @Param("timel") String[] timel,
 								    @Param("amtl") String[] amtl) throws Exception;
 
+	// 메인페이지 강좌 정보 가져오기
+	List<ClassDTO> selectMainClassList(@Param("branch_id") int branch_id, @Param("condition") String condition) throws Exception;
 }

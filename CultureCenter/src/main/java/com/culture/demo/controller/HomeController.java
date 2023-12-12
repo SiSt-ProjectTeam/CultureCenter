@@ -1,19 +1,27 @@
 package com.culture.demo.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
 
 import lombok.extern.log4j.Log4j;
@@ -27,6 +35,9 @@ public class HomeController {
 	@Autowired
 	private LecSearchService lecSearchService;
 
+	@Autowired
+	private AppSearchService appSearchService;
+	
 	ClassDTO dto = null;
 
 	@GetMapping({"/index.do","/"})
@@ -67,6 +78,20 @@ public class HomeController {
 		model.addAttribute("cmap", cmap);
 		
 		return "home.index";
+	}
+	
+
+	@PostMapping(value="/getRecommendationClassList.ajax", produces = "application/text; charset=UTF-8")
+	public ResponseEntity<String> getRecommendationClassList(HttpServletRequest request) throws Exception {
+
+		System.out.println();
+		log.info("> /getRecommendationClassList.ajax... POST : HomeController.getRecommendationClassList()");
+		String html = this.appSearchService.RecommendationLecHTML(request);
+		
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

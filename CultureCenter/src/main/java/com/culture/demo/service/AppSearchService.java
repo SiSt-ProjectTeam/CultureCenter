@@ -30,4 +30,11 @@ public interface AppSearchService {
 				    @Param("amtl") String[] amtl,
 				    HttpServletRequest request) throws Exception;
 	
+	
+	// 메인페이지 강좌 정보 가져오기
+	List<ClassDTO> getMainClassList(int branch_id, String condition) throws Exception;
+	
+	// 추천/카테고리별/신규 강좌 목록 ajax html 생성
+	String mainLecHTML(int branch_id, String condition, HttpServletRequest request) throws Exception;
+	
 }

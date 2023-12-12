@@ -93,4 +93,73 @@ public class AppSearchServiceImpl implements AppSearchService {
 		return result;
 	}
 
+
+	// 메인페이지 강좌 정보 가져오기
+	@Override
+	public List<ClassDTO> getMainClassList(int branch_id, String condition) throws Exception {		
+		return this.appSearchMapper.selectMainClassList(branch_id, condition);
+	}
+
+	
+	@Override
+	public String mainLecHTML(int branch_id, String condition, HttpServletRequest request) throws Exception {
+		log.info("AppSearchServiceImpl.mainLecHTML() 호출");
+		StringBuilder html = new StringBuilder();
+		List<ClassDTO> list = selectClassList(0, null, null, null, null, null, null, null);
+		String uploadRealPath = request.getServletContext().getRealPath("/upload");
+		
+		String avDay = null;
+		String schedule = null;
+		String fee = null;
+		DecimalFormat decimalFormat = new DecimalFormat("#,###");
+		
+		if(!list.isEmpty()) {
+			switch (condition) {
+			case "recommendation": /* 추천 강좌 */
+				for(ClassDTO dto : list) {
+					avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
+							+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
+					schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
+					
+					fee = decimalFormat.format(dto.getClass_fee());
+					
+					html.append("<div class=\"swiper-slide card_list_v\">");
+					html.append("	<a href=\"/resourecs/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
+					html.append("      <div class=\"img_resize_w img\">");
+					html.append("		  <img src=\""+uploadRealPath+"/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
+					html.append("      </div>");
+					html.append("      <div class=\"con\">");
+					html.append("         <div class=\"label_div\">");
+					html.append("			 <p class=\"label large "+ (dto.getClass_st().equals("접수중") ? "lime" : "gray") +"\">"+dto.getClass_st()+"</p>");
+					html.append("            <p class=\"label large border\">공동모객</p>");
+					html.append("         </div>");
+					html.append("         <p class=\"tit\">"+dto.getClass_nm()+"</p>");
+					html.append("         <div class=\"info_con\">");
+					html.append("            <div class=\"type_div\">");
+					html.append("               <p class=\"type\">"+dto.getSmst_nm()+"</p>");
+					html.append("               <p class=\"type\">"+dto.getName()+"</p>");
+					html.append("            </div>");
+					html.append("			 <p class=\"time\">"+schedule+", 총 "+dto.getClass_cnt()+"회</p>\r\n");
+					html.append("         </div>");
+					html.append("      </div>");
+					html.append("   </a>");
+					html.append("   <div class=\"bottom_info\">");
+					html.append("	   <p class=\"price\">"+fee+"원</p>\r\n");
+					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
+					html.append("   </div>");
+					html.append("</div>");
+				} // for
+				break;
+
+			case "new": /* 신규 강좌 */
+				break;
+				
+			default: /* 카테고리별 강좌 */
+				break;
+			} // switch
+			
+		} // if(!list.isEmpty())
+		return html.toString();
+	}
+	
 }
