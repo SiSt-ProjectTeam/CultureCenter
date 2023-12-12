@@ -12,7 +12,7 @@
 		WHERE member_sq = #{memberSq}
 	</select>
 	
-	<!-- 2. public MemberDTO selectMemberWithChild(int member_sq); -->
+	<!-- 3. public MemberDTO selectMemberWithChild(int member_sq); -->
 	<resultMap type="com.culture.demo.domain.MemberDTO" id="memberMap" >
 		<id property="member_sq" column="member_sq" />
 		<result property="id" column="id" />
@@ -58,4 +58,10 @@
 	WHERE m.member_sq = #{member_sq}
 	ORDER BY ac.children_sq
 	</select>
+	
+	<update id="updateInterestBranch">
+		UPDATE member
+		SET branch_id = #{itrstBrchCd}
+		WHERE member_sq = #{member_sq}
+	</update>
 </mapper>
