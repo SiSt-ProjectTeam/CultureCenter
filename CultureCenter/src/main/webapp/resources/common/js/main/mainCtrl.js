@@ -4,9 +4,8 @@ var mainCtrl = (function(){
 	
 	//추천 강좌 불러오기
 	var getRecommendationClassList = function() {
-		var data = [
-			{name: 'path', value: 'recommendation'}, {name: 'orderSet', value: 'F'}
-		]
+		var data = 
+			{'path':'recommendation', 'orderSet':'F'}
 		
 				
 		fnc.paramAjax(function(r){
@@ -29,10 +28,10 @@ var mainCtrl = (function(){
 		var lrclsCtegryCd = $(".category_wrap .scroll_wrap a[class*=on]").data("lrclsCtegryCd");
 		var mdclsCtegryCd = $(".category_wrap .scroll_wrap a[class*=on]").data("mdclsCtegryCd");
 		
-		var data = [
-			{name: 'orderSet', value: 'B'}, {name: 'lrclsCtegryCd', value: lrclsCtegryCd} , {name: 'mdclsCtegryCd', value: mdclsCtegryCd}
-			, {name: 'initIndex', value: '1'}, {name: 'pageIndex', value: '1'}, {name: 'listCnt', value: '4'}
-		]
+		var data = {
+			'path': 'category', 'orderSet': 'B', 'lrclsCtegryCd': lrclsCtegryCd, 'mdclsCtegryCd': mdclsCtegryCd
+			, 'initIndex': '1', 'pageIndex': '1', 'listCnt': '4'
+		}
 				
 		fnc.paramAjax(function(r){
 			$("#categoyContainer").html(r);
@@ -57,10 +56,10 @@ var mainCtrl = (function(){
 	
 	//신규 강좌 불러오기
 	var getNewClassList = function() {
-		var data = [
-			{name: 'path', value: 'new'}, {name: 'orderSet', value: "G"}
-			, {name: 'initIndex', value: '1'}, {name: 'pageIndex', value: '1'}, {name: 'listCnt', value: '30'}
-		]
+		var data = {
+			'path': 'new', 'orderSet': "G"
+			, 'initIndex': '1', 'pageIndex': '1', 'listCnt': '30'
+		}
 				
 		fnc.paramAjax(function(r){
 			$("#newContainer").html(r);

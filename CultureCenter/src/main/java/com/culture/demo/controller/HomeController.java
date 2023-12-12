@@ -23,6 +23,7 @@ import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
+import com.culture.demo.service.MemberService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -37,6 +38,9 @@ public class HomeController {
 
 	@Autowired
 	private AppSearchService appSearchService;
+
+	@Autowired
+	private MemberService memberService;
 	
 	ClassDTO dto = null;
 
@@ -82,12 +86,14 @@ public class HomeController {
 	
 
 	@PostMapping(value={"/getRecommendationClassList.ajax", "/getNewClassList.ajax", "/getCategoryClassList.ajax"}, produces = "application/text; charset=UTF-8")
-	public ResponseEntity<String> getMainLectList(@RequestBody MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {
-
-		System.out.println();
-		log.info("> /getRecommendationClassList.ajax... POST : HomeController.getRecommendationClassList()");
-		String html = this.appSearchService.mainLecHTML(mainLectSearchDTO, request);
-		
+	public ResponseEntity<String> getMainLectList(@RequestBody MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {   /* , Principal principal */
+		log.info("> /getRecommendationClassList.ajax /getNewClassList.ajax /getCategoryClassList.ajax... POST : HomeController.getRecommendationClassList()");
+		int member_sq = 12;
+		// int member_sq = Integer.parseInt( principal.getName() );
+		int branch_id = this.memberService.getMypageInfo(member_sq)
+							.getBranch_id();
+		mainLectSearchDTO.setBranch_id(branch_id);
+		String html = this.appSearchService.mainLecHTML(mainLectSearchDTO, request);		
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)

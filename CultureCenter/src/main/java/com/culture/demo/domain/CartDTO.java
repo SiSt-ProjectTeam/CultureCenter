@@ -35,10 +35,10 @@ public class CartDTO {
     private String teacher_nm;
     
     // 수업요일
-    private String day;
+    private String day; // 월~일
     
     // 삭제하기 위한 data
-    private String type;
-    private String cartSeqno;
+    private String type; // all, check ..
+    private String cartSeqno; // 삭제하려하는 장바구니 세부강좌번호
     
 }

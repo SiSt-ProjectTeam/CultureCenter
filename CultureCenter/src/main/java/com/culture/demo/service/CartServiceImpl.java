@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.CartDTO;
 import com.culture.demo.domain.FrmSearchDTO;
-import com.culture.demo.mapper.MyPageCartMapper;
+import com.culture.demo.mapper.CartMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -17,11 +17,12 @@ import lombok.extern.log4j.Log4j;
 public class CartServiceImpl implements CartService{
 
 	@Autowired
-	private MyPageCartMapper cartMapper;
+	private CartMapper cartMapper;
 
 	// 장바구니 추가
 	@Override
 	public int insert(int member_sq, int detail_class_sq) throws SQLException, ClassNotFoundException{
+		log.info(">>CartService.insert() ... ");
 		return cartMapper.insert(member_sq,detail_class_sq); 
 	}
 	
@@ -31,7 +32,8 @@ public class CartServiceImpl implements CartService{
 		log.info(">>CartService.createCartHtml() ... ");
 
 		int branch_id = params.getBrchCd();
-		List<CartDTO> list = cartMapper.getCarts(member_sq,branch_id);
+		String lectDetailSq = ""; //getCarts매개변수 세부강좌번호 0 == 전체
+		List<CartDTO> list = cartMapper.getCarts(member_sq,branch_id,lectDetailSq);
 		
 		StringBuilder html = new StringBuilder();
 		html.append("<script>\r\n"
@@ -92,8 +94,8 @@ public class CartServiceImpl implements CartService{
 						+ "                    <p class=\"dt only_pc\">강좌정보</p>\r\n"
 						+ "                    <p class=\"dd f_body1\">\r\n"+cartDTO.getSchedule_start_dt()+" ~ "+cartDTO.getSchedule_end_dt()+""
 						+ "                        (" + cartDTO.getDay() + ") "
-						+ ""+cartDTO.getStart_time().substring(0,2)+":"+cartDTO.getStart_time().substring(2)+""
-						+ "~"+ cartDTO.getEnd_time().substring(0,2)+":"+cartDTO.getEnd_time().substring(2)+""
+						+ ""+cartDTO.getStart_time()+""
+						+ "~"+ cartDTO.getEnd_time()+""
 						+ " / " + cartDTO.getClass_cnt() + "회\r\n"
 						+ "                    </p>\r\n"
 						+ "                </li>\r\n"
@@ -130,12 +132,19 @@ public class CartServiceImpl implements CartService{
 		}
 		return html.toString();
 	}
-
+	
+	// 장바구니 목록
+	@Override
+	public List<CartDTO> getList(int member_sq, String lectDetailSq) throws SQLException, ClassNotFoundException {
+		log.info(">>CartService.getList() ... ");
+		int branch_id = 0; // getCarts의 매개변수 0 == 전체
+		return cartMapper.getCarts(member_sq,branch_id,lectDetailSq);
+	}
 	
 	// 장바구니 삭제
 	@Override
 	public int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException {
-		
+		log.info(">>CartService.delete() ... ");
 		return cartMapper.delete(member_sq,type,cartSeqno);
 	}
 }
