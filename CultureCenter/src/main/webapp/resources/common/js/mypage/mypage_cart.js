@@ -174,8 +174,8 @@ var mypage_cart = (function(){
 			var brchCd, yy, lectSmsterCd, lectCd, optnSeqno;
 			var arrBrchCd = [], arrYy = [], arrLectSmsterCd = [], arrLectCd = [], arrOptnSeqno = [], arrOptnUseYn = [];
 			for(var i=0;i<arrLect.length;i++){
-				if(arrLect[i].lectStatCd == '01' || arrLect[i].lectStatCd == '04' || arrLect[i].lectStatCd == '05' || arrLect[i].lectStatCd == '06' || arrLect[i].lectStatCd == '07'){
-					// 접수예정, 대기신청, 지점문의, 접수마감, 강의종료 상태 결제불가
+				if(arrLect[i].lectStatCd != '2'){
+					// 접수예정, 지점문의, 대기접수, 접수마감, 강의종료, 접수불가, 등록중 결제 불가능
 					lectStatYn = false;
 				}
 				if(!lectStatYn){

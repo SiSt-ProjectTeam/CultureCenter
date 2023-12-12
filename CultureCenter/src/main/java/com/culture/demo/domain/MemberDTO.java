@@ -22,6 +22,7 @@ public class MemberDTO {
 	    private String car_no;
 	    
 	    private int branch_id;
+	    private String branch_nm;
 	    private int point;
 	    private int basket_cnt;
 	    private int order_class_cnt;
