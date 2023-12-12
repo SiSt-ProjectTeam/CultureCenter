@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.mapper.AppSearchMapper;
 
@@ -96,13 +97,13 @@ public class AppSearchServiceImpl implements AppSearchService {
 
 	// 메인페이지 강좌 정보 가져오기
 	@Override
-	public List<ClassDTO> getMainClassList(int branch_id, String condition) throws Exception {		
-		return this.appSearchMapper.selectMainClassList(branch_id, condition);
+	public List<ClassDTO> getMainClassList(MainLectSearchDTO mainLectSearchDTO) throws Exception {		
+		return this.appSearchMapper.selectMainClassList(mainLectSearchDTO);
 	}
 
 	
 	@Override
-	public String mainLecHTML(int branch_id, String condition, HttpServletRequest request) throws Exception {
+	public String mainLecHTML(MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {
 		log.info("AppSearchServiceImpl.mainLecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = selectClassList(0, null, null, null, null, null, null, null);
@@ -114,7 +115,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 		DecimalFormat decimalFormat = new DecimalFormat("#,###");
 		
 		if(!list.isEmpty()) {
-			switch (condition) {
+			switch (mainLectSearchDTO.getPath()) {
 			case "recommendation": /* 추천 강좌 */
 				for(ClassDTO dto : list) {
 					avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")

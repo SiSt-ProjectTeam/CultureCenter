@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 
 public interface AppSearchMapper {
@@ -19,5 +20,5 @@ public interface AppSearchMapper {
 								    @Param("amtl") String[] amtl) throws Exception;
 
 	// 메인페이지 강좌 정보 가져오기
-	List<ClassDTO> selectMainClassList(@Param("branch_id") int branch_id, @Param("condition") String condition) throws Exception;
+	List<ClassDTO> selectMainClassList(@Param("mainLectSearchDTO") MainLectSearchDTO mainLectSearchDTO) throws Exception;
 }

@@ -8,11 +8,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MainLectSearchDTO {
+
+	private int branch_id;
 	
+	private String path;
 	private String orderSet;
 	private int lrclsCtegryCd;
-	private int pageIndex;		// 현재 페이지
-	private int initIndex;		// 게시물 시작 번호
-	private int listCnt;		// 한 페이지당 출력할 게시물 갯수
+	private int mdclsCtegryCd;
+	
+	private int pageIndex;
+	private int initIndex;
+	private int listCnt;
 
 } // class

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 
 public interface AppSearchService {
@@ -32,9 +33,9 @@ public interface AppSearchService {
 	
 	
 	// 메인페이지 강좌 정보 가져오기
-	List<ClassDTO> getMainClassList(int branch_id, String condition) throws Exception;
+	List<ClassDTO> getMainClassList(MainLectSearchDTO mainLectSearchDTO) throws Exception;
 	
 	// 추천/카테고리별/신규 강좌 목록 ajax html 생성
-	String mainLecHTML(int branch_id, String condition, HttpServletRequest request) throws Exception;
+	String mainLecHTML(MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception;
 	
 }

@@ -1,7 +1,5 @@
 package com.culture.demo.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
 
@@ -81,12 +81,12 @@ public class HomeController {
 	}
 	
 
-	@PostMapping(value="/getRecommendationClassList.ajax", produces = "application/text; charset=UTF-8")
-	public ResponseEntity<String> getRecommendationClassList(HttpServletRequest request) throws Exception {
+	@PostMapping(value={"/getRecommendationClassList.ajax", "/getNewClassList.ajax", "/getCategoryClassList.ajax"}, produces = "application/text; charset=UTF-8")
+	public ResponseEntity<String> getMainLectList(@RequestBody MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {
 
 		System.out.println();
 		log.info("> /getRecommendationClassList.ajax... POST : HomeController.getRecommendationClassList()");
-		String html = this.appSearchService.RecommendationLecHTML(request);
+		String html = this.appSearchService.mainLecHTML(mainLectSearchDTO, request);
 		
 		
 		return !html.equals("")
