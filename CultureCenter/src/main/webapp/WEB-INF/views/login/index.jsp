@@ -103,7 +103,6 @@ function redirectToMbrJoin() {
 										<span>로그인</span>
 									</button>
 
-									<!-- <a class="b_color_btn login_btn" href="javascript:members.login()"> <span>로그인</span> </a> -->
 								</div>
 
 								</form>

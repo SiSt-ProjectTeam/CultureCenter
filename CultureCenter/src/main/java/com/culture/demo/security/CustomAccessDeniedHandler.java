@@ -27,7 +27,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         HttpSession session = request.getSession(false);
         if (session != null) {
             // 세션이 존재하면 CSRF 토큰 검증 실패 시 로그인 페이지로 리다이렉트
-        	log.error("> Session 존재 ");
+        	log.error("> Session found ");
         } else {
             // 세션이 없음
             log.error("> Session not found. Redirecting to login page...");
