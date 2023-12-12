@@ -24,7 +24,6 @@
 
 								<span onclick="javascript:redirectToMbrJoin()">회원가입</span>
 
-								<!-- <span  onclick="javascript:members.callScreen('joinUrl')">회원가입</span>  -->
 							</p>
 						</div>
 					</div>
@@ -32,10 +31,10 @@
 
 
 				<script type="text/javascript">
-function redirectToMbrJoin() {
-    window.location.href = "mbrJoin.do";
-}
-</script>
+					function redirectToMbrJoin() {
+						window.location.href = "mbrJoin.do";
+					}
+				</script>
 
 
 
@@ -60,10 +59,8 @@ function redirectToMbrJoin() {
 							하나의 ID로 이용할 수 있습니다.
 						</p>
 					</div>
-					<!-- // 2022-11-23 구조 수정 -->
 					<div class="login_form">
 						<div class="login_box">
-							<!-- 2022-11-23 구조 수정-->
 							<div class="inner">
 								<div class="form_input login_id">
 
@@ -72,22 +69,14 @@ function redirectToMbrJoin() {
 											<button type="button" class="btn_delete" title="아이디 지우기"></button>
 										</div>
 
-
-										<!-- 	<input type="text" id="id" name="username"
-											onkeyup="if(window.event.keyCode == 13) members.login();"
-											placeholder="아이디 또는 이메일을 입력해주세요." title="아이디(이메일)" value="admin"> -->
-
-										<input name="username" class="text" id="id" value="admin" />
+										<input name="username" class="text" id="id" value="" />
 								</div>
 								<div class="form_input login_pw">
 
-									<!-- 2022-11-23 클래스 추가-->
-									<!-- 	<input type="password" id="pw" name="password" 
-											onkeyup="if(window.event.keyCode == 13) members.login();"
-											placeholder="비밀번호를 입력해주세요." title="비밀번호" value=""> -->
+
 
 									<input type="password" name="password" class="text" id="pw"
-										value="4321" />
+										value="" />
 
 									<div class="input_btn_wrap">
 										<button type="button" class="btn_delete" title="비밀번호 지우기"></button>
@@ -97,7 +86,6 @@ function redirectToMbrJoin() {
 								<div class="flex_btn_wrap">
 
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
 
 									<button class="b_color_btn login_btn">
 										<span>로그인</span>
@@ -116,16 +104,9 @@ function redirectToMbrJoin() {
 										class="find_pw f_body4">비밀번호 찾기</a>
 								</div>
 							</div>
-							<!-- // 2022-11-23 구조 수정 -->
 						</div>
 					</div>
 				</div>
-
-
-
-
-
-
 			</div>
 		</div>
 	</div>
