@@ -4,23 +4,44 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.culture.demo.mapper.FaqMapper">
-	
-	<!-- 자주 묻는 질문 조회 + 검색
-	public List<FaqDTO> getSeacrchFaqList(int faq_tp_id, String q) -->
-	<select id="getSeacrchFaqList" resultType="com.culture.demo.domain.FaqDTO">
-		SELECT f.faq_sq, t.faq_tp_id, f.faq_title, f.faq_content
-	    FROM faq f
-	    JOIN faq_type t ON f.faq_tp_id = t.faq_tp_id
-	    WHERE ROWNUM <= 10
-				<if test='faq_tp_id > 0'>
-					AND t.faq_tp_id = #{faq_tp_id}
-				</if>
-				<if test='q != null and q != ""'>
-					<if test="'faq_tp_id > 0'">
-						AND
-					</if>
-						REGEXP_LIKE(f.faq_content, #{q}, 'i')
-				</if>
-	</select>
 
+	
+	<select id="getSeacrchFaqList" resultType="com.culture.demo.domain.FaqDTO">
+		<choose>
+			<when test='faqDTO.clCd == 0'>
+				SELECT *
+				FROM (
+					SELECT
+							faq_sq,
+							faq_tp_id,
+							faq_title,
+							faq_content,
+							COUNT(DISTINCT faq_sq) OVER() AS tot_cnt,
+							ROW_NUMBER() OVER(ORDER BY faq_sq ASC) AS rank
+					FROM faq
+			</when>
+			<otherwise>
+				SELECT *
+				FROM (
+					SELECT
+						faq_sq,
+						faq_tp_id,
+						faq_title,
+						faq_content,
+						COUNT(DISTINCT faq_sq) OVER() AS tot_cnt,
+						ROW_NUMBER() OVER(ORDER BY faq_sq ASC) AS rank
+						FROM faq
+						WHERE faq_tp_id = #{faq_tp_id}
+			</otherwise>
+		</choose>
+			<if test='q != null and q != ""'>
+				AND REGEXP_LIKE(faq_content, #{q}, 'i')				
+			</if>
+			    	
+	    	<![CDATA[     
+			)
+		    WHERE ((10*(#{faqDTO.pageIndex}-1))+1) <= rank AND rank <= (#{faqDTO.pageIndex}*10)
+		    ]]>		
+
+	</select>
 </mapper>

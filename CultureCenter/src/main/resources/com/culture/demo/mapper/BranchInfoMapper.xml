@@ -6,7 +6,7 @@
 <mapper namespace="com.culture.demo.mapper.BranchInfoMapper">
 	
 	<!-- 지점 소분류 목록 조회
-	public List<BranchDTO> getBranchList(int branch_tp_id); -->
+	public List<BranchDTO> getBranchList(int brchAreaCd); -->
 	<select id="getBranchList" resultType="com.culture.demo.domain.BranchDTO">
 		SELECT branch_id, branch_nm 
 		FROM branch 

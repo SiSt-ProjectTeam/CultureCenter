@@ -20,5 +20,8 @@ public class BranchDTO {
 	
 	private String branch_img;					// 지점 사진
 	private String classroom_nm;				// 지점 강의실
+	
+	private int brchAreaCd;
+	private int brchCd;
  	
 }

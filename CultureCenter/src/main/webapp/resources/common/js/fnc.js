@@ -219,19 +219,14 @@ var fnc = (function() {
             if (typeof sync == "undefined") {
                 sync = true;
             }
-		       
-		    
-		      // JSON 형식으로 변환
-		      //var jsonData = JSON.stringify(data);
-		    
+
+
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data:data,
-                //data: jsonData,
+                data: data,
                 dataType: dataType,
-                //contentType : "application/json; charset=utf-8",
                 async: sync,
                 cache: false,
                 beforeSend: function() {

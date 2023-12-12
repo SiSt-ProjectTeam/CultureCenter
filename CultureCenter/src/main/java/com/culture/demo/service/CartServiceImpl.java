@@ -18,6 +18,13 @@ public class CartServiceImpl implements CartService{
 
 	@Autowired
 	private MyPageCartMapper cartMapper;
+
+	// 장바구니 추가
+	@Override
+	public int insert(int member_sq, int detail_class_sq) throws SQLException, ClassNotFoundException{
+		return cartMapper.insert(member_sq,detail_class_sq); 
+	}
+	
 	// 장바구니 목록 html 작성
 	@Override
 	public String createCartHtml(int member_sq, FrmSearchDTO params) throws SQLException, ClassNotFoundException {
@@ -43,7 +50,7 @@ public class CartServiceImpl implements CartService{
 			for(CartDTO cartDTO : list) {
 				html.append("<div class=\"cour_his_list\"\r\n"
 						+ "    data-lect-stlm-amt=\"" + (cartDTO.getClass_fee() + cartDTO.getEx_charge()) + "\"\r\n"
-						+ "    data-cart-seqno=\"" + cartDTO.getClass_id() + "\"\r\n"
+						+ "    data-cart-seqno=\"" + cartDTO.getDetail_class_sq() + "\"\r\n"
 						+ "    data-brch-cd=\"" + cartDTO.getBranch_id() + "\" data-yy=\"" + cartDTO.getOpen_year() + "\"\r\n"
 						+ "    data-lect-smster-cd=\"" + cartDTO.getOpen_smst_id() + "\" data-lect-cd=\"" + cartDTO.getClass_id() + "\"\r\n"
 						+ "    data-lect-stat-cd=\"" + cartDTO.getClass_st_id() + "\" data-mvg-dsply-use-yn=\"N\"\r\n"
@@ -124,4 +131,11 @@ public class CartServiceImpl implements CartService{
 		return html.toString();
 	}
 
+	
+	// 장바구니 삭제
+	@Override
+	public int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException {
+		
+		return cartMapper.delete(member_sq,type,cartSeqno);
+	}
 }

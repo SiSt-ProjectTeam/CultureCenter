@@ -21,5 +21,8 @@ public class FaqDTO {
 	private int initIndex;
 	private int listCnt;
 	private String q;				//검색어
+	
+	private int tot_cnt;
+	
 
 }
