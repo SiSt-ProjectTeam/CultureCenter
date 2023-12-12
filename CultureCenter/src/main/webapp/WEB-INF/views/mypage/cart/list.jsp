@@ -177,6 +177,7 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 	<input type="hidden" name="lectCd" value="" /> 
 	<input type="hidden" name="optnSeqno" value="" /> 
 	<input type="hidden" name="optnUseYn" value="" />
+	<input type="hidden" name="lectDetailSq" value="" />
 </form>
 
 <script type="text/javascript" src="/resources/common/js/mypage/mypage_cart.js"></script>

@@ -3,16 +3,18 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.culture.demo.mapper.MyPageCartMapper">
+<mapper namespace="com.culture.demo.mapper.CartMapper">
 	
-	<!-- 장바구니 목록 가져오기 public void getCarts(String id) -->
+	<!-- 장바구니 목록 가져오기 public void getCarts(String id,int branch_id, int lectDetailSq) -->
 	<select id="getCarts" resultType="com.culture.demo.domain.CartDTO">
 		SELECT
 		b.member_sq, b.detail_class_sq
-		, dc.start_time, dc.end_time, dc.class_cnt
+		, SUBSTR(dc.start_time,1,2)||':'||SUBSTR(dc.start_time,3,4) as start_time
+		, SUBSTR(dc.end_time,1,2)||':'||SUBSTR(dc.end_time,3,4) as end_time
+		, dc.class_cnt
 		, TO_CHAR(cbs.open_year,'yyyy') AS open_year
-        , TO_CHAR(TRUNC(cbs.schedule_start_dt),'yy.MM.dd') as schedule_start_dt
-        , TO_CHAR(TRUNC(cbs.schedule_end_dt),'yy.MM.dd') as schedule_end_dt
+        , TO_CHAR(TRUNC(cbs.schedule_start_dt),'yyyy.MM.dd') as schedule_start_dt
+        , TO_CHAR(TRUNC(cbs.schedule_end_dt),'yyyy.MM.dd') as schedule_end_dt
         , cbs.class_fee, cbs.ex_charge
 		, cbs.open_smst_id ,s.smst_nm
 		, c.class_nm, c.class_id
@@ -38,10 +40,14 @@
 		    LEFT JOIN teacher t ON c.member_sq = t.member_sq
 		WHERE b.member_sq = #{member_sq}
 		
+		<if test="detail_class_sq != null and !detail_class_sq.isEmpty()">
+			AND b.detail_class_sq IN (${detail_class_sq})
+		</if>
+				
 		<if test="branch_id != null and branch_id != 0">
 			AND bh.branch_id = #{branch_id}
 		</if>
-		
+
 		ORDER BY cbs.schedule_start_dt
 	</select>
 	
