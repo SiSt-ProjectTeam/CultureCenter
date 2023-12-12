@@ -86,7 +86,7 @@ var common = (function(){
 	
 	//관심지점 설정 저장
 	var fn_save_itrst = function(){
-		
+		console.log("관심지점 설정");
 		var slctBrchBtn = $(".place_pop_area .btn_flex_box .on");
 		
 		if(slctBrchBtn.length == 0)
@@ -96,12 +96,12 @@ var common = (function(){
 		else
 		{
 			var paramObj = {
-					itrstBrchCd : slctBrchBtn.data("cd"),
-					itrstBrchNm	: slctBrchBtn.data("nm")
+					itrstBrchCd : slctBrchBtn.data("cd")
 			}
 			
 			fnc.paramAjax(function(data) {
-				if(data.rtnCnt > 0)
+				// if(data.rtnCnt > 0)
+				if(data > 0)
 				{
 					alert("관심지점이 설정되었습니다.");
 					
@@ -116,8 +116,11 @@ var common = (function(){
 		fnc.bscAjax(function(data){
 			if(data)
 			{
+				$(".mypage_pop_area").find("#name").text(data.name);
+				$(".mypage_pop_area").find("#Intrbranch").text(data.branch_nm);
 				//$(".mypage_pop_area").find("#cpnCnt").text(data.cpnCnt);
 				$(".mypage_pop_area").find("#cartCnt").text(data.basket_cnt);
+				$(".mypage_pop_area").find("#pointSpan").text(data.point);
 				$(".mypage_pop_area").find("#atlctCnt").text(data.order_class_cnt);
 				$(".mypage_pop_area").find("#waitingCnt").text(data.late_class_cnt);
 				$(".mypage_pop_area").find("#certfCnt").text(data.complete_class_cnt);
