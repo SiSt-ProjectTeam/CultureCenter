@@ -92,8 +92,6 @@ input[type="date"] {
 }
 </style>
 
-<body class="">
-
 
 
 	<div class="page_title_area">
@@ -108,8 +106,8 @@ input[type="date"] {
 		</div>
 		<p class="sub_title">
 			<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint"
-				class="l_point"> 통합 회원은 롯데 서비스를<br class="only_mobile">
-			하나의 ID로 이용할 수 있습니다.
+				class="l_point"><h2>회원가입</h2><br class="only_mobile">
+			
 		</p>
 	</div>
 
@@ -117,7 +115,7 @@ input[type="date"] {
 
 
 		<input type="hidden" id="idConfirmed" value="false">
-		<h2>회원가입</h2>
+		
 
 
 
@@ -375,18 +373,3 @@ input[type="date"] {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
