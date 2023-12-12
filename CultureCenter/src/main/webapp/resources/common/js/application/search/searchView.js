@@ -1,9 +1,5 @@
 var search = (function(){
 	
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
 	"use strict";
 	var searchMore = null;
 	
@@ -214,7 +210,7 @@ var search = (function(){
 			commonScript.resizeFn();
 			commonScript.formChkFn();
 			
-		}, contextPath+"/application/search/view.ajax", $("#classForm"), "json", true, true, true);
+		}, "/application/search/view.ajax", $("#classForm"), "json", true, true, true);
 	}
 	
 	//옵션선택
@@ -451,7 +447,8 @@ var search = (function(){
 		fnc.bscAjax(function(r) {
 			$("#teacherView").html(r);
     		commonScript.openPopupFn('.instructor_intro_pop', $("#tcBtn"));
-    	}, contextPath+"/application/search/teacherView.ajax?tcCdNo=" + $("#tcBtn").data("tcCdNo"), "html", false, false, false);
+    		console.log(tcCdNo);
+    	}, "/application/search/teacherView.ajax?tcCdNo=" + $("#tcBtn").data("tcCdNo"), "html", false, false, false);
 	}
 	
 	var init = function() {
@@ -467,7 +464,7 @@ var search = (function(){
 				form : $("#classForm")
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/application/search/reviewList.ajax"
+				, url : "/application/search/reviewList.ajax"
 				, pageIndex : $("#classForm #pageIndex").val()
 				, listCnt : $("#classForm #listCnt").val()
 				, callbackFunc : function() {}
