@@ -74,5 +74,4 @@ public class HomeController {
 		return "common.accessError";
 	}
 
-
 }
