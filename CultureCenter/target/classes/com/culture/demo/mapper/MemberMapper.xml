@@ -11,5 +11,51 @@
 		FROM member m LEFT JOIN branch b ON m.branch_id=b.branch_id
 		WHERE member_sq = #{memberSq}
 	</select>
-		
+	
+	<!-- 2. public MemberDTO selectMemberWithChild(int member_sq); -->
+	<resultMap type="com.culture.demo.domain.MemberDTO" id="memberMap" >
+		<id property="member_sq" column="member_sq" />
+		<result property="id" column="id" />
+		<result property="pw" column="pw" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="birth_dt" column="birth_dt" />
+		<result property="m_birth_dt" column="m_birth_dt" />
+		<result property="addr" column="addr" />
+		<result property="car_no" column="car_no" />
+		<result property="branch_id" column="branch_id" />
+		<result property="point" column="point" />
+		<result property="basket_cnt" column="basket_cnt" />
+		<result property="order_class_cnt" column="order_class_cnt" />
+		<result property="late_class_cnt" column="late_class_cnt" />
+		<result property="complete_class_cnt" column="complete_class_cnt" />
+		<result property="review_cnt" column="review_cnt" />
+		<result property="faq_cnt" column="faq_cnt" />
+
+		<!-- 동반수강자 자녀list ofType으로 참조 -->
+		<collection property="childrenList"  ofType="com.culture.demo.domain.ChildrenDTO">
+			<id property="children_sq" column="children_sq" />
+			<result property="children_nm" column="children_nm" />
+			<result property="member_sq" column="member_sq" />
+			<result property="child_birth_dt" column="child_birth_dt" />
+			<result property="gender" column="gender" />
+			<result property="realGender" column="realGender" />
+		</collection>
+	</resultMap>
+	<select id="selectMemberWithChild" resultMap="memberMap">
+	SELECT 
+    m.member_sq, id, pw, name, email, phone
+    , m.birth_dt, TO_CHAR(TRUNC(m.birth_dt),'yyyy.MM.dd') AS m_birth_dt
+    , addr, branch_id, point, basket_cnt, order_class_cnt, late_class_cnt
+    , complete_class_cnt, review_cnt, faq_cnt, car_no
+    , children_sq
+    , TO_CHAR(TRUNC(ac.birth_dt),'yyyy.MM.dd') AS child_birth_dt
+    , gender, DECODE(gender,'F','여성','M','남성') AS realGender
+    , children_nm
+	FROM member m 
+	LEFT JOIN accompanying_children ac ON m.member_sq = ac.member_sq
+	WHERE m.member_sq = #{member_sq}
+	ORDER BY ac.children_sq
+	</select>
 </mapper>

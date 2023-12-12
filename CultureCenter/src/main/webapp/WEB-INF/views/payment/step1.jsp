@@ -22,7 +22,6 @@
 	<input type="hidden" name="jsonStr" value="" />
 	<input type="hidden" name="atlctType" value="normal" />
 </form>
-
 <div class="cont_wrap">
   <div class="cont_inner no_pb">
     <div class="page_title_area">
@@ -54,80 +53,109 @@
               <p class="txt">수강신청 완료</p>
             </div>
           </div>
+          <!-- start 결제할 수강정보 -->
           <div class="sub_inner_w">
             <div class="sub_inner">
-              <div class="sub_tit_area">
-                <div class="left">
-                  <p class="f_h2">수강자 정보</p>
-                </div>
-              </div>
-              <div class="course_history_w">
-              	<div class="cour_his_list" data-brch-cd="0002" data-yy="2023" data-lect-smster-cd="4" data-lect-cd="0547" data-obj-cl-cd="01" data-lect-nm="[2/28] 베네피트와 함께하는 겨울철 모공케어 동안메이크업"
-              			data-lect-amt="3000" data-optn-typ-cd-nm="재료비/대여료(강사지급)" data-optn-nm="" data-optn-amt="0" data-optn-seqno="" data-optn-use-yn="N" data-lect-tp-cd="01" data-pbl-pmprcust-brch-cd="" data-pbl-pmprcust-lect-cd="" data-pbl-pmprcust-brch-cd-nm="">
-	                  <div class="cour_top_area">
-	                    <div class="left">
-	                      <div class="label_div">
-	                        <p class="label small border">잠실점</p>
-	                      </div>
-	                      <p class="tit f_h2">[2/28] 베네피트와 함께하는 겨울철 모공케어 동안메이크업</p>
-	                    </div>
-	                    <div class="right">
-	                      <ul class="txt_wrap">
-	                        <li class="dl f_body2">
-	                          <p class="dt only_pc">강사명</p>
-	                          <p class="dd f_body1">잠실점</p>
-	                        </li>
-	                        <li class="dl f_body2">
-	                          <p class="dt only_pc">학기명</p>
-	                          <p class="dd f_body1">2023년 겨울학기</p>
-	                        </li>
-	                        <li class="dl f_body2">
-	                          <p class="dt only_pc">강좌정보</p>
-	                          <p class="dd f_body1">2024.02.28 ~ 2024.02.28 (수) 11:00~12:00 / 1회 </p>
-	                        </li>
-	                      </ul>
-	                      <ul class="txt_wrap">
-	                        <li class="dl f_body2">
-	                          <p class="dt">강좌료</p>
-	                          <p class="dd f_body1">3,000원</p>
-	                        </li>
-	                        </ul>
-	                    </div>
-	                  </div>
-	                  <div class="cour_detail_w">
-	                    <div class="cour_detail" data-kor-nm="유희진" data-fmly-rel-cd="00" data-fmly-rel-cd-nm="본인" data-bday="19970921" data-sex-cd="F">
-	                      <div class="left">
-	                        <div class="tit f_body1">유희진(본인)</div>
-	                        <div class="flex_btn_wrap">
-			                          <a style="background-color:#e0f55c;" class="border_btn" href="javascript:" role="button" onclick="payment.openFmlyPopup(this, 'fmly')">
-			                            <span style="color:#000;">수강자 변경/추가</span>
-			                          </a>
-			                        </div>
-	                        	</div>
-	                      <div class="right">
-	                        <ul class="txt_wrap">
-	                          <li class="f_body3">
-	                            <div class="txt_con">
-	                              <div class="tit">강좌료</div>
-	                              <div class="txt">
-	                                <p>3,000원</p>
-	                              </div>
-	                            </div>
-	                          </li>
-	                          <li class="expected">
-	                            <div class="txt_con">
-	                              <div class="tit">결제예정 금액</div>
-	                              <div class="txt">
-	                                <p>3,000원</p>
-	                              </div>
-	                            </div>
-	                          </li>
-	                        </ul>
-	                      </div>
-	                    </div>
-	                  </div>
-	                </div>
-              	</div>
+	<div class="sub_tit_area">
+		<div class="left">
+			<p class="f_h2">수강자 정보</p>
+		</div>
+	</div>
+<!-- 수강정보 -->
+<div class="course_history_w">
+	<c:forEach items="${list}" var="dto">
+		<div class="cour_his_list" data-brch-cd="${dto.branch_id}"
+				data-yy="${dto.open_year}" data-lect-smster-cd="${dto.open_smst_id}"
+				data-lect-cd="${dto.detail_class_sq}" data-obj-cl-cd="01"
+				data-lect-nm="${dto.class_nm}" data-lect-amt="${dto.class_fee}"
+				data-optn-typ-cd-nm="재료비/대여료" data-optn-nm=""
+				data-optn-amt="${dto.ex_charge}" data-optn-seqno=""
+				data-optn-use-yn="${empty dto.ex_charge ? 'Y':'N'}"
+				data-lect-tp-cd="" data-pbl-pmprcust-brch-cd=""
+				data-pbl-pmprcust-lect-cd="" data-pbl-pmprcust-brch-cd-nm="">
+			<div class="cour_top_area">
+					<div class="left">
+						<div class="label_div">
+							<p class="label small border">${dto.branch_nm}</p>
+						</div>
+						<p class="tit f_h2">${dto.class_nm}</p>
+					</div>
+					<div class="right">
+						<ul class="txt_wrap">
+							<li class="dl f_body2">
+								<p class="dt only_pc">강사명</p>
+								<p class="dd f_body1">${dto.teacher_nm}</p>
+							</li>
+							<li class="dl f_body2">
+								<p class="dt only_pc">학기명</p>
+								<p class="dd f_body1">${dto.open_year}년 ${dto.smst_nm}</p>
+							</li>
+							<li class="dl f_body2">
+								<p class="dt only_pc">강좌정보</p>
+								<p class="dd f_body1">
+								${dto.schedule_start_dt} ~ ${dto.schedule_end_dt} (${dto.day}) 
+								${dto.start_time}~${dto.end_time}
+								/ ${dto.class_cnt}회</p>
+							</li>
+						</ul>
+						<ul class="txt_wrap">
+							<li class="dl f_body2">
+								<p class="dt">강좌료</p>
+								<p class="dd f_body1">${dto.class_fee}원</p>
+							</li>
+							<c:if test="${dto.ex_charge != 0}">
+								<li class="dl f_body2">
+									<p class="dt">재료비/대여료</p>
+									<p class="dd f_body1">${dto.ex_charge}원</p>
+								</li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			<!-- 수강자 정보 -->
+			<div class="cour_detail_w">
+				<div class="cour_detail" data-kor-nm="유희진" data-fmly-rel-cd="00"
+						data-fmly-rel-cd-nm="본인" data-bday="19970921" data-sex-cd="F">
+						<div class="left">
+							<div class="tit f_body1">유희진(본인)</div>
+							<div class="flex_btn_wrap">
+								<a style="background-color: #e0f55c;" class="border_btn"
+									href="javascript:" role="button"
+									onclick="payment.openFmlyPopup(this, 'fmly')">
+									<!-- onclick="payment.openFmlyPopup(this, 'child')"> -->
+								<span style="color: #000;">수강자 변경/추가</span>
+								<!-- <span style="color: #000;">자녀회원 선택</span> -->
+								</a>
+							</div>
+						</div>
+						<div class="right">
+							<ul class="txt_wrap">
+								<li class="f_body3">
+									<div class="txt_con">
+										<div class="tit">강좌료</div>
+										<div class="txt">
+											<p>3,000원</p>
+										</div>
+									</div>
+								</li>
+								<li class="expected">
+									<div class="txt_con">
+										<div class="tit">결제예정 금액</div>
+										<div class="txt">
+											<p>3,000원</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+			</div>
+		</div>
+	</c:forEach>
+</div>
+
+              	
+              <!-- 유의사항 -->
               <div class="dot_txt_box">
                 <p class="f_body1">유의사항</p>
                 <p class="dot_txt">수강자 본인 또는 동반 수강자 변경/추가를 원하시면 수강자 옆 버튼 [수강자 변경/추가]을 선택하세요.</p>
@@ -135,55 +163,63 @@
                 <p class="dot_txt">동반 수강자 등록은 직계 가족까지만 가능합니다.</p>
                 <p class="dot_txt">신청하신 강좌는 최소 정원에 미달되거나 사정에 의해 폐강 될 수 있으니 양해 바랍니다.</p>
               </div>
+              
             </div>
-            
+    
             <!-- no_data클래스가 있으면 아래에 보더없음 -->
-            <div class="sub_inner ">
-              <div class="sub_tit_area">
-                <a href="javascript:" class="dropdown_btn">
-                  <div class="left">
-                    <p class="f_h2">동반 수강자 정보</p>
-                  </div>
-                  <div class="right">
-                    <span></span>
-                  </div>
-                </a>
-              </div>
-              <div class="hide_list">
-                <div class="flex_btn_wrap">
-                  <a class="border_btn" href="javascript:" role="button" onclick="payment.addChild()">
-                    <span>자녀회원 추가하기</span>
-                  </a>
-                </div>
-                <div class="info_txt" id="familyList">
-                	<div class="info_list">
-				                    <div class="writer_info">
-				                      <p class="item_name f_body1">ddddd</p>
-				                      <a href="javascript:" class="comment_remove f_caption1" onclick="payment.deleteFmly(this)"
-				                      	data-fmly-seqno="1" data-kor-nm="ddddd" data-fmly-rel-cd="02" data-sex-cd="M" data-bday="20150101">삭제</a>
-				                    </div>
-				                    <div class="type_div">
-				                      <p class="type">자녀</p>
-				                      <p class="type">2015.01.01</p>
-				                      <p class="type">남성</p>
-				                    </div>
-				                </div>
-	               			<div class="info_list">
-				                    <div class="writer_info">
-				                      <p class="item_name f_body1">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-				                      <a href="javascript:" class="comment_remove f_caption1" onclick="payment.deleteFmly(this)"
-				                      	data-fmly-seqno="2" data-kor-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-sex-cd="M" data-bday="20201023">삭제</a>
-				                    </div>
-				                    <div class="type_div">
-				                      <p class="type">자녀</p>
-				                      <p class="type">2020.10.23</p>
-				                      <p class="type">남성</p>
-				                    </div>
-				                </div>
-	               			</div>
-              </div>
-            </div>
-          </div>
+            <!-- 동반수강자 -->
+			<div class="sub_inner ">
+							<div class="sub_tit_area">
+								<a href="javascript:" class="dropdown_btn">
+									<div class="left">
+										<p class="f_h2">동반 수강자 정보</p>
+									</div>
+									<div class="right">
+										<span></span>
+									</div>
+								</a>
+							</div>
+							
+							<div class="hide_list">
+								<div class="flex_btn_wrap">
+									<a class="border_btn" href="javascript:" role="button"
+										onclick="payment.addChild()"> <span>자녀회원 추가하기</span>
+									</a>
+								</div>
+								<div class="info_txt" id="familyList">
+									<c:choose>
+									<c:when test="${empty mDto.childrenList}">
+										<div class="no_srch_area no_pb">
+											<div class="no_srch_div">
+												<p class="txt f_h2">
+													<span class="normal_value">등록된 정보가 없습니다.</span>
+												</p>
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${mDto.childrenList}" var="childDto">
+										<div class="info_list">
+											<div class="writer_info">
+												<p class="item_name f_body1">${childDto.children_nm}</p>
+												<a href="javascript:" class="comment_remove f_caption1"
+													onclick="payment.deleteFmly(this)" data-fmly-seqno="${childDto.children_sq}"
+													data-kor-nm="${childDto.children_nm}" data-fmly-rel-cd="${childDto.member_sq}"
+													data-sex-cd="${childDto.gender}" data-bday="${childDto.child_birth_dt}">삭제</a>
+											</div>
+											<div class="type_div">
+												<p class="type">자녀</p>
+												<p class="type">${childDto.child_birth_dt}</p>
+												<p class="type">${childDto.realGender}</p>
+											</div>
+										</div>
+										</c:forEach>
+									</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+						</div>
+			</div>
         </div>
       </div>
     </div>
@@ -256,63 +292,47 @@
 									<tr>
 										<td>
 											<div class="form_checkbox">
-												<input type="checkbox" id="student0" name="" data-kor-nm="유희진" data-fmly-rel-cd="00" data-bday="19970921" data-fmly-rel-cd-nm="본인" data-sex-cd="F">
+												<input type="checkbox" id="student0" name="" data-kor-nm="${mDto.name}" data-fmly-rel-cd="00" data-bday="${mDto.m_birth_dt}" data-fmly-rel-cd-nm="본인" data-sex-cd="F">
 												<label for="student0"></label>
 											</div>
 										</td>
 										<td>
-											<p class="f_body2">유희진</p>
+											<p class="f_body2">${mDto.name}</p>
 										</td>
 										<td>
 											<p class="f_body2">본인</p>
 										</td>
 										<td>
-											<p class="f_body2">1997.09.21</p>
+											<p class="f_body2">${mDto.m_birth_dt}</p>
 										</td>
 										<td>
-											<p class="f_body2">여성</p>
+											<p class="f_body2">-</p>
 										</td>
 									</tr>
-									<tr>
-											<td>
-												<div class="form_checkbox">
-													<input type="checkbox" id="student1" name="" data-kor-nm="ddddd" data-fmly-rel-cd="02" data-bday="20150101" data-fmly-rel-cd-nm="자녀" data-sex-cd="M" >
-													<label for="student1"></label>
-												</div>
-											</td>
-											<td>
-												<p class="f_body2">ddddd</p>
-											</td>
-											<td>
-												<p class="f_body2">자녀</p>
-											</td>
-											<td>
-												<p class="f_body2">2015.01.01</p>
-											</td>
-											<td>
-												<p class="f_body2">남성</p>
-											</td>
-										</tr>
-									<tr>
-											<td>
-												<div class="form_checkbox">
-													<input type="checkbox" id="student2" name="" data-kor-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-bday="20201023" data-fmly-rel-cd-nm="자녀" data-sex-cd="M" >
-													<label for="student2"></label>
-												</div>
-											</td>
-											<td>
-												<p class="f_body2">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-											</td>
-											<td>
-												<p class="f_body2">자녀</p>
-											</td>
-											<td>
-												<p class="f_body2">2020.10.23</p>
-											</td>
-											<td>
-												<p class="f_body2">남성</p>
-											</td>
-										</tr>
+									<c:if test="${mDto.childrenList.size() > 0}">
+										<c:forEach items="${mDto.childrenList}" var="childDto" varStatus="i">
+											<tr>
+												<td>
+													<div class="form_checkbox">
+														<input type="checkbox" id="student${i.index+1}" name="" data-kor-nm="${childDto.children_nm}" data-fmly-rel-cd="${childDto.member_sq}" data-bday="${childDto.child_birth_dt}" data-fmly-rel-cd-nm="자녀" data-sex-cd="${childDto.gender}" >
+														<label for="student${i.index+1}"></label>
+													</div>
+												</td>
+												<td>
+													<p class="f_body2">${childDto.children_nm}</p>
+												</td>
+												<td>
+													<p class="f_body2">자녀</p>
+												</td>
+												<td>
+													<p class="f_body2">${childDto.child_birth_dt}</p>
+												</td>
+												<td>
+													<p class="f_body2">${childDto.realGender}</p>
+												</td>
+											</tr>
+										</c:forEach>	
+									</c:if>
 									</tbody>
 							</table>
 						</div>

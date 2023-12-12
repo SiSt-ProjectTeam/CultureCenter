@@ -1,6 +1,7 @@
 package com.culture.demo.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class MemberDTO {
 	    private String email;
 	    private String phone;
 	    private LocalDate birth_dt;
+	    private String m_birth_dt; //2023.12.12 형식
 	    private String addr;
 	    private String car_no;
 	    
@@ -30,4 +32,6 @@ public class MemberDTO {
 	    private int review_cnt;
 	    private int faq_cnt;	    
 	    
+	    // 동반수강자 자녀list
+	    private List<ChildrenDTO> childrenList; 
 } // class
