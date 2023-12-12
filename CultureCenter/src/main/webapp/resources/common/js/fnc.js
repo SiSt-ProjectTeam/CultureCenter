@@ -220,12 +220,14 @@ var fnc = (function() {
                 sync = true;
             }
 
-
+			;
+			
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: data,
+                data: JSON.stringify(data),//추가
+                contentType : "application/json; charset=utf-8",//추가
                 dataType: dataType,
                 async: sync,
                 cache: false,

@@ -1,8 +1,17 @@
 package com.culture.demo.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -50,7 +59,6 @@ public class BranchInfoController {
 
 
 	//지점 소분류 클릭 -> 지점 정보 조회
-
 	@PostMapping(value = "/view.ajax", produces = "application/text; charset=UTF-8" ) 
 	public ResponseEntity<String> viewBranchInfo(@RequestBody BranchDTO branchDTO, Model model) { 
 		log.info("> /viewBranchInfo...POST - Ajax");
@@ -58,11 +66,10 @@ public class BranchInfoController {
 		System.out.println(branchDTO);
 		
 		String html = ""; 
-		html = this.branchInfoService.createBranchHtml(branchDTO);
+		html = this.branchInfoService.createBranchInfoHtml(branchDTO);
 		
 		return !html.equals("") 
 				? new ResponseEntity<>(html, HttpStatus.OK) 
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR); }
-
 
 }// class
