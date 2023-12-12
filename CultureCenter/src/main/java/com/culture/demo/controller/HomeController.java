@@ -21,9 +21,9 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	@Autowired
 	private LecSearchService lecSearchService;
 
@@ -32,11 +32,11 @@ public class HomeController {
 	@GetMapping({"/index.do","/"})
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
 		List<ClassDTO> blist = lecSearchService.getBranch();
 		List<ClassDTO> bplist = null;
-		
+
 		for(int i=0; i<blist.size(); i++) {
 			String type = blist.get(i).getBranch_tp();
 			if (bmap.containsKey(type)) {
@@ -47,11 +47,11 @@ public class HomeController {
 				bmap.put(type, bplist);
 			}
 		}
-		
+
 		Map<String, List<ClassDTO>> cmap = new HashMap<>();
 		List<ClassDTO> clist = lecSearchService.getCategory();
 		List<ClassDTO> cplist = null;
-		
+
 		for(int i=0; i<clist.size(); i++) {
 			String lrclsCtegry = clist.get(i).getLrclsCtegry();
 			if(cmap.containsKey(lrclsCtegry)) {
@@ -62,16 +62,17 @@ public class HomeController {
 				cmap.put(lrclsCtegry, cplist);
 			}
 		}
-		
+
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
-		
+
 		return "home.index";
 	}
-	
-	 @GetMapping("/common/accessError.do")
-	    public String handleAccessError() {
-		 return "common/accessError";
-	    }
-	
+
+	@GetMapping("/index.do/common/accessError.do")
+	public String handleAccessError() {
+		return "common.accessError";
+	}
+
+
 }

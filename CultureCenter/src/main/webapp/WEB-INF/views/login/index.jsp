@@ -96,8 +96,8 @@ function redirectToMbrJoin() {
 								<p class="f_caption2 red_txt">Caps Lock이 켜져 있습니다.</p>
 								<div class="flex_btn_wrap">
 
-									<input type="hidden" name="${_csrf.parameterName}"
-										value="${_csrf.token}" />
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 
 									<button class="b_color_btn login_btn">
 										<span>로그인</span>

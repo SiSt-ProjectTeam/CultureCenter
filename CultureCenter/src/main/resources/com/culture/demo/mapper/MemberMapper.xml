@@ -17,4 +17,10 @@
 		SET branch_id = #{itrstBrchCd}
 		WHERE member_sq = #{member_sq}
 	</update>
+	
+	<!-- 회원가입 -->
+		<insert id="insert">
+	   INSERT INTO member (MEMBER_SQ, id, pw, name, email, phone, birth_dt, addr)
+		VALUES (SEQ_MEMVER.NEXTVAL, #{id}, #{pw}, #{name}, #{email}, #{phone}, TO_DATE(#{birth_dt}, 'YYYY-MM-DD'), #{addr})
+	</insert>
 </mapper>

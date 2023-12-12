@@ -1,9 +1,6 @@
 package com.culture.demo.domain;
 
 import java.sql.Date;
-import java.time.LocalDate;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

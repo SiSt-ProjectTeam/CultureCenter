@@ -1,137 +1,135 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-  <title>회원가입</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
+<title>회원가입</title>
+<style>
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
 
-    .top_area {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.top_area {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 
-    .page_prev_btn {
-      background: url('/resources/common/images/arrow-left.png') no-repeat;
-      width: 24px;
-      height: 24px;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
+.page_prev_btn {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 10px;
+}
 
+.sub_title {
+	color: #333;
+	font-size: 1em;
+	text-align: center;
+	margin-top: 20px;
+}
 
-    .sub_title {
-      color: #333;
-      font-size: 1em;
-      text-align: center;
-      margin-top: 20px;
-    }
+.l_point {
+	vertical-align: middle;
+}
 
-    .l_point {
-      vertical-align: middle;
-    }
+.joinForm {
+	max-width: 400px;
+	margin: 20px auto;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .joinForm {
-      max-width: 400px;
-      margin: 20px auto;
-      
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+.textForm {
+	margin-bottom: 15px;
+}
 
-    .textForm {
-      margin-bottom: 15px;
-    }
-    
+input {
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	box-sizing: border-box;
+}
 
-    input {
-    
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
+input[type="date"] {
+	width: calc(100% - 22px);
+	margin-top: 5px;
+}
 
-    input[type="date"] {
-      width: calc(100% - 22px);
-      margin-top: 5px;
-    }
+.addr input {
+	width: 100%; 
+	box-sizing: border-box; 
+	margin-top: 5px; 
+}
 
-   .addr input {
-      width: 100%; /* 변경된 부분 */
-      box-sizing: border-box; /* 변경된 부분 */
-      margin-top: 5px; /* 변경된 부분 */
-    }
+.addr input[type="button"] {
+	width: 100%; 
+	margin-top: 5px; 
+}
 
-    .addr input[type="button"] {
-      width: 100%; /* 변경된 부분 */
-      margin-top: 5px; /* 변경된 부분 */
-    }
+.btn {
+	display: inline-block;
+	padding: 10px 15px;
+	background-color: #fff; 
+	color: #333; 
+	border: 1px solid #333; 
+	border-radius: 4px;
+	cursor: pointer;
+	margin-right: 10px;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: #fff; /* 파란색에서 베이지(베이직)로 변경 */
-      color: #333; /* 파란색에서 베이지(베이직)로 변경 */
-      border: 1px solid #333; /* 파란색에서 베이지(베이직)로 변경 */
-      border-radius: 4px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    .cancelBtn {
-      background-color: #ccc; /* 파란색에서 베이지(베이직)로 변경 */
-      color: #333; /* 파란색에서 베이지(베이직)로 변경 */
-      border: 1px solid #333; /* 파란색에서 베이지(베이직)로 변경 */
-    }
-  </style>
+.cancelBtn {
+	background-color: #ccc; 
+	color: #333; 
+	border: 1px solid #333; 
+}
+</style>
 
 <body class="">
 
 
 
-					<div class="page_title_area">
-						<div class="inner">
-							<div class="top_area">
-								<a href="/" class="page_prev_btn login_prev_btn" title="뒤로가기"></a>
-								<p class="tit_div">
-								<br>
-									
-								</p>
-							</div>
-						</div>
-						<p class="sub_title">
-							<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint"
-								class="l_point"> 통합 회원은 롯데 서비스를<br class="only_mobile">
-							하나의 ID로 이용할 수 있습니다.
-						</p>
-					</div>
+	<div class="page_title_area">
+		<div class="inner">
+			<div class="top_area">
+				<a href="/" class="page_prev_btn login_prev_btn" title="뒤로가기"></a>
+				<p class="tit_div">
+					<br>
+
+				</p>
+			</div>
+		</div>
+		<p class="sub_title">
+			<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint"
+				class="l_point"> 통합 회원은 롯데 서비스를<br class="only_mobile">
+			하나의 ID로 이용할 수 있습니다.
+		</p>
+	</div>
 
 	<form action="" method="POST" class="joinForm" id="writeForm">
 
-		
-<input type="hidden" id="idConfirmed" value="false">
+
+		<input type="hidden" id="idConfirmed" value="false">
 		<h2>회원가입</h2>
 
 
 
 
-		<!-- 아이디 --> <!-- autocomplete="off" 자동완성?끄기 -->
+		<!-- 아이디 -->
+		<!-- autocomplete="off" 자동완성?끄기 -->
 		<div class="textForm">
-			<input name="id" type="text" class="id" id="id"
-				value="" placeholder="아이디" autocomplete="off"> 
-				 <!-- <div id="idCheckDiv" class="alert alert-danger">아이디는 4자 이상 입력하셔야 합니다.</div> -->
-				
-				<!-- <input type="button" id="btnIdCheck" value="중복체크"> -->
+			<input name="id" type="text" class="id" id="id" value=""
+				placeholder="아이디" autocomplete="off">
+			<!-- <div id="idCheckDiv" class="alert alert-danger">아이디는 4자 이상 입력하셔야 합니다.</div> -->
+
+			<!-- <input type="button" id="btnIdCheck" value="중복체크"> -->
 			<!-- <div id="idConfirmMsg"></div> -->
 		</div>
 
@@ -149,20 +147,21 @@
 
 		<!-- 이름 -->
 		<div class="textForm">
-			<input name="name" type="text" class="name" placeholder="이름" autocomplete="off">
+			<input name="name" type="text" class="name" placeholder="이름"
+				autocomplete="off">
 		</div>
 
 		<!-- 이메일 -->
 		<div class="textForm">
-			<input name="email" type="text" 
-			class="email" placeholder="이메일" autocomplete="off">
+			<input name="email" type="text" class="email" placeholder="이메일"
+				autocomplete="off">
 		</div>
 
 		<!-- 전화번호 -->
 		<div class="textForm">
-			<input name="phone" type="tel" maxlength="11"
-				class="email" placeholder="전화번호 예) 01012345678" autocomplete="off">
-				<!-- email -> 스타일이 안먹어서 임시로 -->
+			<input name="phone" type="tel" maxlength="11" class="email"
+				placeholder="전화번호 예) 01012345678" autocomplete="off">
+			<!-- email -> 스타일이 안먹어서 임시로 -->
 		</div>
 
 		<!-- 생년월일 -->
@@ -173,34 +172,31 @@
 
 		<!-- 주소 -->
 		<div class="addr">
-		    <input type="hidden" id="sample4_postcode" name="postcode" placeholder="우편번호">
-		    <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-		    <input type="text" id="sample4_roadAddress" name="addr" placeholder="도로명주소" size="35">
-		
-		    <input type="hidden" id="sample4_jibunAddress" name="jibunAddress" placeholder="지번주소" size="60">
-		    <span id="guide" style="color: #999; display: none"></span>
-		    <input type="text" id="sample4_detailAddress" name="detailAddress" placeholder="상세주소" size="50">
-		    <input type="hidden" id="sample4_extraAddress" name="extraAddress" placeholder="참고항목" size="60">
-		    <input type="hidden" id="sample4_engAddress" name="engAddress" placeholder="영문주소" size="60">
-		
-		    <br>
+			<input type="hidden" id="postcode" name="postcode" placeholder="우편번호">
+			<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+			<input type="text" id="roadAddress" name="addr" placeholder="도로명주소"
+				size="35"> <input type="hidden" id="jibunAddress"
+				name="jibunAddress" placeholder="지번주소" size="60"> <span
+				id="guide" style="color: #999; display: none"></span> <input
+				type="text" id="detailAddress" name="detailAddress"
+				placeholder="상세주소" size="50"> <input type="hidden"
+				id="extraAddress" name="extraAddress" placeholder="참고항목" size="60">
+			<input type="hidden" id="engAddress" name="engAddress"
+				placeholder="영문주소" size="60"> <br>
 		</div>
 
 
 
-		<br> <br> 
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		<button class="btn btn-default" >등록</button>
+		<br> <br> <input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+		<button class="btn btn-default">등록</button>
 		<button class="btn btn-default" type="reset">새로입력</button>
-		<button class="btn btn-default cancelBtn" type="button" onclick="cancelRegistration()">취소</button>
+		<button class="btn btn-default cancelBtn" type="button"
+			onclick="cancelRegistration()">취소</button>
 
-		
-	<!-- 	<input type="submit" class="btn" value="회 원 가 입"
-			onclick="return validateForm()" />
- -->
 	</form>
 
-		<script>
+	<script>
     function cancelRegistration() {
         history.back();
     }
@@ -239,7 +235,7 @@
 
 
 
-<!-- 
+	<!-- 
 
 	아이디 중복확인 
 	<script type="text/javascript">
@@ -296,7 +292,7 @@
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
+    function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -321,17 +317,17 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;
-                document.getElementById("sample4_roadAddress").value = roadAddr;
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("roadAddress").value = roadAddr;
+                document.getElementById("jibunAddress").value = data.jibunAddress;
          
-                document.getElementById("sample4_engAddress").value = data.addressEnglish;
+                document.getElementById("engAddress").value = data.addressEnglish;
                        
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
-                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                    document.getElementById("extraAddress").value = extraRoadAddr;
                 } else {
-                    document.getElementById("sample4_extraAddress").value = '';
+                    document.getElementById("extraAddress").value = '';
                 }
 
                 var guideTextBox = document.getElementById("guide");
@@ -359,24 +355,24 @@
 
 
 
-	<!-- 생년월일 -->
-<!-- 	<script>
-  const currentDateInput = document.getElementById('currentDate');
-  const today = new Date().toISOString().substring(0, 10);
-  currentDateInput.value = today;
+	<script>
+    // 생년월일
+    const currentDateInput = document.getElementById('birth_dt');
+    const today = new Date().toISOString().substring(0, 10);
+    currentDateInput.value = today;
 
-  currentDateInput.addEventListener('change', function() {
-    const selectedDate = new Date(this.value);
-    const currentDate = new Date();
+    currentDateInput.addEventListener('change', function () {
+        const selectedDate = new Date(this.value);
+        const currentDate = new Date();
 
-    // 오늘날짜 이후 선택시 
-    if (selectedDate > currentDate) {
-      alert('현재날짜 이후 날짜는 입력불가합니다.');
-      this.value = today;
-    }
-  });
+        // 오늘날짜 이후 선택시
+        if (selectedDate > currentDate) {
+            alert('현재날짜 이후 날짜는 입력불가합니다.');
+            this.value = today;
+        }
+    });
 </script>
- -->
+
 
 
 
