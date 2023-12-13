@@ -1,6 +1,6 @@
 package com.culture.demo.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class MemberDTO {
 	    private String name;
 	    private String email;
 	    private String phone;
-	    private Date birth_dt;
+	    private LocalDate birth_dt;
 	    private String m_birth_dt; //2023.12.12 형식
 	    private String addr;
 	    private String car_no;

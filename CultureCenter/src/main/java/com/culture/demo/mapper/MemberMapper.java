@@ -14,8 +14,4 @@ public interface MemberMapper {
 	
 	// 3. 회원 정보 조회(동반수강자 포함)
 	public MemberDTO selectMemberWithChild(int member_sq);
-	
-	// 4. 회원가입
-	public int insert(MemberDTO memberDTO) throws Exception;
-	
 }
