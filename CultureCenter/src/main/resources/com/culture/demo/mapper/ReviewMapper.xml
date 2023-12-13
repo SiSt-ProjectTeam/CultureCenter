@@ -34,11 +34,11 @@ FROM (
                  AND (review_title LIKE '%' || #{dto.q} || '%' OR review_content LIKE '%' || #{dto.q} || '%')
             </if>
      </where>        
-            <if test="dto.orderSet == 1">   
+            <if test="dto.orderSet == 'A'">   
             	ORDER BY date_writingout_dt DESC 
             </if>
                   		
-         	<if test="dto.orderSet == 2">
+         	<if test="dto.orderSet == 'B'">
             	ORDER BY rating DESC         				
          	</if>   
          ) a  

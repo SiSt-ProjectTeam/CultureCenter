@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
-<html lang="ko">
+
 	<!-- head 부분 -->
         
 	<form id="reviewForm" data-page-type="list">
@@ -9,8 +8,8 @@
     <input type="hidden" id="listCnt" name="listCnt" value="3"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     <input type="hidden" name="q" value="">
-    <input type="hidden" name="orderSet" value="${frmSearchDTO.orderSet}">
-    <input type="hidden" name="brchCd" value="${frmSearchDTO.brchCd}">
+    <input type="hidden" name="orderSet" value="">
+    <input type="hidden" name="brchCd" value="">
 </form>
 
 <div class="cont_wrap">
@@ -198,8 +197,8 @@
                                                     <a href="javascript:" role="button" class="close"></a>
                                                 </div>
                                                 <div class="scroll_wrap">
-                                                    <a class="txt f_caption2 on" data-value="1" href="javascript:" onclick="reviewCtrl.searchOpt(this);">최신순</a>
-                                                    <a class="txt f_caption2" data-value="2" href="javascript:" onclick="reviewCtrl.searchOpt(this);">평점순</a>
+                                                    <a class="txt f_caption2 on" data-value="A" href="javascript:" onclick="reviewCtrl.searchOpt(this);">최신순</a>
+                                                    <a class="txt f_caption2" data-value="B" href="javascript:" onclick="reviewCtrl.searchOpt(this);">평점순</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -268,19 +267,4 @@
 <script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
 			
 <!--  end wrap -->
-
-	<script type="text/javascript" src="/resources/common/netfunnel/netfunnel.js" charset="UTF-8"></script>
-	
-	<script>
-		if(true)
-		{
-			common.logOutTimer.start();
-		}
-		commonScript.headerFooterFn();
-		commonScript.formChkFn();
-	</script>
-	
-	<script>
-
-	</script>
 </html>

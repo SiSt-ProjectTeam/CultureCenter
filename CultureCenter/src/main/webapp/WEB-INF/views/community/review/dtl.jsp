@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
-<html lang="ko">
+
 	<head>
 		
 		<meta charset="UTF-8">
@@ -1027,8 +1026,8 @@
 </div>
 
 
-<script type="text/javascript" src="/common/js/community/reviewController.js"></script><footer>
-			
+<script type="text/javascript" src="/common/js/community/reviewController.js"></script>
+<footer>			
 				<div class="inner">
 					<div class="top_area">
 						<div class="left">
@@ -1192,7 +1191,8 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="/common/js/sharePop.js"></script><div class="layer_popup logout" id="logOutGuide" style="display: none;">
+<script type="text/javascript" src="/common/js/sharePop.js"></script>
+<div class="layer_popup logout" id="logOutGuide" style="display: none;">
 				<div class="pop_wrap">
 					<div class="pop_cont">
 						<div class="for_padding">
@@ -1251,17 +1251,5 @@
 
 <script type="text/javascript" src="/common/js/member/sso.js"></script></div>
 <!--  end wrap -->
-
-	<script type="text/javascript" src="/common/netfunnel/netfunnel.js" charset="UTF-8"></script>
-	
-	<script>
-		if(true)
-		{
-			common.logOutTimer.start();
-		}
-		commonScript.headerFooterFn();
-		commonScript.formChkFn();
-	</script>
-		
 	</body>
 </html>

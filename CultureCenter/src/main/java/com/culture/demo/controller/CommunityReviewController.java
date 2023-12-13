@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.FrmSearchDTO;
+import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.service.LecSearchService;
 import com.culture.demo.service.ReviewService;
 
@@ -31,6 +32,8 @@ public class CommunityReviewController {
 	private ReviewService reviewService;
 	
 	private LecSearchService lecSearchService;
+	
+	
 	// 리뷰 페이지
 	@GetMapping("list.do")
 	public String getReviewList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
@@ -54,7 +57,15 @@ public class CommunityReviewController {
 		return !html.equals("")
 					? new ResponseEntity<>(html, HttpStatus.OK)
 					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
-	}		
+	}
+	
+	@GetMapping("dtl.do")
+	public String ReviewDtl(Model model) throws ClassNotFoundException, SQLException {
+		log.info("> review/dtl getReviewDtl() GET ...");
+		
+		//List<ReviewDTO>
+		return "community.review.dtl";
+	}
 	
 	/*
 	@GetMapping("/community/review/listAjax.do")

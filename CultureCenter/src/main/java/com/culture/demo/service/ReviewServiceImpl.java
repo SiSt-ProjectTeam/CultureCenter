@@ -43,8 +43,6 @@ public class ReviewServiceImpl implements ReviewService{
 		
 		
 		int branch_id = frmSearchDTO.getBrchCd();
-		String orderSet = frmSearchDTO.getOrderSet();
-		String q = frmSearchDTO.getQ();
 		//List<ReviewDTO> list = reviewMapper.getReviewList(orderSet, branch_id, q, frmSearchDTO);
 		List<ReviewDTO> list = reviewMapper.getReviewList(branch_id, frmSearchDTO);
 		

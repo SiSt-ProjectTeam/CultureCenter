@@ -30,7 +30,7 @@ var reviewCtrl = (function(){
     var fn_regist_comment = function(){
         if(!$("#wrap").data("isLogin")){
             alert("로그인 후 이용가능합니다.");
-            location.href = "${contextPath}/login/index.do?rtnUrl=" + encodeURIComponent(window.location.href);
+            location.href = "/login/index.do?rtnUrl=" + encodeURIComponent(window.location.href);
             return;
         }
         var cmntCont1 = $("#cmntCont1").val().trim();
@@ -88,10 +88,6 @@ var reviewCtrl = (function(){
     }
 
     var init_list = function(){
-		var pathname = "/" + window.location.pathname.split("/")[1];
-		var origin = window.location.origin;	
-		var contextPath = origin + pathname;
-		
 		var searchMore = null;
 	
         // 수강후기 리스트 
