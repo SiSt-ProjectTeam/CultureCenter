@@ -23,7 +23,7 @@ public class MypageMemberController {
 
 	@Autowired
 	private MemberServiceImpl memberServiceImpl;
-		
+
 	@GetMapping(value = "/mypage/member/count.ajax", produces = "application/json; charset=UTF-8")
 	public ResponseEntity<String> getMypageInfo() throws SQLException, JsonProcessingException {  /* , Principal principal */
 		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
@@ -32,24 +32,31 @@ public class MypageMemberController {
 		// int member_sq = Integer.parseInt( principal.getName() );
 		ObjectMapper objectMapper = new ObjectMapper();
 		mypageInfo = objectMapper.writeValueAsString( this.memberServiceImpl.getMypageInfo(member_sq) );
-		
+
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	
+
+
 	@PostMapping("/setItrst.ajax")
 	public ResponseEntity<Integer> setInterestBranch(@RequestBody Map<String, Integer> requestBody) {
 		log.info("> /setItrst.ajax... POST : MypageMemberController.setInterestBranch()");
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
-		
+
 		int rtnCnt = this.memberServiceImpl.correctionInterestBranch(member_sq, requestBody.get("itrstBrchCd"));
-		
+
 		return rtnCnt > 0
 				? new ResponseEntity<>(rtnCnt, HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-		
+
+	// 회원정보 수정 폼
+	@GetMapping("/mypage/member/info.do")
+	public String infoForm() throws Exception {
+		log.info("> MypageMemberController... info.do......");
+		return "mypage.member.info";
+	}
+
 }
