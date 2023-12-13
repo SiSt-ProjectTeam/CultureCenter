@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -41,5 +42,8 @@ public interface AppSearchMapper {
 	
 	// 강사 프로필 가져오기 - 자격
 	List<TcertificateDTO> certiInfo(int member_sq) throws Exception;
+	
+	// 메인페이지 강좌 정보 가져오기
+	List<ClassDTO> mainSelectClassList(@Param("mainLectSearchDTO") MainLectSearchDTO mainLectSearchDTO) throws Exception;
 	
 }

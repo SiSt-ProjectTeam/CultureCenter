@@ -256,6 +256,66 @@
 		FROM certificate
 		WHERE member_sq = #{member_sq}
 	</select>
-	
+
+
+	<!-- 메인페이지 강좌 정보 가져오기 -->
+	<select id="mainSelectClassList" resultType="com.culture.demo.domain.ClassDTO">
+		<if test="mainLectSearchDTO.pageIndex > 0">
+			SELECT *
+			FROM (
+		</if>
+		    SELECT COUNT(DISTINCT d.detail_class_sq) OVER() tot_cnt
+			    , DENSE_RANK() OVER(ORDER BY d.detail_class_sq) rank
+			    , d.detail_class_sq, c.branch_id, TO_CHAR(open_year, 'YYYY') open_year, s.open_smst_id, s.class_semester_sq, class_img, class_st, branch_nm, class_nm, smst_nm, m.name, start_time, end_time, class_cnt, class_fee
+				, mon, tue, wed, thu, fri, sat, sun 																																	 					
+			FROM class c JOIN class_by_semester s 	ON s.class_id = c.class_id 																																	
+					LEFT JOIN detail_class d 		ON s.class_semester_sq = d.class_semester_sq 																															
+					LEFT JOIN class_state st 		ON st.class_st_id = c.class_st_id 																																		
+					LEFT JOIN branch b 				ON b.branch_id = c.branch_id 																																				
+					LEFT JOIN semester sem 			ON sem.open_smst_id = s.open_smst_id 																																	
+					LEFT JOIN member m 				ON m.member_sq = c.member_sq 																																				
+				    LEFT JOIN class_type ct 		ON ct.class_type_id = c.class_type_id																																	
+				    LEFT JOIN large_category lc 	ON lc.lrclsctegrycd = ct.lrclsctegrycd 																																
+				    LEFT JOIN medium_category mc 	ON mc.mdclsCtegryCd = ct.mdclsctegrycd																																
+				    LEFT JOIN small_category sc 	ON sc.smclsctegrycd = ct.smclsctegrycd	
+			WHERE c.class_st_id IN (1,2,3,4)
+		<if test='mainLectSearchDTO.path neq "recommendation" and mainLectSearchDTO.branch_id > 0'>
+			AND c.branch_id = #{mainLectSearchDTO.branch_id}
+		</if>																														
+		
+		<choose>
+			<when test='mainLectSearchDTO.path eq "recommendation"'>
+				AND c.member_sq=0
+			</when>			
+			<when test='mainLectSearchDTO.path eq "new"'>
+				AND c.class_regist_dt >= ADD_MONTHS(SYSDATE,-3)
+			</when>
+			<otherwise> <!-- category -->
+				AND lc.lrclsCtegryCd = #{mainLectSearchDTO.lrclsCtegryCd} 
+				AND mc.mdclsCtegryCd = #{mainLectSearchDTO.mdclsCtegryCd} 
+			</otherwise>
+		</choose>
+				
+		<!-- 정렬 -->
+		<choose>
+		    <when test='mainLectSearchDTO.orderSet == "B"'>
+		        ORDER BY people_tot ASC 
+		    </when>
+		    <when test='mainLectSearchDTO.orderSet == "F"'>
+		        ORDER BY class_regist_dt ASC 
+		    </when>
+		    <when test='mainLectSearchDTO.orderSet == "G"'>
+		        ORDER BY class_regist_dt DESC 
+		    </when>
+		</choose>
+		
+		<if test="mainLectSearchDTO.pageIndex > 0">
+			<![CDATA[
+				) 
+				WHERE (#{mainLectSearchDTO.pageIndex}-1)*#{mainLectSearchDTO.listCnt} + 1 <= rank AND rank <= #{mainLectSearchDTO.pageIndex}*#{mainLectSearchDTO.listCnt}
+			]]>
+		</if>
+		
+	</select>
 
 </mapper>
