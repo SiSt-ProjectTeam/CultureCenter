@@ -6,15 +6,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
+import com.culture.demo.service.MemberService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -27,6 +36,12 @@ public class HomeController {
 	@Autowired
 	private LecSearchService lecSearchService;
 
+	@Autowired
+	private AppSearchService appSearchService;
+
+	@Autowired
+	private MemberService memberService;
+	
 	ClassDTO dto = null;
 
 	@GetMapping({"/index.do","/"})
@@ -67,6 +82,22 @@ public class HomeController {
 		model.addAttribute("cmap", cmap);
 		
 		return "home.index";
+	}
+	
+
+	@PostMapping(value={"/getRecommendationClassList.ajax", "/getNewClassList.ajax", "/getCategoryClassList.ajax"}, produces = "application/text; charset=UTF-8")
+	public ResponseEntity<String> getMainLectList(@RequestBody MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {   /* , Principal principal */
+		log.info("> /getRecommendationClassList.ajax /getNewClassList.ajax /getCategoryClassList.ajax... POST : HomeController.getRecommendationClassList()");
+		int member_sq = 12;
+		// int member_sq = Integer.parseInt( principal.getName() );
+		int branch_id = this.memberService.getMypageInfo(member_sq)
+							.getBranch_id();
+		mainLectSearchDTO.setBranch_id(branch_id);
+		String html = this.appSearchService.mainLecHTML(mainLectSearchDTO, request);		
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }
