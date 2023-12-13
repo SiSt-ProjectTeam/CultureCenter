@@ -64,6 +64,10 @@
 <!-- 수강정보 -->
 <div class="course_history_w">
 	<c:forEach items="${list}" var="dto">
+	<fmt:formatNumber value="${dto.class_fee}" pattern="#,##0" var="class_fee"/>
+	<fmt:formatNumber value="${dto.ex_charge}" pattern="#,##0" var="ex_charge"/>
+	<fmt:formatNumber value="${dto.class_fee + dto.ex_charge}" pattern="#,##0" var="tot_fee"/>
+	
 		<div class="cour_his_list" data-brch-cd="${dto.branch_id}"
 				data-yy="${dto.open_year}" data-lect-smster-cd="${dto.open_smst_id}"
 				data-lect-cd="${dto.detail_class_sq}" data-obj-cl-cd="01"
@@ -101,13 +105,12 @@
 						<ul class="txt_wrap">
 							<li class="dl f_body2">
 								<p class="dt">강좌료</p>
-								<p class="dd f_body1">
-								<fmt:formatNumber value="${dto.class_fee}" currencySymbol=""></fmt:formatNumber> 원</p>
+								<p class="dd f_body1">${class_fee}원</p>
 							</li>
 							<c:if test="${dto.ex_charge != 0}">
 								<li class="dl f_body2">
 									<p class="dt">재료비/대여료</p>
-									<p class="dd f_body1">${dto.ex_charge}원</p>
+									<p class="dd f_body1">${ex_charge}원</p>
 								</li>
 							</c:if>
 						</ul>
@@ -116,9 +119,9 @@
 			<!-- 수강자 정보 -->
 			<div class="cour_detail_w">
 				<div class="cour_detail" data-kor-nm="유희진" data-fmly-rel-cd="00"
-						data-fmly-rel-cd-nm="본인" data-bday="19970921" data-sex-cd="F">
+						data-fmly-rel-cd-nm="본인" data-bday="${mDto.m_birth_dt}" data-sex-cd="">
 						<div class="left">
-							<div class="tit f_body1">유희진(본인)</div>
+							<div class="tit f_body1">${mDto.name}(본인)</div>
 							<div class="flex_btn_wrap">
 								<a style="background-color: #e0f55c;" class="border_btn"
 									href="javascript:" role="button"
@@ -135,15 +138,25 @@
 									<div class="txt_con">
 										<div class="tit">강좌료</div>
 										<div class="txt">
-											<p>3,000원</p>
+											<p>${class_fee}원</p>
 										</div>
 									</div>
 								</li>
+								<c:if test="${dto.ex_charge != 0}">
+								<li class="f_body3">
+									<div class="txt_con">
+										<div class="tit">재료비/대여료</div>
+										<div class="txt">
+											<p>${ex_charge}원</p>
+										</div>
+									</div>
+								</li>
+								</c:if>
 								<li class="expected">
 									<div class="txt_con">
 										<div class="tit">결제예정 금액</div>
 										<div class="txt">
-											<p>3,000원</p>
+											<p>${tot_fee}원</p>
 										</div>
 									</div>
 								</li>
@@ -237,8 +250,13 @@
             <p class="f_body4">총 결제예정금액</p>
           </div>
           <div class="all_price">
-            <p><span class="price">3,000</span><span class="f_body3">원</span></p>
+            <p><span class="price"></span><span class="f_body3">원</span></p>
           </div>
+          <script> // 총결제금액
+          $(function() {
+       	  	payment.payment_tot();
+		  });
+          </script>
         </div>
         <div class="flex_btn_wrap">
           <a class="border_btn" href="javascript:fnc.back();">
@@ -254,8 +272,7 @@
   <!-- // 2022-11-23 구조 수정 -->
 </div>
 
-<!-- 가족회원 중 자녀가 있는지 여부 변수 -->
-<!-- 수강자 변경/추가 팝업 -->
+<!-- "수강자 변경/추가" 팝업 -->
 <div id="fmlyPopup" class="layer_popup" style="display:none;">
 	<div class="pop_wrap w800 full">
 		<div class="pop_head">
@@ -293,7 +310,7 @@
 									<tr>
 										<td>
 											<div class="form_checkbox">
-												<input type="checkbox" id="student0" name="" data-kor-nm="${mDto.name}" data-fmly-rel-cd="00" data-bday="${mDto.m_birth_dt}" data-fmly-rel-cd-nm="본인" data-sex-cd="F">
+												<input type="checkbox" id="student0" name="" data-kor-nm="${mDto.name}" data-fmly-rel-cd="00" data-bday="${mDto.m_birth_dt}" data-fmly-rel-cd-nm="본인" data-sex-cd="">
 												<label for="student0"></label>
 											</div>
 										</td>
@@ -355,7 +372,7 @@
 	</div>
 </div>
 
-<!-- 자녀회원 선택 팝업 -->
+<!-- "자녀회원 선택" 팝업 -->
 <div id="childPopup" class="layer_popup" style="display:none;">
   <div class="pop_wrap w800 full">
     <div class="pop_head">
