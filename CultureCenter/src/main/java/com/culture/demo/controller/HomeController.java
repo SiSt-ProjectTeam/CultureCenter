@@ -87,7 +87,7 @@ public class HomeController {
 
 	@PostMapping(value={"/getRecommendationClassList.ajax", "/getNewClassList.ajax", "/getCategoryClassList.ajax"}, produces = "application/text; charset=UTF-8")
 	public ResponseEntity<String> getMainLectList(@RequestBody MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {   /* , Principal principal */
-		log.info("> /getRecommendationClassList.ajax /getNewClassList.ajax /getCategoryClassList.ajax... POST : HomeController.getRecommendationClassList()");
+		log.info("> /getRecommendationClassList.ajax /getNewClassList.ajax /getCategoryClassList.ajax... POST : HomeController.getMainLectList()");
 		int member_sq = 12;
 		// int member_sq = Integer.parseInt( principal.getName() );
 		int branch_id = this.memberService.getMypageInfo(member_sq)
