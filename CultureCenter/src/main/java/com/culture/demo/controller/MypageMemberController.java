@@ -51,5 +51,12 @@ public class MypageMemberController {
 				? new ResponseEntity<>(rtnCnt, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	// 회원정보 수정 폼
+		@GetMapping("/mypage/member/info.do")
+		public String infoForm() throws Exception {
+			log.info("> MypageMemberController... info.do......");
+			return "mypage.member.info";
+		}
 		
 }
