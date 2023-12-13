@@ -8,6 +8,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.NoticeDTO;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
 import com.culture.demo.service.MemberService;
+import com.culture.demo.service.NoticeService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -41,11 +46,14 @@ public class HomeController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private NoticeService noticeService;
 	
 	ClassDTO dto = null;
 
 	@GetMapping({"/index.do","/"})
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model) throws Exception {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
@@ -80,6 +88,17 @@ public class HomeController {
 		
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
+		
+		// 공지사항
+		List<NoticeDTO> noticeList = this.noticeService.getMainNoticeList();
+		for (NoticeDTO noticeDTO : noticeList) {
+			
+			Document document = Jsoup.parse(noticeDTO.getPosting_content());
+	        String textContent = Jsoup.clean(document.body().html(), Whitelist.none());
+
+			noticeDTO.setPosting_content( textContent );
+		}
+		model.addAttribute("noticeList", noticeList);		
 		
 		return "home.index";
 	}
