@@ -25,4 +25,12 @@ public class MemberController {
 		response = Map.of("lgnYn", true);
 	    return ResponseEntity.ok(response);
 	}
+	
+	
+	// 회원가입 폼
+	@GetMapping("/mbrJoin.do")
+	public String writeForm() throws Exception {
+		log.info("> MemberController mbrJoin......");
+		return "mypage.member.mbrJoin";
+		}
 }
