@@ -23,6 +23,5 @@ public class FaqDTO {
 	private String q;				//검색어
 	
 	private int tot_cnt;
-	
 
 }

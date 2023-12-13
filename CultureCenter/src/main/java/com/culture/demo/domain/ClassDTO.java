@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClassDTO {
 	
+	// 총 강좌 수
+	private int tot_cnt;
+	
 	// 지점 / branch
 	private int branch_id;			// 지점 아이디
 	private int branch_tp_id;		// 지점 유형 아이디
@@ -43,7 +46,7 @@ public class ClassDTO {
 	
 	// 학기별 강좌 테이블  class_by_semester
 	private int class_semester_sq;		// 학기별 강좌 번호
-	private int open_year;				// 개강 연도 			<<- DB에서는 Date 타입
+	private String open_year;			// 개강 연도 			<<- DB에서는 Date 타입
 	private int open_smst_id;			// 개강 학기 아이디
 	private String schedule_start_dt;	// 강의 일정 시작		<<- DB에서는 Date 타입
 	private String schedule_end_dt;		// 강의 일정 끝		<<- DB에서는 Date 타입
@@ -81,7 +84,7 @@ public class ClassDTO {
 	private int teacher_sq;				// 강사 번호
 	private String name;				// 강사 이름
 	
-	private String classTime;			// 강의 시간
-	private String receptionPeriod;		// 접수 기간
+	private String classroom_nm;		// 강의실 이름
+	private String tel;					// 지점 전화번호
 	
 }

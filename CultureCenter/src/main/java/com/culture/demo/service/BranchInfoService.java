@@ -13,7 +13,7 @@ public interface BranchInfoService {
 	public String createBranchHtml(BranchDTO branchDTO);
 	
 	//지점 정보 조회 
-	public List<BranchDTO> getBranchInfo(int brchCd);
+	public BranchDTO getBranchInfo(int brchCd);
 	
 	//지점 정보 html 
 	public String createBranchInfoHtml(BranchDTO branchDTO);

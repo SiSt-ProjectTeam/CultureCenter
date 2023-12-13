@@ -16,14 +16,13 @@ import lombok.extern.log4j.Log4j;
 public class FaqServiceImpl implements FaqService{
 
 	private FaqMapper faqMapper;
-	
+
 	//자주 묻는 질문 조회 + 검색
 	@Override
 	public List<FaqDTO> getSeacrchFaqList(FaqDTO faqDTO, int faq_tp_id, String q) {
 		log.info("> FaqServiceImpl.getSeacrchFaqList ...");
 		return this.faqMapper.getSeacrchFaqList(faqDTO, faq_tp_id, q);
 	}
-
 
 	//자주 묻는 질문 html
 	@Override
@@ -44,11 +43,11 @@ public class FaqServiceImpl implements FaqService{
 			html.append("       </div>\r\n");
 			html.append("   </div>\r\n");
 			html.append("</div>");
-			
+
 		} else{
 
 			for (FaqDTO faq : faqList) {
-				
+
 				html.append("<div class=\"list_div\" data-tot-cnt=\"" +  faq.getTot_cnt() +  "\">\r\n");
 				html.append("    <a class=\"list\" href=\"javascript:\" role=\"button\" data-tot-cnt=\"\">\r\n");
 				html.append("        <p class=\"f_body1\">\r\n");
@@ -60,7 +59,6 @@ public class FaqServiceImpl implements FaqService{
 				html.append("</div>\r\n");
 			}
 		}
-		
 		return html.toString();
 	}
 }

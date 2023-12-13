@@ -12,11 +12,27 @@
 		FROM branch 
 		WHERE branch_tp_id = #{branch_tp_id}
 	</select>
+		
+	<resultMap type="com.culture.demo.domain.BranchDTO" id="branchMap">
+		<result property="branch_tp_id" column="branch_tp_id"/>
+		<result property="branch_nm" column="branch_nm"/>
+		<result property="branch_id" column="branch_id"/>
+		<result property="branch_addr" column="branch_addr"/>
+		<result property="tel" column="tel"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="classroom_nm" column="classroom_nm"/>
+		<result property="brchAreaCd" column="brchAreaCd"/>
+		<result property="brchCd" column="brchCd"/>		
+		<collection property="branch_img" ofType="java.lang.String" >
+			<result column="branch_img"/>
+		</collection>
+	</resultMap>
 	
 	<!-- 지점 정보 조회
 	public List<BranchDTO> getBranchInfo(int branch_id); -->
-	<select id="getBranchInfo" resultType="com.culture.demo.domain.BranchDTO">
-		SELECT b.branch_id, p.branch_tp, b.branch_nm, b.branch_addr, b.tel, b.lat, b.lng, i.branch_img, 
+	<select id="getBranchInfo" parameterType="map" resultMap="branchMap">
+		SELECT b.branch_id, p.branch_tp_id, b.branch_nm, b.branch_addr, b.tel, b.lat, b.lng, i.branch_img, 
 			(SELECT MAX(c1.classroom_nm) 
 			FROM classroom c1 
 			WHERE c1.branch_id = b.branch_id) AS classroom_nm 
@@ -24,4 +40,5 @@
 		JOIN branch_image i ON b.branch_id = i.branch_id 
 		WHERE b.branch_id = #{branch_id} 
 	</select>
+	
 </mapper>

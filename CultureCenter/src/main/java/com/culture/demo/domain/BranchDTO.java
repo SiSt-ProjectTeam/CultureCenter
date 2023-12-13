@@ -1,5 +1,7 @@
 package com.culture.demo.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +17,10 @@ public class BranchDTO {
 	private int branch_id;						// 지점 아이디
 	private String branch_addr;					// 지점 주소
 	private String tel;							// 지점 전화번호
-	private int lat;							// 지점 위도
-	private int lng;							// 지점 경도
+	private double lat;							// 지점 위도
+	private double lng;							// 지점 경도
 	
-	private String branch_img;					// 지점 사진
+	private List<String> branch_img;			// 지점 사진
 	private String classroom_nm;				// 지점 강의실
 	
 	private int brchAreaCd;

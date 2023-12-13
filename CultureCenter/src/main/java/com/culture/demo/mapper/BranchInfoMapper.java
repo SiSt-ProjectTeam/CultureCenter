@@ -10,6 +10,6 @@ public interface BranchInfoMapper {
 	public List<BranchDTO> getBranchList(int brchAreaCd);
 	
 	//지점 정보 조회 
-	public List<BranchDTO> getBranchInfo(int brchCd);
+	public BranchDTO getBranchInfo(int brchCd);
 	
 }
