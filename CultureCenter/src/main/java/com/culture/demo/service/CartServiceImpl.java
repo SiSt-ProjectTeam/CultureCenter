@@ -1,6 +1,7 @@
 package com.culture.demo.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,5 +147,13 @@ public class CartServiceImpl implements CartService{
 	public int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException {
 		log.info(">>CartService.delete() ... ");
 		return cartMapper.delete(member_sq,type,cartSeqno);
+	}
+	// 장바구니 자동삭제
+	@Override
+	public void autoDelete() throws SQLException, ClassNotFoundException {
+		Date now = new Date();
+		log.info(">>CartService.autoDelete() ... now : "+now);
+		
+		cartMapper.autoDelete();
 	}
 }

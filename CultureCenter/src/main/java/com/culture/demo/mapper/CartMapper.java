@@ -1,6 +1,7 @@
 package com.culture.demo.mapper;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +18,7 @@ public interface CartMapper {
 
 	// 장바구니 삭제
 	public int delete(@Param("member_sq")int member_sq,@Param("type")String type,@Param("cartSeqno")String cartSeqno) throws ClassNotFoundException, SQLException;
+	// 장바구니 자동삭제
+	public void autoDelete() throws ClassNotFoundException, SQLException;
 	
 }

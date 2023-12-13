@@ -467,6 +467,159 @@
   </div>
 </div>
 
+<!-- "자녀회원 추가" 팝업 -->
+<div class="layer_popup add_children" id="addFamilyPop" style="display: none; top: 0px; height: 943px;" tabindex="0">
+	<div class="pop_wrap w800 full" style="transform: translate(0px, 0px); margin-left: -400px; margin-top: -377px; height: 754px;">
+		<div class="pop_head">
+			<p class="title">자녀회원 추가하기</p>
+		</div>
+		<div class="pop_cont" style="transform: translate(0px, 0px); height: 682px;">
+			<div class="for_padding">
+				<div class="scroll_area">
+					<form id="addFamilyFrm" method="post">
+					<p class="notice_txt f_body2">만 14세 미만의 아동 및 미성년자 수강 시 법정 대리인의 개인정보 수집 및 취급위탁업무에 동의가 필요합니다.</p>
+					<p class="notice_txt f_body2">회원님의 동의를 통해 수집된 동반 수강자의 정보는 수강신청 및 의사소통의 용도로만 사용됩니다.</p>
+					<div class="sub_inner">
+						<div class="sub_tit_area">
+							<div class="left">
+								<p class="pop_sec_tit">자녀회원 정보</p>
+							</div>
+							<div class="right">
+								<p class="f_caption2">
+									<span class="softly_txt">*</span> 모든 항목은 필수입력 사항입니다.
+								</p>
+							</div>
+						</div>
+						<div class="data_input_wrap">
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">이름</p>
+								</div>
+								<div class="td">
+									<div class="form_input">
+										<input type="text" name="korNm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
+										<div class="input_btn_wrap">
+											<button type="button" class="btn_delete" title="이름 지우기" style="display: none;"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">관계</p>
+								</div>
+								<div class="td">
+									<div class="form_input disabled">
+										<!-- 2022-12-06 클래스 추가-->
+										<input type="hidden" name="fmlyRelCd" value="02">
+										<input type="text" name="fmlyRelCdNm" value="자녀">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">생년월일</p>
+								</div>
+								<div class="td">
+									<div class="form_input">
+										<input type="text" name="bday" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023">
+										<div class="input_btn_wrap">
+											<button type="button" class="btn_delete" title="생년월일 지우기"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">성별</p>
+								</div>
+								<div class="td small">
+									<div class="radio_flex_box">
+										<div class="form_radio">
+											<input type="radio" id="gender1" name="sexCd" value="M" checked>
+											<label for="gender1">남성</label>
+										</div>
+										<div class="form_radio">
+											<input type="radio" id="gender2" name="sexCd" value="F">
+											<label for="gender2">여성</label>
+										</div>
+									</div>
+									<div class="form_checkbox">
+										<input type="checkbox" id="chkAgrYn" name="chkAgrYn"> 
+										<label for="chkAgrYn">자녀회원 정보 수집 및 활용동의</label>
+									</div>
+									<div class="terms_for_msg small">
+										<div class="msg_div table_type">
+											<!-- 2022-12-14 클래스 변경-->
+											<!-- 2022-12-14 구조수정-->
+											<div class="caption_txt_w">
+												<p class="dot_txt">만 14세 미만의 아동 및 미성년자 가족 수강 시 법정 대리인의 개인정보 수집 및 취급위탁업무에 동의가 필요합니다.</p>
+												<p class="dot_txt">회원님의 동의를 통해 수집된 가족 정보는 수강신청 및 의사소통의 용도로만 사용됩니다.</p>
+											</div>
+											<div class="tit_w">
+												<p class="tit">수강신청을 위한 가족정보 수집 및 활용동의</p>
+											</div>
+											<div class="txt_box">
+												<p class="info">1. 개인정보 수집항목, 수집목적 및 보유/이용 기간</p>
+												<div class="table_div">
+													<div class="form_table gray">
+														<table>
+															<caption>테이블 캡션 내용이 들어갑니다.</caption>
+															<colgroup>
+																<col width="12%">
+																<col width="25%">
+																<col width="38%">
+																<col width="25%">
+															</colgroup>
+															<thead>
+																<tr>
+																	<th>구분</th>
+																	<th>개인정보 수집항목</th>
+																	<th>수집목적</th>
+																	<th>보유 및 이용기간</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<th class="border_t"><p>가족</p></th>
+																	<td class="border_t"><p>가족회원 이름, 관계, 성별, 생년월일</p></td>
+																	<td class="border_t"><p>가족회원(14세 미만 자녀)의 수강신청 시 회원 확인</p></td>
+																	<td class="border_t"><p class="bold">동반수강자 삭제 시, 문화센터 회원 탈퇴 시</p></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<p class="info">2. 본인은 롯데백화점 문화센터에 가입하기를 희망하며, 개인정보의 수집내용을 이해하고 동의합니다.</p>
+												<p class="info">3. 가족정보 수집 및 이용 동의에 거부할 수 있으며, 이 경우 수강신청이 제한됩니다.</p>
+											</div>
+											<!-- // 2022-12-14 구조수정-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="dot_txt_box">
+							<p class="dot_txt">
+								등록 가능 관계 : 만 14세 미만 자녀<br>(14세 이상 자녀는 회원가입을 통해 수강 신청이 가능합니다.)
+							</p>
+							<p class="dot_txt">등록 불가능 관계 : 부모(배우자 부모 포함), 부부, 형제, 자매, 친구, 지인</p>
+							<p class="dot_txt">14세 이상 동반 수강자의 경우 동반 수강자가 별도 회원가입 후 데스크 방문하시어 본인확인 후 진행하셔야 합니다.</p>
+						</div>
+						<div class="flex_btn_wrap">
+							<a class="border_btn" href="javascript:addFamily.close()"><span>취소하기</span></a> 
+							<a class="b_color_btn" href="javascript:addFamily.save()"><span>저장하기</span></a>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<a class="btn_close" href="javascript:addFamily.close()" title="닫기">
+			<span class="blind"></span>
+		</a>
+	</div>
+</div>
 
 <script type="text/javascript" src="/resources/common/js/member/addFamilyPop.js"></script>
 <!-- <script type="text/javascript" src="/resources/common/js/mypage/mypageMember.js"></script> -->
