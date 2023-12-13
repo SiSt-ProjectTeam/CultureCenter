@@ -1,10 +1,5 @@
 var members = (function() {
 
-    // 페이지 경로와 기타 정보를 설정
-    var pathname = "/" + window.location.pathname.split("/")[1];
-    var origin = window.location.origin;
-    var contextPath = origin + pathname;
-
     "use strict";
 
     // SSO와 관련된 변수 및 객체 초기화

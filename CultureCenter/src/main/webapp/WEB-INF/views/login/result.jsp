@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-			
-			<div class="cont_wrap notice_info_div log_fail_bg">
+
+<div class="cont_wrap notice_info_div log_fail_bg">
 	<div class="cont_inner">
 		<div class="page_title_area white_ver">
 			<div class="inner">
@@ -11,7 +12,6 @@
 						<span class="tit f_h1">로그인</span>
 					</p>
 				</div>
-				<!-- // 2022-11-23 구조 수정 -->
 			</div>
 		</div>
 
@@ -22,20 +22,9 @@
 				<p class="txt2 f_body1">CODE : 1000(401)</p>
 				<div class="flex_btn_wrap margin_large">
 					<a class="b_color_btn white" href="javascript:members.callScreen('chPwdUrl')"> <span>바로가기</span></a>
-						<a class="b_color_btn" href="/"> <span>메인으로</span></a>
-						</div>
+					<a class="b_color_btn" href="/"> <span>메인으로</span></a>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-<script type="text/javascript" src="/resources/common/js/main/mainCtrl.js"></script>
-<script type="text/javascript">
-
-	mainCtrl.getRecommendationClassList();
-
-	mainCtrl.getCategoryClassList();
-
-	mainCtrl.getNewClassList();
-</script>

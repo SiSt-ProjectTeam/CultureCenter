@@ -4,8 +4,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<title>회원가입</title>
 <style>
 body {
 	font-family: 'Arial', sans-serif;
@@ -106,19 +104,13 @@ input[type="date"] {
 		</div>
 		<p class="sub_title">
 			<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint"
-				class="l_point"><h2>회원가입</h2><br class="only_mobile">
-			
+				class="l_point"><h2>회원가입</h2><br class="only_mobile">	
 		</p>
 	</div>
 
 	<form action="" method="POST" class="joinForm" id="writeForm">
-
-
 		<input type="hidden" id="idConfirmed" value="false">
 		
-
-
-
 
 		<!-- 아이디 -->
 		<!-- autocomplete="off" 자동완성?끄기 -->

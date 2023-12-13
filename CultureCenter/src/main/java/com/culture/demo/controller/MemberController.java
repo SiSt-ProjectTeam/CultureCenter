@@ -59,7 +59,7 @@ public class MemberController {
 	// 회원가입 폼
 	@GetMapping("/mbrJoin.do")
 	public String writeForm() throws Exception {
-		log.info("> MemberController mbrJoin으로......");
+		log.info("> MemberController mbrJoin......");
 		return "mypage.member.mbrJoin";
 	}
 
@@ -83,7 +83,10 @@ public class MemberController {
 		return "login.logout"; 
 	}
 
-
+	@GetMapping("/common/accessError.do")
+	public String handleAccessError() {
+		return "common/accessError";
+	}
 
 
 

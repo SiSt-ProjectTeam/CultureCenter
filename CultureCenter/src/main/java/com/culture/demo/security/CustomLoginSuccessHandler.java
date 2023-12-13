@@ -27,7 +27,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	) throws IOException, ServletException {
 		log.info("> Login Success...");
 		
-		  // 추가 디버깅 코드: 세션 및 CSRF 토큰 확인
+		  // 디버깅 코드: 세션 및 CSRF 토큰 확인
 	    HttpSession session = request.getSession(false);
 	    log.info("> Session ID: " + (session != null ? session.getId() : "null"));
 

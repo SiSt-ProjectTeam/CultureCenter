@@ -22,17 +22,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.error("> Access Denied Handler");
         log.error("> Exception: " + accessDeniedException.getMessage()); // 예외 메시지 출력
+    	response.sendRedirect("/member/common/accessError.do");
+    	}
 
-        // 세션 확인
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            // 세션이 존재하면 CSRF 토큰 검증 실패 시 로그인 페이지로 리다이렉트
-        	log.error("> Session : " + session);
-        } else {
-            // 세션이 없음
-            log.error("> Session not found. Redirecting to login page...");
-            
-        }
     }
-
-}
