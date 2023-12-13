@@ -81,7 +81,7 @@
 			                            <p class="label small border">${atlctDTO.branch_nm}</p>
 			                            </div>
 			                          <p class="tit f_h2">
-			                          	<a href="/application/search/view.do?brchCd=${atlctDTO.branch_id}&yy=${atlctDTO.open_year}&lectSmsterCd=${atlctDTO.open_smst_id}&lectCd=${atlctDTO.detail_class_sq}">${atlctDTO.class_nm}</a>
+			                          	<a href="/application/search/view.do?branchCd=${atlctDTO.branch_id}&yy=${atlctDTO.open_year}&lectSmsterCd=${atlctDTO.open_smst_id}&lectCd=${atlctDTO.detail_class_sq}">${atlctDTO.class_nm}</a>
 			                          </p>
 			                        </div>
 			                        <div class="right">
