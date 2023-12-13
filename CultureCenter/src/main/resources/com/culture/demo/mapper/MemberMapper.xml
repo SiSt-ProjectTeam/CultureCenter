@@ -7,7 +7,7 @@
 
 	<!-- 1. 마이페이지 정보 조회 -->
 	<select id="selectMypageInfo" resultType="com.culture.demo.domain.MemberDTO">
-	    SELECT name, branch_nm, point, basket_cnt, order_class_cnt, late_class_cnt, complete_class_cnt, review_cnt
+	    SELECT name, m.branch_id, branch_nm, point, basket_cnt, order_class_cnt, late_class_cnt, complete_class_cnt, review_cnt
 		FROM member m LEFT JOIN branch b ON m.branch_id=b.branch_id
 		WHERE member_sq = #{memberSq}
 	</select>
@@ -64,4 +64,11 @@
 		SET branch_id = #{itrstBrchCd}
 		WHERE member_sq = #{member_sq}
 	</update>
+	
+	<!-- 회원가입 -->
+	<insert id="insert">
+		INSERT INTO member (MEMBER_SQ, id, pw, name, email, phone, birth_dt, addr)
+		VALUES (SEQ_MEMVER.NEXTVAL, #{id}, #{pw}, #{name}, #{email}, #{phone}, TO_DATE(#{birth_dt}, 'YYYY-MM-DD'), #{addr})
+	</insert>
+	
 </mapper>

@@ -74,6 +74,7 @@ var payment = (function(){
 			var optnSeqno = $('#'+ type +'Popup').data('optnSeqno');
 			var optnUseYn = $('#'+ type +'Popup').data('optnUseYn');
 			
+			
 			if(objClCd == "02"){
 				// 2인 강좌인 경우
 				if($('#'+ type +'Popup').find('input[type=checkbox]:checked').length == 1){
@@ -153,19 +154,23 @@ var payment = (function(){
 					}
 				}
 			});
-			
 			// 총 결제예정금액 계산
-			var totLectStlmAmt = 0;
-			$('div.course_history_w div.cour_his_list').each(function(){
-				var lectAmt = $(this).data('lectAmt');
-				var optnAmt = $(this).data('optnAmt');
-				totLectStlmAmt += Number(lectAmt) * $(this).find('div.cour_detail_w').find('div.cour_detail').length;
-				totLectStlmAmt += Number(optnAmt) * $(this).find('div.cour_detail_w').find('div.cour_detail').length;
-			})
-			$('div.all_price').find('span.price').text(fnc.fn_numberComma(totLectStlmAmt));
-			
+			payment_tot();
+			//팝업창 닫기
 			fn_fadeOut($('#'+ type +'Popup'));
 		}
+	}
+	
+	// 총 결제예정금액 계산
+	var payment_tot = function(){
+		var totLectStlmAmt = 0;
+		$('div.course_history_w div.cour_his_list').each(function(){
+			var lectAmt = $(this).data('lectAmt');
+			var optnAmt = $(this).data('optnAmt');
+			totLectStlmAmt += Number(lectAmt) * $(this).find('div.cour_detail_w').find('div.cour_detail').length;
+			totLectStlmAmt += Number(optnAmt) * $(this).find('div.cour_detail_w').find('div.cour_detail').length;
+		})
+		$('div.all_price').find('span.price').text(fnc.fn_numberComma(totLectStlmAmt));
 	}
 	
 	// 팝업 닫기
@@ -1469,6 +1474,7 @@ var payment = (function(){
 		 , cnclPay : fn_cnclPay
 		 , nicepayClose : fn_nicepayClose
 		 , openTermsPopup : fn_open_terms_popup
+		 , payment_tot : payment_tot
 	 }
 }());
 
