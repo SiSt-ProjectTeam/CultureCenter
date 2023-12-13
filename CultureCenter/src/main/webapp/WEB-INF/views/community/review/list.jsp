@@ -6,11 +6,11 @@
         
 	<form id="reviewForm" data-page-type="list">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
-    <input type="hidden" id="listCnt" name="listCnt" value="5"/>
+    <input type="hidden" id="listCnt" name="listCnt" value="3"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
-    <input type="hidden" name="q" value="${params.q}">
-    <input type="hidden" name="orderSet" value="${params.orderSet}">
-    <input type="hidden" name="brchCd" value="${params.brchCd}">
+    <input type="hidden" name="q" value="">
+    <input type="hidden" name="orderSet" value="${frmSearchDTO.orderSet}">
+    <input type="hidden" name="brchCd" value="${frmSearchDTO.brchCd}">
 </form>
 
 <div class="cont_wrap">
@@ -186,7 +186,7 @@
                                     <div class="btn_area">
                                         <div class="btn_wrap">
                                             <div class="filter_open_area">
-                                                <input type="hidden" id="orderSet" value="A" />
+                                                <input type="hidden" id="orderSet" value="1" />
                                                 <a href="javascript:" class="btn order_btn filter_popup_btn" title="컨텐츠정렬 팝업 열기">
                                                     <div class="order_txt">최신순</div>
                                                 </a>
@@ -198,8 +198,8 @@
                                                     <a href="javascript:" role="button" class="close"></a>
                                                 </div>
                                                 <div class="scroll_wrap">
-                                                    <a class="txt f_caption2 on" data-value="A" href="javascript:" onclick="reviewCtrl.searchOpt(this);">최신순</a>
-                                                    <a class="txt f_caption2" data-value="B" href="javascript:" onclick="reviewCtrl.searchOpt(this);">평점순</a>
+                                                    <a class="txt f_caption2 on" data-value="1" href="javascript:" onclick="reviewCtrl.searchOpt(this);">최신순</a>
+                                                    <a class="txt f_caption2" data-value="2" href="javascript:" onclick="reviewCtrl.searchOpt(this);">평점순</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,9 +264,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
 <script type="text/javascript" src="/resources/common/js/teacher/teacherCommon.js"></script>
-
+<script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
 			
 <!--  end wrap -->
 

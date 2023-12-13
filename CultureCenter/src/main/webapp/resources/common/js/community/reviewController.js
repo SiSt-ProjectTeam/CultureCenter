@@ -14,10 +14,10 @@ var reviewCtrl = (function(){
     var fn_search = function(){
         // form param setting
         prcs_param();
-
-        searchMore.pageIndex = 1;
-		searchMore.search();
+		// get list
+		init_list();
     }
+    
     var fn_search_by_option = function(obj){
         tcCommon.selOptClick(obj);
         fn_search();
@@ -93,7 +93,7 @@ var reviewCtrl = (function(){
 		var contextPath = origin + pathname;
 		
 		var searchMore = null;
-
+	
         // 수강후기 리스트 
 		var initObj = {
             form : $("#reviewForm"),

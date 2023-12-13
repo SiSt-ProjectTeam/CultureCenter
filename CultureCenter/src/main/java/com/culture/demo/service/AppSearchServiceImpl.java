@@ -5,12 +5,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.SearchBranchDTO;
+import com.culture.demo.domain.TawardsDTO;
+import com.culture.demo.domain.TcareerDTO;
+import com.culture.demo.domain.TcertificateDTO;
+import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.domain.TeducationDTO;
 import com.culture.demo.mapper.AppSearchMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -24,15 +29,10 @@ public class AppSearchServiceImpl implements AppSearchService {
 	
 	// 강좌 정보 가져오기
 	@Override
-	public List<ClassDTO> selectClassList(@Param("branch_id") int branch_id, @Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
-										  @Param("yyl") String[] yyl,
-										  @Param("lectcll") String[] lectcll,
-										  @Param("lectstl") String[] lectstl,
-										  @Param("dayl") String[] dayl,
-										  @Param("timel") String[] timel,
-										  @Param("amtl") String[] amtl) throws Exception {
+	public List<ClassDTO> selectClassList(int branch_id, SearchBranchDTO searchBranchDTO
+		, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
 		log.info("AppSearchServiceImpl.selectBranchList() 호출");
-		return appSearchMapper.selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
+		return this.appSearchMapper.selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
 	}
 	
 	// 강좌 목록 ajax html 생성
@@ -41,7 +41,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 		log.info("AppSearchServiceImpl.LecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
-		int totCnt = list.size();
+		
 		String uploadRealPath = request.getServletContext().getRealPath("/upload");
 		log.info("!!!!!!!!!!!!!!!!!! uploadRealPath : " + uploadRealPath);
 		
@@ -61,11 +61,12 @@ public class AppSearchServiceImpl implements AppSearchService {
 				DecimalFormat decimalFormat = new DecimalFormat("#,###");
 				String fee = decimalFormat.format(dto.getClass_fee());
 				
-				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+totCnt+"\">\r\n");
-				html.append("	<a href=\"/resourecs/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
+				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
+				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
 				html.append("		<div class=\"img_box\">\r\n");
 				html.append("			<div class=\"img_resize_w img\">\r\n");
-				html.append("				<img src=\""+uploadRealPath+"/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
+				//html.append("				<img src=\""+uploadRealPath+"/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
+				html.append("				<img src=\"/image/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
 				html.append("			</div>\r\n");
 				html.append("		</div>\r\n");
 				html.append("		<div class=\"con\">\r\n");
@@ -89,6 +90,167 @@ public class AppSearchServiceImpl implements AppSearchService {
 				html.append("</div>");
 			}
 		}
+		String result = html.toString();
+		return result;
+	}
+
+	// 강좌 상세정보 가져오기
+	@Override
+	public ClassDTO DetailClassInfo(int branch_id, int yy, int lectSmsterCd, int lectCd) throws Exception {
+		log.info("AppSearchServiceImpl.DetailClassInfo() 호출");
+		return this.appSearchMapper.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
+	}
+
+	// 강사 정보 가져오기 - 학력
+	@Override
+	public List<TeducationDTO> eduInfo(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.eduInfo() 호출");
+		return this.appSearchMapper.eduInfo(member_sq);
+	}
+
+	// 강사 정보 가져오기 - 경력
+	@Override
+	public List<TcareerDTO> careerInfo(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.careerInfo() 호출");
+		return this.appSearchMapper.careerInfo(member_sq);
+	}
+
+	// 강사 정보 가져오기 - 수상
+	@Override
+	public List<TawardsDTO> awardInfo(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.awardInfo() 호출");
+		return this.appSearchMapper.awardInfo(member_sq);
+	}
+
+	// 강사 정보 가져오기 - 자격
+	@Override
+	public List<TcertificateDTO> certiInfo(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.certiInfo() 호출");
+		return this.appSearchMapper.certiInfo(member_sq);
+	}
+	
+	// 강사 프로필 정보 가져오기
+	@Override
+	public TeacherDTO selectTeacherInfo(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.selectTeacherInfo() 호출");
+		log.info("member_sq : " + member_sq);
+		return this.appSearchMapper.selectTeacherInfo(member_sq);
+	}
+	
+	// 강사 프로필 정보 ajax html 생성
+	@Override
+	public String teacherHTML(int member_sq) throws Exception {
+		log.info("AppSearchServiceImpl.teacherHTML() 호출");
+		TeacherDTO dto = selectTeacherInfo(member_sq);
+		List<TeducationDTO> edu = eduInfo(member_sq);
+		List<TcareerDTO> career = careerInfo(member_sq);
+		List<TawardsDTO> award = awardInfo(member_sq);
+		List<TcertificateDTO> certi = certiInfo(member_sq);
+		
+		StringBuilder html = new StringBuilder();
+		
+		html.append("<div class=\"tit_area\">");
+		html.append("	<div class=\"instructor_img teacherHasImg has_img\">");
+		html.append("		<!-- 강사님 사진이 있을 경우 has_img 클래스 추가해주세요 -->");
+		html.append("		<p class=\"img_resize_w img\">");
+		if(dto.getProfil_img() != null)
+			html.append("			<img class=\"teacherWebPath\" src=\"https://culture.lotteshopping.com/files/CUL_ONL/OLD/COMMON/IMAGES/TECH/036845.jpg\" alt=\"036845.jpg\">");
+		html.append("			</p>");
+		html.append("	</div>");
+		html.append("	<div class=\"tit_wrap\">");
+		html.append("		<p class=\"title f_desc lectNm\"></p>");
+		html.append("		<p class=\"instructor_name tcNm\">"+ dto.getTeacher_nm() +"</p>");
+		html.append("	</div>");
+		html.append("</div>");
+		html.append("<div class=\"dot_txt_box\" style=\"display:none;\">");
+		html.append("	<p class=\"f_body2 teacherSelfIntrdnCont\">"+ dto.getTeacher_intro() +"</p>");
+		html.append("</div>");
+		html.append("<div class=\"sub_inner\">");
+		html.append("	<div class=\"sub_tit_area\">");
+		html.append("		<p class=\"tit f_h2\">학력 및 경력</p>");
+		html.append("	</div>");
+		html.append("	<div class=\"instructor_info\">");
+		html.append("		<div class=\"info_list teacherInfo1\">");
+		if(!edu.isEmpty()) {
+			for(TeducationDTO edto : edu) {
+				html.append("			<div class=\"list_title edu\">");
+				html.append("					<div class=\"title\">");
+				html.append("						<div class=\"label_div\">");
+				html.append("							<p class=\"label small black\">학력</p>");
+				html.append("						</div>");
+				html.append("						<p class=\"f_body1\">"+ edto.getUniversity_nm() + " " + edto.getMajor() + "</p>");
+				html.append("					</div>");
+				html.append("					<div class=\"type_div\">");
+				html.append("						<p class=\"type\">"+ edto.getGraduate_state() +"</p>");
+				html.append("						<p class=\"type\">"+ edto.getGraduate_year() +"</p>");
+				html.append("					</div>");
+				html.append("				</div>");
+			}
+		}
+		if(!career.isEmpty()) {
+			for(TcareerDTO cdto : career) {
+				html.append("			<div class=\"list_title career\">");
+				html.append("					<div class=\"title\">");
+				html.append("						<div class=\"label_div\">");
+				html.append("							<p class=\"label small black\">경력</p>");
+				html.append("						</div>");
+				html.append("						<p class=\"f_body1\">"+ cdto.getPublisher() +"</p>");
+				html.append("					</div>");
+				html.append("					<div class=\"type_div\">");
+				html.append("						<p class=\"type\">"+ cdto.getStart_dt().substring(0, 10) + "~" + cdto.getEnd_dt().substring(0, 10) + "</p>");
+				html.append("					</div>");
+				html.append("				</div>");
+			}
+		}
+		html.append("			</div>");
+		html.append("	</div>");
+		html.append("</div>");
+		html.append("<div class=\"sub_inner\">");
+		html.append("	<div class=\"sub_tit_area\">");
+		html.append("		<p class=\"tit f_h2\">수상내역 및 자격증</p>");
+		html.append("	</div>");
+		html.append("	<div class=\"instructor_info\">");
+		html.append("		<div class=\"info_list teacherInfo2\">");
+		if(!award.isEmpty()) {
+			for(TawardsDTO adto : award) {
+				html.append("			<div class=\"list_title edu\">");
+				html.append("					<div class=\"title\">");
+				html.append("						<div class=\"label_div\">");
+				html.append("							<p class=\"label small black\">수상내역</p>");
+				html.append("						</div>");
+				html.append("						<p class=\"f_body1\">"+ adto.getAwards_history() +"</p>");
+				html.append("					</div>");
+				html.append("					<div class=\"type_div\">");
+				html.append("						<p class=\"type\">"+ adto.getPublisher() +"</p>");
+				html.append("						<p class=\"type\">"+ adto.getAwards_dt().substring(0, 10) +"</p>");
+				html.append("					</div>");
+				html.append("				</div>");
+			}
+		}
+		if(!certi.isEmpty()) {
+			for(TcertificateDTO rdto : certi) {
+				html.append("				<div class=\"list_title career\">");
+				html.append("					<div class=\"title\">");
+				html.append("						<div class=\"label_div\">");
+				html.append("							<p class=\"label small black\">자격증</p>");
+				html.append("						</div>");
+				html.append("						<p class=\"f_body1\">"+ rdto.getCertificate_nm() +"</p>");
+				html.append("					</div>");
+				html.append("					<div class=\"type_div\">");
+				html.append("						<p class=\"type\">"+ rdto.getPublisher() +"</p>");
+				html.append("						<p class=\"type\">"+ rdto.getAcquisition_dt().substring(0, 10) +"</p>");
+				html.append("					</div>");
+				html.append("				</div> ");
+			}
+		}
+		html.append("			</div>");
+		html.append("	</div>");
+		html.append("</div>");
+		html.append("<div class=\"flex_btn_wrap\">");
+		html.append("	<a href=\"javascript:$('.instructor_intro_pop .btn_close').click();\" class=\"border_btn\"> <span>닫기</span>");
+		html.append("	</a>");
+		html.append("</div>");
+		
 		String result = html.toString();
 		return result;
 	}

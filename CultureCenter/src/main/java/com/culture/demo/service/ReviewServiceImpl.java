@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewMapper.getReviewList(branch_id, orderSet, frmSearchDTO);
 	}
 	 */
-
+	
 	// 후기 ajax html
 	@Override
 	public String ReviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException {
@@ -45,7 +45,8 @@ public class ReviewServiceImpl implements ReviewService{
 		int branch_id = frmSearchDTO.getBrchCd();
 		String orderSet = frmSearchDTO.getOrderSet();
 		String q = frmSearchDTO.getQ();
-		List<ReviewDTO> list = reviewMapper.getReviewList(orderSet, branch_id, q, frmSearchDTO);
+		//List<ReviewDTO> list = reviewMapper.getReviewList(orderSet, branch_id, q, frmSearchDTO);
+		List<ReviewDTO> list = reviewMapper.getReviewList(branch_id, frmSearchDTO);
 		
 		StringBuilder html = new StringBuilder();
 		int totCnt = list.size(); // 게시물 총 갯수
@@ -70,21 +71,21 @@ public class ReviewServiceImpl implements ReviewService{
 									  html.append("		<div class=\"thum_wrap\">\r\n");
 									  html.append("			<div class=\"img_resize_w thum_box reverse\">\r\n");
 									  html.append("				<img id=\"review_img\"\r\n");
-									  html.append("				src=\"/"+dto.getClass_img()+
-															"\"alt=\""+dto.getClass_img()+"\">\r\n");
-									  html.append("			</div>\r\n"); html.append("		</div>\r\n");
+									  html.append("				src=\"/"+dto.getClass_img()+"\"alt=\""+dto.getClass_img()+"\">\r\n");
+									  html.append("			</div>\r\n");
+									  html.append("		</div>\r\n");
 									  html.append("		<div class=\"txt_wrap\">\r\n");
 									  html.append("			<div class=\"thum_left\">\r\n");
 									  html.append("				<div class=\"label_div\">\r\n");
-									  html.append("					<p class=\"label small black_gray\">"+dto.
-									  getBranch_nm()+"</p>\r\n"); html.append("				</div>\r\n");
-									  html.append("				<p class=\"title\">"+dto.getReview_title()+
-									  "</p>\r\n");
-									  html.append("					<p class=\"sub_title limit_line f_body2\">"
-									  +dto.getClass_nm()+"</p>\r\n"); html.append("			</div>\r\n");
+									  html.append("					<p class=\"label small black_gray\">"+dto.getBranch_nm()+"</p>\r\n");
+									  html.append("				</div>\r\n");
+									  html.append("				<p class=\"title\">"+dto.getReview_title()+"</p>\r\n");
+									  html.append("					<p class=\"sub_title limit_line f_body2\">"+dto.getClass_nm()+"</p>\r\n"); 
+									  html.append("			</div>\r\n");
 									  html.append("				<div class=\"thum_right\">\r\n");
 									  html.append("					<div class=\"star_rating\">\r\n");
-									  html.append("						<span class=\"star\">"+dto.getRating()+"</span>\r\n"); html.append("					</div>\r\n");
+									  html.append("						<span class=\"star\"></span>".repeat(dto.getRating()) + "\r\n");
+									  html.append("					</div>\r\n");
 									  html.append("						<div class=\"type_div\">\r\n");
 									  html.append("							<p class=\"type f_caption2\">"+dto.getName()+"</p>\r\n");
 									  html.append("							<p class=\"type f_caption2\">"+dto.getDate_writingout_dt()+"</p>\r\n");
