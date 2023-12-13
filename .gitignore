@@ -7,5 +7,6 @@
 .springBeans
 .DS_Store
 /Servers/*
+/CultureCenter/target/*
 pom.properties
 root-context.xml
