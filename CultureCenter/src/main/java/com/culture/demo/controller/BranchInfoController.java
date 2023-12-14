@@ -38,8 +38,7 @@ public class BranchInfoController {
 	public ResponseEntity<String> selectBranchList(@RequestBody BranchDTO branchDTO, Model model) {
 		log.info("> /selectBranchList...POST - Ajax");
 
-		String html = "";
-		html = this.branchInfoService.createBranchHtml(branchDTO);
+		String html = this.branchInfoService.createBranchHtml(branchDTO);
 
 		return !html.equals("") 
 				? new ResponseEntity<>(html, HttpStatus.OK)
@@ -54,8 +53,7 @@ public class BranchInfoController {
 
 		System.out.println(branchDTO);
 		
-		String html = ""; 
-		html = this.branchInfoService.createBranchInfoHtml(branchDTO);
+		String html = this.branchInfoService.createBranchInfoHtml(branchDTO);
 		
 		return !html.equals("") 
 				? new ResponseEntity<>(html, HttpStatus.OK) 
