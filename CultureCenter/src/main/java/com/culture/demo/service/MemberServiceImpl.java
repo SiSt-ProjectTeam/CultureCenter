@@ -2,6 +2,7 @@ package com.culture.demo.service;
 
 import org.springframework.stereotype.Service;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.mapper.MemberMapper;
 
@@ -28,6 +29,19 @@ public class MemberServiceImpl implements MemberService {
 	public int correctionInterestBranch(int member_sq, int itrstBrchCd) {
 		log.info("> MemberServiceImpl.correctionInterestBranch...");
 		return this.memberMapper.updateInterestBranch(member_sq, itrstBrchCd);
+	}
+
+	// 동반수강자(자녀) 추가
+	@Override
+	public int insertChildren(ChildrenDTO dto) throws Exception {
+		log.info(">> MemberServiceImpl.insertChildren ...");
+		return this.memberMapper.insertChildren(dto);
+	}
+	// 동반수강자(자녀) 삭제
+	@Override
+	public int deleteChildren(int children_sq) throws Exception {
+		log.info(">> MemberServiceImpl.deleteChildren ...");
+		return this.memberMapper.deleteChildren(children_sq);
 	}
 
 }

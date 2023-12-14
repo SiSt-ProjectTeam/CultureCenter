@@ -29,6 +29,9 @@ public class CartDTO {
     private int class_id;
     private String class_nm;
     
+    private String lrclsctegrycd;
+    private String lrclsctegry;    
+    
     private int class_st_id;
     private String class_st;
     

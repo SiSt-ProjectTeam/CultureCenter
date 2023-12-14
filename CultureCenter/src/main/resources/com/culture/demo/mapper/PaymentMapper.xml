@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.PaymentMapper">
+	<!-- int cntPeopleTotAv(int detail_class_sq,int cnt) -->
+	<select id="cntPeopleTotAv" resultType="int">
+	SELECT people_tot 
+		   - 
+		   (SELECT COUNT(*)+ ${cnt} 
+			FROM order_detail 
+			WHERE detail_class_sq = 37 
+			AND receipt_status_id IN (1,2)
+			)
+	FROM detail_class dc
+		LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	WHERE dc.detail_class_sq = #{detail_class_sq}
+	</select>
+	
+	<!-- int cntClassOrderMatch(int member_sq,int detail_class_sq) -->
+	<select id="cntClassOrderMatch" resultType="int">
+	SELECT COUNT(*)
+	FROM order_detail od 
+		LEFT JOIN class_order co ON od.order_sq = co.order_sq
+	WHERE co.member_sq = #{member_sq}
+		AND od.receipt_status_id IN (1,2)
+		AND od.detail_class_sq = #{detail_class_sq}
+	</select>
+	
+
+</mapper>

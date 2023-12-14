@@ -148,6 +148,7 @@ public class CartServiceImpl implements CartService{
 		log.info(">>CartService.delete() ... ");
 		return cartMapper.delete(member_sq,type,cartSeqno);
 	}
+	
 	// 장바구니 자동삭제
 	@Override
 	public void autoDelete() throws SQLException, ClassNotFoundException {
