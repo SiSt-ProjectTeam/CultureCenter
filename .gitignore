@@ -7,4 +7,4 @@
 .springBeans
 .DS_Store
 /Servers/*
-/CultureCenter/target/*
+/target/
