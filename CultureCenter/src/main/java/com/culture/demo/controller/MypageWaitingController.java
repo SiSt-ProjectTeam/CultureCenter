@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.WaitingListDTO;
@@ -24,6 +25,22 @@ public class MypageWaitingController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageWaitingController.class);
 	
+	// 대기 삭제
+	@RequestMapping(value = "/cancel.do" , method = RequestMethod.POST)
+	public String deleteWaiting(@RequestParam("atlctRsvNo") int late_sq) {
+	    try {
+	        int rowCount = waitingService.deleteWaiting(late_sq);
+	        if (rowCount > 0) {
+	    	    return "mypage.waiting.list";
+	        } else {
+	        }
+	    } catch (Exception e) {
+	    	logger.info("Processing 404 Error");
+	    }
+	    return "mypage.waiting.list";
+	}
+	
+	// 리스트 출력
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET) 
 	public String WaitinglistPage(Model model, WaitingListDTO params) {
 	    logger.info("Processing the Waiting list page.");
@@ -47,9 +64,10 @@ public class MypageWaitingController{
 	    return "mypage.waiting.list";
 	}
 	
+	//필터(지점) ajax 처리
 	@RequestMapping(value = "/list.ajax", method = RequestMethod.POST, produces = "application/text; charset=UTF-8") 
     public @ResponseBody ResponseEntity<String> filterList(@RequestBody WaitingListDTO params) throws Exception {
-        logger.info("Processing the filtered Waiting list page.");
+        logger.info("Processing the filtered list page.");
     	    	
 //	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //	    	User user = (User) authentication.getPrincipal();

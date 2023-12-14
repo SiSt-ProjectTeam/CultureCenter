@@ -17,6 +17,20 @@ public class WaitingServiceImpl implements WaitingService{
 
 	@Autowired
 	private MypageWaitingMapper mypageWaitingListMapper;
+	
+	@Override
+	public int deleteWaiting(int late_sq) throws SQLException, ClassNotFoundException {
+		try {
+			
+            mypageWaitingListMapper.deleteChildren(late_sq);
+            mypageWaitingListMapper.deleteClass(late_sq);
+            return 1; // 성공 시 1 반환
+        } catch (Exception e) {
+            log.error("Error cancelling waiting: " + e.getMessage());
+            return 0; // 실패 시 0 반환
+        }
+    }
+	
 	// 장바구니 목록 html 작성
 	@Override
 	public String createWaitingHtml(int member_sq, WaitingListDTO params) throws SQLException, ClassNotFoundException {
@@ -38,7 +52,8 @@ public class WaitingServiceImpl implements WaitingService{
 		}else {
 			for(WaitingListDTO WaitingListDTO : list) {
 				html.append("<div class=\"cour_his_list \" data-tot-cnt="+totCnt+" data-atlct-rsv-no=\"2330012nolNK\" \r\n"
-						+ "	data-lect-nm=\""+(WaitingListDTO.getClass_nm())+"\" data-optn-nm=\"\" data-lect-st-dtm=\"" + (WaitingListDTO.getSchedule_start_dt())+ "\" data-lect-st=\"" + (WaitingListDTO.getStart_time()) + "\">\r\n"
+						+ "	data-lect-nm=\""+(WaitingListDTO.getClass_nm())+"\" data-optn-nm=\"\" data-lect-st-dtm=\"" + (WaitingListDTO.getSchedule_start_dt())+ "\" data-lect-st=\"" + (WaitingListDTO.getStart_time()) + "\""
+						+ "	data-late-sq=\""+ WaitingListDTO.getLate_sq() +"\">\r\n"
 						+ "	<div class=\"info_area lime\">\r\n"
 						+ "                 <div class=\"txt_box\">\r\n"
 						+ "                   <p class=\"f_body4\">대기 신청 중인 강좌입니다.</p>\r\n"
@@ -49,7 +64,7 @@ public class WaitingServiceImpl implements WaitingService{
 						+ "                   </a>\r\n"
 						+ "                 </div>	\r\n"
 						+ "               </div>\r\n"
-						+ "		<div class=\"cour_top_area\" data-brch-cd=\"0012\" data-yy=\"2023\" data-lect-smster-cd=\"3\" data-lect-cd=\"0240\" data-optn-seqno=\"\" data-lect-tp-cd=\"01\" data-pbl-pmprcust-brch-cd=\"\" data-pbl-pmprcust-lect-cd=\"\" data-pbl-pmprcust-brch-cd-nm=\"\">\r\n"
+						+ "		<div class=\"cour_top_area\" data-brch-cd=\"\" data-yy=\"\" data-lect-smster-cd=\"\" data-lect-cd=\"\" data-optn-seqno=\"\" data-lect-tp-cd=\"\" data-pbl-pmprcust-brch-cd=\"\" data-pbl-pmprcust-lect-cd=\"\" data-pbl-pmprcust-brch-cd-nm=\"\">\r\n"
 						+ "             <div class=\"left\">\r\n"
 						+ "               <div class=\"label_div\">\r\n"
 						+ "                 <p class=\"label small lime\">"+(WaitingListDTO.getClass_st())+"</p>\r\n"
@@ -76,7 +91,7 @@ public class WaitingServiceImpl implements WaitingService{
 						+ "             </div>\r\n"
 						+ "           </div>\r\n"
 						+ "           <div class=\"cour_detail_w \">\r\n"
-						+ "           	<div class=\"cour_detail \" data-actl-atlct-nple-seqno=\"1\" data-actl-atlct-nple-nm=\""+(WaitingListDTO.getChildren_nm())+"\" data-fmly-rel-cd=\"02\" data-fmly-rel-cd-nm=\"자녀\" data-bday=\"20150101\" data-sex-cd=\"M\" >\r\n"
+						+ "           	<div class=\"cour_detail \" data-actl-atlct-nple-seqno=\"\" data-actl-atlct-nple-nm=\""+(WaitingListDTO.getChildren_nm())+"\" data-fmly-rel-cd=\"\" data-fmly-rel-cd-nm=\"\" data-bday=\"\" data-sex-cd=\"\" >\r\n"
 						+ "                       <div class=\"txt_wrap\">\r\n"
 						+ "                          <li>\r\n"
 						+ "	                      <div class=\"tit tit_wrap\">\r\n"
@@ -88,7 +103,7 @@ public class WaitingServiceImpl implements WaitingService{
 				}
 						html.append("	                        </p>\r\n"
 						+ "                            <p class=\"sub f_body4 red_txt\">\r\n"
-						+ "                            내 앞에 <span>"+(WaitingListDTO.getLate_sq_rank())+"</span>명이 대기중 입니다.\r\n"
+						+ "                            내 앞에 <span>"+(WaitingListDTO.getLate_sq_rank()-1)+"</span>명이 대기중 입니다.\r\n"
 						+ "                            </p>\r\n"
 						+ "                          </div>\r\n"
 						+ "	                   </li>\r\n"
@@ -127,6 +142,9 @@ public class WaitingServiceImpl implements WaitingService{
 		}
 		return html.toString();
 	}
+
+
+
 
 
 }

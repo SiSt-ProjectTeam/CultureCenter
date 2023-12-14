@@ -26,9 +26,9 @@ var mypage_waiting = (function(){
 		lectObj.lectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectCd');
 		lectObj.optnSeqno = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('optnSeqno');
 		lectObj.lectTpCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectTpCd');
-		//lectObj.pblPmprcustbranch_nm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nm');
-		//lectObj.pblPmprcustLectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustLectCd');
-		//lectObj.pblPmprcustbranch_nmNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nmNm');
+		lectObj.pblPmprcustbranch_nm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nm');
+		lectObj.pblPmprcustLectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustLectCd');
+		lectObj.pblPmprcustbranch_nmNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nmNm');
 		
 		var arrActlAtlctNple = [];
 		$(obj).closest('div.cour_his_list').find('div.cour_detail_w').find('div.cour_detail').each(function(){
@@ -114,23 +114,24 @@ var mypage_waiting = (function(){
 	}
 	
 	// 대기취소
-	var fn_move_cancel = function(obj){
-		if(confirm("선택한 대기자를 삭제하시겠습니까?")){
-			var atlctRsvNo = $(obj).closest('div.cour_his_list').data('atlctRsvNo');
-			var lectNm = $(obj).closest('div.cour_his_list').data('lectNm');
-			var optnNm = $(obj).closest('div.cour_his_list').data('optnNm');
-			var lectStDtm = $(obj).closest('div.cour_his_list').data('lectStDtm');
-			var lectSt = $(obj).closest('div.cour_his_list').data('lectSt');
-			$('#frm_cancel').attr('action', '/mypage/waiting/cancel.do');
-			$('#frm_cancel').find('input[name=atlctRsvNo]').val(atlctRsvNo);
-			$('#frm_cancel').find('input[name=lectNm]').val(lectNm);
-			$('#frm_cancel').find('input[name=optnNm]').val(optnNm);
-			$('#frm_cancel').find('input[name=lectStDtm]').val(lectStDtm);
-			$('#frm_cancel').find('input[name=lectSt]').val(lectSt);
-			$('#frm_cancel').attr('method', 'POST');
-			$('#frm_cancel').submit();
-		}
-	}
+	var fn_move_cancel = function(obj) {
+    if (confirm("선택한 대기자를 삭제하시겠습니까?")) {
+        var lateSq = $(obj).closest('div.cour_his_list').data('lateSq');
+        var lectNm = $(obj).closest('div.cour_his_list').data('classNm');
+        var optnNm = $(obj).closest('div.cour_his_list').data('optnNm');
+        var lectStDtm = $(obj).closest('div.cour_his_list').data('scheduleStartDt');
+        var lectSt = $(obj).closest('div.cour_his_list').data('classSt');
+        console.log(lateSq);
+        $('#frm_cancel').attr('action', '/views/mypage/waiting/cancel.do');
+        $('#frm_cancel').find('input[name=atlctRsvNo]').val(lateSq);
+        $('#frm_cancel').find('input[name=lectNm]').val(lectNm);
+        $('#frm_cancel').find('input[name=optnNm]').val(optnNm);
+        $('#frm_cancel').find('input[name=lectStDtm]').val(lectStDtm);
+        $('#frm_cancel').find('input[name=lectSt]').val(lectSt);
+        $('#frm_cancel').attr('method', 'POST');
+        $('#frm_cancel').submit();
+    }
+}
 	
 	var init = function() {
 		var initObj = {

@@ -15,4 +15,8 @@ public interface MypageWaitingMapper {
 
 	public List<WaitingListDTO> getWaitingList(@Param("member_sq") int member_sq, @Param("branch_nm") String branch_nm) throws ClassNotFoundException, SQLException;
 
+	public int deleteChildren(@Param("late_sq") int late_sq) throws ClassNotFoundException, SQLException;
+	
+	public int deleteClass(@Param("late_sq") int late_sq) throws ClassNotFoundException, SQLException;
+	
 }
