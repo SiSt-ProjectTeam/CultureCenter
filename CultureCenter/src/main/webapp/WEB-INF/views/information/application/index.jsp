@@ -91,4 +91,3 @@
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
 		<script type="text/javascript" src="/resources/common/js/information/teacherApp/cooperationRequest.js"></script>
-</body>
