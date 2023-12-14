@@ -1,9 +1,5 @@
 var faqCtrl = (function(){
-	
-	var pathname = "/" + window.location.pathname.split("/")[1];	
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
+
 	"use strict";
 	
 	var searchMore = null;
@@ -32,7 +28,7 @@ var faqCtrl = (function(){
 				form : $("#frmSearch")
 				, container : $(".listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/information/faq/list.ajax"
+				, url : "/information/faq/list.ajax"
 				, pageIndex : $("#frmSearch #pageIndex").val()
 				, listCnt : $("#frmSearch #listCnt").val()
 				, callbackFunc : function() {accorRecall()}
@@ -50,7 +46,7 @@ var faqCtrl = (function(){
 				form : $("#frmSearch")
 				, container : $(".listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/information/faq/list.ajax"
+				, url : "/information/faq/list.ajax"
 				, pageIndex : $("#frmSearch #pageIndex").val()
 				, listCnt : $("#frmSearch #listCnt").val()
 				, callbackFunc : function(){accorRecall()}
