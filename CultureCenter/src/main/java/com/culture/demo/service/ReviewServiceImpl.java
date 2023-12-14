@@ -60,12 +60,13 @@ public class ReviewServiceImpl implements ReviewService{
 			  
 			  }else {
 				  		for(ReviewDTO dto : list ) {
-							  html.append("<div class=\"thum_list_wrap\" data-tot-cnt=\""+totCnt+"\"> \r\n"
-									  );
-									  html.append("	<a href=\"/dtl.do?pageIndex="+dto.getPageIndex()+"&amp;listCnt="+dto.getListCnt()+"&amp;initIndex="+dto.getInitIndex()+"&amp;brchCd="+dto.getBranch_id()+"&yy="+dto.getOpen_year()+"&amp;lectSmsterCd="
-											  	+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getLectCd()+"&amp;tcCdNo="+dto.getTeacherMember_sq()+"&amp;memberNo="+dto.getMember_sq()+"&amp;sortSeqno="+dto.getSortSeqno()+"&amp;cmntCont="+dto.getComment_content()+
-									  	//		"\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd=\"0017\" data-yy=\"2023\" data-lect-smster-cd=\"2\" data-lect-cd=\"0687\" data-tc-cd-no=\"014986\" data-mbr-no=\"190976379\"> \r\n");
-								  					"\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd="+dto.getBranch_id()+" data-yy="+dto.getOpen_year()+" data-lect-smster-cd="+dto.getLectSmsterCd()+" data-lect-cd="+dto.getLectCd()+" data-tc-cd-no="+dto.getTeacherMember_sq()+" data-mbr-no="+dto.getMember_sq()+"> \r\n");
+							  html.append("<div class=\"thum_list_wrap\" data-tot-cnt=\""+totCnt+"\"> \r\n");
+							  html.append("<a href=\"javascript:\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\"");
+							  		  html.append("<a href=\"javascript:\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\r\n");
+									 // html.append("	<a href=\"/dtl.do?pageIndex="+dto.getPageIndex()+"&amp;listCnt="+dto.getListCnt()+"&amp;initIndex="+dto.getInitIndex()+"&amp;brchCd="+dto.getBranch_id()+"&yy="+dto.getOpen_year()+"&amp;lectSmsterCd="
+									 //		  	+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getLectCd()+"&amp;tcCdNo="+dto.getTeacherMember_sq()+"&amp;memberNo="+dto.getMember_sq()+"&amp;sortSeqno="+dto.getSortSeqno()+"&amp;cmntCont="+dto.getComment_content()+"\" class=\"thum_list\"
+							  		  html.append("onclick=\"reviewCtrl.detail(this);\" data-brch-cd=\"0017\" data-yy=\"2023\" data-lect-smster-cd=\"2\" data-lect-cd=\"0687\" data-tc-cd-no=\"014986\" data-mbr-no=\"190976379\"> \r\n");
+							  		  html.append("\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd="+dto.getBranch_id()+" data-yy="+dto.getOpen_year()+" data-lect-smster-cd="+dto.getLectSmsterCd()+" data-lect-cd="+dto.getLectCd()+" data-tc-cd-no="+dto.getTeacherMember_sq()+" data-mbr-no="+dto.getMember_sq()+"> \r\n");
 									  html.append("		<div class=\"thum_wrap\">\r\n");
 									  html.append("			<div class=\"img_resize_w thum_box reverse\">\r\n");
 									  html.append("				<img id=\"review_img\"\r\n");
