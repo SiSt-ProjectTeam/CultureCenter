@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!doctype html>
-<html lang="ko">
-	<body class="">
-		<div id="wrap" data-is-app="" data-is-mobile="" data-is-login="Y">
 			<div class="cont_wrap">
 				<div class="cont_inner no_pb">
 					<div class="page_title_area">
@@ -85,5 +81,3 @@
 			<div class="img"><img src="/common/images/img-online-guide08.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile08.png" alt="" class="only_mobile"></div>
 			<div class="img"><img src="/common/images/img-online-guide09.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile09.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div></div></div></div></div></div></div></div>
 			</div>
-	</body>
-</html>

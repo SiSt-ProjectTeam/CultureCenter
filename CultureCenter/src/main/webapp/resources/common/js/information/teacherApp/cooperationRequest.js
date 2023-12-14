@@ -1,8 +1,5 @@
 var cooperRequestCtrl = (function(){
-    var pathname = "/" + window.location.pathname.split("/")[1];	
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
+
     "use strict";
     
     var layer = document.getElementById("application_popup");
@@ -53,10 +50,10 @@ var cooperRequestCtrl = (function(){
      * @returns 통과: true / 실패: false
      */
     var fn_submit1 = function(){
-        fnc.bscAjax(set_popup_content, contextPath+"/information/application/cooperation/request2.ajax", "html", false, true, true);
+        fnc.bscAjax(set_popup_content, "/information/application/cooperation/request2.ajax", "html", false, true, true);
     }
     var fn_submit2 = function(){
-        fnc.frmAjax(set_popup_content, contextPath+"/information/application/cooperation/submit.ajax", $("#request_form"), "html", false, true, true);
+        fnc.frmAjax(set_popup_content, "/information/application/cooperation/submit.ajax", $("#request_form"), "html", false, true, true);
     }
 
     var set_popup_content = function(html){
