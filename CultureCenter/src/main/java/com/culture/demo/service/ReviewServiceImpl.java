@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 후기 ajax html
 	@Override
-	public String ReviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException {
+	public String reviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException {
 		log.info(">ReviewServiceImpl.ReviewHTML() 호출");
 		
 		
@@ -62,10 +62,10 @@ public class ReviewServiceImpl implements ReviewService{
 				  		for(ReviewDTO dto : list ) {
 							  html.append("<div class=\"thum_list_wrap\" data-tot-cnt=\""+totCnt+"\"> \r\n"
 									  );
-									  html.append("	<a href=\"/dtl.do?branch_id="+dto.getBranch_id()+"&amp;smstId="+dto.getOpen_smst_id()+
-											  		"&amp;classId="+dto.getClass_id()+"&amp;reviewSq="+dto.getReview_sq()+
-											  		"&amp;member_sq="+dto.getMember_sq()+"&amp;commentCnt="+dto.getComment_cnt()+
-											  		"\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd=\"0017\" data-yy=\"2023\" data-lect-smster-cd=\"2\" data-lect-cd=\"0687\" data-tc-cd-no=\"014986\" data-mbr-no=\"190976379\"> \r\n");
+									  html.append("	<a href=\"/dtl.do?pageIndex="+dto.getPageIndex()+"&amp;listCnt="+dto.getListCnt()+"&amp;initIndex="+dto.getInitIndex()+"&amp;brchCd="+dto.getBranch_id()+"&yy="+dto.getOpen_year()+"&amp;lectSmsterCd="
+											  	+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getLectCd()+"&amp;tcCdNo="+dto.getTeacherMember_sq()+"&amp;memberNo="+dto.getMember_sq()+"&amp;sortSeqno="+dto.getSortSeqno()+"&amp;cmntCont="+dto.getComment_content()+
+									  	//		"\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd=\"0017\" data-yy=\"2023\" data-lect-smster-cd=\"2\" data-lect-cd=\"0687\" data-tc-cd-no=\"014986\" data-mbr-no=\"190976379\"> \r\n");
+								  					"\" class=\"thum_list\" onclick=\"reviewCtrl.detail(this);\" data-brch-cd="+dto.getBranch_id()+" data-yy="+dto.getOpen_year()+" data-lect-smster-cd="+dto.getLectSmsterCd()+" data-lect-cd="+dto.getLectCd()+" data-tc-cd-no="+dto.getTeacherMember_sq()+" data-mbr-no="+dto.getMember_sq()+"> \r\n");
 									  html.append("		<div class=\"thum_wrap\">\r\n");
 									  html.append("			<div class=\"img_resize_w thum_box reverse\">\r\n");
 									  html.append("				<img id=\"review_img\"\r\n");
@@ -97,6 +97,13 @@ public class ReviewServiceImpl implements ReviewService{
 			  }
 
 			return html.toString();
+	}
+	
+	// 수강후기 상세페이지
+	@Override
+	public ReviewDTO dtlReview(ReviewDTO dto) throws Exception {
+		log.info(">ReviewServiceImpl.dtlReview() 호출");
+		return this.reviewMapper.dtlReview(dto);
 	}
 
 	

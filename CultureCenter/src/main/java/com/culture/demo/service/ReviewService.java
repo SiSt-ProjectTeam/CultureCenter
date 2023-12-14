@@ -1,9 +1,6 @@
 package com.culture.demo.service;
 
 import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.ReviewDTO;
@@ -14,9 +11,10 @@ public interface ReviewService {
 	//List<ReviewDTO> getReviewList(@Param("branch_id") int branch_id, @Param("orderSet") String orderSet, @Param("frmSearchDTO") FrmSearchDTO frmSearchDTO) throws SQLException;
 	
 	// 리뷰 ajax html
-	String ReviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException;
+	String reviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException;
 
-	
+	// 리뷰 상세페이지
+	ReviewDTO dtlReview(ReviewDTO dto) throws Exception;
 
 
 	

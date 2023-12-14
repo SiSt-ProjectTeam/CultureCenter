@@ -45,8 +45,19 @@ public class ReviewDTO {
    private int class_id; // 강좌 아이디
    private String class_st; // 강좌상태
    private String class_img; // 강좌썸네일
-   private int open_smst_id; // 학기아이디
+   private int lectCd;
+   private int sortSeqno;
    
+   // 리뷰 댓글 테이블
+   private int comment_sq; // 댓글번호
+   private String write_dt; // 댓글 작성날짜
+   private String comment_content; // 댓글내용
+   
+   // 학기별 강좌 테이블
+   private int class_semester_sq; // 학기별 강좌 번호
+   private int open_smst_id; // 개강학기 아이디
+   private String open_year; // 개강 연도 
+  
    // frmSearch
    private String pageIndex;
    private String lectSmsterCd;

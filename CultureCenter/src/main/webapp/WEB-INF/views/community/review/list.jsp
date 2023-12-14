@@ -3,7 +3,7 @@
 
 	<!-- head 부분 -->
         
-	<form id="reviewForm" data-page-type="list">
+<form id="reviewForm" data-page-type="list">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
     <input type="hidden" id="listCnt" name="listCnt" value="3"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
@@ -185,7 +185,7 @@
                                     <div class="btn_area">
                                         <div class="btn_wrap">
                                             <div class="filter_open_area">
-                                                <input type="hidden" id="orderSet" value="1" />
+                                                <input type="hidden" id="orderSet" value="A" />
                                                 <a href="javascript:" class="btn order_btn filter_popup_btn" title="컨텐츠정렬 팝업 열기">
                                                     <div class="order_txt">최신순</div>
                                                 </a>
@@ -265,6 +265,10 @@
 
 <script type="text/javascript" src="/resources/common/js/teacher/teacherCommon.js"></script>
 <script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
-			
-<!--  end wrap -->
-</html>
+
+			<a href="/mypage/myreview/list.do" class="review_write">
+					<span>
+						<span class="icon"></span>
+						<span class="txt">나의 수강후기</span>
+					</span>
+				</a>			

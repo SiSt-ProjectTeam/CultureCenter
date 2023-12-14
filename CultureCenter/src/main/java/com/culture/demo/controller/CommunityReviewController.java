@@ -33,7 +33,6 @@ public class CommunityReviewController {
 	
 	private LecSearchService lecSearchService;
 	
-	
 	// 리뷰 페이지
 	@GetMapping("list.do")
 	public String getReviewList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
@@ -52,7 +51,7 @@ public class CommunityReviewController {
 	public @ResponseBody ResponseEntity<String> getList(@RequestBody FrmSearchDTO frmSearchDTO)throws Exception{
 		log.info("> review/list.ajax : ReviewController.getList() POST 호출 ");
 
-		String html = reviewService.ReviewHTML(frmSearchDTO);
+		String html = reviewService.reviewHTML(frmSearchDTO);
 		
 		return !html.equals("")
 					? new ResponseEntity<>(html, HttpStatus.OK)
@@ -60,10 +59,11 @@ public class CommunityReviewController {
 	}
 	
 	@GetMapping("dtl.do")
-	public String ReviewDtl(Model model) throws ClassNotFoundException, SQLException {
+	public String reviewDtl(Model model, ReviewDTO dto) throws Exception {
 		log.info("> review/dtl getReviewDtl() GET ...");
+		dto = this.reviewService.dtlReview(dto);
 		
-		//List<ReviewDTO>
+		model.addAttribute("dto", dto);
 		return "community.review.dtl";
 	}
 	
