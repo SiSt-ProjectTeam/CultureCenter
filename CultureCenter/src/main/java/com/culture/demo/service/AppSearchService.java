@@ -57,4 +57,8 @@ public interface AppSearchService {
 	
 	// 강사 프로필 ajax html 생성
 	String teacherHTML(@Param("tcCdNo") int member_sq) throws Exception;
+	
+	// 강좌 상세보기 + 옵션 정보
+	ClassDTO selectClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
+	
 }

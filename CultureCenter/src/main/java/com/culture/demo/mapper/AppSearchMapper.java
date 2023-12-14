@@ -42,4 +42,7 @@ public interface AppSearchMapper {
 	// 강사 프로필 가져오기 - 자격
 	List<TcertificateDTO> certiInfo(int member_sq) throws Exception;
 	
+	// 강좌 상세보기 + 옵션 정보
+	ClassDTO selectClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
+	
 }
