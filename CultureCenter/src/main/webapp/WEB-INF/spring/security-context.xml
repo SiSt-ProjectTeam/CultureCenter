@@ -5,12 +5,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<!-- 에러 : spring-security-4.2.xsd 수정. -->
-	<security:http pattern="/static/**" security="none"></security:http>   
-	<security:http pattern="/design/**" security="none"></security:http>   
+	<!-- css, js, image 등 접근 제어 대상이 아니기에 보안필터 체인 비적용 -->
+	<security:http pattern="/resources/**" security="none"></security:http>   
 	
-	<security:http> 
-	   <security:form-login/>  
+	<security:http use-expressions="true">
+		<!-- 접근 권한 설정 -->
+		
+		<security:form-login
+	          login-page="/login/index.do" 
+	          authentication-success-handler-ref="customLoginSuccessHandler"
+	          authentication-failure-url="/joinus/login.htm?error=true"
+	          default-target-url="/index.htm"
+	   />
+	   
+	   <security:logout logout-url="/joinus/logout.htm"  
+	       invalidate-session="true"
+	       logout-success-url="/" 
+	   />
 	</security:http>   
 	
 	<security:authentication-manager> 

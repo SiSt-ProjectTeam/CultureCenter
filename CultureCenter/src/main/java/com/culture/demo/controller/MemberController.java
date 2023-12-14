@@ -25,4 +25,7 @@ public class MemberController {
 		response = Map.of("lgnYn", true);
 	    return ResponseEntity.ok(response);
 	}
+	
+	// 로그인
+	
 }
