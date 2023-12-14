@@ -1,9 +1,5 @@
 var faqCtrl = (function(){
 	
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;
-	var contextPath = origin + pathname;
-	
 	"use strict";
 	
 	var searchMore = null;
