@@ -85,41 +85,10 @@
 				</a>
 			</div>
 		</div>
-
 		<script type="text/javascript" src="/resources/common/js/teacher/teacherCommon.js"></script>
 		<script type="text/javascript" src="/resources/common/js/information/teacherApp/requestIndex.js"></script>
 		<script type="text/javascript" src="/resources/common/js/information/teacherApp/teacherRequest.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
 		<script type="text/javascript" src="/resources/common/js/information/teacherApp/cooperationRequest.js"></script>
-
-		<form id="frmSso" method="post">
-			<input type="hidden" name="ssoTkn" id="ssoTkn" value="" /> <input
-				type="hidden" name="acesTkn" id="acesTkn" value="" /> <input
-				type="hidden" name="rnwTkn" id="rnwTkn" value="" /> <input
-				type="hidden" name="onlCstTpC" id="onlCstTpC" value="" /> <input
-				type="hidden" name="frnYn" id="frnYn" value="" /> <input
-				type="hidden" name="rspClac" id="rspClac" value="" /> <input
-				type="hidden" name="rspC" id="rspC" value="" /> <input
-				type="hidden" name="rspDtc" id="rspDtc" value="" /> <input
-				type="hidden" name="rspMsgCn" id="rspMsgCn" value="" /> <input
-				type="hidden" name="rtnUrl" id="rtnUrl" value="" />
-		</form>
-
-		<script type="text/javascript" src="/resources/common/js/member/sso.js"></script>
-	</div>
-	<!--  end wrap -->
-
-	<script type="text/javascript" src="/resources/common/netfunnel/netfunnel.js"
-		charset="UTF-8"></script>
-
-	<script>
-		if(true)
-		{
-			common.logOutTimer.start();
-		}
-		commonScript.headerFooterFn();
-		commonScript.formChkFn();
-	</script>
-
 </body>
