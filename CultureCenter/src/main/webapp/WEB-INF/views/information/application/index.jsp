@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<body class="">
-	<div id="wrap" data-is-app="" data-is-mobile="" data-is-login="Y">
 		<div class="cont_wrap">
 			<div class="cont_inner no_pb">
 				<div class="page_title_area">
