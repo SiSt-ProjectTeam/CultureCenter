@@ -392,4 +392,16 @@ public class AppSearchServiceImpl implements AppSearchService {
 		return result;
 	}
 
+	
+	// 강좌 상세보기 + 옵션 정보
+	@Override
+	public ClassDTO selectClassInfo(int branch_id, int yy, int lectSmsterCd, int lectCd) throws Exception {
+		log.info("AppSearchServiceImpl.selectClassInfo() 호출");
+		return this.appSearchMapper.selectClassInfo(branch_id, yy, lectSmsterCd, lectCd);
+	}
+
+
+
+
+	
 }

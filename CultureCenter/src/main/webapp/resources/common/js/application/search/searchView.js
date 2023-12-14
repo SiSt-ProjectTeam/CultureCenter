@@ -294,7 +294,7 @@ var search = (function(){
 			console.log(lectStatCd);
 			if (lectStatCd == "02" || lectStatCd == "2") {
 				//수강 신청
-				$('#classForm').attr('action', contextPath+'/payment/step1.do');
+				$('#classForm').attr('action', '/payment/step1.do');
 				$('#classForm').attr('method', 'POST');
 				$('#classForm').submit();
 			} else if (lectStatCd == "4") {
@@ -472,6 +472,7 @@ var search = (function(){
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.isParam = false;
 		searchMore.search();
+		classInfoSet();
 	}
 	
 	$(document).ready(function() {
