@@ -1,8 +1,5 @@
 var fnc = (function() {
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
+
     "use strict";
 
     var submitFlag = false;
@@ -127,7 +124,7 @@ var fnc = (function() {
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
- 
+    
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -219,16 +216,15 @@ var fnc = (function() {
             if (typeof sync == "undefined") {
                 sync = true;
             }
-			console.log(data);
-			//넘어온 data json객체로
-			var jsonData = JSON.stringify(data);	
-			console.log(jsonData);
+
+			;
+			
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: jsonData,
-                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),//추가
+                contentType : "application/json; charset=utf-8",//추가
                 dataType: dataType,
                 async: sync,
                 cache: false,
@@ -856,11 +852,11 @@ var fnc = (function() {
     // 장바구니
     var cartBtn = function(brchCd, yy, lectSmsterCd, lectCd, lectStatCd) {
         fnc.bscAjax(function(data) {
-        	console.log("cartBtn bscAjax callback_data :");
-        	console.log(data);
+        		console.log("cartBtn bscAjax callback_data :");
+        		console.log(data);
             if (data.lgnYn) {
-            	console.log("carBtn paramAjax");
-                fnc.paramAjax(function(rtnMap) {
+               console.log("carBtn paramAjax");
+               fnc.paramAjax(function(rtnMap) {
                 	console.log("carBtn paramAjax callback_data :");
                 	console.log(rtnMap);
                     //var rtnMap = data.rtnMap;

@@ -42,4 +42,5 @@ public class AtlctDTO {
 	 	private String branch_nm;				// 지점명
 
 	 	private List<AtlctPersonalDTO> personalList;
+
 } // class
