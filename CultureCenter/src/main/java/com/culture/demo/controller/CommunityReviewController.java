@@ -33,6 +33,7 @@ public class CommunityReviewController {
 	
 	private LecSearchService lecSearchService;
 	
+	
 	// 리뷰 페이지
 	@GetMapping("list.do")
 	public String getReviewList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
