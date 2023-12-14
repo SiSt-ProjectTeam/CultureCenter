@@ -20,7 +20,7 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	//지점 목록
 	@Override
 	public List<BranchDTO> getBranchList(int brchAreaCd) {	
-		log.info("> BranchInfoServiceImpl.selectBranchList ...");		
+		log.info("> BranchInfoServiceImpl.getBranchList ...");		
 		return this.branchInfoMapper.getBranchList(brchAreaCd);
 	}
 
@@ -53,7 +53,7 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	//지점 정보 가져오기
 	@Override 
 	public BranchDTO getBranchInfo(int brchCd) {
-		log.info("> BranchInfoServiceImpl.selectBranchList ..."); 
+		log.info("> BranchInfoServiceImpl.getBranchInfo ..."); 
 		return this.branchInfoMapper.getBranchInfo(brchCd); 	
 	}
 
