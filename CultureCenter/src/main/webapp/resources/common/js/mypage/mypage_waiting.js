@@ -1,3 +1,5 @@
+console.log("mypage_waiting.js loaded");
+
 var mypage_waiting = (function(){
 	
 	"use strict";
@@ -6,11 +8,10 @@ var mypage_waiting = (function(){
 	var callCnt = 0;
 	
 	// 지점 변경
-	var fn_change_brchCd = function(brchCd){
-		$('#frm_search').find('#brchCd').val(brchCd);
+	var fn_change_branch_nm = function(branch_nm){
+		$('#frm_search').find('#branch_nm').val(branch_nm);
 		searchMore.pageIndex = 1;
 		searchMore.search();
-//		fn_script();
 		moreStudent();	
 	}
 	
@@ -19,15 +20,15 @@ var mypage_waiting = (function(){
 		var arrLect = [];
 		var lectObj = {};
 		lectObj.atlctRsvNo = $(obj).closest('div.cour_his_list').data('atlctRsvNo');
-		lectObj.brchCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('brchCd');
+		lectObj.branch_nm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('branch_nm');
 		lectObj.yy = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('yy');
 		lectObj.lectSmsterCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectSmsterCd');
 		lectObj.lectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectCd');
 		lectObj.optnSeqno = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('optnSeqno');
 		lectObj.lectTpCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectTpCd');
-		lectObj.pblPmprcustBrchCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustBrchCd');
-		lectObj.pblPmprcustLectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustLectCd');
-		lectObj.pblPmprcustBrchCdNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustBrchCdNm');
+		//lectObj.pblPmprcustbranch_nm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nm');
+		//lectObj.pblPmprcustLectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustLectCd');
+		//lectObj.pblPmprcustbranch_nmNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbranch_nmNm');
 		
 		var arrActlAtlctNple = [];
 		$(obj).closest('div.cour_his_list').find('div.cour_detail_w').find('div.cour_detail').each(function(){
@@ -136,18 +137,16 @@ var mypage_waiting = (function(){
 				form : $("#frm_search")
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : "/mypage/waiting/list.ajax"
+				, url : "/views/mypage/waiting/list.ajax"
 				, pageIndex : $("#frm_search #pageIndex").val()
 				, listCnt : $("#frm_search #listCnt").val()
-				, callbackFunc : function() {
+				, callbackFunc : function(data) {
+				
+				            console.log(data); // 추가된 부분
+				
 					$("#totCnt").text(searchMore.totCnt  + "개");
 					moreStudent();
 					
-//					if(callCnt != 0){
-//						fn_script();
-//					}
-//					callCnt++;
-//					fn_script();
 				}
 		}
 		searchMore = new fnc.SearchMore(initObj);
@@ -159,7 +158,7 @@ var mypage_waiting = (function(){
 	});
 	
 	 return {
-		 changeBrchCd : fn_change_brchCd
+		 changebranch_nm : fn_change_branch_nm
 		 , movePayment : fn_move_payment
 		 , moveCancel : fn_move_cancel
 	 }
