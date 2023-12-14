@@ -20,7 +20,7 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	//지점 목록
 	@Override
 	public List<BranchDTO> getBranchList(int brchAreaCd) {	
-		log.info("> BranchInfoServiceImpl.selectBranchList ...");		
+		log.info("> BranchInfoServiceImpl.getBranchList ...");		
 		return this.branchInfoMapper.getBranchList(brchAreaCd);
 	}
 
@@ -53,7 +53,7 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	//지점 정보 가져오기
 	@Override 
 	public BranchDTO getBranchInfo(int brchCd) {
-		log.info("> BranchInfoServiceImpl.selectBranchList ..."); 
+		log.info("> BranchInfoServiceImpl.getBranchInfo ..."); 
 		return this.branchInfoMapper.getBranchInfo(brchCd); 	
 	}
 
@@ -99,9 +99,6 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 		html.append("				})\r\n");
 		html.append("		\r\n");
 		html.append("			</script>			\r\n");
-
-
-
 		html.append("				<div class=\"con on\">\r\n");
 		html.append("					<div class=\"sub_con_section\">\r\n");
 		html.append("						<div class=\"store_info_area\">\r\n");
@@ -123,7 +120,6 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 		html.append("										<div class=\"swiper-pagination\"></div>\r\n");
 		html.append("								</div>\r\n");
 		html.append("							</div>\r\n");
-
 		html.append("							<div class=\"store_txt_wrap\">\r\n");
 		html.append("								<p class=\"txt f_body2\">\r\n"
 				+ branchDTO.getBranch_addr() + "<br class=\"only_pc\"></p>\r\n");

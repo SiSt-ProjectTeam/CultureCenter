@@ -37,8 +37,7 @@ public class FaqInfoController {
 	public ResponseEntity<String> faqList(@RequestBody FaqDTO dto , Model model) {
 		log.info("> /faqList...POST - Ajax");	
 
-		String html = "";
-		html = this.faqService.createFaqHtml(dto);
+		String html = this.faqService.createFaqHtml(dto);
 
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)

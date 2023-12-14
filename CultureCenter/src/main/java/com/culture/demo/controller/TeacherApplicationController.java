@@ -34,18 +34,19 @@ public class TeacherApplicationController {
 	public ResponseEntity<String> goPersonalAgreementCollection () {
 		log.info("> /information/application/teacher/request.do... POST");				
 		
-		String html = "";
-		html = this.teacherService.createTeacherHtml();
+		String html = this.teacherService.createTeacherHtml();
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	/*
 	@PostMapping(value = "/information/application/teacher/insert.ajax", produces = "application/text; charset=UTF-8")
 	public String goInsert(@RequestBody int cnt, String prinfClctAgrYn, String carrInfoClctAgrYn, Model model) {
 		log.info("> /information/application/teacher/insert.ajax... POST");				
 		
 		return this.teacherService.teacherInfoOk(cnt, prinfClctAgrYn, carrInfoClctAgrYn);
 	}
+	*/
 }

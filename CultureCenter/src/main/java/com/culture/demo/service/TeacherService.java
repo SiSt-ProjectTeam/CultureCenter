@@ -7,6 +7,6 @@ public interface TeacherService {
 	public String createTeacherHtml();
 	
 	//강사신청 정보 입력창
-	public String teacherInfoOk(int cnt, String prinfClctAgrYn, String carrInfoClctAgrYn);
+	//public String teacherInfoOk(int cnt, String prinfClctAgrYn, String carrInfoClctAgrYn);
 	
 }

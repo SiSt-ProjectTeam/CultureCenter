@@ -855,9 +855,14 @@ var fnc = (function() {
     // 장바구니
     var cartBtn = function(brchCd, yy, lectSmsterCd, lectCd, lectStatCd) {
         fnc.bscAjax(function(data) {
+        		console.log("cartBtn bscAjax callback_data :");
+        		console.log(data);
             if (data.lgnYn) {
-                fnc.paramAjax(function(data) {
-                    var rtnMap = data.rtnMap;
+               console.log("carBtn paramAjax");
+               fnc.paramAjax(function(rtnMap) {
+                	console.log("carBtn paramAjax callback_data :");
+                	console.log(rtnMap);
+                    //var rtnMap = data.rtnMap;
                     if (rtnMap.result == "S") {
 
                         if (Number($('div.util_area p.cart_icon span.cart_num').text()) < 50) {
@@ -874,12 +879,12 @@ var fnc = (function() {
                         alert(rtnMap.msg);
                         return;
                     }
-                }, "/mypage/cart/insert.ajax", {
-                    brchCd: brchCd,
-                    yy: yy,
-                    lectSmsterCd: lectSmsterCd,
-                    lectCd: lectCd,
-                    lectStatCd: lectStatCd
+                }, "/mypage/cart/insert.ajax",{
+                    branch_id: brchCd,
+                    open_year: yy,
+                    open_smst_id: lectSmsterCd,
+                    detail_class_sq: lectCd,
+                    class_st_id: lectStatCd
                 }, "json", false, false);
             } else {
                 if (confirm("로그인이 필요한 서비스입니다.")) {

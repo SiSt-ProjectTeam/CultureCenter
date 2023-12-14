@@ -38,24 +38,19 @@ public class BranchInfoController {
 	public ResponseEntity<String> selectBranchList(@RequestBody BranchDTO branchDTO, Model model) {
 		log.info("> /selectBranchList...POST - Ajax");
 
-		String html = "";
-		html = this.branchInfoService.createBranchHtml(branchDTO);
+		String html = this.branchInfoService.createBranchHtml(branchDTO);
 
 		return !html.equals("") 
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-
 	//지점 정보 조회
 	@PostMapping(value = "/view.ajax", produces = "application/text; charset=UTF-8" ) 
 	public ResponseEntity<String> viewBranchInfo(@RequestBody BranchDTO branchDTO, Model model) { 
 		log.info("> /viewBranchInfo...POST - Ajax");
 
-		System.out.println(branchDTO);
-		
-		String html = ""; 
-		html = this.branchInfoService.createBranchInfoHtml(branchDTO);
+		String html = this.branchInfoService.createBranchInfoHtml(branchDTO);
 		
 		return !html.equals("") 
 				? new ResponseEntity<>(html, HttpStatus.OK) 
