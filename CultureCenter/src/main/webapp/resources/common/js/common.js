@@ -193,7 +193,7 @@ var common = (function(){
 				var item = fnc.convertHtml(fnc.returnHtml(ele.item));
 				itemHtml += '<p class="word swiper-slide">';
 				itemHtml += '<a href="/application/integration/list.do?q=' + encodeURIComponent(item) + '">' + item + '</a>';
-				itemHtml += ' <button type="button" onclick="common.integrationRemove(this);" data-item="' + item + '" class="delete_btn"><img src="/common/images/btn-search-data-delete.png" alt=""></button>'
+				itemHtml += ' <button type="button" onclick="common.integrationRemove(this);" data-item="' + item + '" class="delete_btn"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>'
 				itemHtml += '</p>';
 			});
 			

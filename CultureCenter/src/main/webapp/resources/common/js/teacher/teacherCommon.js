@@ -123,6 +123,7 @@ var tcCommon = (function(){
 
     // 셀렉트박스 옵션 클릭시 input값 변경
     var select_option_click = function(obj){
+    	console.log(obj);
         var $inputObj;
         if($(obj).parents(".form_select_div").length > 0){
             $inputObj = $(obj).parents(".form_select_div").find(".open_area input");
@@ -130,8 +131,8 @@ var tcCommon = (function(){
         else if($(obj).parents(".btn_wrap").length > 0){
             $inputObj = $(obj).parents(".btn_wrap").find(".filter_open_area input");
         }
-
-        $inputObj.val(obj.dataset.value); 
+		console.log(obj.dataset.value);
+        $inputObj.val($(obj).data("value")); 
     }
 
     //이메일

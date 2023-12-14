@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -44,5 +45,8 @@ public interface AppSearchMapper {
 	
 	// 강좌 상세보기 + 옵션 정보
 	ClassDTO selectClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
-	
+
+	// 메인페이지 강좌 정보 가져오기
+	List<ClassDTO> mainSelectClassList(@Param("mainLectSearchDTO") MainLectSearchDTO mainLectSearchDTO) throws Exception;
+
 }

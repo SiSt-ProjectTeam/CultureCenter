@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.MainLectSearchDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -36,7 +37,15 @@ public interface AppSearchService {
 				    @Param("timel") String[] timel,
 				    @Param("amtl") String[] amtl,
 				    HttpServletRequest request) throws Exception;
+
 	
+	// 메인페이지 강좌 정보 가져오기
+	List<ClassDTO> getMainClassList(MainLectSearchDTO mainLectSearchDTO) throws Exception;
+	
+	// 추천/카테고리별/신규 강좌 목록 ajax html 생성
+	String mainLecHTML(MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception;
+	
+
 	// 강좌 상세정보 가져오기
 	ClassDTO DetailClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
 
