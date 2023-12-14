@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.culture.demo.domain.TeacherDTO;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -16,10 +14,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class TeacherServiceImpl implements TeacherService{
 	
+	//개인정보 수집 html
 	@Override
-	public String createTeacherHtml() {
-		
-		log.info("> TeacherServiceImpl.createTeacherHtml......");
+	public String createClausePrivacyHtml() {
+		log.info("> TeacherServiceImpl.createClausePrivacyHtml......");
 
 		StringBuilder html = new StringBuilder();
 			
@@ -159,10 +157,11 @@ public class TeacherServiceImpl implements TeacherService{
 		
 		return html.toString();
 	}
-
+	
+	//개인정보 수집 동의 여부
 	@Override
-	public Map<String, String> teacherInfoOk(Map<String, String> step) {
-		log.info("> TeacherServiceImpl.teacherInfoOk......");
+	public Map<String, String> clausePrivacyOk(Map<String, String> step) {
+		log.info("> TeacherServiceImpl.clausePrivacyOk......");
 		
 		Map<String , String> okMap = new HashMap<String, String>();
 		
@@ -172,10 +171,10 @@ public class TeacherServiceImpl implements TeacherService{
 		return okMap;
 	}
 
-	
+	//강사신청 정보입력 html
 	@Override
-	public String createInsertHtml() {	
-		log.info("> TeacherServiceImpl.createInsertHtml......");
+	public String createTeacherInfoHtml() {	
+		log.info("> TeacherServiceImpl.createTeacherInfoHtml......");
 
 		StringBuilder html = new StringBuilder();
 
@@ -2323,6 +2322,14 @@ public class TeacherServiceImpl implements TeacherService{
 		
 			return html.toString();
 
+	}
+	
+	//강사신청 제출
+	@Override
+	//@Transactional
+	public TeacherDTO submitTeacherInfo(TeacherDTO teacherDTO) {
+
+		return null;
 	}
 				
 }

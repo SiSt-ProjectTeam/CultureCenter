@@ -10,14 +10,13 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class TeacherApplicationController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(TeacherApplicationController.class);
 
 	@GetMapping(value = "/information/application/index.do")
 	public String goTeacherApplication() {
 		log.info("> /information/application/index... GET");
-		
+
 		return "information.application.index";
 	}
-
 }
