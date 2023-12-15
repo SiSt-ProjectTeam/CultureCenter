@@ -7,7 +7,7 @@
 	
 	<!-- 장바구니 목록 가져오기 public void getCarts(String id,int branch_id, int lectDetailSq) -->
 	<select id="getCarts" resultType="com.culture.demo.domain.CartDTO">
-		SELECT
+	SELECT
 		b.member_sq, b.detail_class_sq
 		, SUBSTR(dc.start_time,1,2)||':'||SUBSTR(dc.start_time,3,4) as start_time
 		, SUBSTR(dc.end_time,1,2)||':'||SUBSTR(dc.end_time,3,4) as end_time
@@ -18,6 +18,7 @@
         , cbs.class_fee, cbs.ex_charge
 		, cbs.open_smst_id ,s.smst_nm
 		, c.class_nm, c.class_id
+        , ct.lrclsctegrycd, lc.lrclsctegry
 		, cs.class_st_id, cs.class_st
 		, bh.branch_id, bh.branch_nm
 		, t.teacher_nm
@@ -35,6 +36,8 @@
 		    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
 		    LEFT JOIN semester s ON cbs.open_smst_id = s.open_smst_id
 		    LEFT JOIN class c ON c.class_id = cbs.class_id
+            LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id
+            LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd
 		    LEFT JOIN class_state cs ON c.class_st_id = cs.class_st_id
 		    LEFT JOIN branch bh ON bh.branch_id = c.branch_id
 		    LEFT JOIN teacher t ON c.member_sq = t.member_sq
@@ -53,7 +56,7 @@
 	
 	<!-- 장바구니 추가 int insert(@Param("member_sq")int member_sq,@Param("detail_class_sq")int detail_class_sq)-->
 	<insert id="insert">
-	INSERT INTO basket
+	INSERT INTO basket (member_sq, detail_class_sq)
 	VALUES(#{member_sq},#{detail_class_sq})
 	</insert>
 	
@@ -64,5 +67,12 @@
     <if test="type != 'all'">
         AND detail_class_sq IN (${cartSeqno})
     </if>
+	</delete>
+	
+	<!-- 장바구니 자동삭제 void autoDelete() -->
+	<delete id="autoDelete">
+	<![CDATA[
+	DELETE FROM basket WHERE TRUNC( SYSDATE - reg_dt ) >= 30
+	]]>
 	</delete>
 </mapper>
