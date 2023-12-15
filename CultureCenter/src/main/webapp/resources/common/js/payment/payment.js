@@ -296,9 +296,9 @@ var payment = (function(){
 		if(rtnMap.rsltCd == "-1"){
 			alert("수강결제는 접수중인 강좌만 가능합니다.\n선택한 강좌를 다시 한번 확인하세요.");
 		}else if(rtnMap.rsltCd == "-2"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.lectNm) + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
+			alert("강좌명 : " + rtnMap.lectNm + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
 		}else if(rtnMap.rsltCd == "-3"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n강좌는 이미 수강신청한 강좌입니다.");
+			alert("강좌명 : " + rtnMap.lectNm + "\n강좌는 이미 수강신청한 강좌입니다.");
 		}else if(rtnMap.rsltCd == "-4"){ // 강의시간 중복
 			var cnclYn = false;
 			var arrLect = [], arrAtlct = [];
@@ -307,16 +307,10 @@ var payment = (function(){
 					// 강좌목록
 					arrLect.push(rtnMap.lectDtDuplYnList[i].actlAtlctNpleNm);
 					break;
-//					if(!confirm("강좌명 : " + rtnMap.lectDtDuplYnList[i].lectNm + "\n수강자 : " + rtnMap.lectDtDuplYnList[i].actlAtlctNpleNm + "\n강의기간(시간, 요일)이 중복되는 강좌가 있습니다.\n그래도 결제하시겠습니까?")){
-//						//cnclYn = true;
-//					}
 				}else if(rtnMap.lectDtDuplYnList[i].type == "20"){
 					// 결제내역
 					arrAtlct.push(rtnMap.lectDtDuplYnList[i].actlAtlctNpleNm);
 					break;
-//					if(!confirm("강좌명 : " + rtnMap.lectDtDuplYnList[i].lectNm + "\n수강자 : " + rtnMap.lectDtDuplYnList[i].actlAtlctNpleNm + "\n결제내역 강의기간(시간, 요일)이 중복되는 강좌가 있습니다.\n그래도 결제하시겠습니까?")){
-//						//cnclYn = true;
-//					}
 				}
 			}
 			
@@ -327,12 +321,7 @@ var payment = (function(){
 					cnclYn = true;
 				}
 			}
-//			if(arrAtlct.length > 0){
-//				if(!confirm("수강자 : " + arrAtlct.join() + "\n결제내역 강의기간(시간, 요일)이 중복되는 강좌가 있습니다.\n그래도 결제하시겠습니까?")){
-//					cnclYn = true;
-//				}
-//			}
-			
+
 			if(!cnclYn){
 				if(rtnMap.atlctType == 'waiting'){
 					$('#frm_submit').find('input[name=atlctType]').val(rtnMap.atlctType);
@@ -343,7 +332,7 @@ var payment = (function(){
 				$('#frm_submit').submit();
 			}
 		}else if(rtnMap.rsltCd == "-6"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.lectNm) + "\n본인을 제외한 1명의 실수강자만 선택하세요.");
+			alert("강좌명 : " + rtnMap.lectNm + "\n본인을 제외한 1명의 실수강자만 선택하세요.");
 		}else{
 			if(rtnMap.atlctType == 'waiting'){
 				$('#frm_submit').find('input[name=atlctType]').val(rtnMap.atlctType);
@@ -1378,46 +1367,7 @@ var payment = (function(){
 			submitFlag = false;
 		}
 	 }
-	 
-	 // step2 -> step1
-	 var fn_move_step1 = function(){
-		 var arrBrchCd = [], arrYy = [], arrLectSmsterCd = [], arrLectCd = [], arrOptnSeqno = [], arrOptnUseYn = [];
-		 $('#frm_prev').find('input[name^=brchCd]').each(function(){
-			 arrBrchCd.push($(this).val());
-		 });
-		 $('#frm_prev').find('input[name^=yy]').each(function(){
-			 arrYy.push($(this).val());
-		 });
-		 $('#frm_prev').find('input[name^=lectSmsterCd]').each(function(){
-			 arrLectSmsterCd.push($(this).val());
-		 });
-		 $('#frm_prev').find('input[name^=lectCd]').each(function(){
-			 arrLectCd.push($(this).val());
-		 });
-		 $('#frm_prev').find('input[name^=optnSeqno]').each(function(){
-			 arrOptnSeqno.push($(this).val());
-		 });
-		 $('#frm_prev').find('input[name^=optnUseYn]').each(function(){
-			 arrOptnUseYn.push($(this).val());
-		 });
-		 
-		 $('#frm_prev').find('input[name^=brchCd]').remove();
-		 $('#frm_prev').find('input[name^=yy]').remove();
-		 $('#frm_prev').find('input[name^=lectSmsterCd]').remove();
-		 $('#frm_prev').find('input[name^=lectCd]').remove();
-		 $('#frm_prev').find('input[name^=optnSeqno]').remove();
-		 $('#frm_prev').find('input[name^=optnUseYn]').remove();
-		 
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'brchCd', value:arrBrchCd.join() }));
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'yy', value:arrYy.join() }));
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'lectSmsterCd', value:arrLectSmsterCd.join() }));
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'lectCd', value:arrLectCd.join() }));
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'optnSeqno', value:arrOptnSeqno.join() }));
-		 $('#frm_prev').append($('<input/>', {type: 'hidden', name: 'optnUseYn', value:arrOptnUseYn.join() }));
-		 
-		 $('#frm_prev').submit();
-	 }
-	 
+
 	// 결제중단
 	 var fn_nicepayClose = function(atlctRsvNo){
 		 // 2023.04.27 모바일 결제중단
@@ -1455,7 +1405,6 @@ var payment = (function(){
 		 , submitStep2Frm : fn_submit_step2_frm
 		 , focusoutLpoint : fn_focusout_lpoint
 		 , calcPay : fn_calcPay
-		 , moveStep1 : fn_move_step1
 		 , cnclPay : fn_cnclPay
 		 , nicepayClose : fn_nicepayClose
 		 , openTermsPopup : fn_open_terms_popup
@@ -1464,7 +1413,6 @@ var payment = (function(){
 }());
 
 //뒤로가기 버튼 처리
-
 window.onpageshow = function(event) {
     if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
     	// step3 -> step2로 갈때만 메인으로 팅김
