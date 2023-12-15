@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		log.warn("> ROLE NAMES : " + roleNames );
 		
-		if ( roleNames.contains("ROLE_ADMIN") ) {
+		if ( roleNames.contains("ROLE_USER") ) {
 			// 이전 페이지의 URL 얻기
 	        String referer = request.getHeader("Referer");
 
@@ -46,7 +46,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		/* manager 혹은 admin 관련 코드 추가시 사용
 		else if ( roleNames.contains("ROLE_MANAGER") ) {
 			return;
-		} else if ( roleNames.contains("ROLE_USER") ) {
+		} else if ( roleNames.contains("ROLE_ADMIN") ) {
 			return;
 		}
 		*/

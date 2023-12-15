@@ -9,18 +9,20 @@
 	<security:http pattern="/resources/**" security="none"></security:http>   
 	
 	<security:http use-expressions="true">
-		<!-- 접근 권한 설정 -->
-		<security:intercept-url pattern="/customer/noticeReg.htm" access="isAuthenticated()"/>
+		<!-- 접근 제한 설정 -->
+		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/**" access="permitAll" />
+		
+		<security:access-denied-handler ref="customAccessDeniedHandler"/>
 		
 		<security:form-login
 	          login-page="/login/index.do" 
 	          authentication-success-handler-ref="customLoginSuccessHandler"
-	          authentication-failure-url="/joinus/login.htm?error=true"
-	          default-target-url="/index.htm"
+	          authentication-failure-url="/login/result?result=fail"
+	          default-target-url="/index.do"
 	   />
 	   
-	   <security:logout logout-url="/joinus/logout.htm"  
+	   <security:logout logout-url="/login/logout.do"  
 	       invalidate-session="true"
 	       logout-success-url="/" 
 	   />
@@ -29,6 +31,16 @@
 	   
 	</security:http>   
 	
-	<security:authentication-manager> 
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
+	<security:authentication-manager>
+	  <security:authentication-provider user-service-ref="customUserDetailsService">
+	  	<security:jdbc-user-service 
+		  data-source-ref="dataSource"
+		  users-by-username-query="SELECT id AS USERNAME, '{noop}'||pw AS PASSWORD, 1 AS enabled FROM member WHERE id = ?"
+		  authorities-by-username-query="SELECT member_sq AS userid, authority AS auth FROM member_authorities WHERE id = ?"
+		/>
+		<security:password-encoder ref="bCryptPasswordEncoder" />
+	  </security:authentication-provider>	
 	</security:authentication-manager>
 </beans>
