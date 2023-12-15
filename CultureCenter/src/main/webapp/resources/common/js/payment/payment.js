@@ -66,7 +66,8 @@ var payment = (function(){
 			var brchCd = $('#'+ type +'Popup').data('brchCd');
 			var yy = $('#'+ type +'Popup').data('yy');
 			var lectSmsterCd = $('#'+ type +'Popup').data('lectSmsterCd');
-			var lectCd = $('#'+ type +'Popup').data('lectCd');			
+			var lectCd = $('#'+ type +'Popup').data('lectCd');	
+			var classStId = $('#'+ type +'Popup').data('classStId');
 			var lectAmt = $('#'+ type +'Popup').data('lectAmt');
 			var optnTypCdNm = $('#'+ type +'Popup').data('optnTypCdNm');
 			var optnNm = $('#'+ type +'Popup').data('optnNm');
@@ -74,7 +75,7 @@ var payment = (function(){
 			var optnSeqno = $('#'+ type +'Popup').data('optnSeqno');
 			var optnUseYn = $('#'+ type +'Popup').data('optnUseYn');
 			
-			
+			// target_div = "2인강좌"
 			if(objClCd == "02"){
 				// 2인 강좌인 경우
 				if($('#'+ type +'Popup').find('input[type=checkbox]:checked').length == 1){
@@ -106,6 +107,8 @@ var payment = (function(){
 					, yy : yy
 					, lectSmsterCd : lectSmsterCd
 					, lectCd : lectCd
+					, lectNm : lectNm
+					, classStId : classStId
 					, lectAmt : lectAmt
 					, optnTypCdNm : optnTypCdNm
 					, optnNm : optnNm
@@ -127,16 +130,14 @@ var payment = (function(){
 	
 	// 수강자 변경/추가 콜백
 	var fn_update_actl_atlct_nple_callback = function(html){
+		console.log($(html));
 		var rsltCd = $(html).data('rsltCd');
 		var type = $(html).data('type');
+		console.log(rsltCd+"/"+type);
 		if(rsltCd == '-1'){
-			alert('수강결제는 접수중인 강좌만 가능합니다.\n선택한 강좌를 다시 한번 확인하세요.');
-		}else if(rsltCd == '-2'){
 			alert('강좌명 : ' + $(html).data('lectNm') + '\n현재 수강 가능인원은 ' + $(html).data('capaCnt') + '명입니다.');
-		}else if(rsltCd == '-3'){
-			alert('강좌명 : ' + $(html).data('lectNm') + '\n수강자 : ' + $(html).data('actlAtlctNpleNm') + '\n강좌는 이미 수강신청한 강좌입니다.');
-		}else if(rsltCd == '-4'){
-			alert('AVENUEL ORANGE 등급 이상,  AVENUEL 소속점과 관심지점이 동일한 경우에만 결제 가능합니다.');
+		}else if(rsltCd == '-2'){
+			alert('강좌명 : ' + $(html).data('lectNm') + '\n강좌는 이미 수강신청한 강좌입니다.');
 		}else{
 			var brchCd = $('#'+ type +'Popup').data('brchCd');
 			var yy = $('#'+ type +'Popup').data('yy');
@@ -152,6 +153,8 @@ var payment = (function(){
 					if($('#'+ type +'Popup').find('input[type=checkbox]:checked').length > 1){
 						$(this).find('div.cour_detail_w').addClass('plural');
 					}
+					
+					
 				}
 			});
 			// 총 결제예정금액 계산
@@ -223,29 +226,11 @@ var payment = (function(){
 		}else{
 			if(confirm("가족회원을 삭제하시겠습니까?")){
 				var paramObj = {
-					fmlySeqno : fmlySeqno
+					children_sq : fmlySeqno
 				}
 				
 				fnc.paramAjax(function(data) {
-					if(data.rtnCode == "1")
-					{
-						window.location.reload();
-						/*
-						if($(obj).closest('div.info_txt').find('div.info_list').length == 1){
-							var hideListDiv = $(obj).closest('div.hide_list');
-							$(obj).closest('div.info_txt').remove();							
-							var html = '';
-							html += '<div class="no_srch_area no_pb">';
-							html += '	<div class="no_srch_div">';
-							html += '		<p class="txt f_h2"><span class="normal_value">등록된 정보가 없습니다.</span></p>';
-							html += '	</div>';
-							html += '</div>';
-							hideListDiv.append(html);
-						}else{
-							$(obj).closest('div.info_list').remove();
-						}
-						*/
-					}
+					if(data.rtnCode == "1") window.location.reload();
 				}, "/mypage/member/family/delete.ajax", paramObj, "json", true, false);
 			}
 		}
@@ -271,6 +256,7 @@ var payment = (function(){
 			lectObj.lectCd = $(this).data('lectCd');
 			lectObj.optnSeqno = $(this).data('optnSeqno');
 			lectObj.lectTpCd = $(this).data('lectTpCd');
+			
 			if($(this).data('lectTpCd') == "04" && $(this).data('pblPmprcustBrchCd') != ""){
 				lectObj.brchCd = $(this).data('pblPmprcustBrchCd');
 				lectObj.lectCd = $(this).data('pblPmprcustLectCd');
@@ -305,16 +291,15 @@ var payment = (function(){
 	
 	// step1 -> step2 콜백
 	var fn_validate_step1_callback = function(data){
-		var rtnMap = data.rtnMap;
+		console.log(data);
+		var rtnMap = data;
 		if(rtnMap.rsltCd == "-1"){
 			alert("수강결제는 접수중인 강좌만 가능합니다.\n선택한 강좌를 다시 한번 확인하세요.");
 		}else if(rtnMap.rsltCd == "-2"){
 			alert("강좌명 : " + fnc.returnHtml(rtnMap.lectNm) + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
 		}else if(rtnMap.rsltCd == "-3"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n수강자 : " + rtnMap.atlctYnMap.actlAtlctNpleNm + "\n강좌는 이미 수강신청한 강좌입니다.");
-		}else if(rtnMap.rsltCd == "-4"){
-			alert('AVENUEL ORANGE 등급 이상,  AVENUEL 소속점과 관심지점이 동일한 경우에만 결제 가능합니다.');
-		}else if(rtnMap.rsltCd == "-5"){
+			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n강좌는 이미 수강신청한 강좌입니다.");
+		}else if(rtnMap.rsltCd == "-4"){ // 강의시간 중복
 			var cnclYn = false;
 			var arrLect = [], arrAtlct = [];
 			for(var i=0;i<rtnMap.lectDtDuplYnList.length;i++){

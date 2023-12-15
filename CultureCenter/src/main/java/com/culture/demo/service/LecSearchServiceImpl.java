@@ -19,13 +19,13 @@ public class LecSearchServiceImpl implements LecSearchService {
 	
 	@Override
 	public List<ClassDTO> getBranch() {
-		log.info("> LecSearchServiceImpl.getBranch() 호출");
+		log.info(">> LecSearchServiceImpl.getBranch() 호출");
 		return lecSearchMapper.getBranch();
 	}
 	
 	@Override
 	public List<ClassDTO> getCategory() {
-		log.info("> LecSearchServiceImpl.getCategory() 호출");
+		log.info(">> LecSearchServiceImpl.getCategory() 호출");
 		return lecSearchMapper.getCategory();
 	}
 

@@ -1,5 +1,7 @@
 package com.culture.demo.domain;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ public class CartDTO {
 	
 	private int member_sq;
 	private int detail_class_sq;
+	private Date reg_dt;
 	
     private String start_time;
     private String end_time;
@@ -25,6 +28,9 @@ public class CartDTO {
     
     private int class_id;
     private String class_nm;
+    
+    private String lrclsctegrycd;
+    private String lrclsctegry;    
     
     private int class_st_id;
     private String class_st;

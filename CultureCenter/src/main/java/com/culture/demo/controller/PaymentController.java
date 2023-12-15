@@ -1,13 +1,22 @@
 package com.culture.demo.controller;
 
+import java.lang.reflect.Array;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.FrmSubmitDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.service.CartService;
@@ -25,7 +34,7 @@ public class PaymentController {
 	private CartService cartService;
 	private PaymentService paymentService;
 	
-	// 수강결제1
+	// 수강결제1(step1) 페이지 이동
 	@PostMapping("step1.do")
 	public String goPaymentStep1(FrmSubmitDTO dto, Model model) throws Exception{ //Principal principal
 		log.info("/payment/step1.do + POST :PaymentController.goPaymentStep1()...");
@@ -41,5 +50,52 @@ public class PaymentController {
 		model.addAttribute("mDto", mDto);
 		
 		return "payment.step1";
+	}
+	// 수강결제1 수강자변경/추가 저장하기
+	@PostMapping(value="actlAtlctNpleList.ajax", produces = "application/text; charset=UTF-8")
+	public @ResponseBody ResponseEntity<String> updateActlAtlct(@RequestBody Map<String, String> paramMap
+																//,Principal principal
+																) throws Exception{
+		log.info("/payment/actlAtlctNpleList.ajax + POST :PaymentController.updateActlAtlct()...");
+		
+		Set<Entry<String, String>> en = paramMap.entrySet();
+		for (Entry<String, String> entry : en) {
+			System.out.println("key : "+entry.getKey()+"/ value : "+entry.getValue());
+		}
+		//int member_sq = Integer.parseInt(principal.getName());
+		int member_sq = 79;
+		int detail_class_sq = Integer.parseInt(paramMap.get("lectCd")); // 세부강좌번호
+		int cnt = Integer.parseInt(paramMap.get("cnt")); // 수강신청 인원
+		// 학기별강좌 - 수강가능인원
+		int peopleTotAvCnt = paymentService.matchPeopleTotAv(detail_class_sq,cnt);
+		// 수강신청한 강좌인지
+		int orderDuplCnt = paymentService.matchClassOrder(member_sq,detail_class_sq);
+		System.out.println("peopleTotAvCnt: "+ peopleTotAvCnt+ " / orderDuplCnt: "+orderDuplCnt);
+		
+		if(peopleTotAvCnt < 0) {
+			return ResponseEntity.ok("<div data-rslt-cd='-1' data-lect-nm='"+paramMap.get("lectNm")+"' data-capaCnt='"+(peopleTotAvCnt+cnt)+"'><div>");
+		}else if(orderDuplCnt != 0) {
+			return ResponseEntity.ok("<div data-rslt-cd='-2' data-lect-nm='"+paramMap.get("lectNm")+"></div>");
+		}else {
+			String html = paymentService.createCourDetailWHtml(paramMap);
+			//System.out.println(html);
+			return ResponseEntity.ok(html);
+		}
+	}
+	// step1 -> step2 check사항 ajax
+	@PostMapping("/payment/validateStep1.ajax")
+	public @ResponseBody ResponseEntity<Map<String, Object>> validateStep1(@RequestBody String list) throws Exception{
+		System.out.println(list);
+		Map<String, Object> rtnMap = new HashedMap();
+		rtnMap.put("jsonStr", "");
+		rtnMap.put("rsltCd", "1");
+		return ResponseEntity.ok(rtnMap);
+	}
+	
+	// 수강결제2(step2)페이지 이동
+	@PostMapping("/payment/step2.do")
+	public String goPaymentStep2(FrmSubmitDTO dto) throws Exception{
+		log.info("/payment/step2.do + POST :PaymentController.goPaymentStep2()...");
+		return "payment.step2";
 	}
 }
