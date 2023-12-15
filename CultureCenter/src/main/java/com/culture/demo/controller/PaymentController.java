@@ -1,10 +1,14 @@
 package com.culture.demo.controller;
 
+import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +34,7 @@ public class PaymentController {
 	private CartService cartService;
 	private PaymentService paymentService;
 	
-	// 수강결제1 페이지 이동
+	// 수강결제1(step1) 페이지 이동
 	@PostMapping("step1.do")
 	public String goPaymentStep1(FrmSubmitDTO dto, Model model) throws Exception{ //Principal principal
 		log.info("/payment/step1.do + POST :PaymentController.goPaymentStep1()...");
@@ -74,10 +78,24 @@ public class PaymentController {
 			return ResponseEntity.ok("<div data-rslt-cd='-2' data-lect-nm='"+paramMap.get("lectNm")+"></div>");
 		}else {
 			String html = paymentService.createCourDetailWHtml(paramMap);
-			System.out.println(html);
+			//System.out.println(html);
 			return ResponseEntity.ok(html);
 		}
-		
-
+	}
+	// step1 -> step2 check사항 ajax
+	@PostMapping("/payment/validateStep1.ajax")
+	public @ResponseBody ResponseEntity<Map<String, Object>> validateStep1(@RequestBody String list) throws Exception{
+		System.out.println(list);
+		Map<String, Object> rtnMap = new HashedMap();
+		rtnMap.put("jsonStr", "");
+		rtnMap.put("rsltCd", "1");
+		return ResponseEntity.ok(rtnMap);
+	}
+	
+	// 수강결제2(step2)페이지 이동
+	@PostMapping("/payment/step2.do")
+	public String goPaymentStep2(FrmSubmitDTO dto) throws Exception{
+		log.info("/payment/step2.do + POST :PaymentController.goPaymentStep2()...");
+		return "payment.step2";
 	}
 }

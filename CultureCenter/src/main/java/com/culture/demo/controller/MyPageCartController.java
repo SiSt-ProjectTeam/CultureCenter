@@ -41,8 +41,8 @@ public class MyPageCartController {
 		System.out.println(params.getPageIndex()+"/"+params.getBrchCd()+"/"+params.getBrchNm());
 		List<ClassDTO> brchList = lecSearchService.getBranch();
 		
-		model.addAttribute("params", params);
-		model.addAttribute("brchList", brchList);
+		model.addAttribute("params", params);     // frm_search
+		model.addAttribute("brchList", brchList); // 지점선택
 		return "mypage.cart.list";
 	}
 	

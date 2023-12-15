@@ -75,7 +75,7 @@ public class CartServiceImpl implements CartService{
 						+ "                    <p class=\"label small black_gray\">" + cartDTO.getBranch_nm() + "</p>\r\n"
 						+ "                </div>\r\n"
 						+ "                <p class=\"tit f_h2\">\r\n"
-						+ "                    <a href=\"/application/search/view.do?brchCd=" + cartDTO.getBranch_id() + "&yy=" + cartDTO.getOpen_year() + "&lectSmsterCd=" + cartDTO.getOpen_smst_id() + "&lectCd=" + cartDTO.getClass_id() + "\">\r\n"
+						+ "                    <a href=\"/application/search/view.do?branch_id=" + cartDTO.getBranch_id() + "&yy=" + cartDTO.getOpen_year() + "&lectSmsterCd=" + cartDTO.getOpen_smst_id() + "&lectCd=" + cartDTO.getClass_id() + "\">\r\n"
 						+ "                        <span>"+cartDTO.getClass_nm()+"</span>\r\n"
 						+ "                    </a>\r\n"
 						+ "                </p>\r\n"

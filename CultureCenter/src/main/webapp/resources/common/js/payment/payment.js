@@ -256,6 +256,7 @@ var payment = (function(){
 			lectObj.lectCd = $(this).data('lectCd');
 			lectObj.optnSeqno = $(this).data('optnSeqno');
 			lectObj.lectTpCd = $(this).data('lectTpCd');
+			
 			if($(this).data('lectTpCd') == "04" && $(this).data('pblPmprcustBrchCd') != ""){
 				lectObj.brchCd = $(this).data('pblPmprcustBrchCd');
 				lectObj.lectCd = $(this).data('pblPmprcustLectCd');
@@ -290,16 +291,15 @@ var payment = (function(){
 	
 	// step1 -> step2 콜백
 	var fn_validate_step1_callback = function(data){
-		var rtnMap = data.rtnMap;
+		console.log(data);
+		var rtnMap = data;
 		if(rtnMap.rsltCd == "-1"){
 			alert("수강결제는 접수중인 강좌만 가능합니다.\n선택한 강좌를 다시 한번 확인하세요.");
 		}else if(rtnMap.rsltCd == "-2"){
 			alert("강좌명 : " + fnc.returnHtml(rtnMap.lectNm) + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
 		}else if(rtnMap.rsltCd == "-3"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n수강자 : " + rtnMap.atlctYnMap.actlAtlctNpleNm + "\n강좌는 이미 수강신청한 강좌입니다.");
-		}else if(rtnMap.rsltCd == "-4"){
-			alert('AVENUEL ORANGE 등급 이상,  AVENUEL 소속점과 관심지점이 동일한 경우에만 결제 가능합니다.');
-		}else if(rtnMap.rsltCd == "-5"){
+			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n강좌는 이미 수강신청한 강좌입니다.");
+		}else if(rtnMap.rsltCd == "-4"){ // 강의시간 중복
 			var cnclYn = false;
 			var arrLect = [], arrAtlct = [];
 			for(var i=0;i<rtnMap.lectDtDuplYnList.length;i++){

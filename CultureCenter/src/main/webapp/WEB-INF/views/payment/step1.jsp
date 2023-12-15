@@ -18,10 +18,11 @@
 </script>
 			
 <form id="frm_submit" name="frm_submit">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+	<!-- <input type="hidden" name="csrfPreventionSalt" value="" /> -->
 	<input type="hidden" name="jsonStr" value="" />
 	<input type="hidden" name="atlctType" value="normal" />
 </form>
+
 <div class="cont_wrap">
   <div class="cont_inner no_pb">
     <div class="page_title_area">
