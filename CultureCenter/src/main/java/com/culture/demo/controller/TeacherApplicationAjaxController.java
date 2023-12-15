@@ -63,6 +63,7 @@ public class TeacherApplicationAjaxController {
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	
 	/*
 	//강사신청서 제출
 	@PostMapping(value = "/submit.ajax", produces = {MediaType.APPLICATION_JSON_VALUE})

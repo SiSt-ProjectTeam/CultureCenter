@@ -2329,6 +2329,15 @@ public class TeacherServiceImpl implements TeacherService{
 	//@Transactional
 	public TeacherDTO submitTeacherInfo(TeacherDTO teacherDTO) {
 
+		//사진 업로드 컨트롤러 추가
+		
+		//TEACHER 테이블에 추가
+		//AWARDS 테이블에 추가
+		//CARRER 테이블에 추가
+		//CERTIFICATE 테이블에 추가
+		//EDUCATION 테이블에 추가
+		//APPLY_CLASS 테이블에 추가
+
 		return null;
 	}
 				

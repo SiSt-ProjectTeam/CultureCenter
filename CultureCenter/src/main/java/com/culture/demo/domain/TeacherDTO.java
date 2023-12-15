@@ -2,6 +2,8 @@ package com.culture.demo.domain;
 
 import java.util.Map;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -74,4 +76,5 @@ public class TeacherDTO {
 	private int hopeEndMi; 						//희망종료분
 	private int lectIntrdnCont; 				//강좌소개
 		
+	private CommonsMultipartFile file;
 }
