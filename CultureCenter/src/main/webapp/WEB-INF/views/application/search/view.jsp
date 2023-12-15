@@ -80,21 +80,21 @@
 																		<div class="selected_info">
 																			<dl>
 																				<dt>지점</dt>
-																				<dd class="brchNm">${ dto.branch_nm }</dd>
+																				<dd class="brchNm">${ classDtl.branch_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>강좌구분</dt>
-																				<dd class="lectClNm">${ dto.class_div }</dd>
+																				<dd class="lectClNm">${ classDtl.class_div }</dd>
 																			</dl>
 																			<dl>
 																				<dt>학기</dt>
-																				<dd class="yy">${ dto.open_year }년 ${ dto.smst_nm }</dd>
+																				<dd class="yy">${ classDtl.open_year }년 ${ classDtl.smst_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>강사명</dt>
 																				<dd>
 																					<a href="javascript:search.teacherSet($(this));" id="tcBtn" data-tc-cd-no="${ dto.member_sq }" class="arrow_btn">
-																						<span class="tcNm">${ dto.name }</span>
+																						<span class="tcNm">${ classDtl.name }</span>
 																					</a>
 																				</dd>
 																			</dl>
@@ -110,11 +110,11 @@
 																			</dl>
 																			<dl>
 																				<dt>강의횟수/정원</dt>
-																				<dd class="lectNbcnt">${ dto.class_cnt }회/${ dto.people_tot }명</dd>
+																				<dd class="lectNbcnt">${ classDtl.class_cnt }회/${ classDtl.people_tot }명</dd>
 																			</dl>
 																			<dl>
 																				<dt>강의실</dt>
-																				<dd class="lectRmNm">${ dto.classroom_nm }</dd>
+																				<dd class="lectRmNm">${ classDtl.classroom_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>수강료</dt>
@@ -124,7 +124,7 @@
 																			</dl>
 																			<dl>
 																				<dt>대상구분</dt>
-																				<dd class="objClNm">${ dto.target_div }</dd>
+																				<dd class="objClNm">${ classDtl.target_div }</dd>
 																			</dl>
 																			<dl>
 																				<dt>접수기간</dt>
@@ -132,7 +132,7 @@
 																			</dl>
 																			<dl>
 																				<dt>문의처</dt>
-																				<dd class="telno">${ dto.tel }</dd>
+																				<dd class="telno">${ classDtl.tel }</dd>
 																			</dl>
 																		</div>
 																	</div>
@@ -145,8 +145,10 @@
 													<!-- 수강신청, 대기신청, 지점문의, 접수마감 -->
 													<div class="single_btn_area"> 
 														<div class="btn_wrap">
-															<a class="sign_btn b_color_btn" href="javascript:search.btnCheck();">
-																<span class="lectStatCd">수강 신청하기</span>
+															<a class="sign_btn" href="javascript:search.btnCheck();">
+																<input type="hidden" name="cst" value="${classDtl.class_st_id}">
+																<span class="lectStatCd"></span>
+																
 															</a> 
 														</div>
 													</div>				
@@ -160,29 +162,29 @@
 									<div class="course_popup list multiple"><!-- 2022-11-23 hide 클래스 삭제 -->
 										<form id="classForm" name="classForm">
 											<input type="hidden" name="csrfPreventionSalt" value="7eTIBXS8bYYIUOpV9A5Q" />
-											<input type="hidden" id="brchCd" name="brchCd" value="0001"/>
-											<input type="hidden" id="yy" name="yy" value="2023"/>
-											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="4"/>
-											<input type="hidden" id="lectCd" name="lectCd" value="0486"/>
-											<input type="hidden" id="lectStatCd" name="lectStatCd" value="03"/>
-											<input type="hidden" id="optnUseYn" name="optnUseYn" value="N"/>
-											<input type="hidden" id="mvgDsplyUseYn" name="mvgDsplyUseYn" value="N"/>
-											<input type="hidden" id="lectNm" name="lectNm" value="[12/16 외부] 티와 위스키가 함께하는 미식차회"/>
-											<input type="hidden" id="optnTypCd" name="optnTypCd" value="02"/>
-											<input type="hidden" id="lectAmt" name="lectAmt" value="100000"/>
+											<input type="hidden" id="brchCd" name="brchCd" value=""/>
+											<input type="hidden" id="yy" name="yy" value=""/>
+											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value=""/>
+											<input type="hidden" id="lectCd" name="lectCd" value=""/>
+											<input type="hidden" id="lectStatCd" name="lectStatCd" value=""/>
+											<input type="hidden" id="optnUseYn" name="optnUseYn" value=""/>
+											<input type="hidden" id="mvgDsplyUseYn" name="mvgDsplyUseYn" value=""/>
+											<input type="hidden" id="lectNm" name="lectNm" value=""/>
+											<input type="hidden" id="optnTypCd" name="optnTypCd" value=""/>
+											<input type="hidden" id="lectAmt" name="lectAmt" value=""/>
 											<input type="hidden" id="optnSeqno" name="optnSeqno" value=""/>
 											<input type="hidden" id="optnNm" name="optnNm" value=""/>
 											<input type="hidden" id="optnAmt" name="optnAmt" value=""/>
-											<input type="hidden" id="lectStDtm" name="lectStDtm" value="2023.12.16"/>
+											<input type="hidden" id="lectStDtm" name="lectStDtm" value=""/>
 											<input type="hidden" id="lectSt" name="lectStDtm" value="11:30"/>
 											<input type="hidden" id="partRfndPsblYn" name="partRfndPsblYn" value=""/>
-											<input type="hidden" id="pblPmprcustParntBrchCd" name="pblPmprcustParntBrchCd" value="0002" />
-											<input type="hidden" id="pblPmprcustParntLectCd" name="pblPmprcustParntLectCd" value="0709" />
+											<input type="hidden" id="pblPmprcustParntBrchCd" name="pblPmprcustParntBrchCd" value="" />
+											<input type="hidden" id="pblPmprcustParntLectCd" name="pblPmprcustParntLectCd" value="" />
 											<input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
 											<input type="hidden" id="initIndex" name="initIndex" value="1"/>
 											<input type="hidden" id="listCnt" name="listCnt" value="10"/>
-											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value="04"/>
-											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value="3"/>
+											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value=""/>
+											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value=""/>
 										</form>
 										<div class="pop_wrap">
 											<div class="pop_cont">
@@ -245,10 +247,7 @@
 																<span class="blind">장바구니</span>
 															</a>
 															<a class="sign_btn b_color_btn" href="javascript:search.paymentBtn();">
-																<span>
-																	
-																			수강신청
-																		</span>
+																<span></span>
 															</a>
 														</div>
 													</div>
@@ -415,8 +414,7 @@
 									<p class="type tcNm">${ dto.name }</p>
 								</div>
 								<p class="time lectSt">${ lectTime }, 총 ${ dto.class_cnt }회 </p>
-								<p class="sub_tit lectAmt2">강좌료 
-									${ fee }원
+								<p class="sub_tit lectAmt2">강좌료 ${ fee }원
 										</p>
 								<p class="txt optionAmt"></p>
 							</div>
@@ -549,5 +547,60 @@
 		</a>
 	</div>
 </div>
+<script>
+	// 강좌상태별 버튼
+	var addText = "";
+	var classText = "";
+	var cst = $('input[name=cst]').val();
+	console.log(cst);
+	if(cst == 2) {
+		addText = "수강 신청하기";
+		console.log(addText);
+		classText = "sign_btn b_color_btn";
+		$(".course_popup .total_sum_area .sign_btn span").text("수강신청");
+	} else if(cst == 4) {
+		addText = "대기 신청하기";
+		classText = "sign_btn border_btn"
+		$(".course_popup .total_sum_area .sign_btn span").text("대기신청");
+	} else if(cst == "5") {
+		addText = "접수마감";
+		classText = "sign_btn b_color_btn disabled"
+	} else if(cst == "3") {
+		addText = "지점문의";
+		classText = "sign_btn b_color_btn disabled"
+	} else {
+		$(".fixed_btn_area").hide();
+	}
+	$(".lectStatCd").text(addText);
+	$(".lectStatCd").closest("a").attr("class", classText).closest(".fixed_btn_area").show();
 
+	
+	//수강신청 대기신청 
+	var paymentBtn = function() {
+		if($('#wrap').data('isLogin') == "Y"){
+			if($("#optnUseYn").val() == 'Y' && $("#optnSeqno").val() == "") {
+				//강좌 옵션 사용시 선택 안했을때
+				alert("옵션을 선택하세요.");
+				return;
+			}
+			
+			var lectStatCd = $("#lectStatCd").val();
+			console.log(lectStatCd);
+			if (lectStatCd == "02" || lectStatCd == "2") {
+				//수강 신청
+				$('#classForm').attr('action', '/payment/step1.do');
+				$('#classForm').attr('method', 'POST');
+				$('#classForm').submit();
+			} else if (lectStatCd == "4") {
+				//대기 신청
+				commonScript.openPopupFn("#waitPopup", $(".cont_wrap .total_sum_area .sign_btn"));	
+			}
+		}else{
+			if(confirm("로그인이 필요한 서비스입니다.")){
+				fnc.moveLoginPage();
+			}
+		}
+	}
+	
+</script>
 <script type="text/javascript" src="/resources/common/js/application/search/searchView.js"></script>
