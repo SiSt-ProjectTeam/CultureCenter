@@ -196,8 +196,8 @@
 			WHERE (#{searchBranchDTO.pageIndex}-1)*#{searchBranchDTO.listCnt} + 1 <= rank AND rank <= #{searchBranchDTO.pageIndex}*#{searchBranchDTO.listCnt}
 		]]>
 	</select>
-	
-	
+		
+		
 	<!-- 강좌 상세정보 가져오기 -->
 	<select id="DetailClassInfo" resultType="com.culture.demo.domain.ClassDTO">
 		SELECT s.class_id, detail_class_sq, detail_img, class_content, supplies, class_sched_desc, class_img, class_nm, class_contnet_smp, ex_charge	
@@ -258,6 +258,85 @@
 	</select>
 
 
+	<!-- 강좌 상세보기 + 옵션 정보 -->
+	<resultMap type="com.culture.demo.domain.ClassDTO" id="classMap">
+		<id property="class_id" column="class_id"/>
+		<result property="branch_id" column="branch_id"/>
+		<result property="branch_tp_id" column="branch_tp_id"/>
+		<result property="branch_tp" column="branch_tp"/>
+		<result property="lrclsCtegryCd" column="lrclsCtegryCd"/>
+		<result property="lrclsCtegry" column="lrclsCtegry"/>
+		<result property="mdclsCtegryCd" column="mdclsCtegryCd"/>
+		<result property="mdclsCtegry" column="mdclsCtegry"/>
+		<result property="class_div_id" column="class_div_id"/>
+		<result property="class_type_id" column="class_type_id"/>
+		<result property="class_img" column="class_img"/>
+		<result property="detail_img" column="detail_img"/>
+		<result property="class_content" column="class_content"/>
+		<result property="class_sched_desc" column="class_sched_desc"/>
+		<result property="supplies" column="supplies"/>
+		<result property="class_regist_dt" column="class_regist_dt"/>
+		<result property="class_semester_sq" column="class_semester_sq"/>
+		<result property="open_smst_id" column="open_smst_id"/>
+		<result property="classroom_id" column="classroom_id"/>
+		<result property="teacher_sq" column="teacher_sq"/>
+		<result property="class_nm" column="class_nm"/>
+		<result property="branch_nm" column="branch_nm"/>
+		<result property="class_st_id" column="class_st_id"/>
+		<result property="class_st" column="class_st"/>
+		<result property="class_div" column="class_div"/>
+		<result property="open_year" column="open_year"/>
+		<result property="smst_nm" column="smst_nm"/>
+		<result property="name" column="name"/>
+		<result property="schedule_start_dt" column="schedule_start_dt"/>
+		<result property="schedule_end_dt" column="schedule_end_dt"/>
+		<result property="start_time" column="start_time"/>
+		<result property="end_time" column="end_time"/>
+		<result property="mon" column="mon"/>
+		<result property="tue" column="tue"/>
+		<result property="wed" column="wed"/>
+		<result property="thu" column="thu"/>
+		<result property="fri" column="fri"/>
+		<result property="sat" column="sat"/>
+		<result property="sun" column="sun"/>
+		<result property="class_cnt" column="class_cnt"/>
+		<result property="people_tot" column="people_tot"/>
+		<result property="classroom_nm" column="classroom_nm"/>
+		<result property="class_fee" column="class_fee"/>
+		<result property="target_div" column="target_div"/>
+		<result property="reception_start_dt" column="reception_start_dt"/>
+		<result property="reception_end_dt" column="reception_end_dt"/>
+		<result property="tel" column="tel"/>
+		<result property="class_contnet_smp" column="class_contnet_smp"/>
+		<result property="member_sq" column="member_sq"/>
+		<result property="detail_class_sq" column="detail_class_sq"/>
+		
+		<collection property="optionList" ofType="com.culture.demo.domain.OptionDTO">
+			<id property="detail_class_sq" column="detail_class_sq"/>
+			<result property="ex_charge" column="ex_charge"/>
+		</collection>
+	</resultMap>
+	<select id="selectClassInfo" resultMap="classMap">
+		SELECT c.class_id, class_nm, branch_nm, c.class_st_id, class_st, class_div, TO_CHAR(open_year, 'YYYY') open_year
+		     , smst_nm, m.name, schedule_start_dt, schedule_end_dt, start_time, end_time, mon, tue, wed, thu, fri, sat, sun
+		     , class_cnt, people_tot, classroom_nm, class_fee, target_div, reception_start_dt, reception_end_dt, b.tel
+		     , class_contnet_smp, c.member_sq, d.detail_class_sq, ex_charge
+		FROM class c RIGHT JOIN class_by_semester s ON s.class_id = c.class_id 																		
+		             RIGHT JOIN detail_class d ON s.class_semester_sq = d.class_semester_sq															
+		             LEFT JOIN class_state cs ON c.class_st_id = cs.class_st_id																		
+		             LEFT JOIN class_division cd ON c.class_div_id = cd.class_div_id																	
+		             LEFT JOIN semester sem ON sem.open_smst_id = s.open_smst_id																		
+		             LEFT JOIN branch b ON c.branch_id = b.branch_id																					
+		             LEFT JOIN member m ON m.member_sq = c.member_sq 																					
+		             LEFT JOIN classroom r ON s.classroom_id = r.classroom_id																			
+		             JOIN teacher t ON m.member_sq = t.member_sq	
+		WHERE b.branch_id = #{branch_id}			
+		AND TO_CHAR(open_year, 'YYYY') = #{yy}
+		AND s.open_smst_id = #{lectSmsterCd}		
+		AND s.class_id = #{lectCd}	
+	</select>
+	
+	
 	<!-- 메인페이지 강좌 정보 가져오기 -->
 	<select id="mainSelectClassList" resultType="com.culture.demo.domain.ClassDTO">
 		<if test="mainLectSearchDTO.pageIndex > 0">

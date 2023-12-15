@@ -63,17 +63,17 @@ public class TeacherApplicationAjaxController {
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	/*
 	//강사신청서 제출
 	@PostMapping(value = "/submit.ajax", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<String> submitTeacherInfo(@RequestBody TeacherDTO teacherDTO, Model model){
 		log.info("> /information/application/teacher/submit.ajax... POST");
 		
-		//this.teacherService
-		
+		//this.teacherService		
 		//return new ResponseEntity<T>(teacherDTO , HttpStatus.OK);
 		
 	}
-	
+	*/
 	//강사신청서 입력 중 저장
 	//강사신청서 입력 중 삭제
 	//강사신청서 이미 제출된 회원 페이지 이동

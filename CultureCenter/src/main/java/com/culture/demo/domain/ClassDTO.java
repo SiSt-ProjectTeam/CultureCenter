@@ -1,5 +1,7 @@
 package com.culture.demo.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,7 +58,7 @@ public class ClassDTO {
 	private int class_fee;				// 수강료
 	private int ex_charge;				// 재료비/대여료
 	private String reception_start_dt;	// 접수기간 시작
-	private String reception_end_dt;		// 접수기간 끝
+	private String reception_end_dt;	// 접수기간 끝
 	
 	// 세부강좌 테이블  detail_class
 	private int detail_class_sq;		// 세부 강좌 번호
@@ -86,5 +88,7 @@ public class ClassDTO {
 	
 	private String classroom_nm;		// 강의실 이름
 	private String tel;					// 지점 전화번호
+	
+	private List<OptionDTO> optionList; // 세부 강좌 담을 list
 	
 }
