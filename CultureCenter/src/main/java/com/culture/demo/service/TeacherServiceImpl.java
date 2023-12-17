@@ -1,11 +1,18 @@
 package com.culture.demo.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.mapper.TeacherMapper;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -13,6 +20,12 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 @Log4j
 public class TeacherServiceImpl implements TeacherService{
+	
+	@Autowired
+	private TeacherMapper teacherDao;
+	
+	@Autowired
+	private NamedParameterJdbcTemplate npJdbcTemplate;
 	
 	//개인정보 수집 html
 	@Override
@@ -2324,12 +2337,13 @@ public class TeacherServiceImpl implements TeacherService{
 
 	}
 	
+	/*
 	//강사신청 제출
 	@Override
 	//@Transactional
 	public TeacherDTO submitTeacherInfo(TeacherDTO teacherDTO) {
 
-		//사진 업로드 컨트롤러 추가
+		//사진 업로드 컨트롤러 추가 O
 		
 		//TEACHER 테이블에 추가
 		//AWARDS 테이블에 추가
@@ -2340,5 +2354,169 @@ public class TeacherServiceImpl implements TeacherService{
 
 		return null;
 	}
-				
+	*/
+
+	@Override
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+	public void insert(TeacherDTO teacherDTO) {
+
+		this.teacherDao.insertTeacher(teacherDTO);
+		this.teacherDao.insertAwards(teacherDTO);
+		this.teacherDao.insertCarrer(teacherDTO);
+		this.teacherDao.insertCertificate(teacherDTO);
+		this.teacherDao.insertEducation(teacherDTO);
+		this.teacherDao.insertApplyClass(teacherDTO);
+	}
+
+	//강사신청완료 시 step3 페이지 html
+	@Override
+	public String createSubmitHtml() {
+		log.info("> TeacherServiceImpl.createSubmitHtml......");
+
+		StringBuilder html = new StringBuilder();
+			
+			html.append("<script>\r\n");
+			html.append("    function init_alert(){\r\n");
+			html.append("        alert(\"이미 강사지원을 완료하였습니다.\");\r\n");
+			html.append("    }\r\n");
+			html.append("</script>\r\n");
+			html.append("<div class=\"for_padding\" data-step=\"3\">\r\n");
+			html.append("    <div class=\"scroll_area\">\r\n");
+			html.append("        <div class=\"process_wrap\" title=\"3. 제출완료\">\r\n");
+			html.append("            <div class=\"process_div check two_law\">\r\n");
+			html.append("                <p class=\"num\"><span>1</span></p>\r\n");
+			html.append("                <p class=\"txt\">개인정보 활용 <br class=\"only_mobile\" />동의</p>\r\n");
+			html.append("            </div>\r\n");
+			html.append("            <div class=\"process_div check\">\r\n");
+			html.append("                <p class=\"num\"><span>2</span></p>\r\n");
+			html.append("                <p class=\"txt\">강사정보 작성</p>\r\n");
+			html.append("            </div>\r\n");
+			html.append("            <div class=\"process_div on\">\r\n");
+			html.append("                <p class=\"num\"><span>3</span></p>\r\n");
+			html.append("                <p class=\"txt\">제출완료</p>\r\n");
+			html.append("            </div>\r\n");
+			html.append("        </div>\r\n");
+			html.append("        <div class=\"dot_txt_box complete\">\r\n");
+			html.append("            <!-- <p class=\"icon\">🎉</p> -->\r\n");
+			html.append("            <p class=\"f_body1\">강사지원 제출이 완료되었습니다.</p>\r\n");
+			html.append("            <p class=\"f_body4\">담당자 확인후 개별 연락 예정입니다. 감사합니다.</p><!-- 2023-01-16 텍스트 수정 -->\r\n");
+			html.append("        </div>\r\n");
+			html.append("        <div class=\"flex_btn_wrap\">\r\n");
+			html.append("            <a href=\"javascript:\" class=\"border_btn\" onclick=\"teacherRequestCtrl.close();\"><span>닫기</span></a>\r\n");
+			html.append("        </div>\r\n");
+			html.append("    </div>\r\n");
+			html.append("</div>");
+			
+		return html.toString();
+	}
+
+	@Override
+	public String createCooperationHtml() {
+		log.info("> TeacherServiceImpl.createCooperationHtml......");
+		
+		StringBuilder html = new StringBuilder();
+		
+		html.append("<div class=\"for_padding\" data-step=\"1\">\r\n"
+				+ "    <div class=\"scroll_area\">\r\n"
+				+ "        <div class=\"process_wrap\" title=\"1. 개인정보 활용 동의\">\r\n"
+				+ "            <div class=\"process_div on two_law\">\r\n"
+				+ "                <p class=\"num\"><span>1</span></p>\r\n"
+				+ "                <p class=\"txt\">개인정보 활용 <br class=\"only_mobile\" />동의</p>\r\n"
+				+ "            </div>\r\n"
+				+ "            <div class=\"process_div\">\r\n"
+				+ "                <p class=\"num\"><span>2</span></p>\r\n"
+				+ "                <p class=\"txt\">업체정보 작성</p>\r\n"
+				+ "            </div>\r\n"
+				+ "            <div class=\"process_div\">\r\n"
+				+ "                <p class=\"num\"><span>3</span></p>\r\n"
+				+ "                <p class=\"txt\">제출완료</p>\r\n"
+				+ "            </div>\r\n"
+				+ "        </div>\r\n"
+				+ "        <div class=\"dot_txt_box\">\r\n"
+				+ "            <p class=\"f_body1\">제휴 신청시 알려드려요</p><!-- 2023-01-11 이모지 삭제 -->\r\n"
+				+ "            <!-- 2023-01-16 수정 -->\r\n"
+				+ "            <p class=\"dot_txt\">콘텐츠ㆍ서비스ㆍ비지니스ㆍ마케팅ㆍ광고 등 Lifestyle LAB과 함께할 파트너사의 소중한 제안을 기다리고 있습니다.</p>\r\n"
+				+ "            <!-- // 2023-01-16 수정 -->\r\n"
+				+ "        </div>\r\n"
+				+ "        <div class=\"sub_inner\">\r\n"
+				+ "            <div class=\"sub_tit_area\">\r\n"
+				+ "                <div class=\"left\">\r\n"
+				+ "                    <p class=\"pop_sec_tit\">개인정보 수집·이용 동의서</p>\r\n"
+				+ "                </div>\r\n"
+				+ "                <div class=\"right\">\r\n"
+				+ "                    <!-- <p class=\"f_caption2\"><span class=\"red_txt\">*</span> 표시는 필수 기재 항목입니다.</p> // 2023-01-16 삭제 -->\r\n"
+				+ "                </div>\r\n"
+				+ "            </div>\r\n"
+				+ "            <div class=\"form_table_w\">\r\n"
+				+ "                <div class=\"table_div\">\r\n"
+				+ "                    <div class=\"form_checkbox agree_chk\">\r\n"
+				+ "                        <input type=\"checkbox\" id=\"agreeChk1\" name=\"\">\r\n"
+				+ "                        <label for=\"agreeChk1\">개인정보 수집항목, 수집목적 및 보유/이용 기간 <span class=\"red_txt\">(필수)</span></label><!-- 2023-01-16 수정 -->\r\n"
+				+ "                    </div>\r\n"
+				+ "                    <div class=\"form_table gray\">\r\n"
+				+ "                        <table>\r\n"
+				+ "                            <caption>테이블 캡션 내용이 들어갑니다.</caption>\r\n"
+				+ "                            <colgroup>\r\n"
+				+ "                                <col width=\"33%\">\r\n"
+				+ "                                <col width=\"33%\">\r\n"
+				+ "                                <col width=\"34%\">\r\n"
+				+ "                            </colgroup>\r\n"
+				+ "                            <thead>\r\n"
+				+ "                                <tr>\r\n"
+				+ "                                    <th>수집 항목</th>\r\n"
+				+ "                                    <th>목적</th>\r\n"
+				+ "                                    <th>보유 및 이용 기간</th>\r\n"
+				+ "                                </tr>\r\n"
+				+ "                            </thead>\r\n"
+				+ "                            <tbody>\r\n"
+				+ "                                <tr>\r\n"
+				+ "                                    <td rowspan=\"2\">\r\n"
+				+ "                                        <p class=\"f_body2\">업체명, 담당자명, 연락처, 이메일</p><!-- 2023-03-13 텍스트 수정 -->\r\n"
+				+ "                                    </td>\r\n"
+				+ "                                    <td rowspan=\"2\">\r\n"
+				+ "                                        <p class=\"f_body2\">고객 대상 강사 기본정보의 제공</p>\r\n"
+				+ "                                    </td>\r\n"
+				+ "                                    <td>\r\n"
+				+ "                                        <p class=\"bold\">지원자 요청 시 즉시 파기</p><!-- 2023-03-13 class 수정 -->\r\n"
+				+ "                                    </td>\r\n"
+				+ "                                </tr>\r\n"
+				+ "                                <tr>\r\n"
+				+ "                                    <td>\r\n"
+				+ "                                        <p class=\"bold\">강사 지원 후 강좌 미진행時 6개월 까지</p><!-- 2023-03-13 class 수정 -->\r\n"
+				+ "                                    </td>\r\n"
+				+ "                                </tr>\r\n"
+				+ "                            </tbody>\r\n"
+				+ "                        </table>\r\n"
+				+ "                    </div>\r\n"
+				+ "                    <div class=\"caption_txt_w\">\r\n"
+				+ "                        <p class=\"dot_txt\">본인은 롯데백화점 문화센터에 제휴 신청을 희망하며, 개인정보의 수집 내용을 이해하고 동의합니다.</p>\r\n"
+				+ "                        <p class=\"dot_txt\">개인정보 수집 동의를 거부하실 수 있으며, 이 경우 제휴신청이 제한 됩니다.</p><!-- 2023-01-16 텍스트 수정 -->\r\n"
+				+ "                    </div>\r\n"
+				+ "                </div>\r\n"
+				+ "            </div>\r\n"
+				+ "            <div class=\"flex_btn_wrap\">\r\n"
+				+ "                <a class=\"border_btn\" href=\"javascript:\" onclick=\"cooperRequestCtrl.cancel();\">\r\n"
+				+ "                    <span>취소</span>\r\n"
+				+ "                </a>\r\n"
+				+ "                <a class=\"b_color_btn\" href=\"javascript:\" onclick=\"cooperRequestCtrl.next(1);\">\r\n"
+				+ "                    <span>다음</span>\r\n"
+				+ "                </a>\r\n"
+				+ "            </div>\r\n"
+				+ "        </div>\r\n"
+				+ "    </div>\r\n"
+				+ "</div>");
+		
+		return html.toString();
+	}
+
+	@Override
+	public Map<String, String> deleteOk(Map<String, List<String>> step) {
+		log.info(">TeacherServiceImpl.deleteOk.......");
+		
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		//1일때와 아닐때 분기해야됨
+		deleteMap.put("cnt", "1");
+		return deleteMap;
+	}
+			
 }

@@ -306,6 +306,7 @@ var fnc = (function() {
                 async: sync,
                 cache: false,
                 contentType: false,
+                //contentType: "application/json; charset=UTF-8",
                 processData: false,
                 beforeSend: function() {
                     if (loading) {

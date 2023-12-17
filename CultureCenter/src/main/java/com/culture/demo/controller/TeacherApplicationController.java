@@ -1,6 +1,7 @@
 package com.culture.demo.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,21 +36,42 @@ public class TeacherApplicationController {
 	@PostMapping(value = "/information/application/upload.do")
 	public String applicationReg(TeacherDTO teacherDTO
 								,HttpServletRequest request
-								) throws ClassNotFoundException, SQLException, IllegalStateException {
+								) throws ClassNotFoundException, SQLException, IllegalStateException, IOException {
 		
 		CommonsMultipartFile multipartFile = teacherDTO.getFile();
 		String uploadRealPath = null;
 		
 		if (!multipartFile.isEmpty()) {
-			uploadRealPath = request.getServletContext().getRealPath("/application/upload")
-		}
+			uploadRealPath = request.getServletContext().getRealPath("/application/upload");
+			
+			//File saveDir = new File(uploadRealPath);
+			//if (!saveDir.exists()) saveDir.mkdirs();
+			
+			System.out.println("> uploadRealPath : " + uploadRealPath);
+
+			String originalFilename = multipartFile.getOriginalFilename();
+			String filesystemName = getFileNameCheck(uploadRealPath, originalFilename);
+
+			File dest = new File(uploadRealPath, filesystemName );
+			multipartFile.transferTo(dest); // 실제 파일 저장
+
+			teacherDTO.setFilesrc(filesystemName); // originalFilename
+		}//if
 		
-		return
+		//로그인 기능 미구현으로 세션처리 X 
+		teacherDTO.setMember_sq(10);
+		int insertCount = 1;
+		if (insertCount == 1) {
+			return "redirect:/information/application/index.do";
+		}else {
+			return "/information/application/index.jsp?error";
+		}//if
+		
 	}
-	*/
 	
-	//강사 신청서 upload 폴더 안에 이름이 같은 폴더가 있으면 (1)을 붙여서 업로드
-	@RequestMapping("information/application/*")
+	
+	//강사 신청서 upload 폴더 안에 이름이 같은 파일이 있으면 (1)을 붙여서 업로드
+	//@RequestMapping("information/application/")
 	private String getFileNameCheck(String uploadRealPath, String originalFilename) {
 		int index = 1;	
 		while (true) {
@@ -61,4 +83,5 @@ public class TeacherApplicationController {
 			index ++;			
 		}//while
 	}
+	*/
 }
