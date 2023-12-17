@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 <script>
 function checkPlatform(ua) {
 	if(ua === undefined) {
@@ -46,7 +46,6 @@ function checkPlatform(ua) {
     <div class="page_title_area">
       <div class="inner">
         <div class="top_area">
-          <a href="javascript:payment.moveStep1(this);" class="page_prev_btn" title="뒤로가기"></a>
           <div class="tit_div">
             <p class="tit f_h1">수강결제</p>
           </div>
@@ -79,9 +78,20 @@ function checkPlatform(ua) {
                   <p class="f_h2">수강자 정보</p>
                 </div>
               </div>
+              <!-- 수강정보 -->
               <div class="course_history_w" data-brch-cd="0002" data-atlct-type="normal">
-              	<div class="cour_his_list"  data-brch-cd="0002" data-yy="2023" data-lect-smster-cd="4" data-lect-cd="0547" data-optn-seqno="" data-lect-amt="3000" data-optn-amt="0"
-              			data-lect-tp-cd="01" data-pbl-pmprcust-parnt-brch-cd="" data-pbl-pmprcust-parnt-lect-cd="" data-pbl-pmprcust-parnt-brch-cd-nm="">
+              <%-- 
+              <c:forEach items="${list}" var="dto">
+			  <fmt:formatNumber value="${dto.class_fee}" pattern="#,##0" var="class_fee"/>
+			  <fmt:formatNumber value="${dto.ex_charge}" pattern="#,##0" var="ex_charge"/>
+			  <fmt:formatNumber value="${dto.class_fee + dto.ex_charge}" pattern="#,##0" var="tot_fee"/>
+               --%>
+              	<div class="cour_his_list"  data-brch-cd="0002" 
+              		data-yy="2023" data-lect-smster-cd="4" 
+              		data-lect-cd="0547" data-lect-amt="3000" data-lect-tp-cd="01" 
+              		data-optn-seqno="" data-optn-amt="0"
+              		data-pbl-pmprcust-parnt-brch-cd="" data-pbl-pmprcust-parnt-lect-cd="" 
+              		data-pbl-pmprcust-parnt-brch-cd-nm="">
               			<div class="cour_top_area">
 		                    <div class="left">
 		                      <div class="label_div">
@@ -475,7 +485,7 @@ function checkPlatform(ua) {
           </div>
         </div>
         <div class="flex_btn_wrap">
-        	<a class="border_btn" href="javascript:" onclick="payment.moveStep1(this)">
+        	<a class="border_btn" href="javascript:" onclick="history.back();">
         		<span>이전</span>
 			       </a>
           <a id="totLectStlmAmt" class="b_color_btn" href="javascript:" data-tot-lect-stlm-amt="6000" onclick="payment.submitStep2Frm()" data-lpnt-use-amt="0" data-tot-grde-dc-amt="0" data-tot-cpn-dc-amt="0" data-gs-lect-amt="6000" data-gs-add-amt="0">
@@ -623,15 +633,5 @@ function checkPlatform(ua) {
 	<input type="hidden" name="csrfPreventionSalt" value="" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 </form>
-
-<form id="frm_prev" name="frm_prev" method="POST" action="/payment/step1.do">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
-	<input type="hidden" name="brchCd1" value="0002" />
-		<input type="hidden" name="yy1" value="2023" />
-		<input type="hidden" name="lectSmsterCd1" value="4" />
-		<input type="hidden" name="lectCd1" value="0547" />
-		<input type="hidden" name="optnSeqno1" value="" />
-		<input type="hidden" name="optnUseYn1" value="N" />
-	</form>
 
 <script type="text/javascript" src="/common/js/payment/payment.js"></script>

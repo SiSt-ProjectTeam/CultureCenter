@@ -28,5 +28,4 @@ public interface AtlctMapper {
 		
 	// 4. 수강 내역 조회
 	public ArrayList<AtlctDTO> selectAtlctList(@Param("frmSearchDTO") FrmSearchDTO frmSearchDTO, @Param("member_sq") int member_sq) throws SQLException;
-	
 }

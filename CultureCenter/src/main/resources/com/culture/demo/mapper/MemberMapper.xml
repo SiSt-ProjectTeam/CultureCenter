@@ -75,4 +75,5 @@
 	DELETE FROM accompanying_children
 	WHERE children_sq = #{children_sq}
 	</delete>
+	
 </mapper>
