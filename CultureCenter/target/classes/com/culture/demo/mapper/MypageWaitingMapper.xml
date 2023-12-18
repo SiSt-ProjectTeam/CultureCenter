@@ -7,8 +7,12 @@
 	
 	<select id="getWaitingList" resultType="com.culture.demo.domain.WaitingListDTO">
 		
+		
+		SELECT *
+		FROM(
 		SELECT member_sq, class_id, branch_nm, class_nm, teacher_nm, smst_nm, schedule_start_dt, 
-		       schedule_end_dt, start_time, end_time, week, children_nm, late_sq, late_sq_rank, class_fee, ex_charge, class_st
+		       schedule_end_dt, start_time, end_time, week, children_nm, late_sq, late_sq_rank, class_fee, ex_charge, class_st,
+		       ROW_NUMBER() OVER(ORDER BY schedule_start_dt ASC) AS page_index
 		FROM ( SELECT lc.member_sq, c.class_id, b.branch_nm, c.class_nm, t.teacher_nm, s.smst_nm, cs.schedule_start_dt,
 		              cs.schedule_end_dt, dc.start_time, dc.end_time,
 		              CASE
@@ -61,14 +65,21 @@
 		             cs.class_fee,
 		             cs.ex_charge,
 		             cst.class_st
-		     )
+		     )a
+
+
 
 		 WHERE member_sq = ${member_sq}
-		 <if test="branch_nm != null and branch_nm != ''">
-		 	AND branch_nm = #{branch_nm}
-		 </if>		 
-		 
+		 <if test="dto.brchNm != null and dto.brchNm != ''">
+		 	AND branch_nm = #{dto.brchNm}
+		 </if>	
 		 ORDER BY class_id, late_sq
+		)b      	                                         
+		 <![CDATA[
+         	WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= page_index AND page_index <= #{dto.pageIndex}*#{dto.listCnt}
+         ]]>
+	 
+		    
 		             
 	</select>
 	
@@ -79,5 +90,20 @@
 	<delete id="deleteClass" parameterType="int">
 		DELETE FROM late_class WHERE late_sq = #{late_sq}
 	</delete>
+	
+	<select id="totCnt" resultType="int" >
+		SELECT Count(*)
+		FROM late_class lc
+		<if test="dto.brchNm != null and dto.brchNm != ''">
+			INNER JOIN detail_class dc ON lc.detail_class_sq = dc.detail_class_sq
+			INNER JOIN class_by_semester cs ON dc.class_semester_sq = cs.class_semester_sq
+			INNER JOIN class c ON cs.class_id = c.class_id
+			INNER JOIN branch b ON c.branch_id = b.branch_id
+		</if>
+		WHERE lc.member_sq = 50
+		<if test="dto.brchNm != null and dto.brchNm != ''">
+			AND b.branch_nm = #{dto.brchNm}
+		</if>		 
+	</select>
 	
 </mapper>

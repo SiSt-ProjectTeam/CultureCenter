@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.WaitingListDTO;
 import com.culture.demo.mapper.MypageWaitingMapper;
 
@@ -18,8 +20,10 @@ public class WaitingServiceImpl implements WaitingService{
 	@Autowired
 	private MypageWaitingMapper mypageWaitingListMapper;
 	
+	@Transactional(rollbackFor = Throwable.class) // 모든 예외 발생시 트랜잭션 처리로 롤백
 	@Override
 	public int deleteWaiting(int late_sq) throws SQLException, ClassNotFoundException {
+		log.info("WaitingServiceImpl.java > deleteWaiting...");
 		try {
 			
             mypageWaitingListMapper.deleteChildren(late_sq);
@@ -31,17 +35,17 @@ public class WaitingServiceImpl implements WaitingService{
         }
     }
 	
-	// 장바구니 목록 html 작성
 	@Override
-	public String createWaitingHtml(int member_sq, WaitingListDTO params) throws SQLException, ClassNotFoundException {
-		log.info(">>WaitingService.createWaitingHtml() ... ");
+	public String createWaitingHtml(int member_sq, FrmSearchDTO params) throws SQLException, ClassNotFoundException {
+		log.info("WaitingServiceImpl.java > createWaitingHtml...");
 
-		String branch_nm = params.getBranch_nm();
-
-		List<WaitingListDTO> list = mypageWaitingListMapper.getWaitingList(member_sq, branch_nm);
+		List<WaitingListDTO> list = mypageWaitingListMapper.getWaitingList(member_sq, params);
 		
 		StringBuilder html = new StringBuilder();
-		int totCnt = list.size();
+		int totCnt = mypageWaitingListMapper.totCnt(member_sq, params);
+		
+		
+		
 		if(list.isEmpty() || list.size() == 0) {
 			html.append(" <div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n"
 					+ "			<div class=\"no_srch_div\">\r\n"
@@ -51,6 +55,14 @@ public class WaitingServiceImpl implements WaitingService{
 					
 		}else {
 			for(WaitingListDTO WaitingListDTO : list) {
+				Integer classfee = (WaitingListDTO.getChildren_nm().split(",").length) * WaitingListDTO.getClass_fee();
+				Integer ex_charge = (WaitingListDTO.getChildren_nm().split(",").length) * WaitingListDTO.getEx_charge();
+				Integer totalpay = (WaitingListDTO.getChildren_nm().split(",").length) * (WaitingListDTO.getClass_fee() + WaitingListDTO.getEx_charge());
+				String ClassFee = classfee.toString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+				String ExCharge = ex_charge.toString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+				String TotalPay = totalpay.toString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+				
+				
 				html.append("<div class=\"cour_his_list \" data-tot-cnt="+totCnt+" data-atlct-rsv-no=\"2330012nolNK\" \r\n"
 						+ "	data-lect-nm=\""+(WaitingListDTO.getClass_nm())+"\" data-optn-nm=\"\" data-lect-st-dtm=\"" + (WaitingListDTO.getSchedule_start_dt())+ "\" data-lect-st=\"" + (WaitingListDTO.getStart_time()) + "\""
 						+ "	data-late-sq=\""+ WaitingListDTO.getLate_sq() +"\">\r\n"
@@ -113,14 +125,14 @@ public class WaitingServiceImpl implements WaitingService{
 						+ "                               <p>강좌료</p>\r\n"
 						+ "                             </div>\r\n"
 						+ "		                              <div class=\"right f_body4\">\r\n"
-						+ "		                                <p>"+(WaitingListDTO.getClass_fee())+" 원</p>\r\n"
+						+ "		                                <p>"+(ClassFee)+" 원</p>\r\n"
 						+ "		                              </div>\r\n");
 				if(WaitingListDTO.getEx_charge() != 0) {					
 						html.append(" <div class=\"left f_body4\">\r\n"
 						+ "		          <p>재료비/대여료</p>\r\n"
 						+ "		      </div>\r\n"
 						+ "		      <div class=\"right f_body4\">\r\n"
-						+ "		      	<p>"+(WaitingListDTO.getEx_charge())+"</p>\r\n"
+						+ "		      	<p>"+(ExCharge)+"</p>\r\n"
 						+ "		      </div>\r\n"
 						);
 				}
@@ -130,21 +142,18 @@ public class WaitingServiceImpl implements WaitingService{
 						+ "		                            <div class=\"txt_con\">\r\n"
 						+ "		                              <div class=\"tit\">결제예정 금액</div>\r\n"
 						+ "		                              <div class=\"txt\">\r\n"
-						+ "		                                <p>"+(WaitingListDTO.getClass_fee() + WaitingListDTO.getEx_charge())+"원</p>\r\n"
+						+ "		                                <p>"+(TotalPay)+"원</p>\r\n"
 						+ "		                              </div>\r\n"
 						+ "		                            </div>\r\n"
 						+ "		                          </li>\r\n"
 						+ "		                        </div>\r\n"
 						+ "	                        </div>\r\n"
 						+ "	                	</div>\r\n"
-						+ "                    </div>");
+						+ "                    </div>"
+						);
 			}
 		}
 		return html.toString();
 	}
-
-
-
-
 
 }
