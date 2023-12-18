@@ -20,4 +20,15 @@ public interface MemberMapper {
 	public int insertChildren(ChildrenDTO dto) throws Exception;
 	// 동반수강자(자녀) 삭제
 	public int deleteChildren(int member_sq) throws Exception;
+	
+	//  회원가입
+	public int insert(MemberDTO memberDTO) throws Exception;
+	// 아이디 중복 확인
+	public int idCheck(String id) ;
+	// 아이디 찾기
+	String findId(@Param("name") String name, @Param("phone") String phone);
+	// 비밀번호 찾기
+	String findPw(@Param("id") String id, @Param("phone") String phone);
+
+
 }

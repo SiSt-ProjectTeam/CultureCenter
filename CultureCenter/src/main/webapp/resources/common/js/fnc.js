@@ -449,7 +449,7 @@ var fnc = (function() {
         if (alrtFlag) {
             alert("로그인 후 이용가능합니다.");
         }
-        var loginPage = contextPath+"/login/index.do",
+        var loginPage = "/login/login.do",
             pathname = location.pathname;
 
         if (pathname.indexOf("/login/") == -1) {

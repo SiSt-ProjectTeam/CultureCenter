@@ -14,4 +14,15 @@ public interface MemberService {
 	public int insertChildren(ChildrenDTO dto) throws Exception;
 	// 동반수강자(자녀) 삭제
 	public int deleteChildren(int member_sq) throws Exception;
+	
+	//  회원가입
+	public int memberJoin(MemberDTO memberDTO) throws Exception;
+		
+	//  회원가입 - 아이디 체크
+	public int idCheck(String id) ;
+	
+	// 아이디 찾기 
+	public String findId(String name, String phone);
+	// 비밀번호 찾기 
+	public String findPW(String id, String phone);
 }

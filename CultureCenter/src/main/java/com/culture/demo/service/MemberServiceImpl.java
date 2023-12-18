@@ -1,5 +1,8 @@
 package com.culture.demo.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ChildrenDTO;
@@ -43,5 +46,37 @@ public class MemberServiceImpl implements MemberService {
 		log.info(">> MemberServiceImpl.deleteChildren ...");
 		return this.memberMapper.deleteChildren(children_sq);
 	}
+
+	//  회원가입
+	@Override
+	public int memberJoin(MemberDTO memberDTO) throws Exception {
+		log.info("> MemberServiceImpl.memberJoin...");
+		return memberMapper.insert(memberDTO);
+	}
+
+	// 아이디 중복확인
+	@Override
+	public int idCheck(String id) {
+		int result = memberMapper.idCheck(id);
+		return result;
+	}
+
+	// 아이디 찾기
+	@Override
+	public String findId(String name, String phone) {
+		log.info("> MemberServiceImpl.findId - name: {}, phone: {}" + name+ " / " + phone);
+	    String result = memberMapper.findId(name, phone);
+	    log.info("> MemberServiceImpl.findId - Result: {}" + result);
+	    return result;
+	}
+
+	@Override
+	public String findPW(String id, String phone) {
+		log.info("> MemberServiceImpl.findPW - id: {}, phone: {}" + id+ " / " + phone);
+	    String result = memberMapper.findPw(id, phone);
+	    log.info("> MemberServiceImpl.findPW - Result: {}" + result);
+	    return result;
+	}
+
 
 }

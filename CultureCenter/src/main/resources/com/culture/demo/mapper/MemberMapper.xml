@@ -76,4 +76,34 @@
 	WHERE children_sq = #{children_sq}
 	</delete>
 	
+	<!--  회원가입  -->
+	<insert id="insert"> 
+	    INSERT INTO member (MEMBER_SQ, id, pw, name, email, phone, birth_dt, addr) 
+	    VALUES (SEQ_MEMBER.NEXTVAL, #{id}, #{pw}, #{name}, #{email}, #{phone}, TO_DATE(#{birth_dt}, 'YYYY-MM-DD'), #{addr}) 
+	</insert>
+
+	
+	<!--  아이디 중복확인  -->
+	<select id="idCheck" resultType="int"> 
+		SELECT COUNT(*) 
+		FROM member 
+		WHERE id = #{id} 
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="string" parameterType="map">
+	    SELECT id
+	    FROM member
+	    WHERE name = #{name}
+	    AND phone = #{phone}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="string" parameterType="map">
+	    SELECT pw
+	    FROM member
+	    WHERE id = #{id}
+	    AND phone = #{phone}
+	</select>
+	
 </mapper>

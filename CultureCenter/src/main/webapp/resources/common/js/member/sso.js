@@ -130,7 +130,7 @@ var members = (function() {
         } catch (e) {
 
         } finally {
-            $("#frmSso").attr("action", contextPath+"/login/logout.do");
+            $("#frmSso").attr("action","/login/logout.do");
             $("#frmSso").submit();
         }
     }
