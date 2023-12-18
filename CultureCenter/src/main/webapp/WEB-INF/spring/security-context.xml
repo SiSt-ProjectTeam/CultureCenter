@@ -6,8 +6,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 	<!-- css, js, image 등 접근 제어 대상이 아니기에 보안필터 체인 비적용 -->
-	<security:http pattern="/resources/**" security="none"></security:http>   
-	
+	<security:http pattern="/resources/**" security="none"></security:http> 
 	<security:http use-expressions="true">
 		<!-- 접근 제한 설정 -->
 		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>
@@ -18,7 +17,7 @@
 		<security:form-login
 	          login-page="/login/index.do" 
 	          authentication-success-handler-ref="customLoginSuccessHandler"
-	          authentication-failure-url="/login/result?result=fail"
+	          authentication-failure-url="/login/result.do"
 	          default-target-url="/index.do"
 	   />
 	   
@@ -27,19 +26,13 @@
 	       logout-success-url="/" 
 	   />
 	   
-	   
-	   
 	</security:http>   
 	
+	<!-- 스프링에서 제공하는 passwordEncoder 빈 등록 설정 -->
 	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-	
+	<!-- 어떤 방식으로 인증처리 할 건지 설정 -->
 	<security:authentication-manager>
 	  <security:authentication-provider user-service-ref="customUserDetailsService">
-	  	<security:jdbc-user-service 
-		  data-source-ref="dataSource"
-		  users-by-username-query="SELECT id AS USERNAME, '{noop}'||pw AS PASSWORD, 1 AS enabled FROM member WHERE id = ?"
-		  authorities-by-username-query="SELECT member_sq AS userid, authority AS auth FROM member_authorities WHERE id = ?"
-		/>
 		<security:password-encoder ref="bCryptPasswordEncoder" />
 	  </security:authentication-provider>	
 	</security:authentication-manager>

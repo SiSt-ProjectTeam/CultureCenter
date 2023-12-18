@@ -32,19 +32,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		log.warn("> ROLE NAMES : " + roleNames );
 		
-		if ( roleNames.contains("ROLE_USER") ) {
-			// 이전 페이지의 URL 얻기
-	        String referer = request.getHeader("Referer");
-
-	        // 이전 페이지로 리다이렉트
-	        if (referer != null && !referer.isEmpty()) {
-	            response.sendRedirect(referer);
-	            return;
-	        } 
-			
-		} 
-		/* manager 혹은 admin 관련 코드 추가시 사용
-		else if ( roleNames.contains("ROLE_MANAGER") ) {
+		/* manager 혹은 admin 페이지 요청
+		if ( roleNames.contains("ROLE_MANAGER") ) {
 			return;
 		} else if ( roleNames.contains("ROLE_ADMIN") ) {
 			return;

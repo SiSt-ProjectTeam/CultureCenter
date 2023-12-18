@@ -1,5 +1,6 @@
 package com.culture.demo.controller;
 
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -25,13 +26,11 @@ public class MypageMemberController {
 	private MemberServiceImpl memberServiceImpl;
 		
 	@GetMapping(value = "/mypage/member/count.ajax", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<String> getMypageInfo() throws SQLException, JsonProcessingException {  /* , Principal principal */
+	public ResponseEntity<String> getMypageInfo(Principal principal) throws SQLException, JsonProcessingException {
 		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
 		String mypageInfo = "";
-		int member_sq = 12;
-		// int member_sq = Integer.parseInt( principal.getName() );
 		ObjectMapper objectMapper = new ObjectMapper();
-		mypageInfo = objectMapper.writeValueAsString( this.memberServiceImpl.getMypageInfo(member_sq) );
+		mypageInfo = objectMapper.writeValueAsString( this.memberServiceImpl.getMypageInfo(principal.getName()) );
 		
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)
@@ -40,12 +39,9 @@ public class MypageMemberController {
 	
 	
 	@PostMapping("/setItrst.ajax")
-	public ResponseEntity<Integer> setInterestBranch(@RequestBody Map<String, Integer> requestBody) {
-		log.info("> /setItrst.ajax... POST : MypageMemberController.setInterestBranch()");
-		int member_sq = 12;
-		// int member_sq = Integer.parseInt( principal.getName() );
-		
-		int rtnCnt = this.memberServiceImpl.correctionInterestBranch(member_sq, requestBody.get("itrstBrchCd"));
+	public ResponseEntity<Integer> setInterestBranch(@RequestBody Map<String, Integer> requestBody, Principal principal) {
+		log.info("> /setItrst.ajax... POST : MypageMemberController.setInterestBranch()");		
+		int rtnCnt = this.memberServiceImpl.correctionInterestBranch(principal.getName(), requestBody.get("itrstBrchCd"));
 		
 		return rtnCnt > 0
 				? new ResponseEntity<>(rtnCnt, HttpStatus.OK)
