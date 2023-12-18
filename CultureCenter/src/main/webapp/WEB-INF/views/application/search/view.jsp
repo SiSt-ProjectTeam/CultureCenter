@@ -20,7 +20,7 @@
 			<div class="top_visual full only_mobile">
 				<p class="bg_img">
 					
-					<img class="webPath" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951087660.jpg" alt="upload.jpg">
+					<img class="webPath" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }">
 				</p>
 			</div>
 			<div class="bg_inner pd_bot"><!-- pd_bot 클래스 추가 -->
@@ -30,7 +30,7 @@
 							<div class="fix_box_area">
 								<!-- 2022-11-24 course_popup 한번 더 감쌈 -->
 								<div class="shadow_div">
-									<div class="course_popup">
+									<div class="course_popup" id="one">
 										<div class="pop_wrap">
 											<div class="pop_cont">
 												<div class="for_padding">
@@ -38,7 +38,7 @@
 														<div class="pop_head">
 															<div class="top_area">
 																<div class="label_div">
-																	<p class="label large lime lectStatNm">${ dto.class_st }</p>
+																	<p class="label large lectStatNm">${ dto.class_st }</p>
 																	<p class="label large border lectClNm">${ dto.class_div }</p>
 																</div>
 																<div class="share_btn_wrap only_pc">
@@ -47,7 +47,7 @@
 															</div>
 															<div class="tit_box">
 																<p class="thum_img only_pc">
-																	<img class="webPath" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951087660.jpg" alt="upload.jpg">
+																	<img class="webPath" src="/upload/thumbnail/${ dto.class_img }" alt="${ dto.class_img }"/>
 																</p>
 																<div class="txt_wrap">
 																	<p class="tit lectNm">${ dto.class_nm }</p>
@@ -70,31 +70,72 @@
 																</div>
 															</div>
 														</div>
-
 														<div class="box_con">
 															<div class="content_area">
 																<div class="anchor_con">
 																	<p class="sub_tit f_h2">강좌정보</p>
+																	<c:choose>
+																		<c:when test="${ classDtl.optionList.size() > 1 }">
+																			<div class="form_txt_wrap" id="selectLect">
+																				<p class="txt">강좌를 선택하세요.</p>
+																				<div class="form_select_div change">
+																					<!-- 2022-11-25 round class 삭제 -->
+																					<div class="open_area">
+																						<a class="btn_open" href="javascript:">
+																							<div class="option_div">
+																								<span>선택하세요</span>
+																							</div>
+																						</a>
+																					</div>
+																					<div class="dimd"></div>
+																					<div class="list_wrap">
+																						<div class="tit_area">
+																							<p class="tit">강좌정보</p>
+																							<a href="javascript:" role="button" class="close"></a>
+																						</div>
+																						<div class="scroll_wrap">
+																							<a class="btn_link on" href="javascript:search.classInfoSet('${ classDtl.branch_id }', '${ classDtl.open_year }', '${ classDtl.open_smst_id }', '${ dto.detail_class_sq }', 'close');">
+																								<div class="option_div">
+																									<span>선택하세요</span>
+																								</div>
+																							</a>
+																							<c:forEach var="cdto" items="${ classDtl.optionList }">
+																								<a class="btn_link" href="javascript:search.classInfoSet('${ classDtl.branch_id }', '${ classDtl.open_year }', '${ classDtl.open_smst_id }', '${ cdto.detail_class_sq }');">
+																									<div class="option_div">
+																										<span>${ cdto.day }</span> <span>${ cdto.start_time }~${ cdto.end_time }</span> <span>${ cdto.class_cnt }회</span>
+																									</div>
+																								</a>
+																							</c:forEach>
+
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+
+																		</c:when>
+																	</c:choose>
+
+																	
 																	
 																	<div class="data_box">
 																		<div class="selected_info">
 																			<dl>
 																				<dt>지점</dt>
-																				<dd class="brchNm">${ classDtl.branch_nm }</dd>
+																				<dd class="brchNm">${ dto.branch_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>강좌구분</dt>
-																				<dd class="lectClNm">${ classDtl.class_div }</dd>
+																				<dd class="lectClNm">${ dto.class_div }</dd>
 																			</dl>
 																			<dl>
 																				<dt>학기</dt>
-																				<dd class="yy">${ classDtl.open_year }년 ${ classDtl.smst_nm }</dd>
+																				<dd class="yy">${ dto.open_year }년 ${ dto.smst_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>강사명</dt>
 																				<dd>
 																					<a href="javascript:search.teacherSet($(this));" id="tcBtn" data-tc-cd-no="${ dto.member_sq }" class="arrow_btn">
-																						<span class="tcNm">${ classDtl.name }</span>
+																						<span class="tcNm">${ dto.name }</span>
 																					</a>
 																				</dd>
 																			</dl>
@@ -110,7 +151,7 @@
 																			</dl>
 																			<dl>
 																				<dt>강의횟수/정원</dt>
-																				<dd class="lectNbcnt">${ classDtl.class_cnt }회/${ classDtl.people_tot }명</dd>
+																				<dd class="lectNbcnt">${ dto.class_cnt }회/${ dto.people_tot }명</dd>
 																			</dl>
 																			<dl>
 																				<dt>강의실</dt>
@@ -124,7 +165,7 @@
 																			</dl>
 																			<dl>
 																				<dt>대상구분</dt>
-																				<dd class="objClNm">${ classDtl.target_div }</dd>
+																				<dd class="objClNm">${ dto.target_div }</dd>
 																			</dl>
 																			<dl>
 																				<dt>접수기간</dt>
@@ -132,7 +173,7 @@
 																			</dl>
 																			<dl>
 																				<dt>문의처</dt>
-																				<dd class="telno">${ classDtl.tel }</dd>
+																				<dd class="telno">${ dto.tel }</dd>
 																			</dl>
 																		</div>
 																	</div>
@@ -143,10 +184,10 @@
 												</div>
 												<div class="fixed_btn_area btn_area" style="display:block;">
 													<!-- 수강신청, 대기신청, 지점문의, 접수마감 -->
-													<div class="single_btn_area"> 
+													<div class="single_btn_area one_layer"> 
 														<div class="btn_wrap">
 															<a class="sign_btn" href="javascript:search.btnCheck();">
-																<input type="hidden" name="cst" value="${classDtl.class_st_id}">
+																
 																<span class="lectStatCd"></span>
 																
 															</a> 
@@ -161,12 +202,12 @@
 									
 									<div class="course_popup list multiple"><!-- 2022-11-23 hide 클래스 삭제 -->
 										<form id="classForm" name="classForm">
-											<input type="hidden" name="csrfPreventionSalt" value="7eTIBXS8bYYIUOpV9A5Q" />
+											<input type="hidden" name="csrfPreventionSalt" value="" />
 											<input type="hidden" id="brchCd" name="brchCd" value=""/>
 											<input type="hidden" id="yy" name="yy" value=""/>
 											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value=""/>
-											<input type="hidden" id="lectCd" name="lectCd" value=""/>
-											<input type="hidden" id="lectStatCd" name="lectStatCd" value=""/>
+											<input type="hidden" id="lectCd" name="lectCd" value="${ classDtl.detail_class_sq }"/>
+											<input type="hidden" id="lectStatCd" name="lectStatCd" value="${ classDtl.class_st_id }"/>
 											<input type="hidden" id="optnUseYn" name="optnUseYn" value=""/>
 											<input type="hidden" id="mvgDsplyUseYn" name="mvgDsplyUseYn" value=""/>
 											<input type="hidden" id="lectNm" name="lectNm" value=""/>
@@ -176,7 +217,7 @@
 											<input type="hidden" id="optnNm" name="optnNm" value=""/>
 											<input type="hidden" id="optnAmt" name="optnAmt" value=""/>
 											<input type="hidden" id="lectStDtm" name="lectStDtm" value=""/>
-											<input type="hidden" id="lectSt" name="lectStDtm" value="11:30"/>
+											<input type="hidden" id="lectSt" name="lectStDtm" value=""/>
 											<input type="hidden" id="partRfndPsblYn" name="partRfndPsblYn" value=""/>
 											<input type="hidden" id="pblPmprcustParntBrchCd" name="pblPmprcustParntBrchCd" value="" />
 											<input type="hidden" id="pblPmprcustParntLectCd" name="pblPmprcustParntLectCd" value="" />
@@ -185,6 +226,7 @@
 											<input type="hidden" id="listCnt" name="listCnt" value="10"/>
 											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value=""/>
 											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value=""/>
+											<input type="hidden" id="lectDetailSq" name="lectDetailSq" value="${ classDtl.detail_class_sq }"/>
 										</form>
 										<div class="pop_wrap">
 											<div class="pop_cont">
@@ -195,8 +237,8 @@
 																<a href="javascript:" class="box_prev_btn" title="뒤로가기"></a>
 															</div>
 														</div>
-
-														<div class="box_con">
+															
+														<div class="box_con" id="two">
 															<div class="content_area">
 																<div class="form_txt_wrap" id="optionArea" style="display:none;">
 																	<p class="txt">재료비/대여료 선택</p>
@@ -214,19 +256,23 @@
 																			</div>
 																			<div class="scroll_wrap">
 																				<a class="btn_link default" href="javascript:search.optionSet('', '', '', '');"><span>옵션선택</span></a>
-																				</div>
+																				
+																				<a class="btn_link" data-optn-seqno="11653" href="javascript:search.optionSet('재료비/대여료', ${ ex }, '11653', 'N');">
+																						<span>재료비/대여료 (+${ exCharge }원)</span>
+																				</a>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															
 																<div class="selected_box">
 																	<div class="content_txt">
-																		<p class="name">[12/16 외부] 티와 위스키가 함께하는 미식차회</p>
+																		<p class="name">${ classDtl.class_nm }</p>
 																		<div class="option_div">
 																			</div>
 																	</div>
 																	<p class="price_txt">
-																		<span class="price">100,000</span>원
+																		<span class="price">${ fee }</span>원
 																			</p>
 																</div>
 															</div>
@@ -239,7 +285,7 @@
 														<div class="txt_div">
 															<p class="sum_txt">총 주문 금액</p>
 															<p class="price_txt">
-																<span class="price">100,000</span> 원
+																<span class="price">${ fee }</span> 원
 																	</p>
 														</div>
 														<div class="btn_wrap">
@@ -267,7 +313,8 @@
 								<p class="sub_tit f_h2">강좌소개</p>
 
 								<div class="info_img_txt">
-									<p class="img"><img class="only_pc" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951088290.jpg" alt="웨이티하우스앤레스토랑2.jpg"><img class="only_mobile" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951088290.jpg" alt="웨이티하우스앤레스토랑2.jpg"></p>
+									<p class="img"><img class="only_pc" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }" alt="${ dto.detail_img }">
+									<img class="only_mobile" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }" alt="${ dto.detail_img }"></p>
 														<div class="txt_box">
 															${ dto.class_content }</div>
 													</div>
@@ -316,7 +363,7 @@
 											</a>
 											<div class="hide_con">
 												<div class="info_dot_txt">
-													${ dto.supplies }
+													${ classDtl.supplies }
 													</div>
 											</div>
 										</div>
@@ -405,15 +452,15 @@
 					<div class="info_box">
 						<div class="con">
 							<div class="label_div">
-								<p class="label large border brchNm">${ dto.branch_nm }</p>
+								<p class="label large border brchNm">${ classDtl.branch_nm }</p>
 									</div>
-							<p class="tit lectNm">${ dto.class_nm }</p>
+							<p class="tit lectNm">${ classDtl.class_nm }</p>
 							<div class="info_con">
 								<div class="type_div">
-									<p class="type lectSmsterNm">${ dto.smst_nm }</p>
-									<p class="type tcNm">${ dto.name }</p>
+									<p class="type lectSmsterNm">${ classDtl.smst_nm }</p>
+									<p class="type tcNm">${ classDtl.name }</p>
 								</div>
-								<p class="time lectSt">${ lectTime }, 총 ${ dto.class_cnt }회 </p>
+								<p class="time lectSt">${ lectTime }, 총 ${ classDtl.class_cnt }회 </p>
 								<p class="sub_tit lectAmt2">강좌료 ${ fee }원
 										</p>
 								<p class="txt optionAmt"></p>
@@ -547,60 +594,47 @@
 		</a>
 	</div>
 </div>
+<input type="hidden" name="cst" value="${classDtl.class_st_id}">
+<input type="hidden" name="optionList" value="${classDtl.optionList}">
+
 <script>
+	//강좌상태별 아이콘 색
 	// 강좌상태별 버튼
+	var cst = $('input[name=cst]').val(); // 강좌 상태 코드
+	var className = "";
 	var addText = "";
 	var classText = "";
-	var cst = $('input[name=cst]').val();
-	console.log(cst);
-	if(cst == 2) {
+
+	if(cst == 1) {
+		className = "black";
+	}
+	else if(cst == 2) {
+		className = "lime";
 		addText = "수강 신청하기";
 		console.log(addText);
 		classText = "sign_btn b_color_btn";
 		$(".course_popup .total_sum_area .sign_btn span").text("수강신청");
 	} else if(cst == 4) {
+		className = "gray";
 		addText = "대기 신청하기";
 		classText = "sign_btn border_btn"
 		$(".course_popup .total_sum_area .sign_btn span").text("대기신청");
 	} else if(cst == "5") {
+		className = "gray";
 		addText = "접수마감";
 		classText = "sign_btn b_color_btn disabled"
 	} else if(cst == "3") {
+		className = "light_gray";
 		addText = "지점문의";
 		classText = "sign_btn b_color_btn disabled"
 	} else {
+		className = "light_gray";
 		$(".fixed_btn_area").hide();
 	}
+	$(".lectStatNm").addClass(className)
 	$(".lectStatCd").text(addText);
 	$(".lectStatCd").closest("a").attr("class", classText).closest(".fixed_btn_area").show();
-
-	
-	//수강신청 대기신청 
-	var paymentBtn = function() {
-		if($('#wrap').data('isLogin') == "Y"){
-			if($("#optnUseYn").val() == 'Y' && $("#optnSeqno").val() == "") {
-				//강좌 옵션 사용시 선택 안했을때
-				alert("옵션을 선택하세요.");
-				return;
-			}
-			
-			var lectStatCd = $("#lectStatCd").val();
-			console.log(lectStatCd);
-			if (lectStatCd == "02" || lectStatCd == "2") {
-				//수강 신청
-				$('#classForm').attr('action', '/payment/step1.do');
-				$('#classForm').attr('method', 'POST');
-				$('#classForm').submit();
-			} else if (lectStatCd == "4") {
-				//대기 신청
-				commonScript.openPopupFn("#waitPopup", $(".cont_wrap .total_sum_area .sign_btn"));	
-			}
-		}else{
-			if(confirm("로그인이 필요한 서비스입니다.")){
-				fnc.moveLoginPage();
-			}
-		}
-	}
+	console.log($("#lectDetailSq").val());
 	
 </script>
 <script type="text/javascript" src="/resources/common/js/application/search/searchView.js"></script>
