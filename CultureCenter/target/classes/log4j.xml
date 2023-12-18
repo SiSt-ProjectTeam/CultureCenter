@@ -34,7 +34,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
 	<!-- 필요한 정보만 출력가능함! -->
@@ -48,6 +48,6 @@
 		<level value="warn" />
 	</logger>
 	<logger name="jdbc.sqlonly"><!-- JDBC호출시 sql쿼리문(pstmt인 경우 인자 set된 값) -->
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 </log4j:configuration>
