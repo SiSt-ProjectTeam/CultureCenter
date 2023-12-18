@@ -16,7 +16,6 @@ public class EtcController {
 		return "mypage.teachereval.list";
 	}
 
-	
 	// 쿠폰
 	@GetMapping("/mypage/coupon/list.do")
 	public String goCoupon() throws Exception{
@@ -38,5 +37,6 @@ public class EtcController {
 		log.info("/mypage/freebie/detailList.do + GET : MyPageCartController.goFreebieDetail()");
 		return "mypage.freebie.detailList";
 	}
+	
 	
 }

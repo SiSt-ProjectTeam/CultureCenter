@@ -12,7 +12,13 @@
 		WHERE member_sq = #{memberSq}
 	</select>
 	
-	<!-- 3. public MemberDTO selectMemberWithChild(int member_sq); -->
+	<update id="updateInterestBranch">
+		UPDATE member
+		SET branch_id = #{itrstBrchCd}
+		WHERE member_sq = #{member_sq}
+	</update>
+	
+	<!-- 회원 정보 조회(동반수강자 포함) public MemberDTO selectMemberWithChild(int member_sq); -->
 	<resultMap type="com.culture.demo.domain.MemberDTO" id="memberMap" >
 		<id property="member_sq" column="member_sq" />
 		<result property="id" column="id" />
@@ -59,9 +65,15 @@
 	ORDER BY ac.children_sq
 	</select>
 	
-	<update id="updateInterestBranch">
-		UPDATE member
-		SET branch_id = #{itrstBrchCd}
-		WHERE member_sq = #{member_sq}
-	</update>
+	<!-- 동반수강자(자녀) 추가 int insertChildren(ChildrenDTO dto) -->
+	<insert id="insertChildren">
+	INSERT INTO accompanying_children
+	VALUES(seq_children.NEXTVAL,#{member_sq},#{child_birth_dt},#{gender},#{children_nm})
+	</insert>
+	<!-- 동반수강자(자녀) 삭제 int deleteChildren(int children_sq) -->
+	<delete id="deleteChildren">
+	DELETE FROM accompanying_children
+	WHERE children_sq = #{children_sq}
+	</delete>
+	
 </mapper>

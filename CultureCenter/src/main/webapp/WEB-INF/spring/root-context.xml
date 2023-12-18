@@ -47,6 +47,6 @@
 	</bean>
 	
 	<!-- 장바구니 자동 삭제하기 위한 스케쥴러 설정(Namespaces:task) -->
-	<task:scheduler id="deleteScheduler" pool-size="10" />
-	<task:annotation-driven scheduler="deleteScheduler" />
+	<task:scheduler id="jobScheduler" pool-size="10" />
+	<task:annotation-driven scheduler="jobScheduler" />
 </beans>

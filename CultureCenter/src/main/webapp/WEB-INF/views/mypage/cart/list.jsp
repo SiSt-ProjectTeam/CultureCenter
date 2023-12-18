@@ -21,8 +21,9 @@ header에 data-url 부분 다름 아래로 바꿔줘야함
 				<div class="top_area">
 					<a href="javascript:fnc.back();" class="page_prev_btn" title="뒤로가기"></a>
 					<div class="tit_div">
-						<p class="tit f_h1">장바구니</p>
-						<a href="javascript:" onclick="fnc.cartBtn('1', '2023', '4', '3', '3')">장바구니추가 되나?</a>
+						<p class="tit f_h1">장바구니</p>                        <!--  ↓ 이거가 세부강좌번호 -->
+						<a href="javascript:" onclick="fnc.cartBtn('1', '2023', '4', '37', '3')">37트니트니(유아) 장바구니추가</a><br>
+						<a href="javascript:" onclick="fnc.cartBtn('1', '2023', '4', '3', '3')">3펜화..(성인) 장바구니추가</a>
 					</div>
 				</div>
 			</div>
