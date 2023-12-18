@@ -26,9 +26,9 @@ var mypage_waiting = (function(){
 		lectObj.lectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectCd');
 		lectObj.optnSeqno = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('optnSeqno');
 		lectObj.lectTpCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('lectTpCd');
-		lectObj.pblPmprcustbrchNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbrchNm');
+		lectObj.pblPmprcustBrchCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustBrchCd');
 		lectObj.pblPmprcustLectCd = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustLectCd');
-		lectObj.pblPmprcustbrchNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustbrchNm');
+		lectObj.pblPmprcustBrchCdNm = $(obj).closest('div.cour_his_list').find('div.cour_top_area').data('pblPmprcustBrchCdNm');
 		
 		var arrActlAtlctNple = [];
 		$(obj).closest('div.cour_his_list').find('div.cour_detail_w').find('div.cour_detail').each(function(){
