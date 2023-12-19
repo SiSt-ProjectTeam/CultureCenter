@@ -61,7 +61,7 @@ SELECT
 FROM (
     SELECT DISTINCT r.review_sq, d.detail_class_sq, r.member_sq, r.review_title, r.rating, r.review_img, r.review_content, r.date_writingout_dt
     FROM review r LEFT JOIN detail_class d ON r.detail_class_sq = d.detail_class_sq
-    WHERE r.review_sq = #{reviewDTO.member_sq}
+    WHERE r.review_sq = #{reviewDTO.review_sq}
 ) rd
 	JOIN class_by_semester cbs ON rd.detail_class_sq = cbs.class_semester_sq 
 	JOIN class c ON cbs.class_id = c.class_id 
