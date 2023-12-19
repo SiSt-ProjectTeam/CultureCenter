@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 	<!-- css, js, image 등 접근 제어 대상이 아니기에 보안필터 체인 비적용 -->
-	<security:http pattern="/resources/**" security="none"></security:http> 
+	<security:http pattern="/resources/**" security="none"></security:http>
 	<security:http use-expressions="true">
 		<!-- 접근 제한 설정 -->
 		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>

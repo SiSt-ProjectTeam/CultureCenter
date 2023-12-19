@@ -5,7 +5,7 @@
         
 <form id="reviewForm" data-page-type="list">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
-    <input type="hidden" id="listCnt" name="listCnt" value="3"/>
+    <input type="hidden" id="listCnt" name="listCnt" value="5"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     <input type="hidden" name="q" value="">
     <input type="hidden" name="orderSet" value="">

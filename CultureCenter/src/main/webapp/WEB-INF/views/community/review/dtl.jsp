@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         		
-	<form id="reviewForm" data-page-type="dtl">
+<form id="reviewForm" data-page-type="dtl">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
     <input type="hidden" id="listCnt" name="listCnt" value="10"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     
-    <input type="hidden" name="brchCd" value="${dto.branch_id}" />
-    <input type="hidden" name="yy" value="${dto.open_year}" />
-    <input type="hidden" name="lectSmsterCd" value="${dto.open_smst_id}" />
-    <input type="hidden" name="lectCd" value="${dto.lectCd}" />
-    <input type="hidden" name="tcCdNo" value="${dto.teachar_nm}" />
-    <input type="hidden" name="memberNo" value="${dto.member_sq}" />
+    <input type="hidden" name="brchCd" value="${reviewDTO.branch_id}" />
+    <input type="hidden" name="yy" value="${reviewDTO.writing_year}" />
+    <input type="hidden" name="lectSmsterCd" value="${reviewDTO.open_smst_id}" />
+    <input type="hidden" name="lectCd" value="${reviewDTO.class_semester_sq}" />
+    <input type="hidden" name="tcCdNo" value="${reviewDTO.teacher_sq}" />
+    <input type="hidden" name="memberNo" value="${reviewDTO.member_sq}" />
 
     <input type="hidden" name="sortSeqno" value="" />
     <input type="hidden" name="cmntCont" value="" />
@@ -36,14 +36,14 @@
                 <div class="view_con review_con">
                     <div class="top_area">
                         <div class="type_div">
-                            <p class="type">${dto.name}</p>
-                            <p class="type">${dto.date_writingout_dt}</p>
+                            <p class="type">${reviewDTO.name}</p>
+                            <p class="type">${reviewDTO.date_writingout_dt}</p>
                         </div>
                         <div class="share_area only_pc">
                             <!-- 2022-11-23 class 추가 -->
                             <a href="javascript:commonScript.openPopupFn('#sharePop');" class="share_btn" title="공유하기"></a>
                         </div>
-                        <p class="title">${dto.review_title}</p>
+                        <p class="title">${reviewDTO.review_title}</p>
                         <div class="star_rating">
                             <span class="star"></span>
                             <span class="star"></span>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="content">
                         <div class="txt f_body2">
-                            ${dto.review_content}<br> <!-- 2023-02-09 br추가, 링크추가-->
+                            ${reviewDTO.review_content}<br> <!-- 2023-02-09 br추가, 링크추가-->
                             <a target="_blank" href="https://" class="link_txt f_caption2"></a>
                         </div>
                         <div class="thum_list_w">
@@ -69,18 +69,18 @@
                                     <div class="txt_wrap">
                                         <div class="thum_left">
                                             <div class="label_div">
-                                                <p class="label small light_gray">${dto.class_st}</p>
-                                                <p class="label small border">${dto.lrclsctegery}</p>
-                                                <p class="label small border">${dto.mdclsctegery}</p>
+                                                <p class="label small light_gray">${reviewDTO.class_st}</p>
+                                                <p class="label small border">${reviewDTO.lrclsctegery}</p>
+                                                <p class="label small border">${reviewDTO.mdclsctegery}</p>
                                             </div>
-                                            <p class="title limit_line_two">${dto.class_nm}</p>
+                                            <p class="title limit_line_two">${reviewDTO.class_nm}</p>
                                         </div>
                                         <div class="thum_right">
                                             <div class="type_div">
-                                                <p class="type f_caption2">${dto.branch_nm}</p>
-                                                <p class="type f_caption2">${dto.teacher_nm}</p>
-                                                <p class="type contour f_caption2">${dto.class_st}</p>
-                                                <p class="type contour f_caption2">${dto.schedule_start_dt} ~ ${dto.schedule_end_dt}</p>
+                                                <p class="type f_caption2">${reviewDTO.branch_nm}</p>
+                                                <p class="type f_caption2">${reviewDTO.teacher_nm}</p>
+                                                <p class="type contour f_caption2">${reviewDTO.class_st}</p>
+                                                <p class="type contour f_caption2">${reviewDTO.schedule_start_dt} ~ ${reviewDTO.schedule_end_dt}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@
 </div>
 
 
-<script type="text/javascript" src="/common/js/community/reviewController.js"></script>
+<script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
 			<!-- 관계사 사이트 팝업 -->
 
 
@@ -178,9 +178,3 @@
 						<span class="txt">나의 수강후기</span>
 					</span>
 				</a>
-			
-			
-			
-<!--  end wrap -->
-	</body>
-</html>
