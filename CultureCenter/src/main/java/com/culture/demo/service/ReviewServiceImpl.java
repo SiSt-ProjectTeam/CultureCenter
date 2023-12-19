@@ -89,18 +89,18 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	// 댓글 ajax
+	/*
 	@Override
 	public String commtHTML(int review_sq, FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException {
 		log.info(">ReviewServiceImpl.commtHTML() 호출");
 		List<ReviewDTO> list = reviewMapper.getCommtList(review_sq, frmSearchDTO);
 		StringBuilder html = new StringBuilder();
-		int totCnt = list.size(); // 댓글 총 갯수
 		
 		if(list.isEmpty() ) {
 			  html.append("<div data-tot-cnt=\"0\"></div>");
 		}else {
 			for(ReviewDTO dto : list ) {
-				html.append("<div class=\"review_list\" data-tot-cnt=\""+totCnt+"\">\r\n");
+				html.append("<div class=\"review_list\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
 				html.append("                <div class=\"flex_box\">\r\n");
 				html.append("                    <div class=\"writer_info\">\r\n");
 				html.append("                        <div class=\"type_div\">\r\n");
@@ -117,7 +117,6 @@ public class ReviewServiceImpl implements ReviewService{
 		return html.toString();
 		
 	} // commtHTML
-
-	
+	*/
 	
 }// ServiceImpl

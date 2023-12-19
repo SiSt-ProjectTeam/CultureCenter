@@ -82,6 +82,7 @@ FROM (
 	</select>
 	
 	<!-- 수강후기 댓글 -->
+	<!-- 
 	<select id="getCommtList" parameterType="map" resultType = "com.culture.demo.domain.ReviewDTO">
 	SELECT COUNT(DISTINCT rc.comment_sq) OVER() tot_cnt
     	   , DENSE_RANK() OVER(ORDER BY rc.comment_sq) rank
@@ -95,5 +96,5 @@ FROM (
          AND (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= rank AND rank <= #{dto.pageIndex}*#{dto.listCnt}
      	]]>
 	</select>
-
+ -->
 </mapper>

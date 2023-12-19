@@ -18,7 +18,7 @@ public interface ReviewService {
 	List<ReviewDTO> dtlReview(ReviewDTO reviewDTO) throws SQLException, ClassNotFoundException;
 
 	// 댓글목록 ajax html
-	String commtHTML(int review_sq, FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException;
+	// String commtHTML(int review_sq, FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException;
 
 
 	

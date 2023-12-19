@@ -16,7 +16,7 @@ public interface ReviewMapper {
 	public List<ReviewDTO> dtlReview(@Param("reviewDTO") ReviewDTO reviewDTO);
 	
 	// 수강후기 상세페이지 댓글 ajax
-	public List<ReviewDTO> getCommtList(@Param("review_sq") int review_sq, @Param("dto") FrmSearchDTO frmSearchDTO);
+	// public List<ReviewDTO> getCommtList(@Param("review_sq") int review_sq, @Param("dto") FrmSearchDTO frmSearchDTO);
 
 	
 

@@ -72,6 +72,7 @@ public class CommunityReviewController {
 		return "community.review.dtl";
 	}
 	
+	/*
 	// 수강후기 상세페이지 댓글 ajax
 	@PostMapping(value = "/comment/list.ajax", produces = "application/text; charset=UTF-8")
 	public @ResponseBody ResponseEntity<String> getCommt(@RequestBody FrmSearchDTO frmSearchDTO)throws Exception{
@@ -83,15 +84,6 @@ public class CommunityReviewController {
 		return !html.equals("")
 					? new ResponseEntity<>(html, HttpStatus.OK)
 					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	/*
-	@GetMapping("/community/review/listAjax.do")
-	public String list(Model model) throws ClassNotFoundException, SQLException {
-		log.info("> /review/list 목록 GET... ");
-		List<ReviewDTO> list = reviewMapper.getList();
-		model.addAttribute("list", list );
-		return "/community/review/listAjax";
 	}
 	*/
 	
