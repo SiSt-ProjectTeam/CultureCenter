@@ -1,5 +1,5 @@
 var teacherRequestCtrl = (function(){
-	
+    
     "use strict";
     
     var fn_close = function(){
@@ -26,11 +26,9 @@ var teacherRequestCtrl = (function(){
     }
 
     var fn_next = function(step){
-console.log("fn_next step : " + step)	
         switch (step) {
             case 1:
                 if(!fn_validate1()) return;
-console.log("fn_next case 1....")
                 fn_submit1();
                 break;
             case 2:
@@ -48,8 +46,6 @@ console.log("fn_next case 1....")
         fn_process_data();
         if($("input[name=carrInfoClctAgrYn]").val() == 'Y'){
             tcRqst2HistCtrl.processData();
-			("#form").val(json);
-			
         }
         
         var json = $("#request_form").serializeJSON();
@@ -142,7 +138,6 @@ console.log("fn_next case 1....")
             }
 
             if(data.cnt > 0){
-console.log("fn_submit1 if..")
                 fnc.bscAjax(set_popup_content, "/information/application/teacher/request.do" , "html", false, false, false);
             } else {
                 alert("다시 시도해주세요.");

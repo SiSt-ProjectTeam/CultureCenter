@@ -82,6 +82,10 @@ var fnc = (function() {
                 sync = true;
             }
 
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
             jQuery.ajax({ // ajax 실행
 
                 url: url,
@@ -90,10 +94,11 @@ var fnc = (function() {
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
                     if (callbackAjax) {
@@ -144,6 +149,9 @@ var fnc = (function() {
                 sync = true;
             }
 					
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+					
 			// 폼 데이터를 배열로 가져오기	
 			var formDataArray = $(formObj).serializeArray();
 			
@@ -165,10 +173,11 @@ var fnc = (function() {
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
                     if (callbackAjax) {
@@ -217,7 +226,8 @@ var fnc = (function() {
                 sync = true;
             }
 
-			;
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
 			
             jQuery.ajax({
                 url: url,
@@ -228,10 +238,11 @@ var fnc = (function() {
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
 					if (callbackAjax) {
@@ -449,7 +460,7 @@ var fnc = (function() {
         if (alrtFlag) {
             alert("로그인 후 이용가능합니다.");
         }
-        var loginPage = contextPath+"/login/index.do",
+        var loginPage = "/login/index.do",
             pathname = location.pathname;
 
         if (pathname.indexOf("/login/") == -1) {

@@ -1,3 +1,4 @@
+
 var addFamily = (function() {
 
     "use strict";
@@ -17,18 +18,18 @@ var addFamily = (function() {
             }
         }
 
-        if (frm.obj("korNm").val().trim() == "") {
+        if (frm.obj("children_nm").val().trim() == "") {
             alert("이름을 입력하세요.");
-            //frm.obj("korNm").focus();
-        } else if (!fn_chk_age(frm.obj("bday").val())) {
-            //frm.obj("bday").focus();
+            //frm.obj("children_nm").focus();
+        } else if (!fn_chk_age(frm.obj("child_birth_dt").val())) {
+            //frm.obj("child_birth_dt").focus();
         } else if (!frm.obj("chkAgrYn").is(":checked")) {
             alert("가족정보 수집 및 활용동의에 체크하세요.");
             //frm.obj("chkAgrYn").focus();
         } else {
             fnc.frmAjax(function(data) {
 
-                if (data.rtnCode == "91") {
+                if (data.rtnCode == "-1") {
                     alert("이미 등록된 동반 수강자입니다.");
                 } else {
                     alert("동반 수강자가 추가되었습니다.");

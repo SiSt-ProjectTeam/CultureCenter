@@ -1,6 +1,7 @@
 package com.culture.demo.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class CartServiceImpl implements CartService{
 						+ "                    <p class=\"label small black_gray\">" + cartDTO.getBranch_nm() + "</p>\r\n"
 						+ "                </div>\r\n"
 						+ "                <p class=\"tit f_h2\">\r\n"
-						+ "                    <a href=\"/application/search/view.do?brchCd=" + cartDTO.getBranch_id() + "&yy=" + cartDTO.getOpen_year() + "&lectSmsterCd=" + cartDTO.getOpen_smst_id() + "&lectCd=" + cartDTO.getClass_id() + "\">\r\n"
+						+ "                    <a href=\"/application/search/view.do?branch_id=" + cartDTO.getBranch_id() + "&yy=" + cartDTO.getOpen_year() + "&lectSmsterCd=" + cartDTO.getOpen_smst_id() + "&lectCd=" + cartDTO.getClass_id() + "\">\r\n"
 						+ "                        <span>"+cartDTO.getClass_nm()+"</span>\r\n"
 						+ "                    </a>\r\n"
 						+ "                </p>\r\n"
@@ -146,5 +147,14 @@ public class CartServiceImpl implements CartService{
 	public int delete(int member_sq, String type, String cartSeqno) throws SQLException, ClassNotFoundException {
 		log.info(">>CartService.delete() ... ");
 		return cartMapper.delete(member_sq,type,cartSeqno);
+	}
+	
+	// 장바구니 자동삭제
+	@Override
+	public void autoDelete() throws SQLException, ClassNotFoundException {
+		Date now = new Date();
+		log.info(">>CartService.autoDelete() ... now : "+now);
+		
+		cartMapper.autoDelete();
 	}
 }

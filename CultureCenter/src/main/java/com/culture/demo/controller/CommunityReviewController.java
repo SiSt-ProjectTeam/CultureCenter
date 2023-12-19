@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,14 +39,13 @@ public class CommunityReviewController {
 	
 	// 리뷰 페이지
 	@GetMapping("list.do")
-	public String getReviewList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
+	public String getReviewList(@ModelAttribute FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
 		//List<ReviewDTO> bList = reviewService.getBranch(branch_nm);
 		log.info("> review/list getReviewList() GET.. ");
 		
 		List<ClassDTO> bList = lecSearchService.getBranch();
-		
-		model.addAttribute("frmSearchDTO", frmSearchDTO);
 		model.addAttribute("bList", bList);
+		
 		return "community.review.list";
 	}
 	

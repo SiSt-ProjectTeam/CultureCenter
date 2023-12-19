@@ -7,4 +7,5 @@
 .springBeans
 .DS_Store
 /Servers/*
-/CultureCenter/target/*
+/CultureCenter/target/
+pom.properties

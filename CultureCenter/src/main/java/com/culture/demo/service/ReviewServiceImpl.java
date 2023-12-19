@@ -49,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService{
 									  html.append("		<div class=\"thum_wrap\">\r\n");
 									  html.append("			<div class=\"img_resize_w thum_box reverse\">\r\n");
 									  html.append("				<img id=\"review_img\"\r\n");
-									  html.append("				src=\"/"+dto.getClass_img()+"\"alt=\""+dto.getClass_img()+"\">\r\n");
+									  html.append("				src=\"/upload/thumbnail/"+dto.getClass_img()+"\"alt=\""+dto.getClass_img()+"\">\r\n");
 									  html.append("			</div>\r\n");
 									  html.append("		</div>\r\n");
 									  html.append("		<div class=\"txt_wrap\">\r\n");
