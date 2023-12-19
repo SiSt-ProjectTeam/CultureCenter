@@ -11,7 +11,6 @@
 	<security:http use-expressions="true">
 		<!-- 접근 제한 설정 -->
 		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>
-		<security:intercept-url pattern="/**" access="permitAll" />
 		
 		<security:access-denied-handler ref="customAccessDeniedHandler"/>
 		
@@ -25,8 +24,7 @@
 	   <security:logout logout-url="/login/logout.do"  
 	       invalidate-session="true"
 	       logout-success-url="/" 
-	   />
-	   
+	   />	   
 	</security:http>   
 	
 	<!-- 스프링에서 제공하는 passwordEncoder 빈 등록 설정 -->
