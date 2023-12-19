@@ -200,7 +200,7 @@
 		
 	<!-- 강좌 상세정보 가져오기 -->
 	<select id="DetailClassInfo" resultType="com.culture.demo.domain.ClassDTO">
-		SELECT s.class_id, detail_class_sq, detail_img, class_content, supplies, class_sched_desc, class_img, class_nm, class_contnet_smp, ex_charge	
+		SELECT DISTINCT s.class_id, detail_class_sq, detail_img, class_content, supplies, class_sched_desc, class_img, class_nm, class_contnet_smp, ex_charge	
 		      , class_st, class_div, branch_nm, TO_CHAR(open_year, 'YYYY') open_year, smst_nm															
 		      , m.name, schedule_start_dt, schedule_end_dt, start_time, end_time, class_cnt, people_tot												
 		      , classroom_nm, class_fee, target_div, reception_start_dt, reception_end_dt, b.tel														
@@ -217,7 +217,7 @@
 		WHERE b.branch_id = #{branch_id}			
 		AND TO_CHAR(open_year, 'YYYY') = #{yy}
 		AND s.open_smst_id = #{lectSmsterCd}		
-		AND s.class_id = #{lectCd}														 																		
+		AND d.detail_class_sq = #{lectCd}														 																		
 	</select>
 	
 	
@@ -313,12 +313,27 @@
 		
 		<collection property="optionList" ofType="com.culture.demo.domain.OptionDTO">
 			<id property="detail_class_sq" column="detail_class_sq"/>
+			<result property="class_id" column="class_id"/>
 			<result property="ex_charge" column="ex_charge"/>
+			<result property="start_time" column="start_time"/> 
+			<result property="end_time" column="end_time"/>     
+			<result property="mon" column="mon"/>               
+			<result property="tue" column="tue"/>               
+			<result property="wed" column="wed"/>               
+			<result property="thu" column="thu"/>               
+			<result property="fri" column="fri"/>               
+			<result property="sat" column="sat"/>               
+			<result property="sun" column="sun"/>               
+			<result property="day" column="day"/>               
+			<result property="class_cnt" column="class_cnt"/>   
 		</collection>
 	</resultMap>
 	<select id="selectClassInfo" resultMap="classMap">
-		SELECT c.class_id, class_nm, branch_nm, c.class_st_id, class_st, class_div, TO_CHAR(open_year, 'YYYY') open_year
-		     , smst_nm, m.name, schedule_start_dt, schedule_end_dt, start_time, end_time, mon, tue, wed, thu, fri, sat, sun
+		SELECT c.class_id, class_nm, c.branch_id, branch_nm, c.class_st_id, class_st, class_div, TO_CHAR(open_year, 'YYYY') open_year
+		     , s.open_smst_id, smst_nm, m.name, schedule_start_dt, schedule_end_dt, class_sched_desc
+		     , SUBSTR(start_time,0,2)||':'||SUBSTR(start_time,3,2) start_time, SUBSTR(end_time,0,2)||':'||SUBSTR(end_time,3,2) end_time
+		     , DECODE(mon,'N','','Y','월')||DECODE(tue,'N','','Y','화')||DECODE(wed,'N','','Y','수')||DECODE(thu,'N','','Y','목')||DECODE(fri,'N','','Y','금')||DECODE(sat,'N','','Y','토')||DECODE(sun,'N','','Y','일') day
+		     , mon, tue, wed, thu, fri, sat, sun
 		     , class_cnt, people_tot, classroom_nm, class_fee, target_div, reception_start_dt, reception_end_dt, b.tel
 		     , class_contnet_smp, c.member_sq, d.detail_class_sq, ex_charge
 		FROM class c RIGHT JOIN class_by_semester s ON s.class_id = c.class_id 																		
@@ -333,7 +348,7 @@
 		WHERE b.branch_id = #{branch_id}			
 		AND TO_CHAR(open_year, 'YYYY') = #{yy}
 		AND s.open_smst_id = #{lectSmsterCd}		
-		AND s.class_id = #{lectCd}	
+		AND c.class_id = #{lectCd}	
 	</select>
 	
 	

@@ -22,6 +22,7 @@ import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -79,7 +80,7 @@ public class ApplicationSearchController {
 	}
 	
 	@PostMapping(value="/search/list.ajax", produces="application/text; charset=UTF-8")
-	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO, HttpServletRequest request) throws Exception {
+	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
 		log.info("> /list.ajax ApplicationSearchController.getBranchList() POST 호출");
 		log.info("> SearchBranchDTO : " + searchBranchDTO);
 		
@@ -99,7 +100,7 @@ public class ApplicationSearchController {
 		if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 		
 		String html = "";
-		html = this.appSearchService.LecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl, request);
+		html = this.appSearchService.LecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)
@@ -110,15 +111,18 @@ public class ApplicationSearchController {
 	public String viewPage(Model model, @RequestParam("branch_id") int branch_id, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd) throws Exception {
 		log.info("/application/search/view.do ApplicationSearchController.viewPage() GET 호출");
 		dto = this.appSearchService.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
-		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, lectCd);
+		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, dto.getClass_id());
+		log.info("classDtl : " + classDtl);
 		
 		String lectStDtm = String.format("%s ~ %s", classDtl.getSchedule_start_dt().substring(0,10), classDtl.getSchedule_end_dt().substring(0,10));
 		String rceptPrdStDt = String.format("%s ~ %s", classDtl.getReception_start_dt().substring(0,10), classDtl.getReception_end_dt().substring(0,10));
 		String avDay = (classDtl.getMon().equals("Y")?"월":"") + (classDtl.getTue().equals("Y")?"화":"") + (classDtl.getWed().equals("Y")?"수":"") + (classDtl.getThu().equals("Y")?"목":"")
 					+ (classDtl.getFri().equals("Y")?"금":"") + (classDtl.getSat().equals("Y")?"토":"") + (classDtl.getSun().equals("Y")?"일":"");
-		String lectTime = String.format("(%s) %s:%s~%s:%s", avDay, classDtl.getStart_time().substring(0, 2), classDtl.getStart_time().substring(2), classDtl.getEnd_time().substring(0, 2), classDtl.getEnd_time().substring(2));
+		String lectTime = String.format("(%s) %s~%s", avDay, classDtl.getStart_time(), classDtl.getEnd_time());
 		DecimalFormat decimalFormat = new DecimalFormat("#,###");
 		String fee = decimalFormat.format(classDtl.getClass_fee());
+		int ex = classDtl.getOptionList().get(0).getEx_charge();
+		String exCharge = decimalFormat.format(classDtl.getOptionList().get(0).getEx_charge());
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("classDtl", classDtl);
@@ -126,6 +130,8 @@ public class ApplicationSearchController {
 		model.addAttribute("rceptPrdStDt", rceptPrdStDt);
 		model.addAttribute("lectTime", lectTime);
 		model.addAttribute("fee", fee);
+		model.addAttribute("ex", ex);
+		model.addAttribute("exCharge", exCharge);
 		
 		return "application.search.view";
 	}
@@ -141,7 +147,5 @@ public class ApplicationSearchController {
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	
 	
 }

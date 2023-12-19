@@ -35,8 +35,7 @@ public interface AppSearchService {
 				    @Param("lectstl") String[] lectstl,
 				    @Param("dayl") String[] dayl,
 				    @Param("timel") String[] timel,
-				    @Param("amtl") String[] amtl,
-				    HttpServletRequest request) throws Exception;
+				    @Param("amtl") String[] amtl) throws Exception;
 
 	
 	// 메인페이지 강좌 정보 가져오기
@@ -69,5 +68,6 @@ public interface AppSearchService {
 	
 	// 강좌 상세보기 + 옵션 정보
 	ClassDTO selectClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
+
 	
 }
