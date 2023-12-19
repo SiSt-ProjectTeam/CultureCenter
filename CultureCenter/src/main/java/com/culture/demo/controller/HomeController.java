@@ -50,7 +50,7 @@ public class HomeController {
 	private NoticeService noticeService;
 
 	@GetMapping({"/index.do","/"})
-	public String home(Locale locale, Model model, Principal principal) throws Exception {
+	public String home(Locale locale, Model model) throws Exception {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
