@@ -55,7 +55,8 @@ public class CommunityNoticeController {
 	public @ResponseBody ResponseEntity<String> getList(@RequestBody FrmSearchDTO frmSearchDTO)throws Exception{
 		log.info("> notice/list.ajax : NoticeController.getList() POST 호출 ");
 
-		String html = noticeService.noticeHTML(frmSearchDTO);
+		String html = "";
+		html = noticeService.noticeHTML(frmSearchDTO);
 		
 		return !html.equals("")
 					? new ResponseEntity<>(html, HttpStatus.OK)

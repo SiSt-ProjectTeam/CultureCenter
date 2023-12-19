@@ -63,11 +63,9 @@ public class CommunityReviewController {
 	
 	// 수강후기 상세페이지
 	@GetMapping("dtl.do")
-	public String reviewDtl(ReviewDTO reviewDTO, Model model) throws ClassNotFoundException, SQLException {
+	public String reviewDtl(@ModelAttribute ReviewDTO reviewDTO, Model model) throws ClassNotFoundException, SQLException {
 		log.info("> review/dtl getReviewDtl() GET ... reviewDTO ");
 		
-		
-		model.addAttribute("reviewDTO", reviewDTO);
 		
 		return "community.review.dtl";
 	}

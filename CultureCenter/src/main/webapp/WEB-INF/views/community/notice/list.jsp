@@ -140,7 +140,3 @@
 
 <script type="text/javascript" src="/resources/common/js/community/noticeCtrl.js"></script>
 			
-		
-			<!-- 관계사 사이트 팝업 -->
-
-<!--  end wrap -->
