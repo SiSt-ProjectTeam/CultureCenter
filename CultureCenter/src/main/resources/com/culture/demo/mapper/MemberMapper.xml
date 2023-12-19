@@ -111,7 +111,7 @@
 		VALUES ( seq_member.currval, 'ROLE_USER')
 	</insert>
 	
-		<!--  아이디 중복확인  -->
+	<!--  아이디 중복확인  -->
 	<select id="idCheck" resultType="int"> 
 		SELECT COUNT(*) 
 		FROM member 

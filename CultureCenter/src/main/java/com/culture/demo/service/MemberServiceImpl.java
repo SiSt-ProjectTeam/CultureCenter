@@ -1,5 +1,6 @@
 package com.culture.demo.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +81,4 @@ public class MemberServiceImpl implements MemberService {
 		log.info("> MemberServiceImpl.findPW - Result: {}" + result);
 		return result;
 	}
-
 }

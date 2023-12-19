@@ -73,6 +73,7 @@
 	</div>
 </div>
 
+
 <script>
     function openNewWindow(url) {
         var width = 650;

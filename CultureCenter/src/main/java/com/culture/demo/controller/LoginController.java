@@ -58,23 +58,21 @@ public class LoginController {
 
 		return foundPw;
 	}
-
-
-
-
-
-
 	// 아이디 찾기 이동
-	@GetMapping("/findId.do")
-	public String findId() throws Exception {
-		log.info("> LoginController findId.do......");
-		return "login/find_id";
-	}
-	// 비밀번호 찾기 이동
-	@GetMapping("/findPw.do")
-	public String findPw() throws Exception {
-		log.info("> LoginController findPw.do......");
-		return "login/find_pw";
-	}
+		@GetMapping("/findId.do")
+		public String findId() throws Exception {
+			log.info("> LoginController findId.do......");
+			return "login/find_id";
+		}
+		// 비밀번호 찾기 이동
+		@GetMapping("/findPw.do")
+		public String findPw() throws Exception {
+			log.info("> LoginController findPw.do......");
+			return "login/find_pw";
+		}
+
+
+
+
 
 }

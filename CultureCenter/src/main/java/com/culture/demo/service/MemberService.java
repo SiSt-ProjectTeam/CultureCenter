@@ -15,7 +15,6 @@ public interface MemberService {
 	// 동반수강자(자녀) 삭제
 	public int deleteChildren(int member_sq) throws Exception;
 	
-	
 	// 3. 회원 등록
 	int registMember(MemberDTO memberDTO);
 	
