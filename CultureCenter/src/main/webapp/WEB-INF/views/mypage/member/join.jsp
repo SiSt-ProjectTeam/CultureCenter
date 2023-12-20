@@ -209,10 +209,7 @@
                         } else if (data == "noredundancy") {
                             $('.idchk').html("사용가능한 아이디입니다").css('color', 'green');
                             $('#idConfirmed').val("true");
-                        } else {
-                            $('.idchk').html("아이디를 입력해주세요").css('color', 'red');
-                            $('#idConfirmed').val("false");
-                        }
+                        } 
                     }
                 });
             }

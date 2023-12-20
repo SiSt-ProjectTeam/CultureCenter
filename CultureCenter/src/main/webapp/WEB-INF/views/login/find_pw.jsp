@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="UTF-8">
-	<sec:csrfMetaTags/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="UTF-8">
+<sec:csrfMetaTags/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-   <style type="text/css">
+<style type="text/css">
    
 body {
     font-family: 'Arial', sans-serif;
@@ -87,31 +89,30 @@ input[type="button"]:last-child:hover {
 
 
 
-	<form method = "GET">
-			<div class = "search-title">
-				<h3>등록한 정보로 비밀번호 찾기</h3>
+	<form method="GET">
+		<div class="search-title">
+			<h3>등록한 정보로 비밀번호 찾기</h3>
+		</div>
+		<section class="form-search">
+			<div class="find-id">
+				<label>아이디</label> <input type="text" name="id" class="id"
+					placeholder="ID"> <br>
 			</div>
-		<section class = "form-search">
-			<div class = "find-id">
-				<label>아이디</label>
-				<input type="text" name="id" class="id" placeholder = "ID">
-			<br>
+
+			<div class="find-phone">
+				<label>전화번호</label> <input type="text" name="phone" class="phone"
+					maxlength="11" placeholder="휴대폰번호를 '-'없이 입력">
 			</div>
-		
-		 <div class = "find-phone">
-				<label>전화번호</label>
-				<input type="text" name="phone" class = "phone" maxlength="11" placeholder = "휴대폰번호를 '-'없이 입력">
-			</div> 
 			<br>
-	</section>
-	<div class ="btnSearch">
-		<input type="button" name="enter" value="찾기" onClick="pw_search()" >
-		<input type="button" name="cancle" value="취소" onclick="closeWindow()">
- 	</div>
- </form>
+		</section>
+		<div class="btnSearch">
+			<input type="button" name="enter" value="찾기" onClick="pw_search()">
+			<input type="button" name="cancle" value="취소" onclick="closeWindow()">
+		</div>
+	</form>
 
 
-<script>
+	<script>
 function pw_search() {
     
     var id = $('.id').val();

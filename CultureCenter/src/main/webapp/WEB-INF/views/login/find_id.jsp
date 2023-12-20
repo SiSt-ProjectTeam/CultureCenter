@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="UTF-8">
-	<sec:csrfMetaTags/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="UTF-8">
+<sec:csrfMetaTags/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-   <style type="text/css">
+
+<style type="text/css">
    
 body {
     font-family: 'Arial', sans-serif;
@@ -86,62 +89,58 @@ input[type="button"]:last-child:hover {
 
 
 
-<form  method = "GET">
-			<div class = "search-title">
-				<h3>등록한 정보로 아이디 찾기</h3>
+	<form method="GET">
+		<div class="search-title">
+			<h3>등록한 정보로 아이디 찾기</h3>
+		</div>
+		<section class="form-search">
+			<div class="find-name">
+				<label>이름</label> <input type="text" name="name" class="name"
+					placeholder="등록한 이름"> <br>
 			</div>
-		<section class = "form-search">
-			<div class = "find-name">
-				<label>이름</label>
-				<input type="text" name="name" class = "name" placeholder = "등록한 이름" >
-			<br>
-			</div>
-			<div class = "find-phone">
-				<label>전화번호</label>
-				<input type="text"  name="phone" 
-				maxlength="11" class = "phone" placeholder = "휴대폰번호를 '-'없이 입력">
+			<div class="find-phone">
+				<label>전화번호</label> <input type="text" name="phone" maxlength="11"
+					class="phone" placeholder="휴대폰번호를 '-'없이 입력">
 			</div>
 			<br>
-	</section>
-	<div class ="btnSearch">
-		<input type="button" name="enter" value="찾기"  onClick="id_search()">
-		<input type="button" name="cancle" value="취소" onclick="closeWindow()">
- 	</div>
- </form>
- 
-<script>
-function id_search() {
-	
-    
-    var name = $('.name').val();
-    var phone = $('.phone').val();
+		</section>
+		<div class="btnSearch">
+			<input type="button" name="enter" value="찾기" onClick="id_search()">
+			<input type="button" name="cancle" value="취소" onclick="closeWindow()">
+		</div>
+	</form>
 
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-  
-    $.ajax({
-        url: '/login/findId.do', 
-        type: "post",
-        data: {
-            "name":name,
-            "phone":phone
-        },
-        dataType: 'text',
-        beforeSend: function(xhr) {
-            // 헤더에 CSRF 토큰 추가
-            xhr.setRequestHeader(header, token);
-        },
-        success: function (data) {
-            if (data !== "") {
-                alert("찾은 아이디: " + data);
-            } else {
-                alert("일치하는 아이디가 없습니다.");
-            }
-        }
-    });
-}
+	<script>
+		function id_search() {
 
-</script>
+			var name = $('.name').val();
+			var phone = $('.phone').val();
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+			$.ajax({
+				url : '/login/findId.do',
+				type : "post",
+				data : {
+					"name" : name,
+					"phone" : phone
+				},
+				dataType : 'text',
+				beforeSend : function(xhr) {
+					// 헤더에 CSRF 토큰 추가
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					if (data !== "") {
+						alert("찾은 아이디: " + data);
+					} else {
+						alert("일치하는 아이디가 없습니다.");
+					}
+				}
+			});
+		}
+	</script>
 
 
 <script>

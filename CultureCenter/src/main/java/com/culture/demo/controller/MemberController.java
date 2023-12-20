@@ -24,9 +24,8 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class MemberController {
 	
-	
 	private PasswordEncoder passwordEncoder;
-	@Autowired
+	
 	private MemberService memberService;
 	
 	private EmailSenderService emailSenderService;
@@ -153,7 +152,7 @@ public class MemberController {
 	    log.info(">memberID 중복여부 = " + (result >= 1 ? "중복" : "중복아님"));
 	    if (result >= 1) {
 	        chk = "redundancy"; // 중복
-	    } else if (result == 0) {
+	    } else {
 	    	chk = "noredundancy"; // 중복아님
 	    }
 	    return chk;
@@ -176,18 +175,19 @@ public class MemberController {
 		String foundPw = memberService.findPW(id, phone);
 		return foundPw;
 	}
+	
 	// 아이디 찾기 이동
-		@GetMapping("/login/findId.do")
-		public String findId() throws Exception {
-			log.info("> /login/findId.do : MemberController.findId() ... ");
-			return "login/find_id";
-		}
-		// 비밀번호 찾기 이동
-		@GetMapping("/login/findPw.do")
-		public String findPw() throws Exception {
-			log.info("> /login/findPw.do : MemberController.findPw() ... ");
-			return "login/find_pw";
-		}
+	@GetMapping("/login/findId.do")
+	public String findId() throws Exception {
+		log.info("> /login/findId.do : MemberController.findId() ... ");
+		return "login/find_id";
+	}
+	// 비밀번호 찾기 이동
+	@GetMapping("/login/findPw.do")
+	public String findPw() throws Exception {
+		log.info("> /login/findPw.do : MemberController.findPw() ... ");
+		return "login/find_pw";
+	}
 	
 	
 }
