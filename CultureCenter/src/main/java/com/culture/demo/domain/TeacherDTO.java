@@ -1,10 +1,8 @@
 package com.culture.demo.domain;
 
 import java.util.List;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.google.gson.JsonObject;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +17,7 @@ public class TeacherDTO {
 	private String profil_img; //강사 프로필 사진
 	private String teacher_nm;
 	private String teacher_intro;
- 
-	//강사 지원서 제출 form data
+
 	private List<TeducationDTO> tceduList;		//강사 학력
 	private List<TcareerDTO> tchistList; 		//경력사항
 	private List<TawardsDTO> tcawrdList; 		//수상내역
@@ -53,8 +50,7 @@ public class TeacherDTO {
 	private int frstMdclsCtegryCd; 				//첫번째 희망강좌코드 중분류
 	private int secLrclsCtegryCd; 				//두번째 희망강좌코드 대분류
 	private String secLrclsCtegryCdNm; 			//강좌대분류명
-	private int secMdclsCtegryCd; 				//두번째 희망강좌코드 중분류
-	
+	private int secMdclsCtegryCd; 				//두번째 희망강좌코드 중분류	
 	private String hopeDaywVal;					//희망요일코드
 	private String hopeDaywValNm; 				//희망요일이름
 	private int hopeStHh; 						//희망시작시간
@@ -63,8 +59,7 @@ public class TeacherDTO {
 	private int hopeEndMi; 						//희망종료분
 	private String lectIntrdnCont; 				//강좌소개		
 	
-	private String imgPre;
-	private CommonsMultipartFile file;			//프로필 사진 업로드
+	private MultipartFile file;					//프로필 사진 업로드
 	private String filesrc;						//수정
 
 }

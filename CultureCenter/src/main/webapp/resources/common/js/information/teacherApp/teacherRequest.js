@@ -154,6 +154,7 @@ var teacherRequestCtrl = (function(){
         }
         var json = $("#request_form").serializeJSON();
         $("#form").val(json);
+        console.log(json);
 
         fnc.fileFrmAjax(set_popup_content, "/information/application/teacher/submit.ajax", $("#submit_form"), "html", false, true, true);
     }

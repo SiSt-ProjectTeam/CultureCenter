@@ -13,10 +13,10 @@ public interface TeacherService {
 	//강사신청 정보입력 html
 	public String createTeacherInfoHtml();
 	
-	//강사신청 제출 트랜잭션
-	public int submitTeacherInfo(Map<String, Object> submitDataString) throws Exception;
+	//강사신청 제출
+	public int submitTeacherInfo(Map<String, Object> submitDataString, String teacherImg, int memberSq) throws Exception;
 
-	//강사신청완료 시 step3 페이지 html
+	//강사신청완료 시 step3 html
 	public String createSubmitHtml();
 	
 	//제휴사 신청 페이지

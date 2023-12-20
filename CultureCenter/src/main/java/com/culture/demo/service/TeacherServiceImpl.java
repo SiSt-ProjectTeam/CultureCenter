@@ -27,9 +27,7 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Autowired
 	private NamedParameterJdbcTemplate npJdbcTemplate;
-	
-	
-	
+
 	//개인정보 수집 동의 여부
 	@Override
 	public Map<String, String> clausePrivacyOk(Map<String, String> clausePrivacyData) {
@@ -42,34 +40,22 @@ public class TeacherServiceImpl implements TeacherService{
 		}
 		return okMap;
 	}
-	
 
-	//사진 업로드 컨트롤러 추가 O
-
-	//강사신청 제출
+	//강사신청서 제출
 	@Override
 	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-	public int submitTeacherInfo( Map<String, Object> submitList) throws Exception {
+	public int submitTeacherInfo( Map<String, Object> submitList, String teacherImg, int memberSq) throws Exception {
 		log.info("> TeacherServiceImpl.submitTeacherInfo......");
 		
 		System.out.println("submitList : " + submitList );
 		
-		List<HashMap<String, Object>> tceduList = (List<HashMap<String, Object>>) submitList.get("tceduList");
-		//System.out.println("tceduList : " + tceduList);
-			
+		List<HashMap<String, Object>> tceduList = (List<HashMap<String, Object>>) submitList.get("tceduList");		
 		List<HashMap<String, Object>> tchistList = (List<HashMap<String, Object>>) submitList.get("tchistList");
-		//System.out.println("tchistList : " + tchistList);
-		
 		List<HashMap<String, Object>> tcawrdList = (List<HashMap<String, Object>>) submitList.get("tcawrdList");
-		//System.out.println("tcawrdList : " + tcawrdList);
-		
 		List<HashMap<String, Object>> tcauthctfList = (List<HashMap<String, Object>>) submitList.get("tcauthctfList");
-		//System.out.println("tcauthctfList : " + tcauthctfList);
-		
-		String hopeDaywVal = (String) submitList.get("hopeDaywVal");	
-		//System.out.println("hopeDaywVal : " + hopeDaywVal);
+
+		String hopeDaywVal = (String) submitList.get("hopeDaywVal");
 		List<String> resultList = new ArrayList<String>();
-		
 		StringBuilder resultBuilder = new StringBuilder();	
 		int index = 1;		
 		for (int i = 0; i <7; i++) {
@@ -83,20 +69,18 @@ public class TeacherServiceImpl implements TeacherService{
 			resultList.add(i, String.valueOf(result.charAt(i)));
 		}//for
 		
-		//System.out.println("resultList : " + resultList);
-		
 		//TEACHER 테이블에 추가
-		this.teacherMapper.insertTeacher(submitList);
+		this.teacherMapper.insertTeacher(submitList, teacherImg, memberSq);
 		//AWARDS 테이블에 추가
-		this.teacherMapper.insertAwards(tcawrdList);
+		this.teacherMapper.insertAwards(tcawrdList, memberSq);
 		//CARRER 테이블에 추가
-		this.teacherMapper.insertCarrer(tchistList);
+		this.teacherMapper.insertCarrer(tchistList, memberSq);
 		//CERTIFICATE 테이블에 추가
-		this.teacherMapper.insertCertificate(tcauthctfList);
+		this.teacherMapper.insertCertificate(tcauthctfList, memberSq);
 		//EDUCATION 테이블에 추가
-		this.teacherMapper.insertEducation(tceduList);		
+		this.teacherMapper.insertEducation(tceduList, memberSq);		
 		//APPLY_CLASS 테이블에 추가
-		this.teacherMapper.insertApplyClass(submitList, resultList);
+		this.teacherMapper.insertApplyClass(submitList, resultList, memberSq);
 		
 		return 1;
 	}	
@@ -111,7 +95,7 @@ public class TeacherServiceImpl implements TeacherService{
 		return deleteMap;
 	}
 	
-	//개인정보 수집 html
+	//개인정보 수집 html (step 1)
 	@Override
 	public String createClausePrivacyHtml() {
 		log.info("> TeacherServiceImpl.createClausePrivacyHtml......");
@@ -255,12 +239,14 @@ public class TeacherServiceImpl implements TeacherService{
 		return html.toString();
 	}
 
-	//강사신청 정보입력 html
+	//강사신청 정보입력 html (step 2)
 	@Override
 	public String createTeacherInfoHtml() {	
 		log.info("> TeacherServiceImpl.createTeacherInfoHtml......");
 
 		StringBuilder html = new StringBuilder();
+		int startYear = 1960;
+		int endYear = 2023;
 
 			html.append("<script>\r\n");
 			html.append("    function init_alert() {\r\n");
@@ -273,7 +259,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("<div class=\"for_padding\" data-step=\"2\">\r\n");
 			html.append("    <div class=\"scroll_area\">\r\n");
 			html.append("        <form id=\"request_form\">\r\n");
-			html.append("            <input type=\"hidden\" id=\"imgPre\" value=\"\"/>\r\n");
+			html.append("            <input type=\"hidden\" id=\"imgPre\" name=\"imgPre\" >\r\n");
 			html.append("            <input type=\"hidden\" name=\"tcCdNo\" value=\"041989\"/>\r\n");
 			html.append("            <input type=\"hidden\" name=\"prinfClctAgrYn\" value=\"Y\"/>\r\n");
 			html.append("            <input type=\"hidden\" name=\"carrInfoClctAgrYn\" value=\"Y\"/>\r\n");
@@ -956,14 +942,14 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                <div class=\"input_div\">\r\n");
 			html.append("                                    <div class=\"form_input w100p tit_input\">\r\n");
 			html.append("                                        <p class=\"tit\">시작일</p>\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"8\" placeholder=\"예) 19980125\" id=\"histStDt\" name=\"tchistList[][histStDt]\" data-type=\"date\" data-old-value=\"20200101\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"8\" placeholder=\"예) 19980125\" value=\"19980125\" id=\"histStDt\" name=\"tchistList[][histStDt]\" data-type=\"date\" data-old-value=\"20200101\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"경력사항 시작일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
 			html.append("                                    </div>\r\n");
 			html.append("                                    <div class=\"form_input w100p tit_input\">\r\n");
 			html.append("                                        <p class=\"tit\">종료일</p>\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"8\" placeholder=\"예) 19980125\" id=\"histEndDt\" name=\"tchistList[][histEndDt]\" data-type=\"date\" data-old-value=\"20231121\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"8\" placeholder=\"예) 19980125\"  value=\"19980130\" id=\"histEndDt\" name=\"tchistList[][histEndDt]\" data-type=\"date\" data-old-value=\"20231121\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"경력사항 종료일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -1003,7 +989,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                <div class=\"input_div\">\r\n");
 			html.append("                                    <div class=\"form_input w100p tit_input\">\r\n");
 			html.append("                                        <p class=\"tit\">수상일</p>\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"8\" id=\"awrdIssueDt\" name=\"tcawrdList[][issueDt]\" placeholder=\"예) 19980125\" data-type=\"date\" data-old-value=\"20200202\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"8\" id=\"awrdIssueDt\" name=\"tcawrdList[][issueDt]\" placeholder=\"예) 19980125\"  value=\"19980125\" data-type=\"date\" data-old-value=\"20200202\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"수상일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -1043,7 +1029,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                <div class=\"input_div\">\r\n");
 			html.append("                                    <div class=\"form_input w100p tit_input\">\r\n");
 			html.append("                                        <p class=\"tit\">취득일</p>\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"8\" id=\"athctfIssueDt\" name=\"tcauthctfList[][issueDt]\" placeholder=\"예) 19980125\" data-old-value=\"20200101\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"8\" id=\"athctfIssueDt\" name=\"tcauthctfList[][issueDt]\" placeholder=\"예) 19980125\" value=\"19980125\"  data-old-value=\"20200101\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"취득일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -1235,113 +1221,101 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0001\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>본점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0013\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0007\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>강남점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0028\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0008\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>건대스타시티점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0006\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0009\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>관악점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0340\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0010\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>김포공항점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0022\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0011\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>노원점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0026\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0012\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>미아점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0010\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0013\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>영등포점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0004\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0014\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>청량리점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0344\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0003\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>인천점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0399\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0004\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>동탄점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0335\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0015\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>구리점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0008\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0016\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>분당점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0349\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0017\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>수원점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0336\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0018\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>안산점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0011\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0019\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>일산점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0334\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0020\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>중동점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0341\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0021\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>평촌점</span>\r\n");
 			html.append("                                                    </a>\r\n");
 			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0005\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>부산본점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0333\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0006\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>광복점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0007\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0023\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>광주점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0023\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0024\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>대구점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0012\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0025\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>대전점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0016\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0026\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>동래점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0354\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0027\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>마산점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0024\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0028\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>상인점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0027\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0029\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>센텀시티점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0015\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0030\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>울산점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0025\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0031\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>전주점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0017\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0032\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>창원점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0014\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0033\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>포항점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0361\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0034\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>롯데몰군산점</span>\r\n");
 			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0350\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0022\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>롯데몰광명점</span>\r\n");
-			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0009\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                                                        <span>부평점</span>\r\n");
-			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0018\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                                                        <span>안양점</span>\r\n");
-			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0020\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                                                        <span>인천점</span>\r\n");
-			html.append("                                                    </a>\r\n");
-			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"0003\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                                                        <span>인천점</span>\r\n");
 			html.append("                                                    </a>\r\n");
 			html.append("                                                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"9998\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                        <span>이지_테스트</span>\r\n");
@@ -2089,198 +2063,13 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                    <a class=\"btn_link default\" href=\"javascript:\" data-value=\"\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                        <span>년도 선택</span>\r\n");
 			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2023\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2023</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2022\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2022</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2021\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2021</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2020\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2020</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2019\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2019</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2018\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2018</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2017\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2017</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2016\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2016</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2015\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2015</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2014\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2014</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2013\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2013</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2012\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2012</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2011\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2011</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2010\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2010</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2009\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2009</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2008\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2008</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2007\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2007</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2006\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2006</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2005\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2005</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2004\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2004</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2003\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2003</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2002\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2002</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2001\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2001</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"2000\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>2000</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1999\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1999</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1998\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1998</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1997\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1997</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1996\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1996</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1995\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1995</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1994\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1994</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1993\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1993</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1992\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1992</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1991\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1991</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1990\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1990</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1989\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1989</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1988\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1988</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1987\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1987</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1986\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1986</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1985\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1985</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1984\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1984</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1983\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1983</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1982\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1982</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1981\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1981</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1980\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1980</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1979\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1979</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1978\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1978</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1977\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1977</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1976\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1976</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1975\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1975</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1974\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1974</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1973\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1973</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1972\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1972</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1971\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1971</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1970\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1970</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1969\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1969</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1968\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1968</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1967\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1967</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1966\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1966</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1965\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1965</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1964\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1964</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1963\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1963</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1962\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1962</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1961\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1961</span>\r\n");
-			html.append("                    </a>\r\n");
-			html.append("                    <a class=\"btn_link \" href=\"javascript:\" data-value=\"1960\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
-			html.append("                        <span>1960</span>\r\n");
-			html.append("                    </a>\r\n");
+
+			for (int year = endYear; year >= startYear; year--) {
+			    html.append(" 	<a class=\"btn_link \" href=\"javascript:\" data-value=\"").append(year).append("\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			    html.append("	<span>").append(year).append("</span>\r\n");
+			    html.append("	</a>\r\n");
+			}
+			
 			html.append("                </div>\r\n");
 			html.append("            </div>\r\n");
 			html.append("        </div>\r\n");

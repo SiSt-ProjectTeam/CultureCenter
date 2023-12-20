@@ -11,17 +11,17 @@
 			(MEMBER_SQ, BUSINESS_TP_ID, TAX_FREE_AV, PROFIL_IMG, TEACHER_NM, TEL, 
 			BIRTH_DT, LUNAR_SOLAR, EMAIL, TEACHER_INTRO, ZIPCODE, ADDRESS, ADDR_DETAIL)
 		VALUES	
-			(18, ${tcTpCd},
+			(${memberSq}, ${submitList.tcTpCd},
 			<choose>			
-				<when test='txfrBizprYn != null and txfrBizprYn == "01"'> 'Y'</when>
+				<when test='submitList.txfrBizprYn != null and submitList.txfrBizprYn == "01"'> 'Y'</when>
 				<otherwise> 'N'</otherwise>	
 			</choose>			
-				,'18', #{tcNm}, '${hpStNo}${hpMidNo}${hpLastNo}', TO_DATE(${bday}, 'YYMMDD'),
+				,#{teacherImg}, #{submitList.tcNm}, '${submitList.hpStNo}${submitList.hpMidNo}${submitList.hpLastNo}', TO_DATE(${submitList.bday}, 'YYMMDD'),
 			<choose>
-				<when test='lscCd != null and lscCd == "01"'> 'lunar'</when>
+				<when test='submitList.lscCd != null and submitList.lscCd == "01"'> 'lunar'</when>
 				<otherwise> 'solar'</otherwise>				
 			</choose>
-				,'${email}@${emailAddrCd}', #{selfIntrdnCont}, #{pstno}, #{addr}, #{dtlAddr}
+				,'${submitList.email}@${submitList.emailAddrCd}', #{submitList.selfIntrdnCont}, #{submitList.pstno}, #{submitList.addr}, #{submitList.dtlAddr}
 			)		
 	</insert>
 	
@@ -35,8 +35,8 @@
 			INSERT INTO AWARDS
 				(AWARDS_SQ, MEMBER_SQ, PUBLISHER, AWARDS_HISTORY, AWARDS_DT)			
 			VALUES
-		<foreach collection="list" index="index" item="item" open="" close="" separator="">
-			(#{seq}, 10, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
+		<foreach collection="tcawrdList" index="index" item="item" open="" close="" separator="">
+			(#{seq}, ${memberSq}, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
 		</foreach>
 	</insert>
 
@@ -50,8 +50,8 @@
 		INSERT INTO CAREER
 			(CAREER_SQ, MEMBER_SQ, PUBLISHER, START_DT, END_DT)
 		VALUES
-		<foreach collection="list" index="index" item="item" open="" close="" separator="">
-			(#{seq}, 10, #{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt})
+		<foreach collection="tcawrdList" index="index" item="item" open="" close="" separator="">
+			(#{seq}, ${memberSq}, #{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt})
 		</foreach>
 	</insert>
 	
@@ -65,8 +65,8 @@
 		INSERT INTO CERTIFICATE
 			(CERTIFICATE_SQ, MEMBER_SQ, PUBLISHER, CERTIFICATE_NM, ACQUISITION_DT)
 		VALUES
-		<foreach collection="list" index="index" item="item" open="" close="" separator="">
-			(#{seq}, 10, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
+		<foreach collection="tcawrdList" index="index" item="item" open="" close="" separator="">
+			(#{seq}, ${memberSq}, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
 		</foreach>
 	</insert>
 	
@@ -79,9 +79,9 @@
          </selectKey> 
 			INSERT INTO EDUCATION
 				(EDUCATION_SQ, MEMBER_SQ, UNIVERSITY_TP_ID, UNIVERSITY_NM, MAJOR, GRADUATE_STATE_ID, GRADUATE_YEAR)
-		<foreach collection="list" index="index" item="item" open="" close="" separator="">
+		<foreach collection="tcawrdList" index="index" item="item" open="" close="" separator="">
 			VALUES
-				(#{seq}, 10, ${item.schlClCd}, #{item.schlNm}, #{item.mjrNm}, ${item.grdtClCd}, #{item.yy})
+				(#{seq}, ${memberSq}, ${item.schlClCd}, #{item.schlNm}, #{item.mjrNm}, ${item.grdtClCd}, #{item.yy})
 		</foreach>
 	</insert>
 	
@@ -93,7 +93,7 @@
 		    MDCLSCTEGRYCD1, MDCLSCTEGRYCD2, HOPE_BRANCH_ID1, HOPE_BRANCH_ID2, 
 		    SUN_AV, MON_AV, TUE_AV, WED_AV, THU_AV, FRI_AV, SAT_AV)
 	    VALUES
-		    (18, SYSDATE, #{submitList.lectIntrdnCont}, '${submitList.hopeStHh}${submitList.hopeStMi}', '${submitList.hopeEndHh}${submitList.hopeEndMi}', 
+		    (${memberSq}, SYSDATE, #{submitList.lectIntrdnCont}, '${submitList.hopeStHh}${submitList.hopeStMi}', '${submitList.hopeEndHh}${submitList.hopeEndMi}', 
 		    #{submitList.frstMdclsCtegryCd}, #{submitList.secMdclsCtegryCd}, ${submitList.frstHopeBrchCd}, ${submitList.secHopeBrchCd},
         <foreach collection="resultList" item="item" separator="," index="index">
         	#{item}
