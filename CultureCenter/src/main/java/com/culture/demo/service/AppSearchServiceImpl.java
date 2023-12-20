@@ -23,25 +23,25 @@ import lombok.extern.log4j.Log4j;
 @Service
 @Log4j
 public class AppSearchServiceImpl implements AppSearchService {
-	
+
 	@Autowired
 	private AppSearchMapper appSearchMapper;
-	
-	// 강좌 정보 가져오기
+
+	// 강좌 정보 가져오기 - 지점으로 찾기
 	@Override
 	public List<ClassDTO> selectClassList(int branch_id, SearchBranchDTO searchBranchDTO
-		, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
-		log.info("AppSearchServiceImpl.selectBranchList() 호출");
+			, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+		log.info("AppS earchServiceImpl.selectBranchList() 호출");
 		return this.appSearchMapper.selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
 	}
-	
-	// 강좌 목록 ajax html 생성
+
+	// 강좌 목록 ajax html 생성 - 지점으로 찾기
 	@Override
-	public String LecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+	public String lecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
 		log.info("AppSearchServiceImpl.LecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
-		
+
 		if(list.isEmpty()) {
 			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n");
 			html.append("	<div class=\"no_srch_div\">\r\n");
@@ -54,10 +54,10 @@ public class AppSearchServiceImpl implements AppSearchService {
 				String avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
 						+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
 				String schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
-				
+
 				DecimalFormat decimalFormat = new DecimalFormat("#,###");
 				String fee = decimalFormat.format(dto.getClass_fee());
-				
+
 				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
 				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
 				html.append("		<div class=\"img_box\">\r\n");
@@ -83,7 +83,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 				html.append("	<div class=\"bottom_info\">\r\n");
 				html.append("		<p class=\"price\">"+fee+"원</p>\r\n");
 				if(dto.getClass_st().equals("접수중")) // 강좌 상태 == '접수중'인 강좌만 장바구니 버튼 출력
-				html.append("		<button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getClass_st_id()+"');\"></button>");
+					html.append("		<button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getClass_st_id()+"');\"></button>");
 				html.append("	</div>");
 				html.append("</div>");
 			}
@@ -92,6 +92,71 @@ public class AppSearchServiceImpl implements AppSearchService {
 		return result;
 	}
 
+	// 강좌 정보 가져오기 - 강좌로 찾기
+	@Override
+	public List<ClassDTO> selectCateClassList(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl, String[] lectcll,
+			String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+		log.info("AppSearchServiceImpl.selectCateClassList() 호출");
+		return this.appSearchMapper.selectCateClassList(searchCategoryDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+	}
+
+	// 강좌 목록 ajax html 생성 - 강좌로 찾기
+	@Override
+	public String cateLecHTML(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl, String[] lectcll,
+			String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+		log.info("AppSearchServiceImpl.cateLecHTML() 호출");
+		StringBuilder html = new StringBuilder();
+		List<ClassDTO> list = selectCateClassList(searchCategoryDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+
+		if(list.isEmpty()) {
+			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n");
+			html.append("	<div class=\"no_srch_div\">\r\n");
+			html.append("		<p class=\"txt f_h2\">\r\n");
+			html.append("			<span class=\"normal_value\">진행중인 강좌가 없습니다.</span>\r\n");
+			html.append("		</p>\r\n");
+			html.append("	</div>\r\n");
+		} else {
+			for(ClassDTO dto : list) {
+				String avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
+						+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
+				String schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
+
+				DecimalFormat decimalFormat = new DecimalFormat("#,###");
+				String fee = decimalFormat.format(dto.getClass_fee());
+
+				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
+				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
+				html.append("		<div class=\"img_box\">\r\n");
+				html.append("			<div class=\"img_resize_w img\">\r\n");
+				html.append("				<img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
+				html.append("			</div>\r\n");
+				html.append("		</div>\r\n");
+				html.append("		<div class=\"con\">\r\n");
+				html.append("			<div class=\"label_div\">\r\n");
+				html.append("				<p class=\"label small "+ (dto.getClass_st().equals("접수중") ? "lime" : "gray") +"\">"+dto.getClass_st()+"</p>\r\n");
+				html.append("				<p class=\"label small black_gray\">"+dto.getBranch_nm()+"</p>\r\n");
+				html.append("			</div>\r\n");
+				html.append("			<p class=\"tit limit_line_two\">"+dto.getClass_nm()+"</p>\r\n");
+				html.append("			<div class=\"info_con\">\r\n");
+				html.append("				<div class=\"type_div\">\r\n");
+				html.append("					<p class=\"type\">"+dto.getSmst_nm()+"</p>\r\n");
+				html.append("					<p class=\"type\">"+dto.getName()+"</p>\r\n");
+				html.append("				</div>\r\n");
+				html.append("				<p class=\"time\">"+schedule+", 총 "+dto.getClass_cnt()+"회</p>\r\n");
+				html.append("			</div>\r\n");
+				html.append("		</div>\r\n");
+				html.append("	</a>\r\n");
+				html.append("	<div class=\"bottom_info\">\r\n");
+				html.append("		<p class=\"price\">"+fee+"원</p>\r\n");
+				if(dto.getClass_st().equals("접수중")) // 강좌 상태 == '접수중'인 강좌만 장바구니 버튼 출력
+					html.append("		<button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getClass_st_id()+"');\"></button>");
+				html.append("	</div>");
+				html.append("</div>");
+			}
+		}
+		String result = html.toString();
+		return result;
+	}
 
 	// 메인페이지 강좌 정보 가져오기
 	@Override
@@ -100,18 +165,18 @@ public class AppSearchServiceImpl implements AppSearchService {
 		return this.appSearchMapper.mainSelectClassList(mainLectSearchDTO);
 	}
 
-	
+
 	@Override
 	public String mainLecHTML(MainLectSearchDTO mainLectSearchDTO, HttpServletRequest request) throws Exception {
 		log.info("AppSearchServiceImpl.mainLecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = getMainClassList(mainLectSearchDTO);
-		
+
 		String avDay = null;
 		String schedule = null;
 		String fee = null;
 		DecimalFormat decimalFormat = new DecimalFormat("#,###");
-		
+
 		if(!list.isEmpty()) {
 			switch (mainLectSearchDTO.getPath()) {
 			case "recommendation": /* 추천 강좌 */
@@ -119,9 +184,9 @@ public class AppSearchServiceImpl implements AppSearchService {
 					avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
 							+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
 					schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
-					
+
 					fee = decimalFormat.format(dto.getClass_fee());
-					
+
 					html.append("<div class=\"swiper-slide card_list_v\">");
 					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">");
 					html.append("      <div class=\"img_resize_w img\">");
@@ -145,7 +210,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>");
 					if(dto.getClass_st().equals("접수중"))
-					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
+						html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
 				} // for
@@ -156,9 +221,9 @@ public class AppSearchServiceImpl implements AppSearchService {
 					avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
 							+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
 					schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
-					
+
 					fee = decimalFormat.format(dto.getClass_fee());
-					
+
 					html.append("<div class=\"swiper-slide card_list_v\" data-tot-cnt=\""+ dto.getTot_cnt() +"\">");
 					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">");
 					html.append("      <p class=\"small_label wide NEW\"></p>");
@@ -183,20 +248,20 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>");
 					if(dto.getClass_st().equals("접수중"))
-					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
+						html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
 				} // for
 				break;
-				
+
 			default: /* 카테고리별 강좌 */
 				for(ClassDTO dto : list) {
 					avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
 							+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
 					schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
-					
+
 					fee = decimalFormat.format(dto.getClass_fee());
-					
+
 					html.append("<div class=\"card_list_h\">");
 					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
 					html.append("      <div class=\"img_wrap\">");
@@ -222,17 +287,17 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>\r\n");
 					if(dto.getClass_st().equals("접수중"))
-					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
+						html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
 				} // for
 				break;
 			} // switch
-			
+
 		} // if(!list.isEmpty())
 		return html.toString();
 	}
-	
+
 	// 강좌 상세정보 가져오기
 	@Override
 	public ClassDTO DetailClassInfo(int branch_id, int yy, int lectSmsterCd, int lectCd) throws Exception {
@@ -267,7 +332,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 		log.info("AppSearchServiceImpl.certiInfo() 호출");
 		return this.appSearchMapper.certiInfo(member_sq);
 	}
-	
+
 	// 강사 프로필 정보 가져오기
 	@Override
 	public TeacherDTO selectTeacherInfo(int member_sq) throws Exception {
@@ -275,7 +340,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 		log.info("member_sq : " + member_sq);
 		return this.appSearchMapper.selectTeacherInfo(member_sq);
 	}
-	
+
 	// 강사 프로필 정보 ajax html 생성
 	@Override
 	public String teacherHTML(int member_sq) throws Exception {
@@ -285,9 +350,9 @@ public class AppSearchServiceImpl implements AppSearchService {
 		List<TcareerDTO> career = careerInfo(member_sq);
 		List<TawardsDTO> award = awardInfo(member_sq);
 		List<TcertificateDTO> certi = certiInfo(member_sq);
-		
+
 		StringBuilder html = new StringBuilder();
-		
+
 		html.append("<div class=\"tit_area\">");
 		html.append("	<div class=\"instructor_img teacherHasImg has_img\">");
 		html.append("		<!-- 강사님 사진이 있을 경우 has_img 클래스 추가해주세요 -->");
@@ -389,12 +454,12 @@ public class AppSearchServiceImpl implements AppSearchService {
 		html.append("	<a href=\"javascript:$('.instructor_intro_pop .btn_close').click();\" class=\"border_btn\"> <span>닫기</span>");
 		html.append("	</a>");
 		html.append("</div>");
-		
+
 		String result = html.toString();
 		return result;
 	}
 
-	
+
 	// 강좌 상세보기 + 옵션 정보
 	@Override
 	public ClassDTO selectClassInfo(int branch_id, int yy, int lectSmsterCd, int lectCd) throws Exception {
@@ -405,5 +470,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 
 
 
-	
+
+
+
 }

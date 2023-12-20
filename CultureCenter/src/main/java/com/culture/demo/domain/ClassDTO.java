@@ -30,6 +30,10 @@ public class ClassDTO {
 	private String mdclsCtegryCd;	// 중분류코드
 	private String mdclsCtegry;		// 중분류명
 	
+	// 소분류
+	private String smclsCtegryCd;		// 소분류코드
+	private String smclsCtegry;		// 소분류명
+	
 	// 강좌 테이블  class
 	private int class_id;				// 강좌 아이디
 	private int class_div_id;			// 강좌 구분 아이디
