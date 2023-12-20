@@ -186,7 +186,8 @@ var tcCommon = (function(){
         $(obj).closest(".upload_div").addClass("complete");
         $('input[id=imgPre]').val(imagePreview);
 		//var imgPre = document.getElementById("imgPre").value;
-
+		console.log(imgPre);
+		console.log(obj);
     }
 
     // 업로드 버튼 클릭 이벤트

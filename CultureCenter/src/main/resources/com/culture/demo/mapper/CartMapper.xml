@@ -9,8 +9,18 @@
 	<select id="getCarts" resultType="com.culture.demo.domain.CartDTO">
 	SELECT
 		b.member_sq, b.detail_class_sq
-		, SUBSTR(dc.start_time,1,2)||':'||SUBSTR(dc.start_time,3,4) as start_time
-		, SUBSTR(dc.end_time,1,2)||':'||SUBSTR(dc.end_time,3,4) as end_time
+		, CASE
+            WHEN SUBSTR(dc.start_time,4,1) =' ' THEN
+                SUBSTR(dc.start_time, 1, 1) || ':' || SUBSTR(dc.start_time, 2)
+            ELSE
+                SUBSTR(dc.start_time, 1, 2) || ':' || SUBSTR(dc.start_time, 3, 2)
+         END as start_time
+		, CASE
+            WHEN SUBSTR(dc.start_time,4,1) =' ' THEN
+                SUBSTR(dc.start_time, 1, 1) || ':' || SUBSTR(dc.start_time, 2)
+            ELSE
+                SUBSTR(dc.end_time, 1, 2) || ':' || SUBSTR(dc.end_time, 3, 2)
+        END as end_time
 		, dc.class_cnt
 		, TO_CHAR(cbs.open_year,'yyyy') AS open_year
         , TO_CHAR(TRUNC(cbs.schedule_start_dt),'yyyy.MM.dd') as schedule_start_dt

@@ -1,5 +1,6 @@
 package com.culture.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.culture.demo.domain.TeacherDTO;
+
 import com.culture.demo.mapper.TeacherMapper;
 
 import lombok.AllArgsConstructor;
@@ -22,10 +23,93 @@ import lombok.extern.log4j.Log4j;
 public class TeacherServiceImpl implements TeacherService{
 	
 	@Autowired
-	private TeacherMapper teacherDao;
+	private TeacherMapper teacherMapper;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate npJdbcTemplate;
+	
+	
+	
+	//개인정보 수집 동의 여부
+	@Override
+	public Map<String, String> clausePrivacyOk(Map<String, String> clausePrivacyData) {
+		log.info("> TeacherServiceImpl.clausePrivacyOk......");
+		
+		Map<String , String> okMap = new HashMap<String, String>();
+		
+		if (clausePrivacyData.get("prinfClctAgrYn").equals("Y")) {
+			okMap.put("cnt", "1");			
+		}
+		return okMap;
+	}
+	
+
+	//사진 업로드 컨트롤러 추가 O
+
+	//강사신청 제출
+	@Override
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+	public int submitTeacherInfo( Map<String, Object> submitList) throws Exception {
+		log.info("> TeacherServiceImpl.submitTeacherInfo......");
+		
+		System.out.println("submitList : " + submitList );
+		
+		List<HashMap<String, Object>> tceduList = (List<HashMap<String, Object>>) submitList.get("tceduList");
+		//System.out.println("tceduList : " + tceduList);
+			
+		List<HashMap<String, Object>> tchistList = (List<HashMap<String, Object>>) submitList.get("tchistList");
+		//System.out.println("tchistList : " + tchistList);
+		
+		List<HashMap<String, Object>> tcawrdList = (List<HashMap<String, Object>>) submitList.get("tcawrdList");
+		//System.out.println("tcawrdList : " + tcawrdList);
+		
+		List<HashMap<String, Object>> tcauthctfList = (List<HashMap<String, Object>>) submitList.get("tcauthctfList");
+		//System.out.println("tcauthctfList : " + tcauthctfList);
+		
+		String hopeDaywVal = (String) submitList.get("hopeDaywVal");	
+		//System.out.println("hopeDaywVal : " + hopeDaywVal);
+		List<String> resultList = new ArrayList<String>();
+		
+		StringBuilder resultBuilder = new StringBuilder();	
+		int index = 1;		
+		for (int i = 0; i <7; i++) {
+			if (index < 8) {resultBuilder.append(hopeDaywVal.contains(String.valueOf(index)) ? "Y" : "N");}
+			index ++;
+		}//for
+		
+		String result = resultBuilder.toString();
+		
+		for (int i = 0; i < 7; i++) {
+			resultList.add(i, String.valueOf(result.charAt(i)));
+		}//for
+		
+		//System.out.println("resultList : " + resultList);
+		
+		//TEACHER 테이블에 추가
+		this.teacherMapper.insertTeacher(submitList);
+		//AWARDS 테이블에 추가
+		this.teacherMapper.insertAwards(tcawrdList);
+		//CARRER 테이블에 추가
+		this.teacherMapper.insertCarrer(tchistList);
+		//CERTIFICATE 테이블에 추가
+		this.teacherMapper.insertCertificate(tcauthctfList);
+		//EDUCATION 테이블에 추가
+		this.teacherMapper.insertEducation(tceduList);		
+		//APPLY_CLASS 테이블에 추가
+		this.teacherMapper.insertApplyClass(submitList, resultList);
+		
+		return 1;
+	}	
+
+	@Override
+	public Map<String, String> deleteOk(Map<String, String> deleteData) {
+		log.info(">TeacherServiceImpl.deleteOk.......");
+		
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		
+		deleteMap.put("cnt", "1");
+		return deleteMap;
+	}
 	
 	//개인정보 수집 html
 	@Override
@@ -169,19 +253,6 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("</div>\r\n");
 		
 		return html.toString();
-	}
-	
-	//개인정보 수집 동의 여부
-	@Override
-	public Map<String, String> clausePrivacyOk(Map<String, String> step) {
-		log.info("> TeacherServiceImpl.clausePrivacyOk......");
-		
-		Map<String , String> okMap = new HashMap<String, String>();
-		
-		if (step.get("prinfClctAgrYn").equals("Y")) {
-			okMap.put("cnt", "1");			
-		}
-		return okMap;
 	}
 
 	//강사신청 정보입력 html
@@ -580,19 +651,19 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                                <a class=\"btn_link default\" href=\"javascript:\" data-value=\"\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>학교 선택</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"0\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"1\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>고등학교</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"1\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"2\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>전문대학교</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"2\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"3\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>대학교</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"3\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"4\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>대학원(석사)</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"4\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link\" href=\"javascript:\" data-value=\"5\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>대학원(박사)</span>\r\n");
 			html.append("                                                </a>\r\n");
 			html.append("                                            </div>\r\n");
@@ -615,16 +686,16 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                                <a class=\"btn_link default\" href=\"javascript:\" data-value=\"\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>졸업상태 선택</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"0\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"1\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>졸업</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"1\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"2\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>수료</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"2\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"3\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>중퇴</span>\r\n");
 			html.append("                                                </a>\r\n");
-			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"3\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
+			html.append("                                                <a class=\"btn_link \" href=\"javascript:\" data-value=\"4\" onclick=\"tcCommon.selOptClick(this);\">\r\n");
 			html.append("                                                    <span>재학중</span>\r\n");
 			html.append("                                                </a>\r\n");
 			html.append("                                            </div>\r\n");
@@ -2336,37 +2407,6 @@ public class TeacherServiceImpl implements TeacherService{
 			return html.toString();
 
 	}
-	
-	/*
-	//강사신청 제출
-	@Override
-	//@Transactional
-	public TeacherDTO submitTeacherInfo(TeacherDTO teacherDTO) {
-
-		//사진 업로드 컨트롤러 추가 O
-		
-		//TEACHER 테이블에 추가
-		//AWARDS 테이블에 추가
-		//CARRER 테이블에 추가
-		//CERTIFICATE 테이블에 추가
-		//EDUCATION 테이블에 추가
-		//APPLY_CLASS 테이블에 추가
-
-		return null;
-	}
-	*/
-
-	@Override
-	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-	public void insert(TeacherDTO teacherDTO) {
-
-		this.teacherDao.insertTeacher(teacherDTO);
-		this.teacherDao.insertAwards(teacherDTO);
-		this.teacherDao.insertCarrer(teacherDTO);
-		this.teacherDao.insertCertificate(teacherDTO);
-		this.teacherDao.insertEducation(teacherDTO);
-		this.teacherDao.insertApplyClass(teacherDTO);
-	}
 
 	//강사신청완료 시 step3 페이지 html
 	@Override
@@ -2509,14 +2549,5 @@ public class TeacherServiceImpl implements TeacherService{
 		return html.toString();
 	}
 
-	@Override
-	public Map<String, String> deleteOk(Map<String, List<String>> step) {
-		log.info(">TeacherServiceImpl.deleteOk.......");
-		
-		Map<String, String> deleteMap = new HashMap<String, String>();
-		//1일때와 아닐때 분기해야됨
-		deleteMap.put("cnt", "1");
-		return deleteMap;
-	}
 			
 }

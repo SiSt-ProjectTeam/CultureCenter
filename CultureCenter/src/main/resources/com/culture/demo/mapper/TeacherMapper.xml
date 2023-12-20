@@ -2,92 +2,102 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.culture.demo.mapper.TeacherMapper">
 	
 	<!-- TEACHER 테이블에 추가
-	public int insertTeacher(TeacherDTO teacherDTO); -->
-	<insert id="insertTeacher" parameterType="com.culture.demo.domain.BranchDTO">
+	public int insertTeacher(Map<String, Object> submitList); -->
+	<insert id="insertTeacher" parameterType="hashMap">
 		INSERT INTO TEACHER
 			(MEMBER_SQ, BUSINESS_TP_ID, TAX_FREE_AV, PROFIL_IMG, TEACHER_NM, TEL, 
 			BIRTH_DT, LUNAR_SOLAR, EMAIL, TEACHER_INTRO, ZIPCODE, ADDRESS, ADDR_DETAIL)
-		VALUES
-			(10, #{tcTpCd}, #{txfrBizprYn}, 10, #{tcNm}, CONCAT(#{hpStNo}, #{hpMidNo}, #{hpLastNo}) 
-			#{bday}, #{lscCd}, #{EMAIL}, #{selfIntrdnCont}, #{pstno}, #{addr}, #{dtlAddr})
+		VALUES	
+			(18, ${tcTpCd},
+			<choose>			
+				<when test='txfrBizprYn != null and txfrBizprYn == "01"'> 'Y'</when>
+				<otherwise> 'N'</otherwise>	
+			</choose>			
+				,'18', #{tcNm}, '${hpStNo}${hpMidNo}${hpLastNo}', TO_DATE(${bday}, 'YYMMDD'),
+			<choose>
+				<when test='lscCd != null and lscCd == "01"'> 'lunar'</when>
+				<otherwise> 'solar'</otherwise>				
+			</choose>
+				,'${email}@${emailAddrCd}', #{selfIntrdnCont}, #{pstno}, #{addr}, #{dtlAddr}
+			)		
 	</insert>
 	
 	<!-- AWARDS 테이블에 추가
-	public int insertAwards(TeacherDTO teacherDTO); -->
-	<insert id="insertAwards" parameterType="com.culture.demo.domain.BranchDTO">
-		<selectKey order="BEFORE"  resultType="String"  keyProperty="seq">
-		    SELECT NVL(MAX(TO_NUMBER(AWARDS_SQ))+1,1) 
+	public int insertAwards(List<TeacherDTO.TcawrdList> tcawrdList); -->
+	<insert id="insertAwards" parameterType="java.util.List">
+		<selectKey order="BEFORE"  resultType="Integer"  keyProperty="seq">
+		    SELECT NVL(MAX(TO_NUMBER(AWARDS_SQ))+1,1) AS "AWARDS_SQ"
 		    FROM AWARDS
          </selectKey> 
-		INSERT INTO AWARDS
-			(AWARDS_SQ, MEMBER_SQ, PUBLISHER, AWARDS_HISTORY, AWARDS_DT)
-		VALUES
-			(#{AWARDS_SQ}, 10, #{issueAgncNm}, #{issueNm}, #{issueDt})
+			INSERT INTO AWARDS
+				(AWARDS_SQ, MEMBER_SQ, PUBLISHER, AWARDS_HISTORY, AWARDS_DT)			
+			VALUES
+		<foreach collection="list" index="index" item="item" open="" close="" separator="">
+			(#{seq}, 10, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
+		</foreach>
 	</insert>
-	
+
 	<!-- CARRER 테이블에 추가
-	public int insertCarrer(TeacherDTO teacherDTO); -->
-	<insert id="insertCarrer" parameterType="com.culture.demo.domain.BranchDTO">
+	public int insertCarrer(List<TeacherDTO.TchistList> tchistList); -->
+	<insert id="insertCarrer" parameterType="java.util.List">
 		<selectKey order="BEFORE"  resultType="String"  keyProperty="seq">
-		    SELECT NVL(MAX(TO_NUMBER(CAREER_SQ))+1,1) 
+		    SELECT NVL(MAX(TO_NUMBER(CAREER_SQ))+1,1) AS "CAREER_SQ"
 		    FROM CAREER
          </selectKey>
 		INSERT INTO CAREER
 			(CAREER_SQ, MEMBER_SQ, PUBLISHER, START_DT, END_DT)
 		VALUES
-			(#{CAREER_SQ}, 10, #{histPlcNm}, #{histStDt}, #{histEndDt})
+		<foreach collection="list" index="index" item="item" open="" close="" separator="">
+			(#{seq}, 10, #{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt})
+		</foreach>
 	</insert>
 	
 	<!-- CERTIFICATE 테이블에 추가
-	public int insertCertificate(TeacherDTO teacherDTO);-->
-	<insert id="insertCertificate" parameterType="com.culture.demo.domain.BranchDTO">
+	public int insertCertificate(List<TeacherDTO.TcauthctfList> tcauthctfList); -->
+	<insert id="insertCertificate">
 		<selectKey order="BEFORE"  resultType="String"  keyProperty="seq">
-		    SELECT NVL(MAX(TO_NUMBER(CERTIFICATE_SQ))+1,1) 
+		    SELECT NVL(MAX(TO_NUMBER(CERTIFICATE_SQ))+1,1) AS "CERTIFICATE_SQ"
 		    FROM CERTIFICATE
          </selectKey>
 		INSERT INTO CERTIFICATE
 			(CERTIFICATE_SQ, MEMBER_SQ, PUBLISHER, CERTIFICATE_NM, ACQUISITION_DT)
 		VALUES
-			(#{CERTIFICATE_SQ}, 10, #{issueAgncNm}, #{issueNm}, #{issueDt})
+		<foreach collection="list" index="index" item="item" open="" close="" separator="">
+			(#{seq}, 10, #{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt})
+		</foreach>
 	</insert>
 	
 	<!-- EDUCATION 테이블에 추가
-	public int insertEducation(TeacherDTO teacherDTO); -->
-	<insert id="insertEducation" parameterType="com.culture.demo.domain.BranchDTO">
+	public int insertEducation(List<TeacherDTO.TceduList> tceduList); -->
+	<insert id="insertEducation">
 		<selectKey order="BEFORE"  resultType="String"  keyProperty="seq">
-		    SELECT NVL(MAX(TO_NUMBER(EDUCATION_SQ))+1,1) 
+		    SELECT NVL(MAX(TO_NUMBER(EDUCATION_SQ))+1,1)  AS "EDUCATION_SQ"
 		    FROM EDUCATION
          </selectKey> 
-		INSERT INTO EDUCATION
-			(EDUCATION_SQ, MEMBER_SQ, UNIVERSITY_TP_ID, UNIVERSITY_NM, MAJOR, GRADUATE_STATE_ID, GRADUATE_YEAR)
-		VALUES
-			(#{EDUCATION_SQ}, 10, #{schlClCd}, #{schlNm}, #{mjrNm}, #{grdtClCd}, #{yy})
+			INSERT INTO EDUCATION
+				(EDUCATION_SQ, MEMBER_SQ, UNIVERSITY_TP_ID, UNIVERSITY_NM, MAJOR, GRADUATE_STATE_ID, GRADUATE_YEAR)
+		<foreach collection="list" index="index" item="item" open="" close="" separator="">
+			VALUES
+				(#{seq}, 10, ${item.schlClCd}, #{item.schlNm}, #{item.mjrNm}, ${item.grdtClCd}, #{item.yy})
+		</foreach>
 	</insert>
 	
 	<!-- APPLY_CLASS 테이블에 추가
-	public int insertApply(TeacherDTO teacherDTO); -->
-	<insert id="insertApply" parameterType="com.culture.demo.domain.BranchDTO">
-		    <![CDATA[
-        INSERT INTO APPLY_CLASS
-            (MEMBER_SQ, CLASS_REQ_DT, CLASS_CONTENT, HOPE_ST_TIME, HOPE_EN_TIME, 
-            MDCLSCTEGRYCD1, MDCLSCTEGRYCD2, HOPE_BRANCH_ID1, HOPE_BRANCH_ID2, 
-            SUN_AV, MON_AV, TUE_AV, WED_AV, THU_AV, FRI_AV, SAT_AV)
-        VALUES
-            (10, SYSDATE, #{lectIntrdnCont}, #{hopeStHh}:#{hopeStMi}, #{hopeEndHh}:#{hopeEndMi}, 
-            #{frstMdclsCtegryCd}, #{secMdclsCtegryCd}, #{frstHopeBrchCd}, #{secHopeBrchCd}, 
-            <foreach item="day" index="index" collection="#{hopeDaywVal}" open="" separator="" close="">
-                <choose>
-                    <when test="#{day == '1'}">Y</when>
-                    <otherwise>N</otherwise>
-                </choose>
-                <if test="#{index + 1 < hopeDaywVal.length()}">,</if>
-            </foreach>)
-    ]]>
+	public int insertApplyClass(Map<String, Object> submitList); -->
+	<insert id="insertApplyClass" parameterType="hashMap" >
+	    INSERT INTO APPLY_CLASS
+		    (MEMBER_SQ, CLASS_REQ_DT, CLASS_CONTENT, HOPE_ST_TIME, HOPE_EN_TIME, 
+		    MDCLSCTEGRYCD1, MDCLSCTEGRYCD2, HOPE_BRANCH_ID1, HOPE_BRANCH_ID2, 
+		    SUN_AV, MON_AV, TUE_AV, WED_AV, THU_AV, FRI_AV, SAT_AV)
+	    VALUES
+		    (18, SYSDATE, #{submitList.lectIntrdnCont}, '${submitList.hopeStHh}${submitList.hopeStMi}', '${submitList.hopeEndHh}${submitList.hopeEndMi}', 
+		    #{submitList.frstMdclsCtegryCd}, #{submitList.secMdclsCtegryCd}, ${submitList.frstHopeBrchCd}, ${submitList.secHopeBrchCd},
+        <foreach collection="resultList" item="item" separator="," index="index">
+        	#{item}
+        </foreach>
+    	)
 	</insert>
-	
-
 </mapper>

@@ -3,25 +3,38 @@ package com.culture.demo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.service.TeacherService;
 
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
 public class TeacherApplicationController {
 
+	
+	@Setter(onMethod=@__({@Autowired}))
+	TeacherService teacherService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(TeacherApplicationController.class);
 
 	@GetMapping(value = "/information/application/index.do")
@@ -30,10 +43,9 @@ public class TeacherApplicationController {
 
 		return "information.application.index";
 	}
-	
-	/*
+
 	//강사 신청서 사진 업로드
-	@PostMapping(value = "/information/application/upload.do")
+	@PostMapping(value = "/information/application/index.do")
 	public String applicationReg(TeacherDTO teacherDTO
 								,HttpServletRequest request
 								) throws ClassNotFoundException, SQLException, IllegalStateException, IOException {
@@ -44,8 +56,8 @@ public class TeacherApplicationController {
 		if (!multipartFile.isEmpty()) {
 			uploadRealPath = request.getServletContext().getRealPath("/application/upload");
 			
-			//File saveDir = new File(uploadRealPath);
-			//if (!saveDir.exists()) saveDir.mkdirs();
+			File saveDir = new File(uploadRealPath);
+			if (!saveDir.exists()) saveDir.mkdirs();
 			
 			System.out.println("> uploadRealPath : " + uploadRealPath);
 
@@ -53,9 +65,10 @@ public class TeacherApplicationController {
 			String filesystemName = getFileNameCheck(uploadRealPath, originalFilename);
 
 			File dest = new File(uploadRealPath, filesystemName );
-			multipartFile.transferTo(dest); // 실제 파일 저장
+			multipartFile.transferTo(dest);
 
-			teacherDTO.setFilesrc(filesystemName); // originalFilename
+			teacherDTO.setFilesrc(filesystemName);
+			
 		}//if
 		
 		//로그인 기능 미구현으로 세션처리 X 
@@ -83,5 +96,5 @@ public class TeacherApplicationController {
 			index ++;			
 		}//while
 	}
-	*/
+	
 }

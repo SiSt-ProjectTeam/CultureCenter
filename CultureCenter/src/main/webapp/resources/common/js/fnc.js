@@ -296,7 +296,8 @@ var fnc = (function() {
                     formData.append(input.name, input.files[0]);
                 }
             }
-
+console.log(formData);
+console.log(inputFile);
             jQuery.ajax({
                 url: url,
                 type: "post",
@@ -306,7 +307,6 @@ var fnc = (function() {
                 async: sync,
                 cache: false,
                 contentType: false,
-                //contentType: "application/json; charset=UTF-8",
                 processData: false,
                 beforeSend: function() {
                     if (loading) {

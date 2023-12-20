@@ -1,10 +1,13 @@
 package com.culture.demo.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.culture.demo.domain.CartDTO;
+import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.mapper.MemberMapper;
 import com.culture.demo.mapper.PaymentMapper;
@@ -26,7 +29,12 @@ public class PaymentServiceImpl implements PaymentService{
 		log.info(">>PaymentServiceImpl.getMemberWithChild() ...");
 		return memberMapper.selectMemberWithChild(member_sq);
 	}
-	
+	// 세부강좌번호 -> 강좌정보
+	@Override
+	public CartDTO getLect(int detail_class_sq) throws Exception {
+		log.info(">>PaymentServiceImpl.getLect() ...");
+		return paymentMapper.selectLect(detail_class_sq);
+	}
 	// 수강자변경시 list html
 	@Override
 	public String createCourDetailWHtml(Map<String, String> paramMap) {
@@ -109,5 +117,21 @@ public class PaymentServiceImpl implements PaymentService{
 		log.info(">>PaymentServiceImpl.matchClassOrder() ...");
 		return paymentMapper.cntClassOrderMatch(member_sq,detail_class_sq);
 	}
-	
+	// 강좌상태
+	public int getClassStId(int detail_class_sq) throws Exception {
+		log.info(">>PaymentServiceImpl.getClassStId() ...");
+		return paymentMapper.getClassStId(detail_class_sq);
+	}
+	// 강좌유형 : 대분류
+	@Override
+	public String getLrclsctegrycd(int detail_class_sq) throws Exception {
+		log.info(">>PaymentServiceImpl.getLrclsctegrycd() ...");
+		return paymentMapper.getLrclsctegrycd(detail_class_sq);
+	}
+	// 강좌명
+	@Override
+	public String getLectName(int detailLectCd) throws Exception {
+		log.info(">>PaymentServiceImpl.getLectName() ...");
+		return paymentMapper.getLectName(detailLectCd);
+	}	
 }
