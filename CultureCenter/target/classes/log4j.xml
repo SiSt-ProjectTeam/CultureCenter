@@ -48,6 +48,6 @@
 		<level value="warn" />
 	</logger>
 	<logger name="jdbc.sqlonly"><!-- JDBC호출시 sql쿼리문(pstmt인 경우 인자 set된 값) -->
-		<level value="warn" />
+		<level value="info" />
 	</logger>
 </log4j:configuration>
