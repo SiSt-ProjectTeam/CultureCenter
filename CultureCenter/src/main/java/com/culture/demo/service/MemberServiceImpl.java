@@ -61,24 +61,23 @@ public class MemberServiceImpl implements MemberService {
 	// 아이디 중복확인
 	@Override
 	public int idCheck(String id) {
-		int result = memberMapper.idCheck(id);
-		return result;
+		memberMapper.idCheck(id);
+		log.info(">> MemberServiceImpl.idCheck ...");
+		return memberMapper.idCheck(id);
 	}
 
 	// 아이디 찾기
 	@Override
 	public String findId(String name, String phone) {
-		log.info("> MemberServiceImpl.findId - name: {}, phone: {}" + name+ " / " + phone);
+		log.info(">> MemberServiceImpl.findId ...");
 		String result = memberMapper.findId(name, phone);
-		log.info("> MemberServiceImpl.findId - Result: {}" + result);
 		return result;
 	}
 
 	@Override
 	public String findPW(String id, String phone) {
-		log.info("> MemberServiceImpl.findPW - id: {}, phone: {}" + id+ " / " + phone);
+		log.info(">> MemberServiceImpl.findPW ...");
 		String result = memberMapper.findPw(id, phone);
-		log.info("> MemberServiceImpl.findPW - Result: {}" + result);
 		return result;
 	}
 }

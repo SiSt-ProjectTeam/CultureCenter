@@ -119,7 +119,7 @@
 	</select>
 	
 	<!-- 아이디 찾기 -->
-	<select id="findId" resultType="string" parameterType="map">
+	<select id="findId" resultType="string" >
 	    SELECT id
 	    FROM member
 	    WHERE name = #{name}
@@ -127,7 +127,7 @@
 	</select>
 	
 	<!-- 비밀번호 찾기 -->
-	<select id="findPw" resultType="string" parameterType="map">
+	<select id="findPw" resultType="string" >
 	    SELECT pw
 	    FROM member
 	    WHERE id = #{id}

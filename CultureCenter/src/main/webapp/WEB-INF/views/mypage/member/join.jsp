@@ -50,7 +50,7 @@
 					            </div>
 					            
 								<br><strong>이름</strong>
-					            <div class="form_input"> <!-- 인적성 검사시 id = name 으로하면 받아오질 못해서 name1변경 -->
+					            <div class="form_input"> <!-- 유효성 검사시 id = name 으로하면 받아오질 못해서 name1변경 -->
 					                <input type="text" id="name1" name="name" placeholder="이름을 입력해주세요." title="이름" value="유희진">
 									<div class="input_btn_wrap">
 										<button type="button" class="btn_delete"></button>

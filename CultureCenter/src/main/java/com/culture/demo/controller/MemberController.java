@@ -24,11 +24,9 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class MemberController {
 	
-	@Autowired
-	private MemberService service;
-
+	
 	private PasswordEncoder passwordEncoder;
-
+	@Autowired
 	private MemberService memberService;
 	
 	private EmailSenderService emailSenderService;
@@ -148,15 +146,15 @@ public class MemberController {
 	@GetMapping("/login/idCheck")
 	@ResponseBody
 	public String idcheck(String memberId) {
-		String chk = " ";
-		int result = 0;
-		log.info(">memberID = " + memberId);
-	    result = service.idCheck(memberId);
+	    String chk = "";
+	    int result = 0;
+	    log.info(">memberID = " + memberId);
+	    result = memberService.idCheck(memberId);
 	    log.info(">memberID 중복여부 = " + (result >= 1 ? "중복" : "중복아님"));
 	    if (result >= 1) {
 	        chk = "redundancy"; // 중복
 	    } else if (result == 0) {
-	        chk = "noredundancy"; // 중복아님
+	    	chk = "noredundancy"; // 중복아님
 	    }
 	    return chk;
 	}
@@ -165,11 +163,8 @@ public class MemberController {
 	@PostMapping("/login/findId.do")
 	@ResponseBody
 	public String findid(String name, String phone) {
-		log.info(">findId =" + name +" / "+ phone);
-
-		String foundId = service.findId(name, phone);
-		log.info(">findIdfindId = " + foundId);
-
+		log.info("> MemberController.findid() ... ");
+		String foundId = memberService.findId(name, phone);
 		return foundId;
 	}
 
@@ -177,23 +172,20 @@ public class MemberController {
 	@PostMapping("/login/findPw.do")
 	@ResponseBody
 	public String findPw(String id, String phone) {
-		log.info(">findId =" + id + " / " + phone);
-
-		String foundPw = service.findPW(id, phone);
-		log.info(">findIdfindPw = " + foundPw);
-
+		log.info("> MemberController.findPw() ... ");
+		String foundPw = memberService.findPW(id, phone);
 		return foundPw;
 	}
 	// 아이디 찾기 이동
 		@GetMapping("/login/findId.do")
 		public String findId() throws Exception {
-			log.info("> LoginController findId.do......");
+			log.info("> /login/findId.do : MemberController.findId() ... ");
 			return "login/find_id";
 		}
 		// 비밀번호 찾기 이동
 		@GetMapping("/login/findPw.do")
 		public String findPw() throws Exception {
-			log.info("> LoginController findPw.do......");
+			log.info("> /login/findPw.do : MemberController.findPw() ... ");
 			return "login/find_pw";
 		}
 	

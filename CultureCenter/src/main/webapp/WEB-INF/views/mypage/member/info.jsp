@@ -3,9 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-	
-	<div class="all_menu_dimd"></div>
-	<!-- 2022-12-05 추가 -->
+
 <div class="cont_wrap" id="topDiv">
 	<div class="cont_inner no_pb">
 		<div class="page_title_area">
@@ -442,5 +440,5 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="/common/js/mypage/mypageMember.js"></script>
-<script type="text/javascript" src="/common/js/member/addFamilyPop.js"></script>
+<script type="text/javascript" src="/resources/common/js/mypage/mypageMember.js"></script>
+<script type="text/javascript" src="/resources/common/js/member/addFamilyPop.js"></script>
