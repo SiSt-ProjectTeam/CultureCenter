@@ -17,7 +17,7 @@ import com.culture.demo.domain.TeducationDTO;
 
 public interface AppSearchService {
 
-	// 강좌 정보 가져오기
+	// 강좌 정보 가져오기 - 지점으로 찾기
 	List<ClassDTO> selectClassList(@Param("branch_id") int branch_id, 
 									@Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
 								    @Param("yyl") String[] yyl,
@@ -27,7 +27,7 @@ public interface AppSearchService {
 								    @Param("timel") String[] timel,
 								    @Param("amtl") String[] amtl) throws Exception;
 	
-	// 강좌 목록 ajax html 생성
+	// 강좌 목록 ajax html 생성 - 지점으로 찾기
 	String LecHTML(@Param("branch_id") int branch_id, 
 					@Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
 				    @Param("yyl") String[] yyl,
@@ -68,6 +68,14 @@ public interface AppSearchService {
 	
 	// 강좌 상세보기 + 옵션 정보
 	ClassDTO selectClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
+
+	// 강좌 목록 ajax html 생성 - 강좌로 찾기
+	String cateLecHTML(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl, String[] lectcll,
+			String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception;
+
+	// 강좌 정보 가져오기 - 강좌로 찾기
+	List<ClassDTO> selectCateClassList(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl,
+			String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception;
 
 	
 }

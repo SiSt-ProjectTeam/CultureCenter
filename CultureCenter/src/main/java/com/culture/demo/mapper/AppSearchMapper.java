@@ -15,7 +15,7 @@ import com.culture.demo.domain.TeducationDTO;
 
 public interface AppSearchMapper {
 	
-	// 강좌 정보 가져오기
+	// 강좌 정보 가져오기 - 강좌로 찾기
 	List<ClassDTO> selectClassList(@Param("branch_id") int branch_id, 
 									@Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
 								    @Param("yyl") String[] yyl,
@@ -24,6 +24,16 @@ public interface AppSearchMapper {
 								    @Param("dayl") String[] dayl,
 								    @Param("timel") String[] timel,
 								    @Param("amtl") String[] amtl) throws Exception;
+	
+	// 강좌 정보 가져오기 - 지점으로 찾기
+	List<ClassDTO> selectCateClassList(@Param("searchCategoryDTO") SearchBranchDTO searchCategoryDTO,
+										@Param("brchCdl") String[] brchCdl,
+									    @Param("yyl") String[] yyl,
+									    @Param("lectcll") String[] lectcll,
+									    @Param("lectstl") String[] lectstl,
+									    @Param("dayl") String[] dayl,
+									    @Param("timel") String[] timel,
+									    @Param("amtl") String[] amtl) throws Exception;
 	
 	// 강좌 상세정보 가져오기
 	ClassDTO DetailClassInfo(@Param("branch_id") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd) throws Exception;
