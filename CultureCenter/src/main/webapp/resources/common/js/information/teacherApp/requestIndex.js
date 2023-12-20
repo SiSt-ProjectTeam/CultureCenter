@@ -32,11 +32,13 @@ var requestIndexCtrl = (function(){
         var $con = $("#popupContent");
         var cont = $(".cont_wrap");
         
+        /*
         if(html == "") {
 			alert("로그인 후 이용가능합니다.");
 			fnc.moveLoginPage();
 			return;
 		}
+		*/
         
         $con.html(html);
 

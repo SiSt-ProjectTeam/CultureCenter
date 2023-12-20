@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +31,7 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @Log4j
 @RequestMapping("/information/application/teacher/*")
-public class teacherApplicationAjaxController {
+public class TeacherApplicationAjaxController {
 	
 	@Setter(onMethod=@__({@Autowired}))
 	TeacherService teacherService;
@@ -42,11 +44,19 @@ public class teacherApplicationAjaxController {
 	public ResponseEntity<String> goTeacherApplication() {
 		log.info("> /information/application/teacher/request.do... POST");				
 
-		String html = this.teacherService.createClausePrivacyHtml();
-
-		return !html.equals("")
-				? new ResponseEntity<>(html, HttpStatus.OK)
-				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+		//if (isAuthenticated()) 
+		//{
+			String html = this.teacherService.createClausePrivacyHtml();
+			
+			return !html.equals("")
+					? new ResponseEntity<>(html, HttpStatus.OK)
+					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		//}else {
+			
+		//	return "member/login";
+			
+		//}
 	}
 
 	//개인정보 수집 동의 여부
@@ -146,6 +156,15 @@ public class teacherApplicationAjaxController {
 			originalFilename = fileName + "-" + (index) + ext;			
 			index ++;			
 		}//while
+	}
+	
+	//로그인 여부 체크
+	private boolean isAuthenticated() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+	        return false;
+	    }
+	    return authentication.isAuthenticated();
 	}
 	
 	/*
