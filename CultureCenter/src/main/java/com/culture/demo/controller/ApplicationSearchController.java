@@ -126,16 +126,10 @@ public class ApplicationSearchController {
 	@PostMapping(value="/search/list.ajax", produces="application/text; charset=UTF-8")
 	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
 		log.info("> /list.ajax ApplicationSearchController.getBranchList() POST 호출");
-		//log.info(searchDTO);
-		//SearchBranchDTO searchBranchDTO = searchDTO.getSearchBranchDTO();
-		//SearchCategoryDTO searchCategoryDTO = searchDTO.getSearchCategoryDTO();
 		log.info("> SearchBranchDTO : " + searchBranchDTO);
-		//log.info("> SearchCategoryDTO : " + searchCategoryDTO);
 		String html = "";
 		
 		if(searchBranchDTO.getBrchCd() != null) {
-		
-		//if(searchBranchDTO != null) { // 지점으로 찾기
 			int branch_id = Integer.parseInt(searchBranchDTO.getBrchCd());
 			String yyl[] = null; 
 			String lectcll[] = null; 
