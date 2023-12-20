@@ -24,5 +24,5 @@ public class FrmSearchDTO {
 	private int brchCd;
 	private String brchNm;
 	private char orderSet;	// 최신,별점순 정렬
-
+	private int clCd;
 } // class

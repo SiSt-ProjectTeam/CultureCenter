@@ -5,14 +5,35 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<!-- 에러 : spring-security-4.2.xsd 수정. -->
-	<security:http pattern="/static/**" security="none"></security:http>   
-	<security:http pattern="/design/**" security="none"></security:http>   
-	
-	<security:http> 
-	   <security:form-login/>  
+	<!-- css, js, image 등 접근 제어 대상이 아니기에 보안필터 체인 비적용 -->
+	<security:http pattern="/resources/**" security="none"></security:http>
+	<security:http use-expressions="true">
+		<!-- 접근 제한 설정 -->
+		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/**" access="permitAll" />
+		
+		<security:access-denied-handler ref="customAccessDeniedHandler"/>
+		
+		<security:form-login
+	          login-page="/login/index.do" 
+	          authentication-success-handler-ref="customLoginSuccessHandler"
+	          authentication-failure-url="/login/result.do"
+	          default-target-url="/index.do"
+	   />
+	   
+	   <security:logout logout-url="/login/logout.do"  
+	       invalidate-session="true"
+	       logout-success-url="/" 
+	   />
+	   
 	</security:http>   
 	
-	<security:authentication-manager> 
+	<!-- 스프링에서 제공하는 passwordEncoder 빈 등록 설정 -->
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<!-- 어떤 방식으로 인증처리 할 건지 설정 -->
+	<security:authentication-manager>
+	  <security:authentication-provider user-service-ref="customUserDetailsService">
+		<security:password-encoder ref="bCryptPasswordEncoder" />
+	  </security:authentication-provider>	
 	</security:authentication-manager>
 </beans>

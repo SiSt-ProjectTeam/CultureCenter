@@ -1,5 +1,6 @@
 package com.culture.demo.controller;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,14 +39,13 @@ public class CommunityReviewController {
 	
 	// 리뷰 페이지
 	@GetMapping("list.do")
-	public String getReviewList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
+	public String getReviewList(@ModelAttribute FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
 		//List<ReviewDTO> bList = reviewService.getBranch(branch_nm);
 		log.info("> review/list getReviewList() GET.. ");
 		
 		List<ClassDTO> bList = lecSearchService.getBranch();
-		
-		model.addAttribute("frmSearchDTO", frmSearchDTO);
 		model.addAttribute("bList", bList);
+		
 		return "community.review.list";
 	}
 	
@@ -60,22 +61,27 @@ public class CommunityReviewController {
 					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// 수강후기 상세페이지
 	@GetMapping("dtl.do")
-	public String reviewDtl(Model model, ReviewDTO dto) throws Exception {
-		log.info("> review/dtl getReviewDtl() GET ...");
-		dto = this.reviewService.dtlReview(dto);
+	public String reviewDtl(@ModelAttribute ReviewDTO reviewDTO, Model model) throws ClassNotFoundException, SQLException {
+		log.info("> review/dtl getReviewDtl() GET ... reviewDTO ");
 		
-		model.addAttribute("dto", dto);
+		
 		return "community.review.dtl";
 	}
 	
 	/*
-	@GetMapping("/community/review/listAjax.do")
-	public String list(Model model) throws ClassNotFoundException, SQLException {
-		log.info("> /review/list 목록 GET... ");
-		List<ReviewDTO> list = reviewMapper.getList();
-		model.addAttribute("list", list );
-		return "/community/review/listAjax";
+	// 수강후기 상세페이지 댓글 ajax
+	@PostMapping(value = "/comment/list.ajax", produces = "application/text; charset=UTF-8")
+	public @ResponseBody ResponseEntity<String> getCommt(@RequestBody FrmSearchDTO frmSearchDTO)throws Exception{
+		log.info("> review/comment/list.ajax : ReviewController.getCommt() POST 호출 ");
+		
+		
+		String html = reviewService.commtHTML(2, frmSearchDTO);
+		
+		return !html.equals("")
+					? new ResponseEntity<>(html, HttpStatus.OK)
+					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	*/
 	

@@ -14,8 +14,11 @@ var reviewCtrl = (function(){
     var fn_search = function(){
         // form param setting
         prcs_param();
+        
 		// get list
-		init_list();
+		searchMore.pageIndex = 1;
+		searchMore.search();
+		//init_list();
     }
     
     var fn_search_by_option = function(obj){
@@ -88,7 +91,7 @@ var reviewCtrl = (function(){
     }
 
     var init_list = function(){
-		var searchMore = null;
+		// var searchMore = null;
 	
         // 수강후기 리스트 
 		var initObj = {
@@ -99,7 +102,8 @@ var reviewCtrl = (function(){
             pageIndex : $("#reviewForm #pageIndex").val(),
             listCnt : $("#reviewForm #listCnt").val(),
             callbackFunc : function() {
-			  $("#totCnt").text(searchMore.totCnt  + "개"); }
+			  $("#totCnt").text(searchMore.totCnt  + "개"); 
+			}
 		}
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.search();

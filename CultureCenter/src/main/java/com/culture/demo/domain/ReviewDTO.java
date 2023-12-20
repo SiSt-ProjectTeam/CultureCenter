@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ReviewDTO {
    // 리뷰테이블
    private int review_sq; // 게시물번호
-   private int teacherMember_sq; // 강사(회원)번호
+   private int teacher_sq; // 강사(회원)번호
    private int member_sq; // 회원번호
    private int rating; // 평점
    private Date date_writingout_dt; // 작성날짜
@@ -21,7 +21,7 @@ public class ReviewDTO {
    private String review_content; // 후기내용
    private String review_img; // 후기이미지
    private int comment_cnt; // 댓글수
-   
+   private int writing_year; // 후기작성년도
    
    private int branch_id; // 지점아이디
    private String name; // 이름(중간에 *표시)
@@ -46,7 +46,7 @@ public class ReviewDTO {
    private String class_st; // 강좌상태
    private String class_img; // 강좌썸네일
    private int lectCd;
-   private int sortSeqno;
+   private int sortSeqno;	// 내가 쓴 댓글 삭제번호
    
    // 리뷰 댓글 테이블
    private int comment_sq; // 댓글번호
@@ -65,5 +65,7 @@ public class ReviewDTO {
    private String initIndex;
    private String listCnt;
    private String orderSet;
+   
+   private int tot_cnt;  // 후기 총 갯수
  
 }
