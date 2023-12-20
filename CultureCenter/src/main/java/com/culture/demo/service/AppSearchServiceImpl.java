@@ -37,13 +37,10 @@ public class AppSearchServiceImpl implements AppSearchService {
 	
 	// 강좌 목록 ajax html 생성
 	@Override
-	public String LecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl, HttpServletRequest request) throws Exception {
+	public String LecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
 		log.info("AppSearchServiceImpl.LecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
-		
-		String uploadRealPath = request.getServletContext().getRealPath("/upload");
-		log.info("!!!!!!!!!!!!!!!!!! uploadRealPath : " + uploadRealPath);
 		
 		if(list.isEmpty()) {
 			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n");
@@ -62,7 +59,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 				String fee = decimalFormat.format(dto.getClass_fee());
 				
 				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
-				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
+				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
 				html.append("		<div class=\"img_box\">\r\n");
 				html.append("			<div class=\"img_resize_w img\">\r\n");
 				html.append("				<img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
@@ -85,6 +82,8 @@ public class AppSearchServiceImpl implements AppSearchService {
 				html.append("	</a>\r\n");
 				html.append("	<div class=\"bottom_info\">\r\n");
 				html.append("		<p class=\"price\">"+fee+"원</p>\r\n");
+				if(dto.getClass_st().equals("접수중")) // 강좌 상태 == '접수중'인 강좌만 장바구니 버튼 출력
+				html.append("		<button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getClass_st_id()+"');\"></button>");
 				html.append("	</div>");
 				html.append("</div>");
 			}
@@ -145,6 +144,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   </a>");
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>");
+					if(dto.getClass_st().equals("접수중"))
 					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
@@ -182,6 +182,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   </a>");
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>");
+					if(dto.getClass_st().equals("접수중"))
 					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
@@ -220,6 +221,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					html.append("   </a>");
 					html.append("   <div class=\"bottom_info\">");
 					html.append("	   <p class=\"price\">"+fee+"원</p>\r\n");
+					if(dto.getClass_st().equals("접수중"))
 					html.append("      <button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn("+dto.getBranch_id()+","+dto.getOpen_year()+","+dto.getOpen_smst_id()+","+dto.getDetail_class_sq()+","+dto.getClass_st_id()+");\"></button>");
 					html.append("   </div>");
 					html.append("</div>");
@@ -291,7 +293,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 		html.append("		<!-- 강사님 사진이 있을 경우 has_img 클래스 추가해주세요 -->");
 		html.append("		<p class=\"img_resize_w img\">");
 		if(dto.getProfil_img() != null)
-			html.append("			<img class=\"teacherWebPath\" src=\"https://culture.lotteshopping.com/files/CUL_ONL/OLD/COMMON/IMAGES/TECH/036845.jpg\" alt=\"036845.jpg\">");
+			html.append("			<img class=\"teacherWebPath\" src=\"/upload/teacher/"+dto.getProfil_img()+"\" alt=\"dto.getProfil_img()\">");
 		html.append("			</p>");
 		html.append("	</div>");
 		html.append("	<div class=\"tit_wrap\">");

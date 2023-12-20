@@ -19,4 +19,5 @@ public class NoticeDTO {
 	private String posting_content;	// 게시물 내용
 	private String notice_event;	// 공지사항 내용
 	
+	private int tot_cnt;	// 공지사항/이벤트 갯수
 }
