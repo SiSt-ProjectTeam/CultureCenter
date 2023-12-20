@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import com.culture.demo.domain.CartDTO;
 import com.culture.demo.domain.FrmSubmitDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.PaymentFrmDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
 import com.culture.demo.service.PaymentService;
@@ -44,11 +46,11 @@ public class PaymentController {
 
 	// 수강결제1(step1) 페이지 이동
 	@PostMapping("step1.do")
-	public String goPaymentStep1(FrmSubmitDTO dto, Model model) throws Exception{ //Principal principal
+	public String goPaymentStep1(FrmSubmitDTO dto, Model model,Authentication authentication) throws Exception{ 
 		log.info("/payment/step1.do + POST :PaymentController.goPaymentStep1()...");
-		System.out.println(dto);
-		//int member_sq = Integer.parseInt(principal.getName());
-		int member_sq = 79;
+		//System.out.println(dto);
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
 		// 수강결제할 정보 가져오기
 		String lectDetailSq = dto.getLectDetailSq();
 		if (lectDetailSq.contains(",")) {
@@ -72,12 +74,6 @@ public class PaymentController {
 			//,Principal principal
 			) throws Exception{
 		log.info("/payment/actlAtlctNpleList.ajax + POST :PaymentController.updateActlAtlct()...");
-		/*
-			Set<Entry<String, String>> en = paramMap.entrySet();
-			for (Entry<String, String> entry : en) {
-				System.out.println("key : "+entry.getKey()+"/ value : "+entry.getValue());
-			}
-		 */
 		//int member_sq = Integer.parseInt(principal.getName());
 		int member_sq = 79;
 		int detail_class_sq = Integer.parseInt(paramMap.get("lectCd")); // 세부강좌번호

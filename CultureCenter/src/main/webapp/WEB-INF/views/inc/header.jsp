@@ -82,23 +82,16 @@
 			</p>
 		</sec:authorize>		
 		
-		<p class="cart_icon ">
+		<p class="cart_icon on">
 			<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
-			<%
-				HttpSession httpSession = request.getSession();
-				if (httpSession != null && httpSession.getAttribute("authUser") != null) {
-			%>
+			<sec:authorize access="isAuthenticated()">
 				<a href="/mypage/cart/list.do" title="장바구니"></a>
-				<span class="cart_num"></span>
-			<%
-				} else {
-			%>
+				<span class="cart_num">2</span>
+			</sec:authorize>
+			<sec:authorize access="!isAuthenticated()">
 				<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
-			<%
-				}
-			%>
-			
-			<span class="cart_num">0</span>
+				<span class="cart_num">0</span>
+			</sec:authorize>
 		</p>
 		
 		<!-- 
