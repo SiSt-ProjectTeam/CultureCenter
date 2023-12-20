@@ -133,6 +133,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="sub_inner">
 						<div class="sub_tit_area">
 							<div class="left">
@@ -149,7 +150,7 @@
 							</div>
 							<div class="flex_box">
 								<div class="form_checkbox">
-									<input type="checkbox" id="checkCar" > 
+									<input type="checkbox" id="checkCar">
 									<label for="checkCar">차량번호 수집동의</label>
 								</div>
 							</div>
@@ -177,35 +178,18 @@
 						</div>
 					</div>
 
-					<script>
-    // 차량번호 입력란 값 변경 시 실행
-    function updateCheckbox() {
-        var carNoInput = document.getElementById('carNoVal');
-        var checkCarCheckbox = document.getElementById('checkCar');
+    <script>
+        // 페이지 로드 시 실행되는 스크립트
+        document.addEventListener("DOMContentLoaded", function () {
+            // ${mDto.car_no}의 값이 있을 때만 체크박스에 checked 속성 추가
+            const carNoValue = "${mDto.car_no}";
+            const checkbox = document.getElementById("checkCar");
 
-        // 차량번호 입력란에 값이 있으면 체크 표시, 없으면 체크 해제
-        console.log("Car No Value:", carNoInput.value.trim());
-        checkCarCheckbox.checked = carNoInput.value.trim() !== '';
-    }
-
-    // 페이지 로드 시 초기 실행
-    updateCheckbox();
-
- // 이벤트 리스너 등록 확인
-    document.getElementById('carNoVal').addEventListener('input', function () {
-        console.log("Input Event Fired");
-        updateCheckbox();
-    });
-
-</script>
-
-
-
-
-
-
-
-
+            if (carNoValue) {
+                checkbox.checked = true;
+            }
+        });
+    </script>
 					<div class="sub_inner">
 						<div class="sub_tit_area">
 							<div class="left">

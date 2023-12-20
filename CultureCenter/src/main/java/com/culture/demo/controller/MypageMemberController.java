@@ -1,6 +1,7 @@
 package com.culture.demo.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +90,25 @@ public class MypageMemberController {
 
 	    // 회원정보, 동반수강자 불러오기
 	    MemberDTO mDto = paymentService.getMemberWithChild(member_sq);
+	    
 	    model.addAttribute("mDto", mDto);
 	    return "mypage.member.info";
 	}
+	
+	// 차량번호 추가 Ajax
+	@PostMapping("/mypage/member/updateCarYn.ajax")
+	public void updateCarYn(Authentication authentication, @RequestBody MemberDTO memberDTO) throws Exception {
+		log.info("> /mypage/member/updateCarYn.ajax ... POST : MypageMemberController.updateCarYn");
+
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
+
+	    memberDTO.setMember_sq(member_sq);
+	    this.memberService.updateCar(memberDTO);
+	}
+
+
+
+	
 
 }

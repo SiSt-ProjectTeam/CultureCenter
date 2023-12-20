@@ -35,5 +35,7 @@ public interface MemberMapper {
 	String findId(@Param("name") String name, @Param("phone") String phone);
 	// 비밀번호 찾기
 	String findPw(@Param("id") String id, @Param("phone") String phone);
+	// 차량번호 수정
+	void updateCar(MemberDTO dto) throws Exception;
 
 }
