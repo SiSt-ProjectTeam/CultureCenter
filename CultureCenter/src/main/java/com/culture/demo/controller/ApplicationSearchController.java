@@ -119,7 +119,7 @@ public class ApplicationSearchController {
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		model.addAttribute("smCategory", smCategory);
-		log.info(smCategory);
+
 		return "application.search.list";
 	}
 	
