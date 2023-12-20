@@ -2,7 +2,7 @@ var search = (function(){
 	
 	"use strict";
 	var searchMore = null;
-	/*
+	
 	//다회차,순회 강좌 선택
 	var classInfoSet = function(brchCd, yy, lectSmsterCd, lectCd, close) {
 		$("#brchCd").val(brchCd);
@@ -225,7 +225,7 @@ var search = (function(){
 			commonScript.formChkFn();
 			
 		}, "/application/search/view.ajax", $("#classForm"), "json", true, true, true);
-	} */
+	}
 	
 	//옵션선택
 	var optionSet = function(optnNm, optnAmt, optnSeqno, partRfndPsblYn) {
