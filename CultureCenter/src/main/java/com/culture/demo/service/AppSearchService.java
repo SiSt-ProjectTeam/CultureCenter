@@ -28,7 +28,7 @@ public interface AppSearchService {
 								    @Param("amtl") String[] amtl) throws Exception;
 	
 	// 강좌 목록 ajax html 생성 - 지점으로 찾기
-	String LecHTML(@Param("branch_id") int branch_id, 
+	String lecHTML(@Param("branch_id") int branch_id, 
 					@Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
 				    @Param("yyl") String[] yyl,
 				    @Param("lectcll") String[] lectcll,

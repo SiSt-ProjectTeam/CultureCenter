@@ -37,7 +37,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 
 	// 강좌 목록 ajax html 생성 - 지점으로 찾기
 	@Override
-	public String LecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+	public String lecHTML(int branch_id, SearchBranchDTO searchBranchDTO, String[] yyl, String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
 		log.info("AppSearchServiceImpl.LecHTML() 호출");
 		StringBuilder html = new StringBuilder();
 		List<ClassDTO> list = selectClassList(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);

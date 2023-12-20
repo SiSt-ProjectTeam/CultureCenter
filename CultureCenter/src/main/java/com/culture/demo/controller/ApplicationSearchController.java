@@ -145,7 +145,7 @@ public class ApplicationSearchController {
 			if(!searchBranchDTO.getTimeTypeList().isEmpty()) timel = searchBranchDTO.getTimeTypeList().split(",");
 			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 			
-			html = this.appSearchService.LecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
+			html = this.appSearchService.lecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
 		} else { // 강좌로 찾기
 			String brchCdl[] = null;
 			String yyl[] = null; 
