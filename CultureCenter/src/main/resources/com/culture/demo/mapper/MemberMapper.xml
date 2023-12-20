@@ -133,5 +133,12 @@
 	    WHERE id = #{id}
 	    AND phone = #{phone}
 	</select>
+
+	<!-- 차량번호 수정 -->
+	<update id="updateCar">
+		UPDATE member
+		SET car_no = #{car_no}
+		WHERE member_sq = #{member_sq}
+	</update>
 	
 </mapper>
