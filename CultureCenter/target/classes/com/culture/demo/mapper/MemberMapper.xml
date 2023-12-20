@@ -9,10 +9,19 @@
 	<select id="selectMypageInfo" resultType="com.culture.demo.domain.MemberDTO">
 	    SELECT name, m.branch_id, branch_nm, point, basket_cnt, order_class_cnt, late_class_cnt, complete_class_cnt, review_cnt
 		FROM member m LEFT JOIN branch b ON m.branch_id=b.branch_id
-		WHERE member_sq = #{memberSq}
+		WHERE m.member_sq = #{member_sq}
 	</select>
 	
-	<!-- 3. public MemberDTO selectMemberWithChild(int member_sq); -->
+	
+	<!-- 2. 회원 관심 지점 수정 -->
+	<update id="updateInterestBranch">
+		UPDATE member
+		SET branch_id = #{itrstBrchCd}
+		WHERE member_sq = #{member_sq}
+	</update>
+	
+	
+	<!-- 회원 정보 조회(동반수강자 포함) public MemberDTO selectMemberWithChild(int member_sq); -->
 	<resultMap type="com.culture.demo.domain.MemberDTO" id="memberMap" >
 		<id property="member_sq" column="member_sq" />
 		<result property="id" column="id" />
@@ -59,9 +68,70 @@
 	ORDER BY ac.children_sq
 	</select>
 	
-	<update id="updateInterestBranch">
-		UPDATE member
-		SET branch_id = #{itrstBrchCd}
-		WHERE member_sq = #{member_sq}
-	</update>
+	<!-- 동반수강자(자녀) 추가 int insertChildren(ChildrenDTO dto) -->
+	<insert id="insertChildren">
+	INSERT INTO accompanying_children
+	VALUES(seq_children.NEXTVAL,#{member_sq},#{child_birth_dt},#{gender},#{children_nm})
+	</insert>
+	<!-- 동반수강자(자녀) 삭제 int deleteChildren(int children_sq) -->
+	<delete id="deleteChildren">
+	DELETE FROM accompanying_children
+	WHERE children_sq = #{children_sq}
+	</delete>
+	
+	<!-- 4. 회원 정보 조회(시큐리티 정보 포함) -->
+	<resultMap type="com.culture.demo.domain.MemberDTO" id="memberAuthorityMap" >
+		<id property="member_sq" column="member_sq" />
+		<result property="id" column="id" />
+		<result property="pw" column="pw" />
+		<result property="enabled" column="enabled" />
+
+		<!-- 권한 -->
+		<collection property="authList"  ofType="com.culture.demo.domain.AuthVO" >
+			<result property="username" column="username" />
+			<result property="authority" column="authority" />			
+		</collection>
+	</resultMap>
+	<select id="selectMemberWithAuthority" resultMap="memberAuthorityMap">
+		SELECT m.member_sq, id, pw, enabled, ma.member_sq username, authority
+		FROM member m LEFT JOIN member_authorities ma ON m.member_sq = ma.member_sq
+		WHERE id = #{id}
+	</select>
+	
+	
+	<!-- 5. 회원 가입 -->
+	<!-- public int insertMember(MemberDTO memberDTO); -->
+	<insert id="insertMember">
+		INSERT INTO member (member_sq, id, pw, name, email, birth_dt, addr)
+		VALUES ( seq_member.nextval, #{memberDTO.id}, #{memberDTO.pw}, #{memberDTO.name}, #{memberDTO.email}, '1997-09-21', #{memberDTO.addr} )
+	</insert>
+	<!-- 일반회원 권한 설정 -->
+	<insert id="insertAuth">
+		INSERT INTO member_authorities (member_sq, authority)
+		VALUES ( seq_member.currval, 'ROLE_USER')
+	</insert>
+	
+	<!--  아이디 중복확인  -->
+	<select id="idCheck" resultType="int"> 
+		SELECT COUNT(*) 
+		FROM member 
+		WHERE id = #{id} 
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="string" >
+	    SELECT id
+	    FROM member
+	    WHERE name = #{name}
+	    AND phone = #{phone}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="string" >
+	    SELECT pw
+	    FROM member
+	    WHERE id = #{id}
+	    AND phone = #{phone}
+	</select>
+	
 </mapper>
