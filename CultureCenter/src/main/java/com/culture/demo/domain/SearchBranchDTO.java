@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchBranchDTO {
+	
 	private String type;
 	private String brchCd;
 	
@@ -35,6 +36,7 @@ public class SearchBranchDTO {
 	private int pageIndex;
 	private int initIndex;
 	private int listCnt;
-	private int tcCdNo;
 	
+	private int tcCdNo;
+	private String brchCdList;
 }
