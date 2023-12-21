@@ -38,7 +38,7 @@ public class ApplicationSearchController {
 	
 	@GetMapping(value="/application/search/list.do", params="type=branch")
 	public String listPage(Model model, @RequestParam("type") String type, @RequestParam("brchCd") String branch_id) {
-		log.info("> /application/search/list.do ApplicationSearchController.listPage() GET 호출 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+		log.info("> /application/search/list.do ApplicationSearchController.listPage() GET 호출");
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
 		List<ClassDTO> blist = this.lecSearchService.getBranch();
@@ -73,7 +73,6 @@ public class ApplicationSearchController {
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		
-		System.out.println("type : " + type + " brchCd : " + branch_id);
 		return "application.search.list";
 	}
 	
