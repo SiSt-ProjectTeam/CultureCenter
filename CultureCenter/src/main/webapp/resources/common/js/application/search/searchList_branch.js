@@ -518,6 +518,7 @@ var search = (function(){
 					if (listScrollY && listScrollY > 0) {
 						window.scrollTo(0, listScrollY);
 					}
+					
 				}
 		}
 		
