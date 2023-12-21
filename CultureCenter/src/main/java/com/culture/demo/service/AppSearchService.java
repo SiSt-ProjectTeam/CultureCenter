@@ -77,5 +77,13 @@ public interface AppSearchService {
 	List<ClassDTO> selectCateClassList(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl,
 			String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception;
 
+	// 강좌 검색 강좌 정보 가져오기
+	List<ClassDTO> selectInteList(SearchBranchDTO searchCategoryDTO, String[] brchCdl, String[] yyl,
+			String[] lectcll, String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception;
+	
+	// 강좌 검색 ajax html 생성
+	String inteHTML(SearchBranchDTO searchBranchDTO, String[] brchCdl, String[] yyl, String[] lectcll, String[] lectstl,
+			String[] dayl, String[] timel, String[] amtl) throws Exception;
+
 	
 }

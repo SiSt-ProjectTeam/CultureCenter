@@ -466,6 +466,69 @@ public class AppSearchServiceImpl implements AppSearchService {
 		log.info("AppSearchServiceImpl.selectClassInfo() 호출");
 		return this.appSearchMapper.selectClassInfo(branch_id, yy, lectSmsterCd, lectCd);
 	}
+	
+	public List<ClassDTO> selectInteList(SearchBranchDTO searchBranchDTO, String[] brchCdl, String[] yyl, String[] lectcll,
+			String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+		log.info("AppSearchServiceImpl.selectInteList() 호출");
+		return this.appSearchMapper.selectInteList(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+	}
+
+	@Override
+	public String inteHTML(SearchBranchDTO searchBranchDTO, String[] brchCdl, String[] yyl, String[] lectcll,
+			String[] lectstl, String[] dayl, String[] timel, String[] amtl) throws Exception {
+		log.info("AppSearchServiceImpl.selectClassInfo() 호출");
+		StringBuilder html = new StringBuilder();
+		List<ClassDTO> list = selectInteList(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+
+		if(list.isEmpty()) {
+			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n");
+			html.append("	<div class=\"no_srch_div\">\r\n");
+			html.append("		<p class=\"txt f_h2\">\r\n");
+			html.append("			<span class=\"normal_value\">진행중인 강좌가 없습니다.</span>\r\n");
+			html.append("		</p>\r\n");
+			html.append("	</div>\r\n");
+		} else {
+			for(ClassDTO dto : list) {
+				String avDay = (dto.getMon().equals("Y")?"월":"") + (dto.getTue().equals("Y")?"화":"") + (dto.getWed().equals("Y")?"수":"") + (dto.getThu().equals("Y")?"목":"")
+						+ (dto.getFri().equals("Y")?"금":"") + (dto.getSat().equals("Y")?"토":"") + (dto.getSun().equals("Y")?"일":"") ;
+				String schedule = String.format("%s %s:%s~%s:%s", avDay, dto.getStart_time().substring(0, 2), dto.getStart_time().substring(2), dto.getEnd_time().substring(0, 2), dto.getEnd_time().substring(2));
+
+				DecimalFormat decimalFormat = new DecimalFormat("#,###");
+				String fee = decimalFormat.format(dto.getClass_fee());
+
+				html.append("<div class=\"card_list_v\" data-tot-cnt=\""+dto.getTot_cnt()+"\">\r\n");
+				html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
+				html.append("		<div class=\"img_box\">\r\n");
+				html.append("			<div class=\"img_resize_w img\">\r\n");
+				html.append("				<img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
+				html.append("			</div>\r\n");
+				html.append("		</div>\r\n");
+				html.append("		<div class=\"con\">\r\n");
+				html.append("			<div class=\"label_div\">\r\n");
+				html.append("				<p class=\"label small "+ (dto.getClass_st().equals("접수중") ? "lime" : "gray") +"\">"+dto.getClass_st()+"</p>\r\n");
+				html.append("				<p class=\"label small black_gray\">"+dto.getBranch_nm()+"</p>\r\n");
+				html.append("			</div>\r\n");
+				html.append("			<p class=\"tit limit_line_two\">"+dto.getClass_nm()+"</p>\r\n");
+				html.append("			<div class=\"info_con\">\r\n");
+				html.append("				<div class=\"type_div\">\r\n");
+				html.append("					<p class=\"type\">"+dto.getSmst_nm()+"</p>\r\n");
+				html.append("					<p class=\"type\">"+dto.getName()+"</p>\r\n");
+				html.append("				</div>\r\n");
+				html.append("				<p class=\"time\">"+schedule+", 총 "+dto.getClass_cnt()+"회</p>\r\n");
+				html.append("			</div>\r\n");
+				html.append("		</div>\r\n");
+				html.append("	</a>\r\n");
+				html.append("	<div class=\"bottom_info\">\r\n");
+				html.append("		<p class=\"price\">"+fee+"원</p>\r\n");
+				if(dto.getClass_st().equals("접수중")) // 강좌 상태 == '접수중'인 강좌만 장바구니 버튼 출력
+					html.append("		<button type=\"button\" class=\"cart\" onclick=\"fnc.cartBtn('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getClass_st_id()+"');\"></button>");
+				html.append("	</div>");
+				html.append("</div>");
+			}
+		}
+		String result = html.toString();
+		return result;
+	}
 
 
 

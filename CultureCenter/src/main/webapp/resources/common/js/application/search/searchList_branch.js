@@ -505,6 +505,7 @@ var search = (function(){
 				, pageIndex : $("#searchBranch #pageIndex").val()
 				, listCnt : $("#searchBranch #listCnt").val()
 				, callbackFunc : function() { 
+				    
 					$("#totCnt").text(searchMore.totCnt  + "개"); 
 					fixedMobileH();
 					$("#listContainer img").each(function(){
@@ -518,6 +519,7 @@ var search = (function(){
 					if (listScrollY && listScrollY > 0) {
 						window.scrollTo(0, listScrollY);
 					}
+					
 				}
 		}
 		

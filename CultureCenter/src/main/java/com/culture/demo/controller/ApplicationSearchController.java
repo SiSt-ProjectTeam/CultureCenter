@@ -38,7 +38,7 @@ public class ApplicationSearchController {
 	
 	@GetMapping(value="/application/search/list.do", params="type=branch")
 	public String listPage(Model model, @RequestParam("type") String type, @RequestParam("brchCd") String branch_id) {
-		log.info("> /list.do ApplicationSearchController.listPage() GET 호출");
+		log.info("> /application/search/list.do ApplicationSearchController.listPage() GET 호출 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
 		List<ClassDTO> blist = this.lecSearchService.getBranch();
@@ -73,6 +73,7 @@ public class ApplicationSearchController {
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		
+		System.out.println("type : " + type + " brchCd : " + branch_id);
 		return "application.search.list";
 	}
 	
@@ -125,11 +126,12 @@ public class ApplicationSearchController {
 	
 	@PostMapping(value="/search/list.ajax", produces="application/text; charset=UTF-8")
 	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
-		log.info("> /list.ajax ApplicationSearchController.getBranchList() POST 호출");
+		
+		log.info("> /search/list.ajax ApplicationSearchController.getBranchList() POST 호출");
 		log.info("> SearchBranchDTO : " + searchBranchDTO);
 		String html = "";
 		
-		if(searchBranchDTO.getBrchCd() != null) {
+		if(searchBranchDTO.getBrchCd() != null) { // 지점으로 찾기
 			int branch_id = Integer.parseInt(searchBranchDTO.getBrchCd());
 			String yyl[] = null; 
 			String lectcll[] = null; 
@@ -146,7 +148,7 @@ public class ApplicationSearchController {
 			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 			
 			html = this.appSearchService.lecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
-		} else { // 강좌로 찾기
+		} else if(searchBranchDTO.getBrchCd() == null && searchBranchDTO.getLrclsCtegryCd() != null) { // 강좌로 찾기
 			String brchCdl[] = null;
 			String yyl[] = null; 
 			String lectcll[] = null; 
@@ -164,6 +166,24 @@ public class ApplicationSearchController {
 			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 			
 			html = this.appSearchService.cateLecHTML(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+		} else if(searchBranchDTO.getBrchCd() == null && searchBranchDTO.getLrclsCtegryCd() == null && searchBranchDTO.getQ() != null) { // 강좌 검색
+			String brchCdl[] = null;
+			String yyl[] = null; 
+			String lectcll[] = null; 
+			String lectstl[] = null; 
+			String dayl[] = null; 
+			String timel[] = null; 
+			String amtl[] = null;
+			
+			if(!searchBranchDTO.getBrchCdList().isEmpty()) brchCdl = searchBranchDTO.getBrchCdList().split(",");
+			if(!searchBranchDTO.getYyList().isEmpty()) yyl = searchBranchDTO.getYyList().split(",");
+			if(!searchBranchDTO.getLectClCdList().isEmpty()) lectcll = searchBranchDTO.getLectClCdList().split(",");
+			if(!searchBranchDTO.getLectStatCdList().isEmpty()) lectstl = searchBranchDTO.getLectStatCdList().split(",");
+			if(!searchBranchDTO.getStDaywCdList().isEmpty()) dayl = searchBranchDTO.getStDaywCdList().split(",");
+			if(!searchBranchDTO.getTimeTypeList().isEmpty()) timel = searchBranchDTO.getTimeTypeList().split(",");
+			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
+			
+			html = this.appSearchService.inteHTML(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
 		}
 		
 		return !html.equals("")
@@ -212,5 +232,6 @@ public class ApplicationSearchController {
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 	
 }

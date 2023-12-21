@@ -13,18 +13,19 @@ var search = (function(){
 		$("#optnSeqno").val("");
 		$("#waitPopup .optionAmt").text("");
 		
+		var match =  $('input[name=optionList]').val().match(/detail_class_sq=(\d+)/);
+		$("#lectDetailSq").val(match[1]);
+
 		var hrefValue = $('#selectLect a.btn_link.on').attr('href');
 		var functionCallMatch = hrefValue.match(/search\.classInfoSet\((.*)\)/);
-		
-		  var functionParams = functionCallMatch[1];
-		  
-		  var paramsArray = functionParams.split(',').map(function(param) {
-		    return param.trim();
-		  });
+		var functionParams = functionCallMatch[1];
+		var paramsArray = functionParams.split(',').map(function(param) {
+		  return param.trim();
+		});
 	
-		  var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
+		var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
 		$("#lectDetailSq").val(lastParam);
-		console.log($("#lectDetailSq").val());
+		console.log("lectDetailSq : " + $("#lectDetailSq").val());
 		console.log($('input[name=optionList]').val());
 		fnc.frmAjax(function(data) {
 			var classDtl = data.classDtl;
@@ -458,6 +459,7 @@ var search = (function(){
 			alert("강좌를 선택하세요.");
 		} 
 		*/
+		console.log("js : " + $("#lectDetailSq").val());
 		console.log("!!!!" + $("#lectDetailSq").val());
 		if($("#lectDetailSq").val() == "close") {
 			alert("강좌를 선택하세요.");

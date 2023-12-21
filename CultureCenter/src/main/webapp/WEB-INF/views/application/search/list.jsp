@@ -52,8 +52,19 @@
 										        </c:when>
 										    </c:choose>
 											<script type="text/javascript">
-											var title = document.querySelector(".cont_wrap .tit_popup .scroll_area a[class=active] .f_desc").innerText;
-											document.querySelector(".cont_wrap .inner .f_h1").prepend(title);
+											$(document).ready(function() {
+											    // 모든 링크에 대해 클릭 이벤트를 설정합니다.
+											    $(".page_title_area .tit_popup .branch a").click(function() {
+											        // 모든 링크에서 active 클래스를 제거합니다.
+											        $(".page_title_area .tit_popup .branch a").removeClass('active');
+
+											        // 현재 클릭된 링크에 active 클래스를 추가합니다.
+											        $(".page_title_area .tit_popup .branch a").addClass('active');
+											    });
+											});
+											var title = $(".cont_wrap .tit_popup .scroll_area a.active .f_desc").text();
+											console.log(title);
+											$(".cont_wrap .inner .f_h1").prepend(title);
 											</script>
 										</div>
 									</div>
@@ -615,15 +626,14 @@
 															</a>
 															<div class="hide_con">
 																<div class="filter_btn_list" id="lectStatCdListArea">
-																	<a href="javascript:" class="btn " data-lect-stat-cd="01"><span>접수예정</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="02"><span>기존회원접수</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="03"><span>접수중</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="04"><span>지점문의</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="05"><span>대기접수</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="06"><span>접수마감</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="07"><span>강의종료</span></a>
-																		<a href="javascript:" class="btn " data-lect-stat-cd="08"><span>접수불가</span></a>
-																		</div>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="1"><span>접수예정</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="2"><span>접수중</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="3"><span>지점문의</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="4"><span>대기접수</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="5"><span>접수마감</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="6"><span>강의종료</span></a>
+																	<a href="javascript:" class="btn " data-lect-stat-cd="7"><span>접수불가</span></a>
+																</div>
 															</div>
 														</div>
 														<div class="list_div ">
@@ -764,7 +774,7 @@
 											<div class="branch">
 														<p class="sub_tit f_caption1">성인강좌</p>
 														<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0101"><p class="f_desc">공예</p></a>
-															<a class="active" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0102"><p class="f_desc">노래</p></a>
+															<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0102"><p class="f_desc">노래</p></a>
 															<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0103"><p class="f_desc">댄스</p></a>
 															<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0104"><p class="f_desc">드로잉</p></a>
 															<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0105"><p class="f_desc">라이프스타일</p></a>
@@ -792,8 +802,21 @@
 															<a class="" href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0304"><p class="f_desc">언어·사회성</p></a>
 															</div>
 												<script type="text/javascript">
+												    $(".cont_wrap .tit_popup .scroll_area a").click(function() {
+												        // 모든 링크에서 active 클래스를 제거합니다.
+												        $(".cont_wrap .tit_popup .scroll_area a").removeClass('active');
+
+												        // 현재 클릭된 링크에 active 클래스를 추가합니다.
+												        $(".cont_wrap .tit_popup .scroll_area a").addClass('active');
+												    });
+												var title = $(".cont_wrap .tit_popup .scroll_area a.active .f_desc").text();
+												console.log(title);
+												$(".cont_wrap .inner .f_h1").prepend(title);
+												
+												/*
 											  	var title = document.querySelector(".cont_wrap .tit_popup .scroll_area a[class=active] .f_desc").innerText;
-												document.querySelector(".cont_wrap .inner .f_h1").prepend(title);
+											  	console.log(title);
+												document.querySelector(".cont_wrap .inner .f_h1").prepend(title);*/
 											</script>
 										</div>
 									</div>
@@ -899,71 +922,26 @@
 												
 												<div class="hide_con">
 													<div class="divide_wrap" id="brchCdListArea">
-														
-														<div class="divide_wrap">
-																<div class="toggle_area">
-																	<div class="txt_box hide">
-																		<p class="f_caption1">서울점</p>
-																		<span class="num">0</span>
-																	</div>
-																</div>
-																<div class="filter_btn_list">
-																	<a href="javascript:" data-brch-cd="0002" class="btn "><span>잠실점</span></a>
-																	<a href="javascript:" data-brch-cd="0001" class="btn "><span>본점</span></a>
-																	<a href="javascript:" data-brch-cd="0013" class="btn "><span>강남점</span></a>
-																	<a href="javascript:" data-brch-cd="0028" class="btn "><span>건대스타시티점</span></a>
-																	<a href="javascript:" data-brch-cd="0006" class="btn "><span>관악점</span></a>
-																	<a href="javascript:" data-brch-cd="0340" class="btn "><span>김포공항점</span></a>
-																	<a href="javascript:" data-brch-cd="0022" class="btn "><span>노원점</span></a>
-																	<a href="javascript:" data-brch-cd="0026" class="btn "><span>미아점</span></a>
-																	<a href="javascript:" data-brch-cd="0010" class="btn "><span>영등포점</span></a>
-																	<a href="javascript:" data-brch-cd="0004" class="btn "><span>청량리점</span></a>
-																	</div>
-															</div>
-														<div class="divide_wrap">
-																<div class="toggle_area">
-																	<div class="txt_box hide">
-																		<p class="f_caption1">수도권점</p>
-																		<span class="num">0</span>
-																	</div>
-																</div>
-																<div class="filter_btn_list">
-																	<a href="javascript:" data-brch-cd="0344" class="btn "><span>인천점</span></a>
-																	<a href="javascript:" data-brch-cd="0399" class="btn "><span>동탄점</span></a>
-																	<a href="javascript:" data-brch-cd="0335" class="btn "><span>구리점</span></a>
-																	<a href="javascript:" data-brch-cd="0008" class="btn "><span>분당점</span></a>
-																	<a href="javascript:" data-brch-cd="0349" class="btn "><span>수원점</span></a>
-																	<a href="javascript:" data-brch-cd="0336" class="btn "><span>안산점</span></a>
-																	<a href="javascript:" data-brch-cd="0011" class="btn "><span>일산점</span></a>
-																	<a href="javascript:" data-brch-cd="0334" class="btn "><span>중동점</span></a>
-																	<a href="javascript:" data-brch-cd="0341" class="btn "><span>평촌점</span></a>
-																	<a href="javascript:" data-brch-cd="0350" class="btn "><span>롯데몰광명점</span></a>
-																	</div>
-															</div>
-														<div class="divide_wrap">
-																<div class="toggle_area">
-																	<div class="txt_box hide">
-																		<p class="f_caption1">지방점</p>
-																		<span class="num">0</span>
-																	</div>
-																</div>
-																<div class="filter_btn_list">
-																	<a href="javascript:" data-brch-cd="0005" class="btn "><span>부산본점</span></a>
-																	<a href="javascript:" data-brch-cd="0333" class="btn "><span>광복점</span></a>
-																	<a href="javascript:" data-brch-cd="0007" class="btn "><span>광주점</span></a>
-																	<a href="javascript:" data-brch-cd="0023" class="btn "><span>대구점</span></a>
-																	<a href="javascript:" data-brch-cd="0012" class="btn "><span>대전점</span></a>
-																	<a href="javascript:" data-brch-cd="0016" class="btn "><span>동래점</span></a>
-																	<a href="javascript:" data-brch-cd="0354" class="btn "><span>마산점</span></a>
-																	<a href="javascript:" data-brch-cd="0024" class="btn "><span>상인점</span></a>
-																	<a href="javascript:" data-brch-cd="0027" class="btn "><span>센텀시티점</span></a>
-																	<a href="javascript:" data-brch-cd="0015" class="btn "><span>울산점</span></a>
-																	<a href="javascript:" data-brch-cd="0025" class="btn "><span>전주점</span></a>
-																	<a href="javascript:" data-brch-cd="0017" class="btn "><span>창원점</span></a>
-																	<a href="javascript:" data-brch-cd="0014" class="btn "><span>포항점</span></a>
-																	<a href="javascript:" data-brch-cd="0361" class="btn "><span>롯데몰군산점</span></a>
-																	</div>
-															</div>
+														<c:choose>
+																<c:when test="${not empty bmap}">
+																	 <c:forEach var="entry" items="${bmap}">
+																		<div class="divide_wrap">
+																			<div class="toggle_area">
+																				<div class="txt_box hide">
+																					
+																					<p class="f_caption1">${entry.key}</p>
+																					<span class="num">0</span>
+																				</div>
+																			</div>
+																			<div class="filter_btn_list">
+																				<c:forEach var="dto" items="${entry.value}">
+														                        	<a href="javascript:" data-brch-cd="${dto.branch_id}" class="btn "><span>${dto.branch_nm}</span></a>
+														                        </c:forEach>
+																			</div>
+																		</div>
+														            </c:forEach>
+														        </c:when>
+														    </c:choose>
 														</div>
 												</div>
 											</div>
@@ -1006,15 +984,14 @@
 												</a>
 												<div class="hide_con">
 													<div class="filter_btn_list" id="lectStatCdListArea">
-														<a href="javascript:" class="btn " data-lect-stat-cd="01"><span>접수예정</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="02"><span>기존회원접수</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="03"><span>접수중</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="04"><span>지점문의</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="05"><span>대기접수</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="06"><span>접수마감</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="07"><span>강의종료</span></a>
-															<a href="javascript:" class="btn " data-lect-stat-cd="08"><span>접수불가</span></a>
-															</div>
+														<a href="javascript:" class="btn " data-lect-stat-cd="1"><span>접수예정</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="2"><span>접수중</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="3"><span>지점문의</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="4"><span>대기접수</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="5"><span>접수마감</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="6"><span>강의종료</span></a>
+														<a href="javascript:" class="btn " data-lect-stat-cd="7"><span>접수불가</span></a>
+													</div>
 												</div>
 											</div>
 											<div class="list_div ">
@@ -1049,7 +1026,7 @@
 													<div class="filter_btn_list" id="timeTypeListArea">
 														<p class="txt_box f_caption1">오전</p>
 														<a href="javascript:" class="btn " data-time-type="A"><span>~ 10:00</span></a>
-														<a href="javascript:" class="btn "" data-time-type="B"><span>10:00 ~ 12:00</span></a>
+														<a href="javascript:" class="btn " data-time-type="B"><span>10:00 ~ 12:00</span></a>
 														<p class="txt_box f_caption1">오후</p>
 															<a href="javascript:" class="btn "" data-time-type="C"><span>12:00 ~ 14:00</span></a>
 															<a href="javascript:" class="btn "" data-time-type="D"><span>14:00 ~ 16:00</span></a>
@@ -1110,6 +1087,5 @@
 			</div>
 		</div>
       </div>
-	
+	<script type="text/javascript" src="/resources/common/js/application/search/searchList_category.js"></script>
 </c:if>
-<script type="text/javascript" src="/resources/common/js/application/search/searchList_category.js"></script>

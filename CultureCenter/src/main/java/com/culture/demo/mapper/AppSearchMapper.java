@@ -58,5 +58,14 @@ public interface AppSearchMapper {
 
 	// 메인페이지 강좌 정보 가져오기
 	List<ClassDTO> mainSelectClassList(@Param("mainLectSearchDTO") MainLectSearchDTO mainLectSearchDTO) throws Exception;
-
+	
+	// 강좌 검색 강좌 정보 가져오기
+	List<ClassDTO> selectInteList(@Param("searchBranchDTO") SearchBranchDTO searchBranchDTO,
+									@Param("brchCdl") String[] brchCdl,
+								    @Param("yyl") String[] yyl,
+								    @Param("lectcll") String[] lectcll,
+								    @Param("lectstl") String[] lectstl,
+								    @Param("dayl") String[] dayl,
+								    @Param("timel") String[] timel,
+								    @Param("amtl") String[] amtl) throws Exception;
 }
