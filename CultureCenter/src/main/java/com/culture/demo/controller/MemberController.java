@@ -4,8 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.MemberDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.EmailSenderService;
 import com.culture.demo.service.MemberService;
 
@@ -32,14 +33,17 @@ public class MemberController {
 	
 	//로그인 체크
 	@GetMapping("/lgnCheck.ajax")
-	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck() throws Exception { // Principal principal;
+	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck(Authentication authentication) throws Exception {
 		log.info("> /lgnCheck.ajax : MemberController.loginCheck() ... ");
-		//principal 존재유무 판단
-		
+		CustomerUser principal = null;
+		try {
+			principal = (CustomerUser) authentication.getPrincipal();
+		} catch (Exception e) {
+			System.out.println("/lgnCheck.ajax : 로그인안된상태...");
+		}
 		Map<String, Boolean> response;
-		//if(principal.getName().isEmpty()) response = Map.of("lgnYn", true);
-		//else response = Map.of("lgnYn", false);
-		response = Map.of("lgnYn", true);
+		if(principal != null) response = Map.of("lgnYn", true);
+		else response = Map.of("lgnYn", false);
 	    return ResponseEntity.ok(response);
 	}
 	

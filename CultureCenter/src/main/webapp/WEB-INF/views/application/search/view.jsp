@@ -202,7 +202,7 @@
 									
 									<div class="course_popup list multiple"><!-- 2022-11-23 hide 클래스 삭제 -->
 										<form id="classForm" name="classForm">
-											<input type="hidden" name="csrfPreventionSalt" value="" />
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 											<input type="hidden" id="brchCd" name="brchCd" value=""/>
 											<input type="hidden" id="yy" name="yy" value=""/>
 											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value=""/>

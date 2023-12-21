@@ -37,4 +37,17 @@
 		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
+	<!-- 필요한 정보만 출력가능함! -->
+	<logger name="jdbc.aduit"> <!-- RS제외한 JDBC호출정보 -->
+		<level value="warn" />
+	</logger>
+	<logger name="jdbc.resultset"><!-- RS를 포함한 모든 JDBC정보-->
+		<level value="warn" />
+	</logger>
+	<logger name="jdbc.connection"><!-- 커넥션(풀)의 객체 상태 -->
+		<level value="warn" />
+	</logger>
+	<logger name="jdbc.sqlonly"><!-- JDBC호출시 sql쿼리문(pstmt인 경우 인자 set된 값) -->
+		<level value="warn" />
+	</logger>
 </log4j:configuration>

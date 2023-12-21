@@ -98,4 +98,8 @@
 	    LEFT JOIN class c ON c.class_id = cbs.class_id
 	WHERE dc.detail_class_sq = #{detail_class_sq}	
 	</select>
+	<!-- 주문번호 public String getAtlctRsvNo() -->
+	<select id="getAtlctRsvNo" resultType="int">
+	SELECT MAX(order_sq)+1 order_sq FROM class_order
+	</select>
 </mapper>
