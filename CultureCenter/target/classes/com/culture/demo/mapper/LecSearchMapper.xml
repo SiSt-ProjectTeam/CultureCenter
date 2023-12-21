@@ -19,4 +19,10 @@
 		ORDER BY mdclsCtegryCd
 	</select>
 	
+	<!-- List<ClassDTO> getSmCate(); -->
+	<select id="getSmCate" resultType="com.culture.demo.domain.ClassDTO">
+		SELECT smclsCtegrycd, smclsCtegry
+		FROM small_category
+	</select>
+	
 </mapper>
