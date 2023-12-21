@@ -454,13 +454,6 @@ var search = (function(){
     }
 	
 	var btnCheck = function() {
-		/*
-		if($(".single_btn_area").closest(".btn_area").css("display") != "none" && $(".single_btn_area").hasClass("one_layer") && !$(".single_btn_area .sign_btn").hasClass("disabled")) {
-			alert("강좌를 선택하세요.");
-		} 
-		*/
-		console.log("js : " + $("#lectDetailSq").val());
-		console.log("!!!!" + $("#lectDetailSq").val());
 		if($("#lectDetailSq").val() == "close") {
 			alert("강좌를 선택하세요.");
 		} else {
@@ -470,9 +463,7 @@ var search = (function(){
 			$('.total_sum_area.btn_area').css('opacity', '1');
 			
 			var optionList = $('input[name=optionList]').val();
-			
 			var exCharge = fnc.fn_numberComma(optionList.match(/ex_charge=(\d+)/)[1]);
-			console.log(exCharge);
 			$("#optnAmt").val(exCharge);
 			
 			if($("#optnAmt").val() != 0) {
