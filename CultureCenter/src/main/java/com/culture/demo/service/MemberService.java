@@ -29,4 +29,7 @@ public interface MemberService {
 	public String findId(String name, String phone);
 	// 비밀번호 찾기 
 	public String findPW(String id, String phone);
+	
+	// 차량번호 수정
+	public void updateCar(MemberDTO dto) throws Exception ;
 }

@@ -89,4 +89,12 @@ public class MemberServiceImpl implements MemberService {
 		String result = memberMapper.findPw(id, phone);
 		return result;
 	}
+
+	@Override
+	public void updateCar(MemberDTO dto) throws Exception {
+	    log.info(">> MemberServiceImpl.updateCar ...");
+	    this.memberMapper.updateCar(dto);
+	}
+	
+	
 }
