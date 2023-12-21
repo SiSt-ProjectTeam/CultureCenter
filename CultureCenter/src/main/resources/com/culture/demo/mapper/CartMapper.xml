@@ -85,4 +85,9 @@
 	DELETE FROM basket WHERE TRUNC( SYSDATE - reg_dt ) >= 30
 	]]>
 	</delete>
+
+	<!-- 회원 장바구니 총 개수 int getTotCartCnt(int member_sq) -->
+	<select id="getTotCartCnt" resultType="int">
+	SELECT COUNT(*) FROM basket WHERE member_sq = #{member_sq}
+	</select>
 </mapper>

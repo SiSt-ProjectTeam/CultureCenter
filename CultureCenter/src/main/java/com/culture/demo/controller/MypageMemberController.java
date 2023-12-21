@@ -1,6 +1,7 @@
 package com.culture.demo.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.security.CustomerUser;
+import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
 import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,16 +33,18 @@ public class MypageMemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
-	private PaymentService paymentService;
+	private CartService cartService;
 		
 	@GetMapping(value = "/mypage/member/count.ajax", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException {
+	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException, ClassNotFoundException {
 		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
 		CustomerUser principal =  (CustomerUser) authentication.getPrincipal();
 		
 		String mypageInfo = "";
 		ObjectMapper objectMapper = new ObjectMapper();
-		mypageInfo = objectMapper.writeValueAsString( this.memberService.getMypageInfo(principal.getMember_sq()) );
+		MemberDTO dto = this.memberService.getMypageInfo(principal.getMember_sq());
+		dto.setBasket_cnt( this.cartService.getTotCartCnt(principal.getMember_sq()));
+		mypageInfo = objectMapper.writeValueAsString(dto);
 		
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)
@@ -88,9 +92,21 @@ public class MypageMemberController {
 	    int member_sq = principal.getMember_sq();
 
 	    // 회원정보, 동반수강자 불러오기
-	    MemberDTO mDto = paymentService.getMemberWithChild(member_sq);
+	    MemberDTO mDto = memberService.getMemberWithChild(member_sq);
+
 	    model.addAttribute("mDto", mDto);
 	    return "mypage.member.info";
 	}
+	
+	// 차량번호 추가 Ajax
+	@PostMapping("/mypage/member/updateCarYn.ajax")
+	public void updateCarYn(Authentication authentication, @RequestBody MemberDTO memberDTO) throws Exception {
+		log.info("> /mypage/member/updateCarYn.ajax ... POST : MypageMemberController.updateCarYn");
 
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
+
+	    memberDTO.setMember_sq(member_sq);
+	    this.memberService.updateCar(memberDTO);
+	}
 }

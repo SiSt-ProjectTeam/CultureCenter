@@ -1,11 +1,8 @@
 package com.culture.demo.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.CartDTO;
-import com.culture.demo.domain.ClassDTO;
 
 public interface PaymentMapper {
 	
@@ -20,5 +17,7 @@ public interface PaymentMapper {
 	// 세부강좌번호 -> 강좌 유형 : 대분류
 	public String getLrclsctegrycd(int detail_class_sq) throws Exception;
 	// 강좌명 
-	public String getLectName(int detailLectCd) throws Exception;	
+	public String getLectName(int detailLectCd) throws Exception;
+	// 주문번호 가져오기
+	public int getAtlctRsvNo() throws Exception;
 }

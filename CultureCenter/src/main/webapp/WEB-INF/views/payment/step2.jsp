@@ -1,46 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
-<script>
-function checkPlatform(ua) {
-	if(ua === undefined) {
-		ua = window.navigator.userAgent;
-	}
-	
-	ua = ua.toLowerCase();
-	var platform = {};
-	var matched = {};
-	var userPlatform = "pc";
-	var platform_match = /(ipad)/.exec(ua) || /(ipod)/.exec(ua) 
-		|| /(windows phone)/.exec(ua) || /(iphone)/.exec(ua) 
-		|| /(kindle)/.exec(ua) || /(silk)/.exec(ua) || /(android)/.exec(ua) 
-		|| /(win)/.exec(ua) || /(mac)/.exec(ua) || /(linux)/.exec(ua)
-		|| /(cros)/.exec(ua) || /(playbook)/.exec(ua)
-		|| /(bb)/.exec(ua) || /(blackberry)/.exec(ua)
-		|| [];
-	
-	matched.platform = platform_match[0] || "";
-	
-	if(matched.platform) {
-		platform[matched.platform] = true;
-	}
-	
-	if(platform.android || platform.bb || platform.blackberry
-			|| platform.ipad || platform.iphone 
-			|| platform.ipod || platform.kindle 
-			|| platform.playbook || platform.silk
-			|| platform["windows phone"]) {
-		userPlatform = "mobile";
-	}
-	
-	if(platform.cros || platform.mac || platform.linux || platform.win) {
-		userPlatform = "pc";
-	}
-	
-	return userPlatform;
-}
-</script>
-
 <div class="cont_wrap">
   <div class="cont_inner no_pb">
     <div class="page_title_area">
@@ -76,142 +36,147 @@ function checkPlatform(ua) {
               <div class="sub_tit_area">
                 <div class="left">
                   <p class="f_h2">수강자 정보</p>
+                  <a href="/payment/payment_step3.do">step3 이동</a>
                 </div>
               </div>
+              
               <!-- 수강정보 -->
-              <div class="course_history_w" data-brch-cd="0002" data-atlct-type="normal">
-              <%-- 
-              <c:forEach items="${list}" var="dto">
-			  <fmt:formatNumber value="${dto.class_fee}" pattern="#,##0" var="class_fee"/>
-			  <fmt:formatNumber value="${dto.ex_charge}" pattern="#,##0" var="ex_charge"/>
-			  <fmt:formatNumber value="${dto.class_fee + dto.ex_charge}" pattern="#,##0" var="tot_fee"/>
-               --%>
-              	<div class="cour_his_list"  data-brch-cd="0002" 
-              		data-yy="2023" data-lect-smster-cd="4" 
-              		data-lect-cd="0547" data-lect-amt="3000" data-lect-tp-cd="01" 
-              		data-optn-seqno="" data-optn-amt="0"
-              		data-pbl-pmprcust-parnt-brch-cd="" data-pbl-pmprcust-parnt-lect-cd="" 
+              <div class="course_history_w" data-brch-cd="${branchCd}" data-atlct-type="${atlctType}">
+              <c:forEach items="${list}" var="payList">
+             	<c:set var="dto" value="${payList.dto}"/>
+             	<fmt:formatNumber value="${dto.class_fee}" pattern="#,##0" var="class_fee"/>
+			  	<fmt:formatNumber value="${dto.ex_charge}" pattern="#,##0" var="ex_charge"/>
+			  	<fmt:formatNumber value="${dto.class_fee + dto.ex_charge}" pattern="#,##0" var="tot_fee"/>
+              	<div class="cour_his_list"  data-brch-cd="${dto.branch_id}"
+					data-yy="${dto.open_year}" data-lect-smster-cd="${dto.open_smst_id}"
+					data-lect-cd="${dto.detail_class_sq}" 
+					 data-lect-amt="${dto.class_fee}"
+					data-lect-tp-cd="${payList.lectTpCd}" 
+              		data-optn-seqno="" data-optn-amt="${dto.ex_charge}"
+              		data-pbl-pmprcust-parnt-brch-cd="" 
+              		data-pbl-pmprcust-parnt-lect-cd="" 
               		data-pbl-pmprcust-parnt-brch-cd-nm="">
-              			<div class="cour_top_area">
+              		<div class="cour_top_area">
 		                    <div class="left">
 		                      <div class="label_div">
-		                        <p class="label small border">잠실점</p>
-		                      </div>
-		                      <p class="tit f_h2">[2/28] 베네피트와 함께하는 겨울철 모공케어 동안메이크업</p>
+		                       <p class="label small border">${dto.branch_nm}</p>
+							</div>
+								<p class="tit f_h2">${dto.class_nm}</p>
 		                    </div>
 		                    <div class="right">
 		                      <ul class="txt_wrap">
 		                        <li class="dl f_body2">
 		                          <p class="dt only_pc">강사명</p>
-		                          <p class="dd f_body1">잠실점</p>
+		                         <p class="dd f_body1">${dto.teacher_nm}</p>
 		                        </li>
 		                        <li class="dl f_body2">
 		                          <p class="dt only_pc">학기명</p>
-		                          <p class="dd f_body1">2023년 겨울학기</p>
+		                          <p class="dd f_body1">${dto.open_year}년 ${dto.smst_nm}</p>
 		                        </li>
 		                        <li class="dl f_body2">
 		                          <p class="dt only_pc">강좌정보</p>
-		                          <p class="dd f_body1">2024.02.28 ~ 2024.02.28 (수) 11:00~12:00 / 1회 </p>
+		                          <p class="dd f_body1">
+									${dto.schedule_start_dt} ~ ${dto.schedule_end_dt} (${dto.day}) 
+									${dto.start_time}~${dto.end_time}
+									/ ${dto.class_cnt}회
+								  </p>
 		                        </li>
 		                      </ul>
 		                      <ul class="txt_wrap">
-		                        <li class="dl f_body2">
-		                          <p class="dt">강좌료</p>
-		                          <p class="dd f_body1">3,000원</p>
-		                        </li>
-		                        </ul>
+								<li class="dl f_body2">
+									<p class="dt">강좌료</p>
+									<p class="dd f_body1">${class_fee}원</p>
+								</li>
+								<c:if test="${dto.ex_charge != 0}">
+									<li class="dl f_body2">
+										<p class="dt">재료비/대여료</p>
+										<p class="dd f_body1">${ex_charge}원</p>
+									</li>
+								</c:if>
+							  </ul>
 		                    </div>
 		                </div>
 		                <!-- plural 클래스가 있으면, cour_detail이 2개이상 -->
-		                <div class="cour_detail_w plural">
-		                	<div class="cour_detail"  data-actl-atlct-nple-nm="유희진" data-fmly-rel-cd="00" data-fmly-rel-cd-nm="본인" data-bday="19970921" data-sex-cd="F">
-		                			<div class="left">
-				                        <div class="tit f_body1">유희진(본인)</div>
-				                    </div>
-				                    <div class="right">
-				                        <ul class="txt_wrap">
-				                          <li class="f_body3">
-				                            <div class="txt_con">
-				                              <div class="tit">강좌료</div>
-				                              <div class="txt">
-				                                <p>3,000원</p>
-				                              </div>
-				                            </div>
-				                          </li>
-			                              <li class="optional f_body3">
-			                                <div class="txt_con">
-			                                  <div class="tit">할인금액</div>
-			                                  <div class="txt">
-			                                    <p class="red_txt">(-)0원</p>
-			                                  </div>
-			                                </div>
-			                                <div class="opt_name">
-			                                </div>
-			                                <div class="flex_btn_wrap">
-			                                  <a style="background-color:#e0f55c;" class="border_btn dcBtn disabled" href="javascript:" role="button" 
-	                                        	  data-brch-cd="0002" data-yy="2023" data-lect-smster-cd="4" data-lect-cd="0547" data-lrcls-ctegry-cd="01" data-mdcls-ctegry-cd="0105" data-smcls-ctegry-cd="010502"
-	                                        	  data-lect-cl-cd="3" data-lect-amt="3000" data-optn-amt="0">
-	                                            <span style="color:#000;">할인수단 선택</span>
-	                                          </a>
-			                                </div>
-			                              </li>
-			                              <li class="total_pay">
-				                            <div class="txt_con">
-				                              <div class="tit">결제예정 금액</div>
-				                              <div class="txt">
-				                                <p>3,000원</p>
-				                              </div>
-				                            </div>
-				                          </li>
-				                        </ul>
-				                    </div>
-		                		</div>
-		                	<div class="cour_detail"  data-actl-atlct-nple-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-fmly-rel-cd-nm="자녀" data-bday="20201023" data-sex-cd="M">
-		                			<div class="left">
-				                        <div class="tit f_body1">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ(자녀)</div>
-				                    </div>
-				                    <div class="right">
-				                        <ul class="txt_wrap">
-				                          <li class="f_body3">
-				                            <div class="txt_con">
-				                              <div class="tit">강좌료</div>
-				                              <div class="txt">
-				                                <p>3,000원</p>
-				                              </div>
-				                            </div>
-				                          </li>
-			                              <li class="optional f_body3">
-			                                <div class="txt_con">
-			                                  <div class="tit">할인금액</div>
-			                                  <div class="txt">
-			                                    <p class="red_txt">(-)0원</p>
-			                                  </div>
-			                                </div>
-			                                <div class="opt_name">
-			                                </div>
-			                                <div class="flex_btn_wrap">
-			                                  <a style="background-color:#e0f55c;" class="border_btn dcBtn disabled" href="javascript:" role="button" 
-	                                        	  data-brch-cd="0002" data-yy="2023" data-lect-smster-cd="4" data-lect-cd="0547" data-lrcls-ctegry-cd="01" data-mdcls-ctegry-cd="0105" data-smcls-ctegry-cd="010502"
-	                                        	  data-lect-cl-cd="3" data-lect-amt="3000" data-optn-amt="0">
-	                                            <span style="color:#000;">할인수단 선택</span>
-	                                          </a>
-			                                </div>
-			                              </li>
-			                              <li class="total_pay">
-				                            <div class="txt_con">
-				                              <div class="tit">결제예정 금액</div>
-				                              <div class="txt">
-				                                <p>3,000원</p>
-				                              </div>
-				                            </div>
-				                          </li>
-				                        </ul>
-				                    </div>
-		                		</div>
+		         		<c:if test="${payList.arrActlAtlctNple.size() != 1}">
+		         			<script>
+		         			$(function() {
+		         			      $("div.cour_detail_w#course${dto.detail_class_sq}").addClass("plural");
+		         			});
+		         			</script>
+		         		</c:if>
+		            <div class="cour_detail_w" id="course${dto.detail_class_sq}">
+		                <c:forEach items="${payList.arrActlAtlctNple}" var="mDto">
+		                	<div class="cour_detail"  
+			                	data-actl-atlct-nple-nm="${mDto.actlAtlctNpleNm}" 
+			                	data-fmly-rel-cd="${mDto.fmlyRelCd}" 
+			                	data-fmly-rel-cd-nm="${mDto.fmlyRelCdNm}" 
+			                	data-bday="${mDto.bday}" 
+			                	data-sex-cd="${mDto.sexCd}">
+		                		<div class="left">
+				                    <div class="tit f_body1">${mDto.actlAtlctNpleNm}(${mDto.fmlyRelCdNm})</div>
+				                </div>
+				                   <div class="right">
+				                      <ul class="txt_wrap">
+				                         <li class="f_body3">
+				                           <div class="txt_con">
+				                             <div class="tit">강좌료</div>
+				                             <div class="txt">
+				                               <p>${class_fee}원</p>
+				                             </div>
+				                           </div>
+				                         </li>
+				                       <c:if test="${dto.ex_charge != 0}">
+				                         <li class="f_body3">
+				                        	<div class="txt_con">
+				                             <div class="tit">재료비/대여료</div>
+				                             <div class="txt">
+				                               <p>${ex_charge}원</p>
+				                             </div>
+				                           </div>
+									     </li>
+									   </c:if>
+			                             <li class="optional f_body3">
+			                               <div class="txt_con">
+			                                 <div class="tit">할인금액</div>
+			                                 <div class="txt">
+			                                   <p class="red_txt">(-)0원</p>
+			                                 </div>
+			                               </div>
+			                               <div class="opt_name">
+			                               </div>
+			                               <div class="flex_btn_wrap">
+			                                 <a style="background-color:#e0f55c;" 
+			                                 class="border_btn dcBtn disabled" 
+			                                 href="javascript:" role="button" 
+	                                       	  data-brch-cd="0002" data-yy="2023" 
+	                                       	  data-lect-smster-cd="4" data-lect-cd="0547" 
+	                                       	  data-lrcls-ctegry-cd="01" 
+	                                       	  data-mdcls-ctegry-cd="0105" 
+	                                       	  data-smcls-ctegry-cd="010502"
+	                                       	  data-lect-cl-cd="3" 
+	                                       	  data-lect-amt="3000" 
+	                                       	  data-optn-amt="0">
+	                                           <span style="color:#000;">할인수단 선택</span>
+	                                         </a>
+			                               </div>
+			                             </li>
+			                             <li class="total_pay">
+				                           <div class="txt_con">
+				                             <div class="tit">결제예정 금액</div>
+				                             <div class="txt">
+				                               <p>${tot_fee}원</p>
+				                             </div>
+				                           </div>
+				                         </li>
+				                   	  </ul> 
+				            	   </div>
 		                	</div>
-              		</div>
+		                </c:forEach>
+		            </div>
               	</div>
-            </div>
+              </c:forEach>
+              </div>
+           </div>
             
         	<!-- 엘포인트 조회 및 포인트 입력 시 -->
             <div class="sub_inner show_line">
@@ -253,7 +218,7 @@ function checkPlatform(ua) {
               <!-- total_price_info에 no_cost 클래스가 붙으면, 재료비/대여로 옵션이 해제된 경우입니다 -->
               <!-- total_price_info에 no_sale 클래스가 붙으면, 할인금액이 없는 경우입니다 -->
               <div class="total_price_info no_cost "><!-- no_sale -->
-                <div class="price_list">
+                <div class="price_list before_sales">
                   <div class="txt_con">
                     <p class="tit f_body3">강좌료 합계</p>
                     <p class="price f_body1">6,000원</p>
@@ -487,10 +452,22 @@ function checkPlatform(ua) {
         <div class="flex_btn_wrap">
         	<a class="border_btn" href="javascript:" onclick="history.back();">
         		<span>이전</span>
-			       </a>
-          <a id="totLectStlmAmt" class="b_color_btn" href="javascript:" data-tot-lect-stlm-amt="6000" onclick="payment.submitStep2Frm()" data-lpnt-use-amt="0" data-tot-grde-dc-amt="0" data-tot-cpn-dc-amt="0" data-gs-lect-amt="6000" data-gs-add-amt="0">
+			</a>
+			     <!-- href="javascript:" onclick="requestPay();" -->
+          <a id="totLectStlmAmt" class="b_color_btn" 
+	       	  href="javascript:" onclick="payment.submitStep2Frm()"
+	          data-tot-lect-stlm-amt=""  
+	          data-lpnt-use-amt="0" 
+	          data-tot-grde-dc-amt="0" 
+	          data-tot-cpn-dc-amt="0" 
+	          data-gs-lect-amt="" data-gs-add-amt="0">
             <span>6,000원 결제</span>
           </a>
+          <script>
+          $(function(){
+        	  payment.payment_tot2();
+          });
+          </script>
         </div>
       </div>
     </div>
@@ -558,9 +535,10 @@ function checkPlatform(ua) {
 		<div class="pop_cont">
 			<div class="for_padding">
 				<div class="scroll_area">
-             <div class="pay_img">
-             	
-             </div>
+		        	<!-- iframe -->
+		        	<div class="pay_img">
+		        	
+		        	</div>
 				</div>
 			</div>
 		</div>
@@ -596,9 +574,9 @@ function checkPlatform(ua) {
 		</a>
 	</div>
 </div>
-
+<!-- 결제금액 0원 일때 -->
 <form id="frm_zeropay" name="frm_zeropay" method="POST" action="/payment/zeroPaymentResult.do">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 	<input type="hidden" name="lpntUseAmt" value="" />
 	<input type="hidden" name="strPasswd" value="" />
@@ -607,9 +585,9 @@ function checkPlatform(ua) {
 	<input type="hidden" name="strCoprMemstrNo" value="" />
 	<input type="hidden" name="gsStlmAmt" value="" />
 </form>
-
-<form id="frm_temp" name="frm_temp" method="POST" action="https://culture.lotteshopping.com/payment/payment_request.do" target="pgIframe">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+<!-- 결제창 input data -->
+<form id="frm_temp" name="frm_temp" method="POST" action="/payment/payment_request.do" target="pgIframe">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 	<input type="hidden" name="lpntUseAmt" value="" />
 	<input type="hidden" name="strPasswd" value="" />
@@ -628,10 +606,13 @@ function checkPlatform(ua) {
 	<input type="hidden" name="mvgBlstrCd" value="" />
 	<input type="hidden" name="mbrId" value="" />
 </form>
-
+<!-- step3 form -->
+<c:if test="${not empty html}">
+${html}
+</c:if>
 <form id="frm_success" name="frm_success" method="POST" action="/payment/payment_step3.do">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 </form>
 
-<script type="text/javascript" src="/common/js/payment/payment.js"></script>
+<script type="text/javascript" src="/resources/common/js/payment/payment.js"></script>

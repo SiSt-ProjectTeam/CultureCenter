@@ -82,25 +82,30 @@
 			</p>
 		</sec:authorize>		
 		
-		<p class="cart_icon ">
-			<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
-			<%
-				HttpSession httpSession = request.getSession();
-				if (httpSession != null && httpSession.getAttribute("authUser") != null) {
-			%>
-				<a href="/mypage/cart/list.do" title="장바구니"></a>
-				<span class="cart_num"></span>
-			<%
-				} else {
-			%>
-				<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
-			<%
-				}
-			%>
-			
+		
+		<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
+		<sec:authorize access="isAuthenticated()">
+		<c:choose>
+		<c:when test="${totCartCnt eq 0}">
+		<p class="cart_icon">
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">0</span>		
+		</c:when>
+		<c:otherwise>
+		<p class="cart_icon on">
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">${totCartCnt}</span>
+		</p>
+		</c:otherwise>
+		</c:choose>
+		</sec:authorize>
+		<sec:authorize access="!isAuthenticated()">
+		<p class="cart_icon">
+			<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
 			<span class="cart_num">0</span>
 		</p>
-		 
+		</sec:authorize>
+		
 		<!-- 
 		<p class="admin_icon">
 			<a href="/administrator/index.do" title="관리자페이지"></a>

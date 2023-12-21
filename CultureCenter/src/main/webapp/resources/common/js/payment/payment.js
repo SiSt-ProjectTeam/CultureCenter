@@ -158,14 +158,14 @@ var payment = (function(){
 				}
 			});
 			// 총 결제예정금액 계산
-			payment_tot();
+			fn_payment_tot();
 			//팝업창 닫기
 			fn_fadeOut($('#'+ type +'Popup'));
 		}
 	}
 	
 	// 총 결제예정금액 계산
-	var payment_tot = function(){
+	var fn_payment_tot = function(){
 		var totLectStlmAmt = 0;
 		$('div.course_history_w div.cour_his_list').each(function(){
 			var lectAmt = $(this).data('lectAmt');
@@ -299,7 +299,9 @@ var payment = (function(){
 			alert("강좌명 : " + rtnMap.lectNm + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
 		}else if(rtnMap.rsltCd == "-3"){
 			alert("강좌명 : " + rtnMap.lectNm + "\n강좌는 이미 수강신청한 강좌입니다.");
-		}else if(rtnMap.rsltCd == "-4"){ // 강의시간 중복
+		}else if(rtnMap.rsltCd == "-4"){
+			alert('AVENUEL ORANGE 등급 이상,  AVENUEL 소속점과 관심지점이 동일한 경우에만 결제 가능합니다.');
+		}else if(rtnMap.rsltCd == "-5"){ // 강의시간 중복
 			var cnclYn = false;
 			var arrLect = [], arrAtlct = [];
 			for(var i=0;i<rtnMap.lectDtDuplYnList.length;i++){
@@ -342,6 +344,25 @@ var payment = (function(){
 			$('#frm_submit').attr('method', 'POST');
 			$('#frm_submit').submit();
 		}
+	}
+	
+	// step2 수강결제금액 계산
+	var fn_payment_tot_step2  = function(){
+		var totLectStlmAmt = 0, LectStlmAmt= 0;
+		$("div.cour_his_list").each(function(){
+		 var lectAmt = Number($(this).data("lectAmt"));
+		 var optnAmt = Number($(this).data("optnAmt"));
+		 var stuCnt = Number($(this).find("div.cour_detail").length);
+		 LectStlmAmt += lectAmt * stuCnt;
+		 totLectStlmAmt += ( lectAmt + optnAmt ) * stuCnt;
+		});
+		// 총결제금액
+		$('div.total_price_info').find('div.total_price').find('div.pay_wrap').html('<p class="pay f_h2">'+ fnc.fn_numberComma(LectStlmAmt) +'<span class="unit">원</span></p>')
+								 .end().end()
+		                         .find('div.price_list.before_sales').find('p.price.f_body1').text(fnc.fn_numberComma(LectStlmAmt) + '원');
+		// 결제쪽
+		$('#totLectStlmAmt span').text(fnc.fn_numberComma(totLectStlmAmt) + '원 결제');
+		$('#totLectStlmAmt').data('totLectStlmAmt', totLectStlmAmt);
 	}
 	
 	// 할인 후 최종 주문금액 저장
@@ -1303,13 +1324,13 @@ var payment = (function(){
 	 var submitFlag = false;
 	 var fn_validate_step2_callback = function(data){
 		$('#frm_success').find('input[name=atlctRsvNo]').val('');
-		var rtnMap = data.rtnMap;
+		var rtnMap = data;
 		if(rtnMap.rsltCd == "-1"){
 			alert("수강결제는 접수중인 강좌만 가능합니다.\n선택한 강좌를 다시 한번 확인하세요.");
 		}else if(rtnMap.rsltCd == "-2"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.lectNm) + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
+			alert("강좌명 : " + rtnMap.lectNm + "\n현재 수강 가능인원은 " + rtnMap.capaCnt + "명입니다.");
 		}else if(rtnMap.rsltCd == "-3"){
-			alert("강좌명 : " + fnc.returnHtml(rtnMap.atlctYnMap.lectNm) + "\n수강자 : " + rtnMap.atlctYnMap.actlAtlctNpleNm + "\n강좌는 이미 수강신청한 강좌입니다.");
+			alert("강좌명 : " + rtnMap.lectNm + "\n강좌는 이미 수강신청한 강좌입니다.");
 		}else if(rtnMap.rsltCd == "-4"){
 			alert('AVENUEL ORANGE 등급 이상,  AVENUEL 소속점과 관심지점이 동일한 경우에만 결제 가능합니다.');
 		}else if(rtnMap.rsltCd == "-5"){
@@ -1323,6 +1344,8 @@ var payment = (function(){
 			
 			
 			if(rtnMap.crdStlmAmt > 0){
+				//console.log(rtnMap.crdStlmAmt);
+				
 				$('#pgPopup').find('div.pay_img').empty();
 				var iframe = "<iframe id='pgIframe' name='pgIframe' style='width:100%;height:500px;'></iframe>";
 				$('#pgPopup').find('div.pay_img').append(iframe);
@@ -1386,6 +1409,11 @@ var payment = (function(){
 		 commonScript.openPopupFn('#termsPopup', $(this));
 	 }
 	
+	
+	 var fn_frm_success_submit = function submitParentForm() {
+            $("#frm_success").submit();
+     }
+     
 	 return {
 		 openFmlyPopup : fn_open_fmly_popup
 		 , closePopup : fn_close_popup
@@ -1408,7 +1436,9 @@ var payment = (function(){
 		 , cnclPay : fn_cnclPay
 		 , nicepayClose : fn_nicepayClose
 		 , openTermsPopup : fn_open_terms_popup
-		 , payment_tot : payment_tot
+		 , payment_tot : fn_payment_tot
+		 , payment_tot2 : fn_payment_tot_step2
+		 , frmSuccessSubmit : fn_frm_success_submit
 	 }
 }());
 
