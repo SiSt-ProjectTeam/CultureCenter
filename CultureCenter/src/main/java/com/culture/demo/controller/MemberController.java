@@ -1,9 +1,14 @@
 package com.culture.demo.controller;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
+import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -160,6 +165,22 @@ public class MemberController {
 	    	chk = "noredundancy"; // 중복아님
 	    }
 	    return chk;
+	}
+	
+	// 회원가입 휴대폰 인증번호 문자 발송                                                                
+	@PostMapping("/sendSMS")                                                         
+	public @ResponseBody ResponseEntity<Map<String, Object>> sendSMS(String phoneNumber) throws Exception {
+		log.info(">> /sendSMS.ajax  POST: MemberController.sendSMS()... ");                  
+			
+	    // 인증번호 생성		                                                                      
+	    Random rand = new Random();                                                      
+	    String verifCode = ""; 
+	    for(int i=0; i<6; i++) verifCode += Integer.toString(rand.nextInt(10)); 
+	             
+	    JSONObject result = this.memberService.sendSMS(verifCode, phoneNumber);
+	    Map<String, Object> rtnMap = new HashedMap();
+	    rtnMap.put(verifCode, result);
+	    return  ResponseEntity.ok(rtnMap);           
 	}
 
 	// 아이디 찾기

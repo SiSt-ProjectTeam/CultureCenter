@@ -26,62 +26,46 @@
 								<strong>아이디</strong>
 								<div class="form_input">
 									<input type="text" id="id" name="id" placeholder="아이디를 입력해주세요." title="아이디" value="test">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete" title="아이디 지우기"></button>
-									</div>
 									<span class="idchk"></span>
 								</div>
 								
 								<br><strong>비밀번호</strong>
 								<div class="form_input">									
 									<input type="password" id="pw" name="pw" placeholder="비밀번호를 입력해주세요." title="비밀번호" value="1234">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete" title="비밀번호 지우기"></button>
-									</div>
 								</div>
 								
 								<br><strong>비밀번호 확인</strong>
 								<div class="form_input">
 					                <input type="password" id="pwConfirm" placeholder="비밀번호를 다시 입력해주세요." title="비밀번호 확인" value="1234">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete"></button>
-									</div>
 									<span id="pwMatchMsg"></span>
 					            </div>
 					            
 								<br><strong>이름</strong>
 					            <div class="form_input"> <!-- 유효성 검사시 id = name 으로하면 받아오질 못해서 name1변경 -->
 					                <input type="text" id="name1" name="name" placeholder="이름을 입력해주세요." title="이름" value="유희진">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete"></button>
-									</div>
 					            </div>
 					            
 								<br><strong>이메일</strong>
 					            <div class="form_input">
 					                <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." title="이메일" value="123@naver.com">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete"></button>
-									</div>
 					            </div>
 					            
 					            
 								<br><strong>전화번호</strong>
 					            <div class="form_input">
 					                <input type="tel" id="phone" name="phone"  placeholder="전화번호 예) 01012345678"" title="전화번호" value="01012341234">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete"></button>
-									</div>
+					                <input type="button" onclick="javascript:members.sendSms();" id="sendSMS" value="인증번호 발송" style="width: 100%; padding: 5px; background-color: #DDD;">
 					            </div>
-     <!-- 
+					            <div class="form_input">
+									<input type="text" id="certifNum" placeholder="인증번호를 입력해주세요">
+									<input type="button" onclick="javascript:members.phoneChk();"  id="phoneChk" value="확인" style="width: 100%; padding: 5px; background-color: #DDD;">
+					            </div>
+					            
 								<br><strong>생년월일</strong>
 								<div class="form_input">
 									<input type="date" id="birth_dt" class="date" name="birth_dt">
-									<div class="input_btn_wrap">
-										<button type="button" class="btn_delete"></button>
-									</div>
 								</div>		
-								 -->
+								
 								<br><strong>주소</strong>
 								<div class="form_input">
 									<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 100%; padding: 5px; background-color: #DDD;">
