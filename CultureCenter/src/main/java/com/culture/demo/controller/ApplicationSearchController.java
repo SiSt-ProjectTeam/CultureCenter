@@ -69,9 +69,12 @@ public class ApplicationSearchController {
 				cmap.put(lrclsCtegry, cplist);
 			}
 		}
+		
+		String branchNm = this.lecSearchService.getBranchNm(branch_id);
 
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
+		model.addAttribute("branchNm", branchNm);
 		
 		return "application.search.list";
 	}
@@ -116,9 +119,12 @@ public class ApplicationSearchController {
 			smCategory.put(smc.get(i).getSmclsCtegryCd(), smc.get(i).getSmclsCtegry()); 
 		}
 		
+		String mdclsCtegry = this.lecSearchService.getMdCateNm(mdclsCtegryCd);
+		
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		model.addAttribute("smCategory", smCategory);
+		model.addAttribute("mdclsCtegry", mdclsCtegry);
 
 		return "application.search.list";
 	}
