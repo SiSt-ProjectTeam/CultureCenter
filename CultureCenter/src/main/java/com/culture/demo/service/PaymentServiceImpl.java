@@ -150,6 +150,12 @@ public class PaymentServiceImpl implements PaymentService{
 	public String createNicePayHtml(PaymentFrmDTO frm) throws Exception {
 		log.info(">>PaymentServiceImpl.createNicePayHtml() ...");
 		StringBuilder nicepayHtml = new StringBuilder();		
+		
+		// 인증,승인 모두 완료시 return될 html을 출력해줄 지시자
+		nicepayHtml.append("\r\n<% if (html != null) { %>\r\n"
+				+ "        <%= html %>\r\n"
+				+ "    <% } %>\r\n");
+		
 		// payForm 
 		// 상점키(필)              // 테스트 상점키
 		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; 
@@ -178,7 +184,7 @@ public class PaymentServiceImpl implements PaymentService{
 		String GoodsCl ="1";
 
 		nicepayHtml.append("\r\n<form id=\"payForm\" name=\"payForm\" method=\"post\" action=\"/payment/payment_result.do\">\r\n"
-				+ "	<!-- <input type=\"hidden\" name=\"csrfPreventionSalt\" value=\"\" /> -->\r\n"
+				+ "	<input type=\"hidden\" name=\"${_csrf.parameterName}\" value=\"${_csrf.token}\" />\r\n"
 				+ "	<input type=\"hidden\" name=\"PayMethod\" value=\"CARD\">\r\n"
 				+ "	<input type=\"hidden\" name=\"GoodsName\" value=\""+goodsName+"\">\r\n"
 				+ "	<input type=\"hidden\" name=\"Amt\" value=\""+price+"\">\r\n"

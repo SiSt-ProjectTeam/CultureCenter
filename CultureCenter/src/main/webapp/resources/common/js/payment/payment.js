@@ -1409,6 +1409,11 @@ var payment = (function(){
 		 commonScript.openPopupFn('#termsPopup', $(this));
 	 }
 	
+	
+	 var fn_frm_success_submit = function submitParentForm() {
+            $("#frm_success").submit();
+     }
+     
 	 return {
 		 openFmlyPopup : fn_open_fmly_popup
 		 , closePopup : fn_close_popup
@@ -1433,6 +1438,7 @@ var payment = (function(){
 		 , openTermsPopup : fn_open_terms_popup
 		 , payment_tot : fn_payment_tot
 		 , payment_tot2 : fn_payment_tot_step2
+		 , frmSuccessSubmit : fn_frm_success_submit
 	 }
 }());
 

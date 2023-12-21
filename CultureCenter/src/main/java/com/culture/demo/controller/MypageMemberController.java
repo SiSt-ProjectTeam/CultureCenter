@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.security.CustomerUser;
+import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
 import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,15 +33,19 @@ public class MypageMemberController {
 	private MemberService memberService;
 	@Autowired
 	private PaymentService paymentService;
+	@Autowired
+	private CartService cartService;
 		
 	@GetMapping(value = "/mypage/member/count.ajax", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException {
+	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException, ClassNotFoundException {
 		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
 		CustomerUser principal =  (CustomerUser) authentication.getPrincipal();
 		
 		String mypageInfo = "";
 		ObjectMapper objectMapper = new ObjectMapper();
-		mypageInfo = objectMapper.writeValueAsString( this.memberService.getMypageInfo(principal.getMember_sq()) );
+		MemberDTO dto = this.memberService.getMypageInfo(principal.getMember_sq());
+		dto.setBasket_cnt( this.cartService.getTotCartCnt(principal.getMember_sq()));
+		mypageInfo = objectMapper.writeValueAsString(dto);
 		
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)

@@ -32,7 +32,7 @@ public class CartServiceImpl implements CartService{
 	public String createCartHtml(int member_sq, FrmSearchDTO params) throws SQLException, ClassNotFoundException {
 		log.info(">>CartService.createCartHtml() ... ");
 
-		int branch_id = params.getBrchCd();
+		int branch_id = params.getBrchCd(); // 장바구니번호 0 == 전체
 		String lectDetailSq = ""; //getCarts매개변수 세부강좌번호 0 == 전체
 		List<CartDTO> list = cartMapper.getCarts(member_sq,branch_id,lectDetailSq);
 		
@@ -156,5 +156,11 @@ public class CartServiceImpl implements CartService{
 		log.info(">>CartService.autoDelete() ... now : "+now);
 		
 		cartMapper.autoDelete();
+	}
+
+	@Override
+	public int getTotCartCnt(int member_sq) throws SQLException, ClassNotFoundException {
+		log.info(">>CartService.getTotCartCnt() ...");
+		return this.cartMapper.getTotCartCnt(member_sq);
 	}
 }

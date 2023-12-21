@@ -82,17 +82,29 @@
 			</p>
 		</sec:authorize>		
 		
+		
+		<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
+		<sec:authorize access="isAuthenticated()">
+		<c:choose>
+		<c:when test="${totCartCnt eq 0}">
+		<p class="cart_icon">
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">0</span>		
+		</c:when>
+		<c:otherwise>
 		<p class="cart_icon on">
-			<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
-			<sec:authorize access="isAuthenticated()">
-				<a href="/mypage/cart/list.do" title="장바구니"></a>
-				<span class="cart_num">2</span>
-			</sec:authorize>
-			<sec:authorize access="!isAuthenticated()">
-				<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
-				<span class="cart_num">0</span>
-			</sec:authorize>
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">${totCartCnt}</span>
 		</p>
+		</c:otherwise>
+		</c:choose>
+		</sec:authorize>
+		<sec:authorize access="!isAuthenticated()">
+		<p class="cart_icon">
+			<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
+			<span class="cart_num">0</span>
+		</p>
+		</sec:authorize>
 		
 		<!-- 
 		<p class="admin_icon">

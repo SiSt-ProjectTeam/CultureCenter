@@ -48,7 +48,7 @@ public class PaymentController {
 	@PostMapping("step1.do")
 	public String goPaymentStep1(FrmSubmitDTO dto, Model model,Authentication authentication) throws Exception{ 
 		log.info("/payment/step1.do + POST :PaymentController.goPaymentStep1()...");
-		//System.out.println(dto);
+		System.out.println(dto);
 		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
 		int member_sq = principal.getMember_sq();
 		// 수강결제할 정보 가져오기
@@ -63,6 +63,7 @@ public class PaymentController {
 		}
 		// 회원정보,동반수강자 불러오기
 		MemberDTO mDto = memberService.getMemberWithChild(member_sq);
+		System.out.println(mDto);
 		model.addAttribute("mDto", mDto);
 
 		return "payment.step1";
@@ -71,11 +72,11 @@ public class PaymentController {
 	// 수강결제1 수강자변경/추가 저장하기
 	@PostMapping(value="actlAtlctNpleList.ajax", produces = "application/text; charset=UTF-8")
 	public @ResponseBody ResponseEntity<String> updateActlAtlct(@RequestBody Map<String, String> paramMap
-			//,Principal principal
-			) throws Exception{
+																,Authentication authentication
+																) throws Exception{
 		log.info("/payment/actlAtlctNpleList.ajax + POST :PaymentController.updateActlAtlct()...");
-		//int member_sq = Integer.parseInt(principal.getName());
-		int member_sq = 79;
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
 		int detail_class_sq = Integer.parseInt(paramMap.get("lectCd")); // 세부강좌번호
 		int cnt = Integer.parseInt(paramMap.get("cnt")); // 수강신청 인원
 		// 학기별강좌 - 수강가능인원
@@ -118,14 +119,14 @@ public class PaymentController {
 	// step1 -> step2 check사항 ajax / step2 -> 결제 check사항 ajax
 	@PostMapping("validateStep{index}.ajax")
 	public @ResponseBody ResponseEntity<Map<String, Object>> validateStep1(@RequestBody Map<String, String> jsonData
-			,@PathVariable("index") String step
-			// ,Principal principal
-			) throws Exception{
+																			,@PathVariable("index") String step
+																			,Authentication authentication
+																			) throws Exception{
 		log.info("/payment/validateStep1.ajax + POST :PaymentController.validateStep"+step+"()...");
 		Map<String, Object> rtnMap = new HashedMap();
 		System.out.println((jsonData));
-		//int member_sq = Integer.parseInt(principal.getName());
-		int member_sq = 79;
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
 
 		// jsonData를 직접 변환(deserialize)
 		ObjectMapper mapper = new ObjectMapper(); 
@@ -222,7 +223,7 @@ public class PaymentController {
 		return ResponseEntity.ok(rtnMap);
 	}
 	
-	//frm_temp가 submit된 요청을 처리
+	//frm_temp가 submit된 요청을 처리 => iframe에 nicepay html
 	// step2에서 nicePay결제창 불러오기                 //html을 생성해서 넘길거임
 	@PostMapping(value="payment_request.do", produces = "text/html; charset=UTF-8")
 	@ResponseBody // 뷰리졸버를 거치지 않고 바로 http응답을 작성하게!
@@ -236,19 +237,23 @@ public class PaymentController {
 	
 	//결제창, 결제 -> 인증사의 결제인증 -> NicePay서버 "승인받는 단계"
 	@PostMapping("payment_result.do")
+	@ResponseBody
 	public String nicePayAcknowledge(@RequestParam Map<String, Object> param) throws Exception{
 		log.info("/payment/payment_result.do + POST :PaymentController.nicePayAcknowledge()...");
 		//System.out.println(param);
 		// 승인 service
 		HashMap<String, String> rtnMap = paymentService.getAcknowledgeNicePay(param);
 		System.out.println("rtnMap : "+ rtnMap);
-		// 아~ 뭐해야해~~~~~
-		return "payment.step3";	
+		// TID를 주문테이블에 추가하는 로직구현
+		String html = "\r\n<script>\r\n"
+				+ "			windows.parent.payment.frmSuccessSubmit();\r\n"
+				+ "		   </script>\r\n"; // form_success를 submit하는 쿼리
+		return html;
 	}
 	
 	// 수강결제3(step3)페이지 이동
 	//@PostMapping("payment_step3.do")
-	@GetMapping("payment_step3.do")
+	//@GetMapping("payment_step3.do")
 	public String goStep3(@RequestParam Map<String, Object> param) throws Exception{
 		log.info("/payment/payment_step3.do + POST :PaymentController.goStep3()...");
 		return "payment.step3";	

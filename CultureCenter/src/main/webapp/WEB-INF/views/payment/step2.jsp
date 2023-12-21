@@ -535,8 +535,9 @@
 		<div class="pop_cont">
 			<div class="for_padding">
 				<div class="scroll_area">
+		        	<!-- iframe -->
 		        	<div class="pay_img">
-		             
+		        	
 		        	</div>
 				</div>
 			</div>
@@ -575,7 +576,7 @@
 </div>
 <!-- 결제금액 0원 일때 -->
 <form id="frm_zeropay" name="frm_zeropay" method="POST" action="/payment/zeroPaymentResult.do">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 	<input type="hidden" name="lpntUseAmt" value="" />
 	<input type="hidden" name="strPasswd" value="" />
@@ -586,7 +587,7 @@
 </form>
 <!-- 결제창 input data -->
 <form id="frm_temp" name="frm_temp" method="POST" action="/payment/payment_request.do" target="pgIframe">
-	<!-- <input type="hidden" name="csrfPreventionSalt" value="" /> -->
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 	<input type="hidden" name="lpntUseAmt" value="" />
 	<input type="hidden" name="strPasswd" value="" />
@@ -605,9 +606,12 @@
 	<input type="hidden" name="mvgBlstrCd" value="" />
 	<input type="hidden" name="mbrId" value="" />
 </form>
-
+<!-- step3 form -->
+<c:if test="${not empty html}">
+${html}
+</c:if>
 <form id="frm_success" name="frm_success" method="POST" action="/payment/payment_step3.do">
-	<!-- <input type="hidden" name="csrfPreventionSalt" value="" /> -->
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />
 </form>
 
