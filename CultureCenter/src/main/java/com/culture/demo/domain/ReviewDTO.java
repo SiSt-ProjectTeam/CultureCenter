@@ -67,5 +67,8 @@ public class ReviewDTO {
    private String orderSet;
    
    private int tot_cnt;  // 후기 총 갯수
+   
+   private String writingout_dt; // 작성날짜 - 가공
+   private int detail_class_sq; // 세부 강좌 번호
  
 }

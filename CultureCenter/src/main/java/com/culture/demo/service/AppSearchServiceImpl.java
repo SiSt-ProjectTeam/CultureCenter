@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -529,11 +531,128 @@ public class AppSearchServiceImpl implements AppSearchService {
 		String result = html.toString();
 		return result;
 	}
+	
+	@Override
+	public List<ReviewDTO> getReviewList(ClassFormDTO classFormDTO) throws Exception {
+		log.info("AppSearchServiceImpl.getReviewList() 호출");
+		return this.appSearchMapper.getReviewList(classFormDTO);
+	}
 
+	@Override
+	public String reviewListHTML(ClassFormDTO classFormDTO) throws Exception {
+		log.info("AppSearchServiceImpl.reviewListHTML() 호출");
+		List<ReviewDTO> list = getReviewList(classFormDTO);
+		StringBuilder html = new StringBuilder();
 
+		if(list.isEmpty() ) {
+			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">");
+			html.append("			<div class=\"no_srch_div\">");
+			html.append("				<p class=\"txt f_h2\">");
+			html.append("					<span class=\"normal_value\">작성된 수강후기가 없습니다.</span>>\r\n"); 
+			html.append("				</p>");
+			html.append("			</div>");
+			html.append("		</div>");
+		}else {
+			for(ReviewDTO dto : list ) {
+				html.append("<div class=\"thum_list_wrap\" data-tot-cnt=\""+dto.getTot_cnt()+"\">");
+				html.append("	<a href=\"javascript:search.reviewDtl('"+dto.getBranch_id()+"', '"+dto.getOpen_year()+"', '"+dto.getOpen_smst_id()+"', '"+dto.getDetail_class_sq()+"', '"+dto.getTeacher_sq()+"', '"+dto.getMember_sq()+"', this);\" class=\"thum_list\">");
+				html.append("		<div class=\"txt_wrap\">");
+				html.append("			<div class=\"thum_left\">");
+				html.append("				<div class=\"label_div\">");
+				html.append("					<p class=\"label small black_gray\">"+dto.getBranch_nm()+"</p>");
+				html.append("				</div>");
+				html.append("				<p class=\"title\">"+dto.getClass_nm()+"</p>");
+				html.append("				<p class=\"sub_title limit_line f_body2\">"+dto.getReview_title()+"</p>");
+				html.append("			</div>");
+				html.append("			<div class=\"thum_right\">");
+				html.append("				<div class=\"star_rating\">");
+				for(int i=0; i<5; i++ ) {
+					if(i < dto.getRating()) html.append("<span class=\"star\"></span>\r\n");
+					else html.append("<span class=\"star blank\"></span>\r\n");
+				}
+				html.append("				</div>");
+				html.append("				<div class=\"type_div\">");
+				html.append("					<p class=\"type f_caption2\">"+dto.getName()+"</p>");
+				html.append("					<p class=\"type f_caption2\">"+dto.getDate_writingout_dt()+"</p>");
+				html.append("					<p class=\"comment_num f_caption2\">"+dto.getComment_cnt()+"</p>");
+				html.append("				</div>");
+				html.append("			</div>");
+				html.append("		</div>");
+				html.append("	</a>");
+				html.append("</div>");
+			}
+		}
 
+		return html.toString();
+	}
+	
+	@Override
+	public ReviewDTO getReviewDtl(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception {
+		log.info("AppSearchServiceImpl.getReviewDtl() 호출");
+		return this.appSearchMapper.getReviewDtl(brchCd, yy, lectSmsterCd, lectCd, tcNo, mbrNo);
+	}
 
-
-
+	@Override
+	public String reviewDtlHTML(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception {
+		log.info("AppSearchServiceImpl.reviewDtlHTML() 호출");
+		ReviewDTO dto = getReviewDtl(brchCd, yy, lectSmsterCd, lectCd, tcNo, mbrNo);
+		log.info("ReviewDTO : " + dto);
+		StringBuilder html = new StringBuilder();
+		html.append("<div class=\"thum_list_w\">");
+		html.append("	<div class=\"thum_list_wrap\">");
+		html.append("		<div class=\"thum_title\">수강 정보</div>");
+		html.append("		<a href=\"/application/search/view.do?brchCd="+dto.getBranch_id()+"&yy="+dto.getOpen_year()+"&lectSmsterCd="+dto.getOpen_smst_id()+"&lectCd="+dto.getDetail_class_sq()+"\" class=\"thum_list\">");
+		html.append("			<div class=\"thum_wrap\">");
+		html.append("				<div class=\"thum_box img_resize_w\">");
+		html.append("					<img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\"upload.jpg\">");
+		html.append("				</div>");
+		html.append("			</div>");
+		html.append("			<div class=\"txt_wrap\">");
+		html.append("				<div class=\"thum_left\">");
+		html.append("					<div class=\"label_div\">");
+		html.append("						<p class=\"label small border\">"+dto.getLrclsctegery()+"</p>");
+		html.append("						<p class=\"label small border\">"+dto.getMdclsctegery()+"</p>");
+		html.append("					</div>");
+		html.append("					<p class=\"title limit_line_two\">"+dto.getClass_nm()+"</p>");
+		html.append("				</div>");
+		html.append("				<div class=\"thum_right\">");
+		html.append("					<div class=\"type_div\">");
+		html.append("						<p class=\"type f_caption2\">"+dto.getBranch_nm()+"</p>");
+		html.append("						<p class=\"type f_caption2\">"+dto.getTeacher_nm()+"</p>");
+		html.append("						<p class=\"type contour f_caption2\">"+dto.getOpen_year()+"년 "+dto.getSmst_nm()+"</p>");
+		html.append("						<p class=\"type contour f_caption2\">"+dto.getSchedule_start_dt()+" ~ "+dto.getSchedule_end_dt()+"</p>");
+		html.append("					</div>");
+		html.append("				</div>");
+		html.append("			</div>");
+		html.append("		</a>");
+		html.append("	</div>");
+		html.append("</div>");
+		if(dto.getReview_img() != null) {
+			html.append("<p class=\"img\">");
+			html.append("	<img src=\"/upload/review/"+dto.getReview_img()+"\" alt=\"upload.jpg\">");
+			html.append("</p>");
+		}
+		html.append("<div class=\"flex_box\">");
+		html.append("	<div class=\"type_div\">");
+		html.append("		<p class=\"type\">"+dto.getName()+"</p>");
+		html.append("		<p class=\"type\">"+dto.getWritingout_dt()+"</p>");
+		html.append("	</div>");
+		html.append("	<div class=\"star_rating\">");
+		for(int i=0; i<5; i++ ) {
+			if(i < dto.getRating()) html.append("<span class=\"star\"></span>\r\n");
+			else html.append("<span class=\"star blank\"></span>\r\n");
+		}
+		html.append("	</div>");
+		html.append("</div>");
+		html.append("<p class=\"url_link\">");
+		html.append("	<a target=\"_blank\" href=\"//\"></a>");
+		html.append("</p>");
+		html.append("<div class=\"txt_con\">");
+		html.append("	<p class=\"title\">"+dto.getReview_title()+"</p>");
+		html.append("	<p class=\"con_txt\">"+dto.getReview_content()+"</p>");
+		html.append("</div>");
+		
+		return html.toString();
+	}
 
 }
