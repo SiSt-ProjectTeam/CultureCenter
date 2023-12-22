@@ -6,12 +6,12 @@
     <input type="hidden" id="listCnt" name="listCnt" value="10"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     
-    <input type="hidden" name="brchCd" value="${reviewDTO.branch_id}" />
-    <input type="hidden" name="yy" value="${reviewDTO.writing_year}" />
-    <input type="hidden" name="lectSmsterCd" value="${reviewDTO.open_smst_id}" />
-    <input type="hidden" name="lectCd" value="${reviewDTO.class_semester_sq}" />
-    <input type="hidden" name="tcCdNo" value="${reviewDTO.teacher_sq}" />
-    <input type="hidden" name="memberNo" value="${reviewDTO.member_sq}" />
+    <input type="hidden" name="brchCd" value="${brchCd}" />
+    <input type="hidden" name="yy" value="${yy}" />
+    <input type="hidden" name="lectSmsterCd" value="" />
+    <input type="hidden" name="lectCd" value="" />
+    <input type="hidden" name="tcCdNo" value="${tcCdNo}" />
+    <input type="hidden" name="memberNo" value="" />
 
     <input type="hidden" name="sortSeqno" value="" />
     <input type="hidden" name="cmntCont" value="" />
@@ -36,25 +36,30 @@
                 <div class="view_con review_con">
                     <div class="top_area">
                         <div class="type_div">
-                            <p class="type">${reviewDTO.name}</p>
-                            <p class="type">${reviewDTO.date_writingout_dt}</p>
+                            <p class="type">${name}</p>
+                            <p class="type">${dateWritingoutDt}</p>
                         </div>
                         <div class="share_area only_pc">
                             <!-- 2022-11-23 class 추가 -->
                             <a href="javascript:commonScript.openPopupFn('#sharePop');" class="share_btn" title="공유하기"></a>
                         </div>
-                        <p class="title">${reviewDTO.review_title}</p>
+                        <p class="title">${reviewTitle}</p>
                         <div class="star_rating">
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            </div>
+							  <% 
+    							int rating = (int)request.getAttribute("rating"); // 여기에 실제로 서버에서 받아온 rating 값을 넣어주세요.
+    
+							    for (int i = 0; i < rating; i++) {
+  							  %>
+    						<span class="star"></span>
+    						<%
+							    }
+  							%>
+                        </div>
                     </div>
                     <div class="content">
                         <div class="txt f_body2">
-                            ${reviewDTO.review_content}<br> <!-- 2023-02-09 br추가, 링크추가-->
+                            <br> <!-- 2023-02-09 br추가, 링크추가-->
+                            ${reviewContent}<br> <!-- 2023-02-09 br추가, 링크추가-->
                             <a target="_blank" href="https://" class="link_txt f_caption2"></a>
                         </div>
                         <div class="thum_list_w">
@@ -63,24 +68,27 @@
                                 <a href="/application/search/view.do?brchCd=0344&yy=2023&lectSmsterCd=3&lectCd=0591" class="thum_list" >
                                     <div class="thum_wrap">
                                         <div class="thum_box img_resize_w">
-                                            <img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/7/202307220532033520.jpg" alt="20190121163307.jpg">
+                                            <!-- <img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/7/202307220532033520.jpg" alt="20190121163307.jpg"> -->
+                                            <img src="/upload/thumbnail/${classImg}" alt="${classImg}">
+                                            
                                         </div>
                                     </div>
                                     <div class="txt_wrap">
                                         <div class="thum_left">
                                             <div class="label_div">
-                                                <p class="label small light_gray">${reviewDTO.class_st}</p>
-                                                <p class="label small border">${reviewDTO.lrclsctegery}</p>
-                                                <p class="label small border">${reviewDTO.mdclsctegery}</p>
+                                                <p class="label small light_gray">${classSt}</p>
+                                                <p class="label small border">${lrclsctegry}</p>
+                                                <p class="label small border">${mdclsctegry}</p>
                                             </div>
-                                            <p class="title limit_line_two">${reviewDTO.class_nm}</p>
+                                            
+                                            <p class="title limit_line_two">${classNm}</p>
                                         </div>
                                         <div class="thum_right">
                                             <div class="type_div">
-                                                <p class="type f_caption2">${reviewDTO.branch_nm}</p>
-                                                <p class="type f_caption2">${reviewDTO.teacher_nm}</p>
-                                                <p class="type contour f_caption2">${reviewDTO.class_st}</p>
-                                                <p class="type contour f_caption2">${reviewDTO.schedule_start_dt} ~ ${reviewDTO.schedule_end_dt}</p>
+                                                <p class="type f_caption2">${branchNm}</p>
+                                                <p class="type f_caption2">${teacherNm}</p>
+                                                <p class="type contour f_caption2">${smstNm}</p>
+                                                <p class="type contour f_caption2">${rceptPrdStDt}</p>
                                             </div>
                                         </div>
                                     </div>

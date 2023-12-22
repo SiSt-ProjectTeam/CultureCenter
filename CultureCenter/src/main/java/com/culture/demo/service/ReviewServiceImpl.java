@@ -80,22 +80,23 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	// 수강후기 상세페이지
-	
 	@Override
-	public List<ReviewDTO> dtlReview(ReviewDTO reviewDTO) throws SQLException, ClassNotFoundException{
+	public ReviewDTO dtlReview(int branch_id, int yy, int lectSmsterCd, int lectCd, int teacher_sq, int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException {
 		log.info(">ReviewServiceImpl.dtlReview() 호출");
-		return reviewMapper.dtlReview(reviewDTO);
-		
+		log.info("dtlReview" + branch_id + yy + lectSmsterCd + lectCd + teacher_sq + member_sq);
+		return reviewMapper.dtlReview(branch_id, yy, lectSmsterCd, lectCd, teacher_sq, member_sq);
 	}
 	
 	// 댓글 ajax
-	/*
 	@Override
-	public String commtHTML(int review_sq, FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException {
+	public String commtHTML(int branch_id, int yy, int lectSmsterCd, int lectCd, int teacher_sq, int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException{
+	
 		log.info(">ReviewServiceImpl.commtHTML() 호출");
-		List<ReviewDTO> list = reviewMapper.getCommtList(review_sq, frmSearchDTO);
-		StringBuilder html = new StringBuilder();
+		List<ReviewDTO> list = reviewMapper.getCommtList(branch_id, yy, lectSmsterCd, lectCd, teacher_sq, member_sq, frmSearchDTO);
 		
+		log.info("serviceImpl" + list);
+		StringBuilder html = new StringBuilder();
+
 		if(list.isEmpty() ) {
 			  html.append("<div data-tot-cnt=\"0\"></div>");
 		}else {
@@ -107,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService{
 				html.append("                            <p class=\"type\">"+dto.getName()+"</p>\r\n");
 				html.append("                            <p class=\"type\">"+dto.getWrite_dt()+"</p>\r\n");
 				html.append("                        </div>\r\n");
-				html.append("                        <a href=\"javascript:\" class=\"comment_remove f_caption1\" role=\"btn\" onclick=\"reviewCtrl.deleteCmnt(this);\" data-sort-seqno=\"8\">삭제</a>\r\n");
+				html.append("                        <a href=\"javascript:\" class=\"comment_remove f_caption1\" role=\"btn\" onclick=\"reviewCtrl.deleteCmnt(this);\" data-sort-seqno=\""+dto.getComment_sq()+"\">삭제</a>\r\n");
 				html.append("                    </div>\r\n");
 				html.append("                </div>\r\n");
 				html.append("                <p class=\"comment f_body2\">"+dto.getComment_content()+"</p>\r\n");
@@ -117,6 +118,5 @@ public class ReviewServiceImpl implements ReviewService{
 		return html.toString();
 		
 	} // commtHTML
-	*/
 	
 }// ServiceImpl

@@ -25,4 +25,9 @@ public class FrmSearchDTO {
 	private String brchNm;
 	private char orderSet;	// 최신,별점순 정렬
 	private int clCd;
+	
+	// 수강후기댓글 Search
+	private int lectCd;
+	private int tcCdNo;	// 강사회원번호
+	private int memberNo; // 댓글작성자번호
 } // class
