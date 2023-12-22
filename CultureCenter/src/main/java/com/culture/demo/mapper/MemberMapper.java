@@ -28,4 +28,14 @@ public interface MemberMapper {
 	public int insertMember(@Param("memberDTO") MemberDTO memberDTO);
 	// 일반회원 권한 설정
 	public int insertAuth();
+	
+	// 아이디 중복 확인
+	public int idCheck(String id) ;
+	// 아이디 찾기
+	String findId(@Param("name") String name, @Param("phone") String phone);
+	// 비밀번호 찾기
+	String findPw(@Param("id") String id, @Param("phone") String phone);
+	// 차량번호 수정
+	void updateCar(MemberDTO dto) throws Exception;
+
 }

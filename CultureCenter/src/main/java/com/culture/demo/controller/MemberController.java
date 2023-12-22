@@ -4,7 +4,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.MemberDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.EmailSenderService;
 import com.culture.demo.service.MemberService;
 
@@ -22,23 +25,26 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @AllArgsConstructor
 public class MemberController {
-
+	
 	private PasswordEncoder passwordEncoder;
-
+	
 	private MemberService memberService;
 	
 	private EmailSenderService emailSenderService;
 	
 	//로그인 체크
 	@GetMapping("/lgnCheck.ajax")
-	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck() throws Exception { // Principal principal;
+	public @ResponseBody ResponseEntity<Map<String, Boolean>> loginCheck(Authentication authentication) throws Exception {
 		log.info("> /lgnCheck.ajax : MemberController.loginCheck() ... ");
-		//principal 존재유무 판단
-		
+		CustomerUser principal = null;
+		try {
+			principal = (CustomerUser) authentication.getPrincipal();
+		} catch (Exception e) {
+			System.out.println("/lgnCheck.ajax : 로그인안된상태...");
+		}
 		Map<String, Boolean> response;
-		//if(principal.getName().isEmpty()) response = Map.of("lgnYn", true);
-		//else response = Map.of("lgnYn", false);
-		response = Map.of("lgnYn", true);
+		if(principal != null) response = Map.of("lgnYn", true);
+		else response = Map.of("lgnYn", false);
 	    return ResponseEntity.ok(response);
 	}
 	
@@ -139,6 +145,53 @@ public class MemberController {
 	        
 		}
         return "redirect:../login/index.do";
+	}
+	
+	@GetMapping("/login/idCheck")
+	@ResponseBody
+	public String idcheck(String memberId) {
+	    String chk = "";
+	    int result = 0;
+	    log.info(">memberID = " + memberId);
+	    result = memberService.idCheck(memberId);
+	    log.info(">memberID 중복여부 = " + (result >= 1 ? "중복" : "중복아님"));
+	    if (result >= 1) {
+	        chk = "redundancy"; // 중복
+	    } else {
+	    	chk = "noredundancy"; // 중복아님
+	    }
+	    return chk;
+	}
+
+	// 아이디 찾기
+	@PostMapping("/login/findId.do")
+	@ResponseBody
+	public String findid(String name, String phone) {
+		log.info("> MemberController.findid() ... ");
+		String foundId = memberService.findId(name, phone);
+		return foundId;
+	}
+
+	// 비밀번호 찾기
+	@PostMapping("/login/findPw.do")
+	@ResponseBody
+	public String findPw(String id, String phone) {
+		log.info("> MemberController.findPw() ... ");
+		String foundPw = memberService.findPW(id, phone);
+		return foundPw;
+	}
+	
+	// 아이디 찾기 이동
+	@GetMapping("/login/findId.do")
+	public String findId() throws Exception {
+		log.info("> /login/findId.do : MemberController.findId() ... ");
+		return "login/find_id";
+	}
+	// 비밀번호 찾기 이동
+	@GetMapping("/login/findPw.do")
+	public String findPw() throws Exception {
+		log.info("> /login/findPw.do : MemberController.findPw() ... ");
+		return "login/find_pw";
 	}
 	
 	

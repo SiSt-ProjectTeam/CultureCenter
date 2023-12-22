@@ -1,23 +1,26 @@
 package com.culture.demo.controller;
 
-import java.security.Principal;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.ChildrenDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.security.CustomerUser;
+import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
+import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,15 +32,19 @@ public class MypageMemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private CartService cartService;
 		
 	@GetMapping(value = "/mypage/member/count.ajax", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException {
+	public ResponseEntity<String> getMypageInfo(Authentication authentication) throws SQLException, JsonProcessingException, ClassNotFoundException {
 		log.info("> /mypage/member/count.ajax... GET : MypageMemberController.getMypageInfo()");
 		CustomerUser principal =  (CustomerUser) authentication.getPrincipal();
 		
 		String mypageInfo = "";
 		ObjectMapper objectMapper = new ObjectMapper();
-		mypageInfo = objectMapper.writeValueAsString( this.memberService.getMypageInfo(principal.getMember_sq()) );
+		MemberDTO dto = this.memberService.getMypageInfo(principal.getMember_sq());
+		dto.setBasket_cnt( this.cartService.getTotCartCnt(principal.getMember_sq()));
+		mypageInfo = objectMapper.writeValueAsString(dto);
 		
 		return !mypageInfo.equals("")
 				? new ResponseEntity<>(mypageInfo, HttpStatus.OK)
@@ -74,5 +81,32 @@ public class MypageMemberController {
 		int rtnCnt = this.memberService.deleteChildren(param.get("children_sq"));
 		
 		return rtnCnt==1? ResponseEntity.ok(Map.of("rtnCode","1")):ResponseEntity.ok(Map.of("rtnCode","-1"));
+	}
+	
+	// 회원정보변경 폼
+	@GetMapping("/mypage/member/info.do")
+	public String memberinfoForm(Authentication authentication, Model model) throws Exception { 
+	    log.info("> MypageMemberController....memberinfoForm");
+
+	    CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+	    int member_sq = principal.getMember_sq();
+
+	    // 회원정보, 동반수강자 불러오기
+	    MemberDTO mDto = memberService.getMemberWithChild(member_sq);
+
+	    model.addAttribute("mDto", mDto);
+	    return "mypage.member.info";
+	}
+	
+	// 차량번호 추가 Ajax
+	@PostMapping("/mypage/member/updateCarYn.ajax")
+	public void updateCarYn(Authentication authentication, @RequestBody MemberDTO memberDTO) throws Exception {
+		log.info("> /mypage/member/updateCarYn.ajax ... POST : MypageMemberController.updateCarYn");
+
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
+
+	    memberDTO.setMember_sq(member_sq);
+	    this.memberService.updateCar(memberDTO);
 	}
 }

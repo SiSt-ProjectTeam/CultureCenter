@@ -5,7 +5,7 @@
 
 <mapper namespace="com.culture.demo.mapper.AppSearchMapper">
 
-	<!-- 강좌 정보 가져오기 -->
+	<!-- 강좌 정보 가져오기 - 지점으로 찾기 -->
 	<select id="selectClassList" resultType="com.culture.demo.domain.ClassDTO">
 		SELECT *
 		FROM (
@@ -196,11 +196,211 @@
 			WHERE (#{searchBranchDTO.pageIndex}-1)*#{searchBranchDTO.listCnt} + 1 <= rank AND rank <= #{searchBranchDTO.pageIndex}*#{searchBranchDTO.listCnt}
 		]]>
 	</select>
-	
+		
+	<!-- 강좌 정보 가져오기 - 강좌로 찾기 -->
+	<select id="selectCateClassList" resultType="com.culture.demo.domain.ClassDTO">
+		SELECT *
+		FROM (
+		    SELECT COUNT(DISTINCT d.detail_class_sq) OVER() tot_cnt
+			    , DENSE_RANK() OVER(ORDER BY d.detail_class_sq) rank
+			    , d.detail_class_sq, c.branch_id, TO_CHAR(open_year, 'YYYY') open_year, s.open_smst_id, s.class_semester_sq, class_img, class_st, branch_nm, class_nm, smst_nm, m.name, start_time, end_time, class_cnt, class_fee
+				, mon, tue, wed, thu, fri, sat, sun 																																		 					
+			FROM class c JOIN class_by_semester s ON s.class_id = c.class_id 																																	
+				LEFT JOIN detail_class d ON s.class_semester_sq = d.class_semester_sq 																															
+				LEFT JOIN class_state st ON st.class_st_id = c.class_st_id 																																		
+				LEFT JOIN branch b ON b.branch_id = c.branch_id 																																				
+				LEFT JOIN semester sem ON sem.open_smst_id = s.open_smst_id 																																	
+				LEFT JOIN member m ON m.member_sq = c.member_sq 																																				
+			    LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id																																	
+			    LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd 																																
+			    LEFT JOIN medium_category mc ON mc.mdclsCtegryCd = ct.mdclsctegrycd																																
+			    LEFT JOIN small_category sc ON sc.smclsctegrycd = ct.smclsctegrycd																																
+			WHERE mc.mdclsCtegryCd = #{searchCategoryDTO.mdclsCtegryCd}  
+		
+		<!-- 카테고리 클릭 -->
+		<if test="searchCategoryDTO.lrclsCtegryCd neq null and !searchCategoryDTO.lrclsCtegryCd.equals('')">
+			AND lc.lrclsCtegryCd = #{searchCategoryDTO.lrclsCtegryCd} 
+		</if>
+		<if test="searchCategoryDTO.mdclsCtegryCd neq null and !searchCategoryDTO.mdclsCtegryCd.equals('')">
+			AND mc.mdclsCtegryCd = #{searchCategoryDTO.mdclsCtegryCd} 
+		</if>
+		<if test="searchCategoryDTO.smclsCtegryCd neq null and !searchCategoryDTO.smclsCtegryCd.equals('')">
+			AND sc.smclsctegrycd = #{searchCategoryDTO.smclsCtegryCd} 
+		</if>
+		
+		<!-- 지점 -->
+		<if test="brchCdl != null and brchCdl.length > 0">
+			AND (
+			<foreach collection="brchCdl" item="brchCd" separator=" OR ">
+				c.branch_id = #{brchCd}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 학기 -->
+		<if test="yyl != null and yyl.length > 0">
+			AND (
+			<foreach collection="yyl" item="yy" separator=" OR ">
+				TO_CHAR(open_year, 'YYYY') || '||' || s.open_smst_id = #{yy}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 강좌구분 -->
+		<if test="lectcll != null and lectcll.length > 0">
+			AND (
+			<foreach collection="lectcll" item="lectcl" separator=" OR ">
+				class_div_id = #{lectcl}
+			</foreach>
+			) 
+		</if>
+
+		<!-- 강좌상태 -->
+		<if test="lectstl != null and lectstl.length > 0">
+			AND (
+			<foreach collection="lectstl" item="lectst" separator=" OR ">
+				c.class_st_id = #{lectst}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 요일 -->
+		<if test="dayl != null and dayl.length > 0">
+			AND (
+	    	<foreach collection="dayl" item="day" separator=" OR ">
+		        <choose>
+		             <when test="day == 1">
+		                mon = 'Y'
+		            </when>
+		            <when test="day == 2">
+		                tue = 'Y'
+		            </when>
+		            <when test="day == 3">
+		                wed = 'Y'
+		            </when>
+		            <when test="day == 4">
+		                thu = 'Y'
+		            </when>
+		            <when test="day == 5">
+		                fri = 'Y'
+		            </when>
+		            <when test="day == 6">
+		                sat = 'Y'
+		            </when>
+		            <when test="day == 7">
+		                sun = 'Y'
+		            </when>
+		        </choose>
+			</foreach>
+		   	) 
+		</if>
+		
+		<!-- 시간대 -->
+		<if test="timel != null and timel.length > 0">
+		    AND (
+		    <foreach collection="timel" item="time"  separator=" OR ">
+		        <choose>
+		            <when test='time.equals("A")'>
+			            <![CDATA[ start_time < 1000 ]]>
+		            </when>
+		            <when test='time.equals("B")'>
+		                start_time BETWEEN 1000 AND 1200
+		            </when>
+		            <when test='time.equals("C")'>
+		                start_time BETWEEN 1200 AND 1400
+		            </when>
+		            <when test='time.equals("D")'>
+		                start_time BETWEEN 1400 AND 1600
+		            </when>
+		            <when test='time.equals("E")'>
+		                start_time BETWEEN 1600 AND 1800
+		            </when>
+		            <when test='time.equals("F")'>
+		                start_time BETWEEN 1800 AND 2000
+		            </when>
+		            <when test='time.equals("G")'>
+		                <![CDATA[ start_time > 2000 ]]>
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 범위 -->
+		<if test="amtl != null and amtl.length > 0">
+		    AND (
+		    <foreach collection="amtl" item="amt" separator=" OR ">
+		        <choose>
+		            <when test='amt.equals("A")'>
+		                class_fee = 0
+		            </when>
+		            <when test='amt.equals("B")'>
+		                <![CDATA[ class_fee < 5000 ]]>
+		            </when>
+		            <when test='amt.equals("C")'>
+		                class_fee BETWEEN 5000 AND 10000
+		            </when>
+		            <when test='amt.equals("D")'>
+		                class_fee BETWEEN 10000 AND 30000
+		            </when>
+		            <when test='amt.equals("E")'>
+		                class_fee BETWEEN 30000 AND 50000
+		            </when>
+		            <when test='amt.equals("F")'>
+		                class_fee BETWEEN 50000 AND 100000
+		            </when>
+		            <when test='amt.equals("G")'>
+		                <![CDATA[ class_fee < 100000 ]]>
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 입력(최소) -->
+		<if test="searchCategoryDTO.stAmt != null and !searchCategoryDTO.stAmt.isEmpty()">
+			<![CDATA[ AND class_fee > #{searchCategoryDTO.stAmt} ]]>
+		</if>
+		
+		<!-- 수강료 - 입력(최대) -->
+		<if test="searchCategoryDTO.endAmt != null and !searchCategoryDTO.endAmt.isEmpty()">
+			<![CDATA[ AND class_fee < #{searchCategoryDTO.endAmt} ]]>
+		</if>
+		
+		<!-- 강좌명 or 강사명으로 검색 -->
+		<if test="searchCategoryDTO.q != null and !searchCategoryDTO.q.isEmpty()">
+			AND ( class_nm LIKE '%' || #{searchCategoryDTO.q} || '%' OR name LIKE '%' || #{searchCategoryDTO.q} || '%' ) 
+		</if>
+		
+		<!-- 정렬 -->
+		<if test="searchCategoryDTO.orderSet != null and !searchCategoryDTO.orderSet.isEmpty()">
+		    <choose>
+		        <when test='searchCategoryDTO.orderSet == "A"'>
+		            ORDER BY reception_end_dt ASC 
+		        </when>
+		        <when test='searchCategoryDTO.orderSet == "B"'>
+		            ORDER BY people_tot ASC 
+		        </when>
+		        <when test='searchCategoryDTO.orderSet == "C"'>
+		            ORDER BY schedule_start_dt ASC 
+		        </when>
+		        <when test='searchCategoryDTO.orderSet == "D"'>
+		            ORDER BY class_fee ASC 
+		        </when>
+		        <when test='searchCategoryDTO.orderSet == "E"'>
+		            ORDER BY class_fee DESC 
+		        </when>
+		    </choose>
+		</if>
+		<![CDATA[
+			) 
+			WHERE (#{searchCategoryDTO.pageIndex}-1)*#{searchCategoryDTO.listCnt} + 1 <= rank AND rank <= #{searchCategoryDTO.pageIndex}*#{searchCategoryDTO.listCnt}
+		]]>
+	</select>
 	
 	<!-- 강좌 상세정보 가져오기 -->
 	<select id="DetailClassInfo" resultType="com.culture.demo.domain.ClassDTO">
-		SELECT s.class_id, detail_class_sq, detail_img, class_content, supplies, class_sched_desc, class_img, class_nm, class_contnet_smp, ex_charge	
+		SELECT DISTINCT s.class_id, detail_class_sq, detail_img, class_content, supplies, class_sched_desc, class_img, class_nm, class_contnet_smp, ex_charge	
 		      , class_st, class_div, branch_nm, TO_CHAR(open_year, 'YYYY') open_year, smst_nm															
 		      , m.name, schedule_start_dt, schedule_end_dt, start_time, end_time, class_cnt, people_tot												
 		      , classroom_nm, class_fee, target_div, reception_start_dt, reception_end_dt, b.tel														
@@ -217,7 +417,7 @@
 		WHERE b.branch_id = #{branch_id}			
 		AND TO_CHAR(open_year, 'YYYY') = #{yy}
 		AND s.open_smst_id = #{lectSmsterCd}		
-		AND s.class_id = #{lectCd}														 																		
+		AND d.detail_class_sq = #{lectCd}														 																		
 	</select>
 	
 	
@@ -258,6 +458,100 @@
 	</select>
 
 
+	<!-- 강좌 상세보기 + 옵션 정보 -->
+	<resultMap type="com.culture.demo.domain.ClassDTO" id="classMap">
+		<id property="class_id" column="class_id"/>
+		<result property="branch_id" column="branch_id"/>
+		<result property="branch_tp_id" column="branch_tp_id"/>
+		<result property="branch_tp" column="branch_tp"/>
+		<result property="lrclsCtegryCd" column="lrclsCtegryCd"/>
+		<result property="lrclsCtegry" column="lrclsCtegry"/>
+		<result property="mdclsCtegryCd" column="mdclsCtegryCd"/>
+		<result property="mdclsCtegry" column="mdclsCtegry"/>
+		<result property="class_div_id" column="class_div_id"/>
+		<result property="class_type_id" column="class_type_id"/>
+		<result property="class_img" column="class_img"/>
+		<result property="detail_img" column="detail_img"/>
+		<result property="class_content" column="class_content"/>
+		<result property="class_sched_desc" column="class_sched_desc"/>
+		<result property="supplies" column="supplies"/>
+		<result property="class_regist_dt" column="class_regist_dt"/>
+		<result property="class_semester_sq" column="class_semester_sq"/>
+		<result property="open_smst_id" column="open_smst_id"/>
+		<result property="classroom_id" column="classroom_id"/>
+		<result property="teacher_sq" column="teacher_sq"/>
+		<result property="class_nm" column="class_nm"/>
+		<result property="branch_nm" column="branch_nm"/>
+		<result property="class_st_id" column="class_st_id"/>
+		<result property="class_st" column="class_st"/>
+		<result property="class_div" column="class_div"/>
+		<result property="open_year" column="open_year"/>
+		<result property="smst_nm" column="smst_nm"/>
+		<result property="name" column="name"/>
+		<result property="schedule_start_dt" column="schedule_start_dt"/>
+		<result property="schedule_end_dt" column="schedule_end_dt"/>
+		<result property="start_time" column="start_time"/>
+		<result property="end_time" column="end_time"/>
+		<result property="mon" column="mon"/>
+		<result property="tue" column="tue"/>
+		<result property="wed" column="wed"/>
+		<result property="thu" column="thu"/>
+		<result property="fri" column="fri"/>
+		<result property="sat" column="sat"/>
+		<result property="sun" column="sun"/>
+		<result property="class_cnt" column="class_cnt"/>
+		<result property="people_tot" column="people_tot"/>
+		<result property="classroom_nm" column="classroom_nm"/>
+		<result property="class_fee" column="class_fee"/>
+		<result property="target_div" column="target_div"/>
+		<result property="reception_start_dt" column="reception_start_dt"/>
+		<result property="reception_end_dt" column="reception_end_dt"/>
+		<result property="tel" column="tel"/>
+		<result property="class_contnet_smp" column="class_contnet_smp"/>
+		<result property="member_sq" column="member_sq"/>
+		<result property="detail_class_sq" column="detail_class_sq"/>
+		
+		<collection property="optionList" ofType="com.culture.demo.domain.OptionDTO">
+			<id property="detail_class_sq" column="detail_class_sq"/>
+			<result property="class_id" column="class_id"/>
+			<result property="ex_charge" column="ex_charge"/>
+			<result property="start_time" column="start_time"/> 
+			<result property="end_time" column="end_time"/>     
+			<result property="mon" column="mon"/>               
+			<result property="tue" column="tue"/>               
+			<result property="wed" column="wed"/>               
+			<result property="thu" column="thu"/>               
+			<result property="fri" column="fri"/>               
+			<result property="sat" column="sat"/>               
+			<result property="sun" column="sun"/>               
+			<result property="day" column="day"/>               
+			<result property="class_cnt" column="class_cnt"/>   
+		</collection>
+	</resultMap>
+	<select id="selectClassInfo" resultMap="classMap">
+		SELECT c.class_id, class_nm, c.branch_id, branch_nm, c.class_st_id, class_st, class_div, TO_CHAR(open_year, 'YYYY') open_year
+		     , s.open_smst_id, smst_nm, m.name, schedule_start_dt, schedule_end_dt, class_sched_desc
+		     , SUBSTR(start_time,0,2)||':'||SUBSTR(start_time,3,2) start_time, SUBSTR(end_time,0,2)||':'||SUBSTR(end_time,3,2) end_time
+		     , DECODE(mon,'N','','Y','월')||DECODE(tue,'N','','Y','화')||DECODE(wed,'N','','Y','수')||DECODE(thu,'N','','Y','목')||DECODE(fri,'N','','Y','금')||DECODE(sat,'N','','Y','토')||DECODE(sun,'N','','Y','일') day
+		     , mon, tue, wed, thu, fri, sat, sun
+		     , class_cnt, people_tot, classroom_nm, class_fee, target_div, reception_start_dt, reception_end_dt, b.tel
+		     , class_contnet_smp, c.member_sq, d.detail_class_sq, ex_charge
+		FROM class c RIGHT JOIN class_by_semester s ON s.class_id = c.class_id 																		
+		             RIGHT JOIN detail_class d ON s.class_semester_sq = d.class_semester_sq															
+		             LEFT JOIN class_state cs ON c.class_st_id = cs.class_st_id																		
+		             LEFT JOIN class_division cd ON c.class_div_id = cd.class_div_id																	
+		             LEFT JOIN semester sem ON sem.open_smst_id = s.open_smst_id																		
+		             LEFT JOIN branch b ON c.branch_id = b.branch_id																					
+		             LEFT JOIN member m ON m.member_sq = c.member_sq 																					
+		             LEFT JOIN classroom r ON s.classroom_id = r.classroom_id																			
+		             JOIN teacher t ON m.member_sq = t.member_sq	
+		WHERE b.branch_id = #{branch_id}			
+		AND TO_CHAR(open_year, 'YYYY') = #{yy}
+		AND s.open_smst_id = #{lectSmsterCd}		
+		AND c.class_id = #{lectCd}	
+	</select>
+	
+	
 	<!-- 메인페이지 강좌 정보 가져오기 -->
 	<select id="mainSelectClassList" resultType="com.culture.demo.domain.ClassDTO">
 		<if test="mainLectSearchDTO.pageIndex > 0">
@@ -318,4 +612,193 @@
 		
 	</select>
 
+	 <!-- 강좌 검색 강좌 정보 가져오기 -->
+	<select id="selectInteList" resultType="com.culture.demo.domain.ClassDTO">
+		SELECT *
+		FROM (
+		    SELECT COUNT(DISTINCT d.detail_class_sq) OVER() tot_cnt
+			    , DENSE_RANK() OVER(ORDER BY d.detail_class_sq) rank
+			    , d.detail_class_sq, c.branch_id, TO_CHAR(open_year, 'YYYY') open_year, s.open_smst_id, s.class_semester_sq, class_img, class_st, branch_nm, class_nm, smst_nm, m.name, start_time, end_time, class_cnt, class_fee
+				, mon, tue, wed, thu, fri, sat, sun 																																		 					
+			FROM class c JOIN class_by_semester s ON s.class_id = c.class_id 																																	
+				LEFT JOIN detail_class d ON s.class_semester_sq = d.class_semester_sq 																															
+				LEFT JOIN class_state st ON st.class_st_id = c.class_st_id 																																		
+				LEFT JOIN branch b ON b.branch_id = c.branch_id 																																				
+				LEFT JOIN semester sem ON sem.open_smst_id = s.open_smst_id 																																	
+				LEFT JOIN member m ON m.member_sq = c.member_sq 																																				
+			    LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id																																	
+			    LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd 																																
+			    LEFT JOIN medium_category mc ON mc.mdclsCtegryCd = ct.mdclsctegrycd																																
+			    LEFT JOIN small_category sc ON sc.smclsctegrycd = ct.smclsctegrycd																																
+			WHERE ( class_nm LIKE '%' || #{searchBranchDTO.q} || '%' OR name LIKE '%' || #{searchBranchDTO.q} || '%' )
+		
+		<!-- 지점 -->
+		<if test="brchCdl != null and brchCdl.length > 0">
+			AND (
+			<foreach collection="brchCdl" item="brchCd" separator=" OR ">
+				c.branch_id = #{brchCd}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 학기 -->
+		<if test="yyl != null and yyl.length > 0">
+			AND (
+			<foreach collection="yyl" item="yy" separator=" OR ">
+				TO_CHAR(open_year, 'YYYY') || '||' || s.open_smst_id = #{yy}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 강좌구분 -->
+		<if test="lectcll != null and lectcll.length > 0">
+			AND (
+			<foreach collection="lectcll" item="lectcl" separator=" OR ">
+				class_div_id = #{lectcl}
+			</foreach>
+			) 
+		</if>
+
+		<!-- 강좌상태 -->
+		<if test="lectstl != null and lectstl.length > 0">
+			AND (
+			<foreach collection="lectstl" item="lectst" separator=" OR ">
+				c.class_st_id = #{lectst}
+			</foreach>
+			) 
+		</if>
+		
+		<!-- 요일 -->
+		<if test="dayl != null and dayl.length > 0">
+			AND (
+	    	<foreach collection="dayl" item="day" separator=" OR ">
+		        <choose>
+		             <when test="day == 1">
+		                mon = 'Y'
+		            </when>
+		            <when test="day == 2">
+		                tue = 'Y'
+		            </when>
+		            <when test="day == 3">
+		                wed = 'Y'
+		            </when>
+		            <when test="day == 4">
+		                thu = 'Y'
+		            </when>
+		            <when test="day == 5">
+		                fri = 'Y'
+		            </when>
+		            <when test="day == 6">
+		                sat = 'Y'
+		            </when>
+		            <when test="day == 7">
+		                sun = 'Y'
+		            </when>
+		        </choose>
+			</foreach>
+		   	) 
+		</if>
+		
+		<!-- 시간대 -->
+		<if test="timel != null and timel.length > 0">
+		    AND (
+		    <foreach collection="timel" item="time"  separator=" OR ">
+		        <choose>
+		            <when test='time.equals("A")'>
+			            <![CDATA[ start_time < 1000 ]]>
+		            </when>
+		            <when test='time.equals("B")'>
+		                start_time BETWEEN 1000 AND 1200
+		            </when>
+		            <when test='time.equals("C")'>
+		                start_time BETWEEN 1200 AND 1400
+		            </when>
+		            <when test='time.equals("D")'>
+		                start_time BETWEEN 1400 AND 1600
+		            </when>
+		            <when test='time.equals("E")'>
+		                start_time BETWEEN 1600 AND 1800
+		            </when>
+		            <when test='time.equals("F")'>
+		                start_time BETWEEN 1800 AND 2000
+		            </when>
+		            <when test='time.equals("G")'>
+		                <![CDATA[ start_time > 2000 ]]>
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 범위 -->
+		<if test="amtl != null and amtl.length > 0">
+		    AND (
+		    <foreach collection="amtl" item="amt" separator=" OR ">
+		        <choose>
+		            <when test='amt.equals("A")'>
+		                class_fee = 0
+		            </when>
+		            <when test='amt.equals("B")'>
+		                <![CDATA[ class_fee < 5000 ]]>
+		            </when>
+		            <when test='amt.equals("C")'>
+		                class_fee BETWEEN 5000 AND 10000
+		            </when>
+		            <when test='amt.equals("D")'>
+		                class_fee BETWEEN 10000 AND 30000
+		            </when>
+		            <when test='amt.equals("E")'>
+		                class_fee BETWEEN 30000 AND 50000
+		            </when>
+		            <when test='amt.equals("F")'>
+		                class_fee BETWEEN 50000 AND 100000
+		            </when>
+		            <when test='amt.equals("G")'>
+		                <![CDATA[ class_fee < 100000 ]]>
+		            </when>
+		        </choose>
+		    </foreach>
+		    ) 
+		</if>
+		
+		<!-- 수강료 - 입력(최소) -->
+		<if test="searchBranchDTO.stAmt != null and !searchBranchDTO.stAmt.isEmpty()">
+			<![CDATA[ AND class_fee > #{searchBranchDTO.stAmt} ]]>
+		</if>
+		
+		<!-- 수강료 - 입력(최대) -->
+		<if test="searchBranchDTO.endAmt != null and !searchBranchDTO.endAmt.isEmpty()">
+			<![CDATA[ AND class_fee < #{searchBranchDTO.endAmt} ]]>
+		</if>
+		
+		<!-- 검색어 2 -->
+		<if test="searchBranchDTO.q2 != null and !searchBranchDTO.q2.isEmpty()">
+			AND ( class_nm LIKE '%' || #{searchBranchDTO.q2} || '%' OR name LIKE '%' || #{searchBranchDTO.q2} || '%' ) 
+		</if>
+		
+		<!-- 정렬 -->
+		<if test="searchBranchDTO.orderSet != null and !searchBranchDTO.orderSet.isEmpty()">
+		    <choose>
+		        <when test='searchBranchDTO.orderSet == "A"'>
+		            ORDER BY reception_end_dt ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "B"'>
+		            ORDER BY people_tot ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "C"'>
+		            ORDER BY schedule_start_dt ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "D"'>
+		            ORDER BY class_fee ASC 
+		        </when>
+		        <when test='searchBranchDTO.orderSet == "E"'>
+		            ORDER BY class_fee DESC 
+		        </when>
+		    </choose>
+		</if>
+		<![CDATA[
+			) 
+			WHERE (#{searchBranchDTO.pageIndex}-1)*#{searchBranchDTO.listCnt} + 1 <= rank AND rank <= #{searchBranchDTO.pageIndex}*#{searchBranchDTO.listCnt}
+		]]>
+	</select>
 </mapper>

@@ -17,5 +17,6 @@ public interface CartMapper {
 	public int delete(@Param("member_sq")int member_sq,@Param("type")String type,@Param("cartSeqno")String cartSeqno) throws ClassNotFoundException, SQLException;
 	// 장바구니 자동삭제
 	public void autoDelete() throws ClassNotFoundException, SQLException;
-	
+	// 회원 장바구니 개수
+	public int getTotCartCnt(int member_sq) throws ClassNotFoundException, SQLException;
 }

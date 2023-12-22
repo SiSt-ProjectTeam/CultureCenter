@@ -120,4 +120,26 @@ public class HomeController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@GetMapping(value="/application/integration/list.do")
+	public String integration(Model model) {
+		Map<String, List<ClassDTO>> bmap = new HashMap<>();
+		List<ClassDTO> blist = lecSearchService.getBranch();
+		List<ClassDTO> bplist = null;
+		
+		for(int i=0; i<blist.size(); i++) {
+			String type = blist.get(i).getBranch_tp();
+			if (bmap.containsKey(type)) {
+				bmap.get(type).add(blist.get(i));
+			} else {
+				bplist = new ArrayList<>();
+				bplist.add(blist.get(i));
+				bmap.put(type, bplist);
+			}
+		}
+		
+		model.addAttribute("bmap", bmap);
+		
+		return "application.integration.list";
+	}
+	
 }

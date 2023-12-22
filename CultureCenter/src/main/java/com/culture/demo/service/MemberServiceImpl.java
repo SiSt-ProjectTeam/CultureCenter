@@ -1,5 +1,8 @@
 package com.culture.demo.service;
 
+
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +18,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
-	
+
 	// 1. 마이페이지 정보 조회
 	@Override
 	public MemberDTO getMypageInfo(int member_sq) {
 		log.info("> MemberServiceImpl.getMypageInfo...");
-		
+
 		return this.memberMapper.selectMypageInfo(member_sq);
 	}
 
@@ -29,6 +32,12 @@ public class MemberServiceImpl implements MemberService {
 	public int correctionInterestBranch(int member_sq, int itrstBrchCd) {
 		log.info("> MemberServiceImpl.correctionInterestBranch...");
 		return this.memberMapper.updateInterestBranch(member_sq, itrstBrchCd);
+	}
+	// 회원 정보 조회(동반수강자 포함)
+	@Override
+	public MemberDTO getMemberWithChild(int member_sq) throws SQLException, ClassNotFoundException {
+		log.info(">>PaymentServiceImpl.getMemberWithChild() ...");
+		return memberMapper.selectMemberWithChild(member_sq);
 	}
 
 	// 3. 회원 등록
@@ -57,4 +66,35 @@ public class MemberServiceImpl implements MemberService {
 		return this.memberMapper.deleteChildren(children_sq);
 	}
 
+	// 아이디 중복확인
+	@Override
+	public int idCheck(String id) {
+		memberMapper.idCheck(id);
+		log.info(">> MemberServiceImpl.idCheck ...");
+		return memberMapper.idCheck(id);
+	}
+
+	// 아이디 찾기
+	@Override
+	public String findId(String name, String phone) {
+		log.info(">> MemberServiceImpl.findId ...");
+		String result = memberMapper.findId(name, phone);
+		return result;
+	}
+	
+	// 비밀번호 찾기
+	@Override
+	public String findPW(String id, String phone) {
+		log.info(">> MemberServiceImpl.findPW ...");
+		String result = memberMapper.findPw(id, phone);
+		return result;
+	}
+
+	@Override
+	public void updateCar(MemberDTO dto) throws Exception {
+	    log.info(">> MemberServiceImpl.updateCar ...");
+	    this.memberMapper.updateCar(dto);
+	}
+	
+	
 }

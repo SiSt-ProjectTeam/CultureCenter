@@ -31,21 +31,25 @@ var mypageMember = (function() {
 
     //차량정보 수집동의 저장
     var fn_save_car_yn = function() {
-        var carYn = $("#checkCar").is(":checked") ? "Y" : "N";
-        var carVal = $("#carNoVal").val();
-        var paramObj = {
-            carNoClctAgrYn: carYn,
-            carNoVal: carVal
-        }
+	    // 현재 날짜를 가져오기
+	    var currentDate = new Date();
+	    var formattedDate = currentDate.toISOString().split('T')[0];
+	    
+        // 체크박스 체크 여부 확인
+	    var carYn = $("#checkCar").is(":checked");
+	    var carVal = $("#carNoVal").val();
 
-        if (carYn == "N" && carVal != "") {
+        if (!carYn && carVal !== "") {
             alert("차량번호 수집동의를 선택하세요.");
         } else {
+        	var paramObj = {
+            car_no: carVal
+        };
             fnc.paramAjax(function(data) {
-                var updTxt = carYn == "Y" ? "수집동의" : "수집거부";
+                 var updTxt = carYn ? "수집동의" : "수집거부";
 
                 $("#saveCarGuidePop").find("#updTxt").text("차량번호: " + updTxt);
-                $("#saveCarGuidePop").find("#updDt").text(data.rtnMap.carNoClctAgrDt + " 변경완료 되었습니다.");
+                $("#saveCarGuidePop").find("#updDt").text(formattedDate + " 변경완료 되었습니다.");
 
                 fn_show_popup("#saveCarGuidePop");
             }, "/mypage/member/updateCarYn.ajax", paramObj, "json", true, false);
