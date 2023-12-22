@@ -596,7 +596,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 	public String reviewDtlHTML(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception {
 		log.info("AppSearchServiceImpl.reviewDtlHTML() 호출");
 		ReviewDTO dto = getReviewDtl(brchCd, yy, lectSmsterCd, lectCd, tcNo, mbrNo);
-		log.info("ReviewDTO : " + dto);
+
 		StringBuilder html = new StringBuilder();
 		html.append("<div class=\"thum_list_w\">");
 		html.append("	<div class=\"thum_list_wrap\">");

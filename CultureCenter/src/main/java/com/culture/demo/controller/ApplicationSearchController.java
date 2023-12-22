@@ -134,7 +134,7 @@ public class ApplicationSearchController {
 	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
 		
 		log.info("> /search/list.ajax ApplicationSearchController.getBranchList() POST 호출");
-		log.info("> SearchBranchDTO : " + searchBranchDTO);
+		
 		String html = "";
 		
 		if(searchBranchDTO.getBrchCd() != null) { // 지점으로 찾기
@@ -203,7 +203,6 @@ public class ApplicationSearchController {
 		log.info("/application/search/view.do ApplicationSearchController.viewPage() GET 호출");
 		dto = this.appSearchService.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
 		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, dto.getClass_id());
-		log.info("classDtl : " + classDtl);
 		
 		String lectStDtm = String.format("%s ~ %s", classDtl.getSchedule_start_dt().substring(0,10), classDtl.getSchedule_end_dt().substring(0,10));
 		String rceptPrdStDt = String.format("%s ~ %s", classDtl.getReception_start_dt().substring(0,10), classDtl.getReception_end_dt().substring(0,10));
