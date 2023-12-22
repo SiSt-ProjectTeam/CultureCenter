@@ -25,8 +25,6 @@ var search = (function(){
 	
 		var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
 		$("#lectDetailSq").val(lastParam);
-		console.log("lectDetailSq : " + $("#lectDetailSq").val());
-		console.log($('input[name=optionList]').val());
 		fnc.frmAjax(function(data) {
 			var classDtl = data.classDtl;
 			var teacherDtl = data.teacherDtl;

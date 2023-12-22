@@ -35,4 +35,16 @@ public class LecSearchServiceImpl implements LecSearchService {
 		return lecSearchMapper.getSmCate();
 	}
 
+	@Override
+	public String getMdCateNm(String mdclsCtegryCd) {
+		log.info(">> LecSearchServiceImpl.getMdCateNm() 호출");
+		return lecSearchMapper.getMdCateNm(mdclsCtegryCd);
+	}
+
+	@Override
+	public String getBranchNm(String branch_id) {
+		log.info(">> LecSearchServiceImpl.getBranchNm() 호출");
+		return lecSearchMapper.getBranchNm(branch_id);
+	}
+
 }

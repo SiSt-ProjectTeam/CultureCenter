@@ -15,4 +15,10 @@ public interface LecSearchService {
 	// 강좌로 찾기 카테고리
 	List<ClassDTO> getSmCate();
 	
+	// 강좌로 찾기 팝업
+	String getMdCateNm(String mdclsCtegryCd);
+
+	// 지점으로 찾기 팝업
+	String getBranchNm(String branch_id);
+	
 }
