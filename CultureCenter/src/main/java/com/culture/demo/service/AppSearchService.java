@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -85,5 +87,16 @@ public interface AppSearchService {
 	String inteHTML(SearchBranchDTO searchBranchDTO, String[] brchCdl, String[] yyl, String[] lectcll, String[] lectstl,
 			String[] dayl, String[] timel, String[] amtl) throws Exception;
 
+	// 강좌 상세 - 리뷰 목록 ajax html 생성
+	String reviewListHTML(ClassFormDTO classFormDTO) throws Exception;
 	
+	// 강좌 상세 - 리뷰 목록 정보 가져오기
+	List<ReviewDTO> getReviewList(ClassFormDTO classFormDTO) throws Exception;
+
+	// 강좌 상세 - 리뷰 팝업 정보 가져오기
+	ReviewDTO getReviewDtl(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception;
+		
+	// 강좌 상세 - 리뷰 팝업 ajax html 생성
+	String reviewDtlHTML(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception;
+
 }
