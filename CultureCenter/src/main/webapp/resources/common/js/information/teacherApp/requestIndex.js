@@ -28,55 +28,6 @@ var requestIndexCtrl = (function(){
         $("#application_popup #popupContent").after(btnObj);
     }
 	
-	var open_popup = function(html){
-        var $layer = $("#application_popup");
-        var $con = $("#popupContent");
-        var cont = $(".cont_wrap");
-
-
-		if(html == "") {
-			alert("로그인 후 이용가능합니다.");
-			fnc.moveLoginPage();
-			return;
-		}
-		
-        $con.html(html);
-
-        if(html.indexOf("<!doctype html>") > -1){
-            // 로그인 안했을 경우
-            init();
-            return;
-        }
-
-        if(typeof init_alert === 'function'){
-            init_alert(); //alert
-            init_alert = null;
-        }
-        
-        $layer.css("display", "block");
-        
-        commonScript.openPopupFn("#application_popup", cont, null);
-        commonScript.formChkFn();   //셀렉트박스 스크립트 초기화
-        filterSelect();
-
-        if(popupType == "teacher"){
-            make_new_btn_close("teacherRequestCtrl.btnClose()");
-
-            var selfIntrdnCont = $("textarea[name=selfIntrdnCont]").get(0);
-            var lectIntrdnCont = $("textarea[name=lectIntrdnCont]").get(0);
-            if(selfIntrdnCont && lectIntrdnCont){
-                tcCommon.textareaOnkeyup(selfIntrdnCont);
-                tcCommon.textareaOnkeyup(lectIntrdnCont);
-            }
-        }
-        else if(popupType == "cooper"){
-            make_new_btn_close("cooperRequestCtrl.btnClose()");
-        }
-
-    }
-
-
-	/*원래코딩
     var open_popup = function(html){
     
         if($('#wrap').data('isLogin') == "Y"){//로그인 여부 체크 추가
@@ -119,7 +70,6 @@ var requestIndexCtrl = (function(){
         }
 
     }
-    */
 
     return {
         getLayer : get_layer,

@@ -25,19 +25,16 @@ var teacherRequestCtrl = (function(){
         }
     }
 
-    var fn_next = function(step){
-console.log("fn_next................." + step);     
+    var fn_next = function(step){     
         switch (step) {
             case 1:
-                if(!fn_validate1()) return;
- console.log("fn_next case 1....");               
+                if(!fn_validate1()) return;      
                 fn_submit1();
                 break;
             case 2:
                 if(!fn_validate2()) return;
                 if(!fn_duplicate2()) return;
                 if(!confirm("지원서를 제출하시겠습니까?")) return;
- console.log("fn_next case 2....");         
                 fn_submit2();
                 break;
         }
@@ -56,10 +53,7 @@ console.log("fn_next................." + step);
         $("#form").val(json);
 
         fnc.fileFrmAjax(function(data){
-        
-console.log("fileFrmAjax data:", data);
-console.log("fileFrmAjax data.errorCode>>>>>>>>>>>>>>>>>>>>>>>>>>", data.errorCode);
-console.log("fileFrmAjax data.cnt>>>>>>>>>>>>>>>>>>>>>>>>>>", data.cnt);
+
             switch (data.errorCode) {
                 case "0":
                     alert("지원중인 강사 정보가 없습니다. 처음부터 다시 시도하여 주십시오.");
@@ -128,9 +122,7 @@ console.log("fileFrmAjax data.cnt>>>>>>>>>>>>>>>>>>>>>>>>>>", data.cnt);
      */
     var fn_submit1 = function(){
         fnc.frmAjax(function(data){
-console.log("frmAjax_fn_submit1 if.. data.errorCode>>>>>>>>>>" + data.errorCode);
-console.log("frmAjax_fn_submit1 if..data>>>>>>>>>>>>>>" + data);
-console.log("frmAjax_fn_submit1 if..data.cnt>>>>>>>>>>>>>>" + data.cnt);
+
             switch (data.errorCode) {
                 case 1:
                     alert("강사 지원 정보가 존재합니다.");
@@ -148,7 +140,6 @@ console.log("frmAjax_fn_submit1 if..data.cnt>>>>>>>>>>>>>>" + data.cnt);
             }
 
             if(data.cnt > 0){
-console.log("fn_submit1 if..data.cnt>>>>>>>>>>>>" + data.cnt)
                 fnc.bscAjax(set_popup_content, "/information/application/teacher/request.do" , "html", false, false, false);
             } else {
                 alert("다시 시도해주세요.");
@@ -165,7 +156,6 @@ console.log("fn_submit1 if..data.cnt>>>>>>>>>>>>" + data.cnt)
         }
         var json = $("#request_form").serializeJSON();
         $("#form").val(json);
-console.log("fn_submit2 json>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + json);
 
         fnc.fileFrmAjax(set_popup_content, "/information/application/teacher/submit.ajax", $("#submit_form"), "html", false, true, true);
     }

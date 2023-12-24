@@ -46,7 +46,7 @@
 		<collection property="childrenList"  ofType="com.culture.demo.domain.ChildrenDTO">
 			<id property="children_sq" column="children_sq" />
 			<result property="children_nm" column="children_nm" />
-			<result property="member_sq" column="member_sq" />
+			<result property="member_sq" column="parent_member_sq" />
 			<result property="child_birth_dt" column="child_birth_dt" />
 			<result property="gender" column="gender" />
 			<result property="realGender" column="realGender" />
@@ -59,6 +59,7 @@
     , addr, branch_id, point, basket_cnt, order_class_cnt, late_class_cnt
     , complete_class_cnt, review_cnt, faq_cnt, car_no
     , children_sq
+    , ac.member_sq AS parent_member_sq
     , TO_CHAR(TRUNC(ac.birth_dt),'yyyy.MM.dd') AS child_birth_dt
     , gender, DECODE(gender,'F','여성','M','남성') AS realGender
     , children_nm

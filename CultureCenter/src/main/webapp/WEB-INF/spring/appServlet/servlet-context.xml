@@ -53,5 +53,14 @@
 	<!-- @Transaction 어노테이션 사용 -->
 	<tx:annotation-driven transaction-manager="transactionManager"
 						  mode="proxy" proxy-target-class="false"/>
+	<!-- 인터셉터 -->
+	<interceptors>
+		<!-- 장바구니 갯수 interceptor -->
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="cartNumInterceptor" class="com.culture.demo.interceptor.CartNumInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
 	
 </beans:beans>

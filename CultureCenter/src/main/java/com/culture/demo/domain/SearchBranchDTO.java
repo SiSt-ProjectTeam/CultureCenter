@@ -39,4 +39,6 @@ public class SearchBranchDTO {
 	
 	private int tcCdNo;
 	private String brchCdList;
+	private String q2;
+	
 }

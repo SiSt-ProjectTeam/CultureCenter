@@ -1,24 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
-<script>
-	/* function dataImg(){
-		
-		$.each($('.dataImg'), function(index, item){
-			var src = $(item).attr('src');
-			
-			if( src == "" ){
-				$(item).attr('src', $(item).data().src);
-				
-			}
-				
-		});
-		imgResizingFn();		
-	} */
-</script>
-			
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>			
 <form id="frm_submit" name="frm_submit">
-	<!-- <input type="hidden" name="csrfPreventionSalt" value="" /> -->
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="jsonStr" value="" />
 	<input type="hidden" name="atlctType" value="normal" />
 </form>
@@ -417,6 +401,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                	<input type="hidden" name="자녀수" value="${ mDto.childrenList.size() }"/> 
                 	<c:choose>
                 	<c:when test="${mDto.childrenList.size() > 0}">
 					<c:forEach items="${mDto.childrenList}" var="childDto" varStatus="i">
