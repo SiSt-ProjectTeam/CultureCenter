@@ -25,7 +25,8 @@ public interface ReviewService {
 	String commtHTML(@Param("brchCd") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd")int lectSmsterCd, @Param("lectCd")int lectCd
 					, @Param("tcCdNo")int teacher_sq, @Param("memberNo")int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException;
 	
-
+	// 댓글 등록
+	int insertComm(int review_sq, int member_sq, String comment_content) throws SQLException, ClassNotFoundException;
 
 
 	

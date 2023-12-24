@@ -1,5 +1,6 @@
 package com.culture.demo.mapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -22,6 +23,7 @@ public interface ReviewMapper {
 	public List<ReviewDTO> getCommtList(@Param("brchCd") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd
 									, @Param("tcCdNo") int tcCdNO, @Param("lectCd") int teacher_sq, @Param("mbrNo") int member_sq, @Param("dto") FrmSearchDTO frmSearchDTO);
 	//public List<ReviewDTO> getCommtList(@Param("review_sq") int review_sq, @Param("dto") FrmSearchDTO frmSearchDTO);
-
 	
+	// 후기댓글 등록
+	public int insertComm(@Param("review_sq") int review_sq, @Param("member_sq")int member_sq, @Param("comment_cotent") String comment_content) throws ClassNotFoundException, SQLException;
 }

@@ -3,11 +3,14 @@ package com.culture.demo.controller;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.AsyncConfigurationSelector;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.ReviewDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.LecSearchService;
 import com.culture.demo.service.ReviewService;
 
@@ -40,6 +44,7 @@ public class CommunityReviewController {
 	
 	
 	ReviewDTO dto = null;
+	ReviewDTO comm = null;
 	// 리뷰 페이지
 	@GetMapping("list.do")
 	public String getReviewList(@ModelAttribute FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
@@ -130,5 +135,36 @@ public class CommunityReviewController {
 					? new ResponseEntity<>(html, HttpStatus.OK)
 					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	// 수강후기 상세페이지 댓글 등록
+	/*
+	@PostMapping(value = "/comment/insert.ajax", produces = "application/text; charset=UTF-8")
+	public @ResponseBody ResponseEntity<Map<String, String>> insertCommt(@RequestBody ReviewDTO reviewDTO, Authentication authentication)throws Exception{
+		log.info("> review/comment/insert.ajax : ReviewController.insertCommt() POST 호출 ");
+		Map<String, String> commMap = new HashedMap();
+		
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int review_sq = comm.getReview_sq();
+		int member_sq = principal.getMember_sq();
+		String comment_content = comm.getComment_content();
+		
+		this.reviewService.insertComm(review_sq, member_sq, comment_content);
+		
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	*/
+	@PostMapping(value = "/comment/delete.ajax", produces = "application/text; charset=UTF-8")
+	public @ResponseBody ResponseEntity<Map<String, String>> insertCommt(@RequestBody ReviewDTO reviewDTO, Authentication authentication)throws Exception{
+		log.info("> review/comment/insert.ajax : ReviewController.insertCommt() POST 호출 ");
+		Map<String, String> commMap = new HashedMap();
+		
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int review_sq = comm.getReview_sq();
+		int member_sq = principal.getMember_sq();
+		String comment_content = comm.getComment_content();
+		
+		this.reviewService.insertComm(review_sq, member_sq, comment_content);
+		
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

@@ -117,6 +117,13 @@ public class ReviewServiceImpl implements ReviewService{
 		} // if
 		return html.toString();
 		
-	} // commtHTML
+	}
+	
+	// 후기댓글 등록
+	@Override
+	public int insertComm(int review_sq, int member_sq, String comment_content) throws SQLException, ClassNotFoundException {
+		log.info("> ReviewServiceImpl.insert() 호출 ");
+		return reviewMapper.insertComm(member_sq, member_sq, comment_content); 
+	}
 	
 }// ServiceImpl

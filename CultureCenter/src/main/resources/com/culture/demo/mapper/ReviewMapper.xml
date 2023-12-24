@@ -103,4 +103,10 @@ FROM (
          WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= rank AND rank <= #{dto.pageIndex}*#{dto.listCnt}
     ]]>
 	</select>
+	
+	<!-- 후기댓글 등록-->
+	<insert id="insert">
+		INSERT INTO review_comm
+		VALUES (seq_comment.NEXTVAL, #{review_sq}, #{member_sq}, SYSDATE, #{comment_content})
+	</insert>
 </mapper>
