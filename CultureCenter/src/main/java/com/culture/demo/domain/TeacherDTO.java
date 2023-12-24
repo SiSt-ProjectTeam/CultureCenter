@@ -2,7 +2,7 @@ package com.culture.demo.domain;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,19 +22,20 @@ public class TeacherDTO {
 	private List<TcareerDTO> tchistList; 		//경력사항
 	private List<TawardsDTO> tcawrdList; 		//수상내역
 	private List<TcertificateDTO> tcauthctfList;//자격증
-		
+
+	private String imgpre;
 	private int tcCdNo; 						//신청한순서번호
 	private String prinfClctAgrYn; 				//개인정보 수집동의 필수
 	private String carrInfoClctAgrYn;			//개인정보 수집동의 선택	
-	private int appDt;							//신청일 SYSDATE
+	private String appDt;						//신청일 SYSDATE
 	private int tcTpCd; 						//사업자여부
-	private int txfrBizprYn;					//면세사업자여부
+	private String txfrBizprYn;					//면세사업자여부
 	private String tcNm;						//강사 이름
 	private int lscCd; 							//양음력
-	private int bday;							//생년월일
-	private int hpStNo; 						//휴대폰 시작 번호 010
-	private int hpMidNo; 						//휴대폰 두번째 번호
-	private int hpLastNo;						//휴대폰 마지막 번호
+	private String bday;						//생년월일
+	private String hpStNo; 						//휴대폰 시작 번호 010
+	private String hpMidNo; 					//휴대폰 두번째 번호
+	private String hpLastNo;					//휴대폰 마지막 번호
 	private String email; 						//이메일 아이디
 	private String emailAddrCd; 				//이메일 주소
 	private int pstno; 							//우편번호
@@ -59,7 +60,7 @@ public class TeacherDTO {
 	private int hopeEndMi; 						//희망종료분
 	private String lectIntrdnCont; 				//강좌소개		
 	
-	private MultipartFile file;					//프로필 사진 업로드
-	private String filesrc;						//수정
-
+	private CommonsMultipartFile file;			//프로필 사진 업로드
+	private String filesrc;						
+	
 }

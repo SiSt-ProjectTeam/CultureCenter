@@ -11,5 +11,8 @@ public interface LecSearchService {
 	
 	// 대분류별 중분류 카테고리 얻어오기
 	List<ClassDTO> getCategory();
+
+	// 강좌로 찾기 카테고리
+	List<ClassDTO> getSmCate();
 	
 }

@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.culture.demo.domain.BranchDTO;
+import com.culture.demo.domain.TeacherDTO;
+
 public interface TeacherMapper {
 	
 	//TEACHER 테이블에 추가
@@ -25,5 +28,28 @@ public interface TeacherMapper {
 	
 	//APPLY_CLASS 테이블에 추가
 	public int insertApplyClass(@Param("submitList") Map<String, Object> submitList, @Param("resultList") List<String> resultList, @Param("memberSq") int memberSq);
+	
+	//APPLY_CLASS 테이블에 중복 지원 확인
+	public String duplicateApplicaionCheck(int memberSq);
+	
+	//TEACHER 테이블에 중복 지원 확인
+	public String duplicateTeacherCheck(int memberSq);
+	
+	//APPLY_CLASS에 없고 TEACHER에 있는지 확인
+	public String noApplyClassOkTeacher(int memberSq);
+	
+	//임시저장 테이블에 저장되어 있는 회원인지 확인
+	public String temporaryOk(int memberSq);
+	
+	//APPLY_CLASS 테이블과 TEACHER 테이블 동시에 있는 회원인지 확인
+	public String applyTeacher(int memberSq);
+	
+	//임시저장 테이블에 임시저장
+	public int saveTeacherInfo(@Param("saveDataList") Map<String, Object> saveDataList, @Param("teacherImg") String teacherImg, @Param("memberSq") int memberSq);
 
+	//임시저장 테이블 삭제
+	public void deleteTeacherInfo(int memberSq);
+	
+	//임시저장 글 불러오기
+	public TeacherDTO saveOpen(int memberSq);
 }

@@ -15,7 +15,17 @@ public interface MemberService {
 	// 동반수강자(자녀) 삭제
 	public int deleteChildren(int member_sq) throws Exception;
 	
-	
 	// 3. 회원 등록
 	int registMember(MemberDTO memberDTO);
+	
+	//  회원가입 - 아이디 체크
+	public int idCheck(String id) ;
+	
+	// 아이디 찾기 
+	public String findId(String name, String phone);
+	// 비밀번호 찾기 
+	public String findPW(String id, String phone);
+	
+	// 차량번호 수정
+	public void updateCar(MemberDTO dto) throws Exception ;
 }

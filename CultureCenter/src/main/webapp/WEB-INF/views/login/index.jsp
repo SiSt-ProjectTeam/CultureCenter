@@ -60,8 +60,8 @@
 										</a>
 									</div>
 									<div class="find_account">
-										<a href="javascript:members.findIdPw('fdIdUrl')" class="find_id f_body4">아이디 찾기</a> 
-										<a href="javascript:members.findIdPw('fdPwdUrl')" class="find_pw f_body4">비밀번호 찾기</a>
+										<a onclick="openNewWindow('/login/findId.do')" class="find_id f_body4">아이디 찾기</a>
+										<a onclick="openNewWindow('/login/findPw.do')" class="find_pw f_body4">비밀번호 찾기</a>
 									</div>
 								</form>
 							</div>
@@ -72,3 +72,15 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+    function openNewWindow(url) {
+        var width = 650;
+        var height = 470;
+        var left = (screen.width / 2) - (width / 2) + window.screenLeft;
+        var top = (screen.height / 2) - (height / 2) + window.screenTop;
+
+        window.open(url, '_blank', 'width=' + width + ', height=' + height + ', resizable=yes, top=' + top + ', left=' + left);
+    }
+</script>

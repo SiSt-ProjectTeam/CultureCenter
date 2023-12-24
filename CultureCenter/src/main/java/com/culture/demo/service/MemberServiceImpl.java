@@ -1,5 +1,6 @@
 package com.culture.demo.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +58,34 @@ public class MemberServiceImpl implements MemberService {
 		return this.memberMapper.deleteChildren(children_sq);
 	}
 
+	// 아이디 중복확인
+	@Override
+	public int idCheck(String id) {
+		memberMapper.idCheck(id);
+		log.info(">> MemberServiceImpl.idCheck ...");
+		return memberMapper.idCheck(id);
+	}
+
+	// 아이디 찾기
+	@Override
+	public String findId(String name, String phone) {
+		log.info(">> MemberServiceImpl.findId ...");
+		String result = memberMapper.findId(name, phone);
+		return result;
+	}
+	// 비밀번호 찾기
+	@Override
+	public String findPW(String id, String phone) {
+		log.info(">> MemberServiceImpl.findPW ...");
+		String result = memberMapper.findPw(id, phone);
+		return result;
+	}
+
+	@Override
+	public void updateCar(MemberDTO dto) throws Exception {
+	    log.info(">> MemberServiceImpl.updateCar ...");
+	    this.memberMapper.updateCar(dto);
+	}
+	
+	
 }

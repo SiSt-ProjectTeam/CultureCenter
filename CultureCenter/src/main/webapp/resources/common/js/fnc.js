@@ -228,12 +228,13 @@ var fnc = (function() {
 
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-			
+						
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
                 data: JSON.stringify(data),//추가
+                //data: data,
                 contentType : "application/json; charset=utf-8",//추가
                 dataType: dataType,
                 async: sync,
@@ -245,7 +246,7 @@ var fnc = (function() {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
-					if (callbackAjax) {
+					if (callbackAjax) {				
                         callbackAjax(data);
                     }
                 },
@@ -310,7 +311,9 @@ var fnc = (function() {
             
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-            
+  console.log("fileFrmAjaxfileFrmAjaxfileFrmAjaxfileFrmAjaxfileFrmAjax >>>>>>>formData : " + formData);          
+  console.log("fileFrmAjaxfileFrmAjaxfileFrmAjaxfileFrmAjaxfileFrmAjax >>>>>>>formData.cnt : " + formData.cnt); 
+      
             jQuery.ajax({
                 url: url,
                 type: "post",

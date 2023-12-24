@@ -29,4 +29,10 @@ public class LecSearchServiceImpl implements LecSearchService {
 		return lecSearchMapper.getCategory();
 	}
 
+	@Override
+	public List<ClassDTO> getSmCate() {
+		log.info(">> LecSearchServiceImpl.getSmCate() 호출");
+		return lecSearchMapper.getSmCate();
+	}
+
 }

@@ -2,13 +2,12 @@ package com.culture.demo.service;
 
 import java.util.Map;
 
+import com.culture.demo.domain.TeacherDTO;
+
 public interface TeacherService {
 
-	//개인정보 수집 html
-	public String createClausePrivacyHtml();
-	
 	//개인정보 수집 동의 여부
-	public Map<String, String> clausePrivacyOk(Map<String, String> clausePrivacyData);
+	public Map<String, Object> clausePrivacyOk(Map<String, Object> clausePrivacyData, int memberSq);
 	
 	//강사신청 정보입력 html
 	public String createTeacherInfoHtml();
@@ -21,8 +20,22 @@ public interface TeacherService {
 	
 	//제휴사 신청 페이지
 	public String createCooperationHtml();
+	//apply_class에 강사신청정보가 있는지 확인
+	public Map<String, String> applyClassCheck(int memberSq);
+	
+	//teacher에 강사신청정보가 있는지 확인
+	public Map<String, String> teacherCheck(int memberSq);
+	
+	//apply_class와 teacher를 동시에 조회해 teacher 에만 있는지 확인
+	public String applyTeacherCheck(TeacherDTO teacherDTO, int memberSq);
+	
+	//임시저장
+	public Map<String, Object> saveTeacherInfo(Map<String, Object> saveDataList, String teacherImg, int memberSq) throws Exception;
 	
 	//강사신청서 작성 중 삭제
-	public Map<String, String> deleteOk(Map<String, String> deleteData);
+	public Map<String, Object> deleteOk(int memberSq);
+	
+	//임시저장 글 가져오기
+	public TeacherDTO getSaveTeacherInfo(int memberSq);
 	
 }

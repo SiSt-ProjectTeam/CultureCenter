@@ -58,7 +58,8 @@ public class BranchInfoServiceImpl implements BranchInfoService{
 	}
 
 	//지점 정보 html	
-	@Override public String createBranchInfoHtml(BranchDTO branch) {
+	@Override 
+	public String createBranchInfoHtml(BranchDTO branch) {
 		log.info("> BranchInfoServiceImpl.createBranchInfoHtml ...");
 
 		StringBuilder html = new StringBuilder(); 
