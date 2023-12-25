@@ -569,11 +569,11 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                            <div class=\"input_wrap\">\r\n");
 			html.append("                                <div class=\"plus_div_w\"></div>\r\n");
 			html.append("                                <div class=\"input_div w100p\">\r\n");
-			html.append("                                    <div class=\"form_select_div\">\r\n");
+			html.append("                                    <div class=\"form_select_div "+ (teducationDTO.getSchlClCd() == null ? "" : "change") +" \">\r\n");
 			html.append("                                        <div class=\"open_area\">\r\n");
 			html.append("                                            <input type=\"hidden\" id=\"schlClCd\" name=\"tceduList[][schlClCd]\" value=\""+ teducationDTO.getSchlClCd() +"\"/>\r\n");
 			html.append("                                            <a class=\"btn_open\" href=\"javascript:\">\r\n");
-			html.append("                                                <span>학교 선택</span>\r\n");
+			html.append("                                                <span>"+teducationDTO.getSchlClCd() == null ? "학교 선택" : teducationDTO.getSchlClCd()+"</span>\r\n");
 			html.append("                                            </a>\r\n");
 			html.append("                                        </div>\r\n");
 			html.append("                                        <div class=\"dimd\"></div>\r\n");

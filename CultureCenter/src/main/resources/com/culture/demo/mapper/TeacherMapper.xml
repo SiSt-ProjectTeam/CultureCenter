@@ -201,42 +201,42 @@
 	            HOPESTMI = #{saveDataList.hopeStMi},
 	            HOPEENDHH = #{saveDataList.hopeEndHh},
 	            HOPEENDMI = #{saveDataList.hopeEndMi},
-	            LECTINTRDNCONT = #{saveDataList.lectIntrdnCont},
-				TXFRBIZPRYN = 
-				<if test="saveDataList.txfrBizprYn != null">
-				    #{saveDataList.txfrBizprYn},
+	            LECTINTRDNCONT = #{saveDataList.lectIntrdnCont}
+				
+				<if test='saveDataList.txfrBizprYn != null'>
+				    ,TXFRBIZPRYN = #{saveDataList.txfrBizprYn}
 				</if>
-				<if test="saveDataList.txfrBizprYn == null">
-				    'null',
+				<if test='saveDataList.txfrBizprYn == null'>
+				    ,TXFRBIZPRYN = 'null'
 				</if>
-				<if test="saveDataList != null and saveDataList.tceduList != null">
+				<if test='saveDataList.tceduList != null'>
 					<foreach collection="saveDataList.tceduList" item="item" separator="">
-						SCHLCLCD = #{item.schlClCd},
-						GRDTCLCD = #{item.grdtClCd},
-						YY = #{item.yy},
-						SCHLNM = #{item.schlNm},
-						MJRNM = #{item.mjrNm},
+						,SCHLCLCD = #{item.schlClCd}
+						,GRDTCLCD = #{item.grdtClCd}
+						,YY = #{item.yy}
+						,SCHLNM = #{item.schlNm}
+						,MJRNM = #{item.mjrNm}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tchistList != null">
+				<if test="saveDataList.tchistList != null">
 					<foreach collection="saveDataList.tchistList" item="item" separator="">				
-						HISTPLCNM = #{item.histPlcNm},
-						HISTSTDT = #{item.histStDt},
-						HISTENDDT = #{item.histEndDt},
+						,HISTPLCNM = #{item.histPlcNm}
+						,HISTSTDT = #{item.histStDt}
+						,HISTENDDT = #{item.histEndDt}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tcawrdList != null">
+				<if test="saveDataList.tcawrdList != null">
 					<foreach collection="saveDataList.tcawrdList" item="item" separator="">
-						AISSUEAGNCNM = #{item.issueAgncNm},
-						AISSUENM = #{item.issueNm},
-						AISSUEDT = #{item.issueDt},
+						,AISSUEAGNCNM = #{item.issueAgncNm}
+						,AISSUENM = #{item.issueNm}
+						,AISSUEDT = #{item.issueDt}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tcauthctfList != null">
+				<if test="saveDataList.tcauthctfList != null">
 					<foreach collection="saveDataList.tcauthctfList" item="item" separator="">
-						UISSUEAGNCNM = #{item.issueAgncNm},
-						UISSUENM = #{item.issueNm},
-						UISSUEDT = #{item.issueDt}
+						,UISSUEAGNCNM = #{item.issueAgncNm}
+						,UISSUENM = #{item.issueNm}
+						,UISSUEDT = #{item.issueDt}
 					</foreach>
 				</if>
 				
@@ -261,31 +261,31 @@
 	            #{saveDataList.frstLrclsCtegryCd}, #{saveDataList.frstLrclsCtegryCdNm}, #{saveDataList.frstMdclsCtegryCd},
 	            #{saveDataList.secLrclsCtegryCd}, #{saveDataList.secLrclsCtegryCdNm}, #{saveDataList.secMdclsCtegryCd},
 	            #{saveDataList.hopeDaywVal}, #{saveDataList.hopeDaywValNm}, #{saveDataList.hopeStHh}, #{saveDataList.hopeStMi},
-	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont},          
-				<if test="saveDataList.txfrBizprYn != null">
-				    #{saveDataList.txfrBizprYn},
+	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont}      
+				<if test='saveDataList.txfrBizprYn != null'>
+				    ,#{saveDataList.txfrBizprYn}
 				</if>
-				<if test="saveDataList.txfrBizprYn == null">
-				    'null',
+				<if test='saveDataList.txfrBizprYn == null'>
+				    ,'null'
 				</if>
-				<if test="saveDataList != null and saveDataList.tceduList != null">
+				<if test="saveDataList.tceduList != null">
 					<foreach collection="saveDataList.tceduList" item="item" separator="">
-						#{item.schlClCd}, #{item.grdtClCd}, #{item.yy}, #{item.schlNm}, #{item.mjrNm},
+						,#{item.schlClCd}, #{item.grdtClCd}, #{item.yy}, #{item.schlNm}, #{item.mjrNm}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tchistList != null">
+				<if test="saveDataList.tchistList != null">
 					<foreach collection="saveDataList.tchistList" item="item" separator="">				
-						#{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt},
+						,#{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tcawrdList != null">
+				<if test="saveDataList.tcawrdList != null">
 					<foreach collection="saveDataList.tcawrdList" item="item" separator="">
-						#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt},
+						,#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt}
 					</foreach>
 				</if>
-				<if test="saveDataList != null and saveDataList.tcauthctfList != null">
+				<if test="saveDataList.tcauthctfList != null">
 					<foreach collection="saveDataList.tcauthctfList" item="item" separator="">
-						#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt}
+						,#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt}
 					</foreach>
 				</if>
 	        )
