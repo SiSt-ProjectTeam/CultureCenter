@@ -37,16 +37,12 @@ var noticeCtrl = (function(){
     	if(target == null && seq == null){
     		location.href = url;
     	}else{
-    		if (strPam.indexOf(target + "=") < 0)
-    		{
+    		if (strPam.indexOf(target + "=") < 0) {
     			location.href = url + "?" + (strPam ? "&" : "") + target + "=" + seq;
-    		}
-    		else
-    		{
+    		} else {
     			var paramArr = strPam.split("&").map(function(value){
     				return value.indexOf(target + "=") < 0 ? value : target + "=" + seq;
     			});
-
     			location.href = url + "?" + paramArr.join("&");
     		}
     	}

@@ -3,7 +3,7 @@
 
 <div class="cont_wrap" style="min-height: 359px;">
 	<div class="cont_inner no_pb" style="min-height: 467px;">
-		<form id="frmSearch" name="frmSearch">
+		<form id="frmSearch" name="frmSearch" action="/community/notice/view.do" >
 			<input type="hidden" id="brchCd" 	 name="brchCd"	   value=""/>
 		    <input type="hidden" id="noticeEvent" name="clCd" 		value="8"/>
 			<input type="hidden" id="notcSeqno"	 name="notcSeqno"  value="" />
