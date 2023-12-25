@@ -202,7 +202,13 @@
 	            HOPEENDHH = #{saveDataList.hopeEndHh},
 	            HOPEENDMI = #{saveDataList.hopeEndMi},
 	            LECTINTRDNCONT = #{saveDataList.lectIntrdnCont},
-	            TXFRBIZPRYN = ${saveDataList.txfrBizprYn == null ? 'null' : "'" + saveDataList.txfrBizprYn + "'"}
+				TXFRBIZPRYN = 
+				<if test="saveDataList.txfrBizprYn != null">
+				    #{saveDataList.txfrBizprYn}
+				</if>
+				<if test="saveDataList.txfrBizprYn == null">
+				    'null'
+				</if>
 	    WHEN NOT MATCHED THEN
 	        INSERT (
 	            IMGPRE, MEMBER_SQ, PRINFCLCTAGRYN, CARRINFOCLCTAGRYN,
@@ -222,8 +228,13 @@
 	            #{saveDataList.frstLrclsCtegryCd}, #{saveDataList.frstLrclsCtegryCdNm}, #{saveDataList.frstMdclsCtegryCd},
 	            #{saveDataList.secLrclsCtegryCd}, #{saveDataList.secLrclsCtegryCdNm}, #{saveDataList.secMdclsCtegryCd},
 	            #{saveDataList.hopeDaywVal}, #{saveDataList.hopeDaywValNm}, #{saveDataList.hopeStHh}, #{saveDataList.hopeStMi},
-	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont}, 
-	            ${saveDataList.txfrBizprYn == null ? 'null' : "'" + saveDataList.txfrBizprYn + "'"}
+	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont},          
+				<if test="saveDataList.txfrBizprYn != null">
+				    #{saveDataList.txfrBizprYn}
+				</if>
+				<if test="saveDataList.txfrBizprYn == null">
+				    'null'
+				</if>
 	        )
 	</update>
 
