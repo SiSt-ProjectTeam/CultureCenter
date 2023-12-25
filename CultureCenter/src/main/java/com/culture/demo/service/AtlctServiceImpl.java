@@ -3,6 +3,7 @@ package com.culture.demo.service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.AtlctDTO;
@@ -10,14 +11,13 @@ import com.culture.demo.domain.AtlctPersonalDTO;
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.mapper.AtlctMapper;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@AllArgsConstructor
 @Log4j
 public class AtlctServiceImpl implements AtlctService {
 	
+	@Autowired
 	private AtlctMapper atlctMapper;
 	
 	// 1. 수강 신청하기
