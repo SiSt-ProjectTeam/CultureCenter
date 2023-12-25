@@ -1,6 +1,5 @@
 package com.culture.demo.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -8,13 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.MemberDTO;
@@ -54,9 +54,17 @@ public class MemberController {
 	
 	// 로그인 페이지 이동
 	@GetMapping("/login/index.do")
-	public String goLogin() throws Exception {
+	public String goLogin(@RequestParam(name = "join", required = false) String joinStatus, Model model) throws Exception {
 		log.info("> /login/index.do : MemberController.goLogin() ... ");
 				
+		if ("success".equals(joinStatus)) {
+	        String alertScript = "<script>alert('회원가입이 성공했습니다. 로그인 후 사용 가능합니다.');</script>";
+	        model.addAttribute("alertScript", alertScript);
+	    } else if ("fail".equals(joinStatus)) {
+	        String alertScript = "<script>alert('회원가입이 실패했습니다. 잠시후 다시 시도바랍니다.');</script>";
+	        model.addAttribute("alertScript", alertScript);
+	    }
+		
 	    return "login.index";
 	}
 	
@@ -92,32 +100,31 @@ public class MemberController {
 						+ "    <div style=\"background:#ffffff;margin:0 auto;padding:0;width:100%;max-width:600px;box-sizing:border-box;-webkit-text-size-adjust:none\">\r\n"
 						+ "        <table align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#fff;margin:0;padding:0;max-width:600px\">\r\n"
 						+ "            <tbody><tr><td style=\"background:#ffffff;padding:63px 2px 43px\">\r\n"
-						+ "                        <a href=\"https://www.jumpit.co.kr/?utm_source=jumpit_per&amp;utm_medium=mail&amp;utm_campaign=info&amp;utm_term=20231205\" rel=\"noreferrer noopener\" target=\"_blank\"><img src=\"http://cdn.jumpit.co.kr/jumpit/logo_black_2x.png?uiVersion=1619423624240\" width=\"116\" height=\"38\" border=\"0\" alt=\"문화센터\" style=\"display:block;\" loading=\"lazy\"></a>\r\n"
+						+ "                        <a href=\"http://192.168.10.174/index.do\" rel=\"noreferrer noopener\" target=\"_blank\"><img src=\"https://culture.lotteshopping.com/common/images/logo-ldcs-color.svg\" width=\"116\" height=\"38\" border=\"0\" alt=\"문화센터\" style=\"display:block;\" loading=\"lazy\"></a>\r\n"
 						+ "                    </td></tr><tr><td style=\"background:#ffffff;padding: 0 2px 0;\">\r\n"
 						+ "                        <table align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n"
 						+ "                            <!--- - - - - - - - - -tbody start- - - - - - - - -->\r\n"
 						+ "                            <tbody><tr><td align=\"left\" style=\"background:#fff;padding:0\">\r\n"
 						+ "        <p style=\"margin:0 0 24px;padding:0;font-family:'Apple SD Gothic', '맑은고딕', 'Nanum Gothic', sans-serif;font-size:26px;color:#000;letter-spacing:-1px;line-height:32px;font-weight:bold\">\r\n"
-						+ "            안녕하세요. 유희진님!<br>\r\n"
+						+ "            안녕하세요. "+memberDTO.getName()+"님!<br>\r\n"
 						+ "            가입을 환영합니다 :)\r\n"
 						+ "        </p>\r\n"
 						+ "        <p style=\"margin:0;padding:0;font-family:'Apple SD Gothic', '맑은고딕', 'Nanum Gothic',sans-serif;font-size:18px;color:#404040;letter-spacing:-1px;line-height:24px\">\r\n"
 						+ "            문화 센터 회원 가입이 완료되었습니다.<br> 지금 바로 강좌를 확인해보세요!\r\n"
 						+ "        </p>\r\n"
-						+ "        <table align=\"center\" width=\"250\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:0\">\r\n"
+						+ "        <table align=\"center\" width=\"500\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:0\">\r\n"
 						+ "            <tbody><tr><td height=\"56\"></td></tr>\r\n"
 						+ "            <tr><td align=\"center\" height=\"56\" style=\"border-radius:4px;background:#000\">\r\n"
-						+ "                    <a href=\"http://192.168.10.174/index.do\" target=\"_blank\" style=\"display:block;line-:56px;border:0;font-family:'apple sd gothic', '맑은고딕', 'nanum gothic',sans-serif;color:#5cf636;font-size:16px;letter-spacing:-0.5px;text-decoration:none;font-weight:bold\" rel=\"noreferrer noopener\">\r\n"
-						+ "                        문화센터 강좌 둘러보기\r\n"
-						+ "                    </a>\r\n"
-						+ "                </td></tr>\r\n"
-						+ "            <tr><td height=\"56\"></td></tr>\r\n"
-						+ "            <tr><td height=\"56\"></td></tr>\r\n"
-						+ "            <tr><td align=\"center\" height=\"56\" style=\"border-radius:4px;background:#000\">\r\n"
-						+ "                    <a href=\"http://192.168.10.174/login/index.do\" target=\"_blank\" style=\"display:block;line-:56px;border:0;font-family:'apple sd gothic', '맑은고딕', 'nanum gothic',sans-serif;color:#5cf636;font-size:16px;letter-spacing:-0.5px;text-decoration:none;font-weight:bold\" rel=\"noreferrer noopener\">\r\n"
-						+ "                        문화센터 강좌 둘러보기\r\n"
-						+ "                    </a>\r\n"
-						+ "                </td></tr>\r\n"
+						+ "                <a href=\"http://192.168.10.174/index.do\" target=\"_blank\" style=\"display:block;line-:56px;border:0;font-family:'apple sd gothic', '맑은고딕', 'nanum gothic',sans-serif;color:#5cf636;font-size:16px;letter-spacing:-0.5px;text-decoration:none;font-weight:bold\" rel=\"noreferrer noopener\">\r\n"
+						+ "                    문화센터 강좌 둘러보기\r\n"
+						+ "                </a>\r\n"
+						+ "            </td>\r\n"
+						+ "            <td height=\"20\"></td>\r\n"
+						+ "            <td align=\"center\" height=\"56\" style=\"border-radius:4px;background:#000\">\r\n"
+						+ "                <a href=\"http://192.168.10.174/login/index.do\" target=\"_blank\" style=\"display:block;line-:56px;border:0;font-family:'apple sd gothic', '맑은고딕', 'nanum gothic',sans-serif;color:#5cf636;font-size:16px;letter-spacing:-0.5px;text-decoration:none;font-weight:bold\" rel=\"noreferrer noopener\">\r\n"
+						+ "                    로그인 바로가기\r\n"
+						+ "                </a>\r\n"
+						+ "            </td></tr>\r\n"
 						+ "            <tr><td height=\"56\"></td></tr>\r\n"
 						+ "        </tbody></table>\r\n"
 						+ "    </td></tr>\r\n"
@@ -142,13 +149,18 @@ public class MemberController {
 			
 			String sendResult = this.emailSenderService.sendEmail(memberDTO.getEmail(), fromAddress, subject, msgBody, true);	
 			log.info("> Welcome Email Send : " + sendResult );
+			String alertScript = "<script>alert('회원가입이 성공했습니다. 로그인 후 사용 가능합니다.');</script>";
+	        response.getWriter().write(alertScript);
+	        
+	        return "redirect:/login/index.do?join=success";
 			
 		} else {
-			String warningScript = "<script>alert('회원가입이 실패했습니다. 잠시후 다시 시도바랍니다.');</script>";
-	        response.getWriter().write(warningScript);
+			String alertScript = "<script>alert('회원가입이 실패했습니다. 잠시후 다시 시도바랍니다.');</script>";
+	        response.getWriter().write(alertScript);
 	        
+	        return "redirect:/login/index.do?join=fail";
 		}
-        return "redirect:../login/index.do";
+        
 	}
 	
 	@GetMapping("/login/idCheck")
