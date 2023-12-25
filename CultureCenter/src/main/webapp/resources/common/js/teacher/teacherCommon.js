@@ -186,12 +186,14 @@ var tcCommon = (function(){
         $(obj).closest(".upload_div").addClass("complete");
         $('input[id=imgPre]').val(imagePreview);
 		//var imgPre = document.getElementById("imgPre").value;
-
+		console.log(imgPre);
+		console.log(obj);
     }
 
     // 업로드 버튼 클릭 이벤트
     var fn_upload_btn_onclick = function(obj){
         $(obj).closest(".upload_div").find("input[type=file]").click();
+        
     }
 
     var delete_image_file = function(obj){

@@ -227,6 +227,7 @@
 											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value=""/>
 											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value=""/>
 											<input type="hidden" id="lectDetailSq" name="lectDetailSq" value="${ classDtl.detail_class_sq }"/>
+											<input type="hidden" id="tcCdNo" name="tcCdNo" value="${ dto.member_sq }"/>
 										</form>
 										<div class="pop_wrap">
 											<div class="pop_cont">
@@ -634,7 +635,8 @@
 	$(".lectStatNm").addClass(className)
 	$(".lectStatCd").text(addText);
 	$(".lectStatCd").closest("a").attr("class", classText).closest(".fixed_btn_area").show();
-	console.log($("#lectDetailSq").val());
+	
+	$("#lectDetailSq").val($('#lectCd'));
 	
 </script>
 <script type="text/javascript" src="/resources/common/js/application/search/searchView.js"></script>

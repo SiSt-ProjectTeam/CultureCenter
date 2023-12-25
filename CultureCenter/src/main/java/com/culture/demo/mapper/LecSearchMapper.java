@@ -15,4 +15,8 @@ public interface LecSearchMapper {
 
 	List<ClassDTO> getSmCate();
 
+	String getMdCateNm(String mdclsCtegryCd);
+
+	String getBranchNm(String branch_id);
+
 }
