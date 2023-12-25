@@ -85,8 +85,7 @@ public class HomeController {
 		
 		// 공지사항
 		List<NoticeDTO> noticeList = this.noticeService.getMainNoticeList();
-		for (NoticeDTO noticeDTO : noticeList) {
-			
+		for (NoticeDTO noticeDTO : noticeList) {			
 			Document document = Jsoup.parse(noticeDTO.getPosting_content());
 	        String textContent = Jsoup.clean(document.body().html(), Whitelist.none());
 
