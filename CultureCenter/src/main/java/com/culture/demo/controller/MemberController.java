@@ -176,10 +176,11 @@ public class MemberController {
 	    Random rand = new Random();                                                      
 	    String verifCode = ""; 
 	    for(int i=0; i<6; i++) verifCode += Integer.toString(rand.nextInt(10)); 
-	             
-	    JSONObject result = this.memberService.sendSMS(verifCode, phoneNumber);
+	    
+	    JSONObject sendResult = this.memberService.sendSMS(verifCode, phoneNumber);
 	    Map<String, Object> rtnMap = new HashedMap();
-	    rtnMap.put(verifCode, result);
+	    rtnMap.put("verifCode", verifCode);
+	    rtnMap.put("sendResult", sendResult);
 	    return  ResponseEntity.ok(rtnMap);           
 	}
 

@@ -16,24 +16,22 @@ var members = (function() {
 		var header = $("meta[name='_csrf_header']").attr("content");
 			
     	var phoneNumber = $("#phone").val();
-		  $.ajax({
-		      type: "POST",
-		      url: "/sendSMS",
-		      data: {phoneNumber:phoneNumber},
-		      cache: false,
+		$.ajax({
+		  type: "POST",
+		  url: "/sendSMS",
+		  data: {phoneNumber:phoneNumber},
+		  cache: false,
           beforeSend: function(xhr) {
               xhr.setRequestHeader(header, token);
-              
           },
-		  success: function(data, status, xhr){
-		      if(data != null){ 
+		  success: function(data, status, xhr){		    		      
+		      if(data.all[4] == 1){  // data.all[4] == success_count
 		          alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호를 확인해주세요.');
-		          verif_code = data;
+		          verif_code = data.all[1];
+		      } else {
+		      	  alert("휴대폰 번호가 올바르지 않거나 서버에 문제가 있습니다.\n잠시후 다시 시도해주세요.");
 		      }
-		  },
-          error: function(e) {
-              alert("휴대폰 번호가 올바르지 않거나 서버에 문제가 있습니다.\n잠시후 다시 시도해주세요.");
-          }
+		  }
 	    }); // sendSMS.ajax
     } // fn_sendSms     
     
