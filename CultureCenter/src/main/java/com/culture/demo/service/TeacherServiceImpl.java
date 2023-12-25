@@ -11,7 +11,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.culture.demo.domain.TawardsDTO;
+import com.culture.demo.domain.TcareerDTO;
+import com.culture.demo.domain.TcertificateDTO;
 import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.domain.TeducationDTO;
 import com.culture.demo.mapper.TeacherMapper;
 
 import lombok.AllArgsConstructor;
@@ -88,6 +92,26 @@ public class TeacherServiceImpl implements TeacherService{
 		log.info("> TeacherServiceImpl.getSaveTeacherInfo......");
 		return this.teacherMapper.saveOpen(memberSq);
 	}
+	@Override
+	public TawardsDTO getSaveTeacherAwardsInfo(int memberSq) {
+		log.info("> TeacherServiceImpl.getSaveTeacherAwardsInfo......");
+		return this.teacherMapper.saveAwardsOpen(memberSq);
+	}
+	@Override
+	public TcareerDTO getSaveTeachercareerInfo(int memberSq) {
+		log.info("> TeacherServiceImpl.getSaveTeachercareerInfo......");
+		return this.teacherMapper.saveCareerOpen(memberSq);
+	}
+	@Override
+	public TeducationDTO getSaveTeacherEducationInfo(int memberSq) {
+		log.info("> TeacherServiceImpl.getSaveTeacherEducationInfo......");
+		return this.teacherMapper.saveEducationOpen(memberSq);
+	}
+	@Override
+	public TcertificateDTO getSaveTeacherCertificateInfo(int memberSq) {
+		log.info("> TeacherServiceImpl.getSaveTeacherCertificateInfo......");
+		return this.teacherMapper.saveCertificateOpen(memberSq);
+	}
 	
 	//APPLY, TEACHER 동시 조회
 	@Override
@@ -118,6 +142,12 @@ public class TeacherServiceImpl implements TeacherService{
 		
 		StringBuilder html = new StringBuilder();
 
+		//
+		TawardsDTO tawardsDTO = getSaveTeacherAwardsInfo(memberSq);
+		TcareerDTO tcareerDTO = getSaveTeachercareerInfo(memberSq); 
+		TeducationDTO teducationDTO = getSaveTeacherEducationInfo(memberSq);
+		TcertificateDTO tcertificateDTO = getSaveTeacherCertificateInfo(memberSq);
+		
 		if (okMap.get("errorCode").equals(2)) {
 			
 			html.append("<script>\r\n");
@@ -282,16 +312,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                        </div>\r\n");
 			html.append("                        <div class=\"td\">\r\n");
 			html.append("                            <div class=\"form_input\">\r\n");
-			
-			if (dto.getTcNm() == null) {
-				
-				html.append("                                <input type=\"text\" name=\"tcNm\" id=\"tcNm\" placeholder=\"예) 김롯데\" value=\"\">\r\n");
-				
-			} else {
-
-				html.append("                                <input type=\"text\" name=\"tcNm\" id=\"tcNm\" placeholder=\"예) 김롯데\" value=\""+ dto.getTcNm() +"\">\r\n");
-			}
-			
+			html.append("                                <input type=\"text\" name=\"tcNm\" id=\"tcNm\" placeholder=\"예) 김롯데\" value=\"" + (dto.getTcNm() == null ? "" : dto.getTcNm()) + "\">\r\n");
 			html.append("                                <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                    <a href=\"javascript:\" role=\"button\" class=\"btn_delete\" title=\"강사명 지우기\"></a>\r\n");
 			html.append("                                </div>\r\n");
@@ -316,7 +337,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                        </div>\r\n");
 			html.append("                        <div class=\"td\">\r\n");
 			html.append("                            <div class=\"form_input\">\r\n");
-			html.append("                                <input type=\"text\" name=\"bday\" id=\"bday\" placeholder=\"예) 19980125\" data-type=\"date\" data-old-value=\"19980125\" value=\""+ bday +"\" maxlength=\"8\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                <input type=\"text\" name=\"bday\" id=\"bday\" placeholder=\"예) 19980125\" data-type=\"date\" data-old-value=\"\" value=\""+ bday +"\" maxlength=\"8\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                    <a href=\"javascript:\" role=\"button\" class=\"btn_delete\" title=\"생년월일 지우기\"></a>\r\n");
 			html.append("                                </div>\r\n");
@@ -366,13 +387,13 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                        </div>\r\n");
 			html.append("                                    </div>\r\n");
 			html.append("                                    <div class=\"form_input\">\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"4\" name=\"hpMidNo\" id=\"hpMidNo\" data-old-value=\"0125\" value=\""+ dto.getHpMidNo() +"\" placeholder=\"예) 0000\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"4\" name=\"hpMidNo\" id=\"hpMidNo\" data-old-value=\"\" value=\""+ (dto.getHpMidNo() == null ? "" : dto.getHpMidNo()) +"\" placeholder=\"예) 0000\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"휴대전화 중간번호 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
 			html.append("                                    </div>\r\n");
 			html.append("                                    <div class=\"form_input\">\r\n");
-			html.append("                                        <input type=\"text\" maxlength=\"4\" name=\"hpLastNo\" id=\"hpLastNo\" data-old-value=\"0808\" value=\""+ dto.getHpLastNo() +"\" placeholder=\"예) 0000\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
+			html.append("                                        <input type=\"text\" maxlength=\"4\" name=\"hpLastNo\" id=\"hpLastNo\" data-old-value=\"\" value=\""+ (dto.getHpLastNo() == null ? "" : dto.getHpLastNo()) +"\" placeholder=\"예) 0000\" oninput=\"fnc.checkMaxLength(this);\" onkeyup=\"tcCommon.checkNumberOnkeyup(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"휴대전화 마지막번호 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -389,7 +410,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                            <div class=\"input_wrap\">\r\n");
 			html.append("                                <div class=\"input_div email\">\r\n");
 			html.append("                                    <div class=\"form_input\">\r\n");
-			html.append("                                        <input type=\"text\" id=\"email\" name=\"email\" value=\""+ dto.getEmail() +"\" placeholder=\"예) lotte\" data-old-value=\"shy\" onkeyup=\"tcCommon.checkEmailOnkeyup1(this);\">\r\n");
+			html.append("                                        <input type=\"text\" id=\"email\" name=\"email\" value=\""+ (dto.getEmail() == null ? "" : dto.getEmail()) +"\" placeholder=\"예) lotte\" data-old-value=\"shy\" onkeyup=\"tcCommon.checkEmailOnkeyup1(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"이메일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -397,16 +418,18 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                    <span>@</span>\r\n");
 			html.append("                                    <!-- 2023-02-09 추가 -->\r\n");
 			html.append("                                    <div class=\"form_input\">\r\n");
-			html.append("                                        <input type=\"text\" id=\"emailAddrCd\" name=\"emailAddrCd\" value=\""+ dto.getEmailAddrCd() +"\" placeholder=\"직접입력\" data-old-value=\"naver.com\" onkeyup=\"tcCommon.checkEmailOnkeyup2(this);\">\r\n");
+			html.append("                                        <input type=\"text\" id=\"emailAddrCd\" name=\"emailAddrCd\" value=\""+ (dto.getEmailAddrCd() == null ? "" : dto.getEmailAddrCd()) +"\" placeholder=\"직접입력\" data-old-value=\"naver.com\" onkeyup=\"tcCommon.checkEmailOnkeyup2(this);\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"이메일 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
 			html.append("                                    </div>\r\n");
-			html.append("                                    <div class=\"form_select_div change\">\r\n");
+			
+			html.append("                                    <div class=\"form_select_div "+ (dto.getEmailAddrCd() == null ? "" : "change" ) +"\">\r\n");
 			html.append("                                        <div class=\"open_area\">\r\n");
-			html.append("                                            <input type=\"hidden\" value=\"naver.com\"/>\r\n");
+			html.append("                                            <input type=\"hidden\" value=\""+ dto.getEmailAddrCd() +"\"/>\r\n");
 			html.append("                                            <a class=\"btn_open\" href=\"javascript:\">\r\n");
-			html.append("                                                <span>네이버</span>\r\n");
+			html.append("                                    <span>" + (dto.getEmailAddrCd() != null && dto.getEmailAddrCd().equals("hanmail.net") ? "다음(한메일)" : dto.getEmailAddrCd()) + "</span>\r\n");
+			
 			html.append("                                            </a>\r\n");
 			html.append("                                        </div>\r\n");
 			html.append("                                        <div class=\"dimd\"></div>\r\n");
@@ -493,23 +516,23 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                        <div class=\"td\">\r\n");
 			html.append("                            <div class=\"input_wrap\">\r\n");
 			html.append("                                <div class=\"input_div\">\r\n");
-			html.append("                                    <div class=\"form_input postcode disabled\">\r\n");
+			html.append("                                    <div class=\"form_input postcode "+( dto.getPstno() == null ? "" : " disabled ")+"\">\r\n");
 			html.append("                                        <!-- 2022-11-28 disabled class 추가 (값이 들어갈 경우 class 삭제 부탁드립니다) -->\r\n");
-			html.append("                                        <input type=\"text\" placeholder=\"우편번호\" name=\"pstno\" id=\"pstno\" value=\""+ dto.getPstno() +"\" readonly>\r\n");
+			html.append("                                        <input type=\"text\" placeholder=\"우편번호\" name=\"pstno\" id=\"pstno\" value=\""+ ( dto.getPstno() == null ? "" : dto.getPstno() ) +"\" readonly>\r\n");
 			html.append("                                    </div>\r\n");
 			html.append("                                    <a class=\"s_color_btn\" href=\"javascript:\" onclick=\"teacherRequestCtrl.searchAddr();\">\r\n");
 			html.append("                                        <span>검색</span>\r\n");
 			html.append("                                    </a>\r\n");
 			html.append("                                </div>\r\n");
 			html.append("                                <div class=\"input_div\">\r\n");
-			html.append("                                    <div class=\"form_input w100p disabled\">\r\n");
+			html.append("                                    <div class=\"form_input w100p "+ (dto.getAddr() == null ? "" : " disabled ") +"\">\r\n");
 			html.append("                                        <!-- 2022-11-28 disabled class 추가 (값이 들어갈 경우 class 삭제 부탁드립니다) -->\r\n");
-			html.append("                                        <input type=\"text\" placeholder=\"기본주소\" name=\"addr\" id=\"addr\" value=\""+ dto.getAddr() +"\" readonly>\r\n");
+			html.append("                                        <input type=\"text\" placeholder=\"기본주소\" name=\"addr\" id=\"addr\" value=\""+ ( dto.getAddr() == null ? "" : dto.getAddr() ) +"\" readonly>\r\n");
 			html.append("                                    </div>\r\n");
 			html.append("                                </div>\r\n");
 			html.append("                                <div class=\"input_div\">\r\n");
-			html.append("                                    <div class=\"form_input w100p \">\r\n");
-			html.append("                                        <input type=\"text\" placeholder=\"상세주소 (건물, 아파트, 동/호수 선택 입력)\" name=\"dtlAddr\" id=\"dtlAddr\" value=\""+ dto.getDtlAddr() +"\">\r\n");
+			html.append("                                    <div class=\"form_input w100p "+ ( dto.getDtlAddr() == null ? " disabled " : "" ) +" \">\r\n");
+			html.append("                                        <input type=\"text\" placeholder=\"상세주소 (건물, 아파트, 동/호수 선택 입력)\" name=\"dtlAddr\" id=\"dtlAddr\" value=\""+ ( dto.getDtlAddr() == null ? "" : dto.getDtlAddr() ) +"\">\r\n");
 			html.append("                                        <div class=\"input_btn_wrap\">\r\n");
 			html.append("                                            <button type=\"button\" class=\"btn_delete\" title=\"상세주소 지우기\"></button>\r\n");
 			html.append("                                        </div>\r\n");
@@ -525,7 +548,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                        <div class=\"td\">\r\n");
 			html.append("                            <div class=\"form_textarea\">\r\n");
 			html.append("                                <div class=\"wrap_for_msg\">\r\n");
-			html.append("                                    <textarea name=\"selfIntrdnCont\" id=\"\" cols=\"\" rows=\"\" placeholder=\"강사 본인에 대한 소개 내용을 간략히 작성해주세요.\" data-maxlength=\"2000\" onkeyup=\"tcCommon.textareaOnkeyup(this)\">" + dto.getSelfIntrdnCont() +"</textarea>\r\n");
+			html.append("                                    <textarea name=\"selfIntrdnCont\" id=\"\" cols=\"\" rows=\"\" placeholder=\"강사 본인에 대한 소개 내용을 간략히 작성해주세요.\" data-maxlength=\"2000\" onkeyup=\"tcCommon.textareaOnkeyup(this)\">" + ( dto.getSelfIntrdnCont() == null ? "" : dto.getSelfIntrdnCont() ) +"</textarea>\r\n");
 			html.append("                                </div>\r\n");
 			html.append("                                <p class=\"check_byte\">\r\n");
 			html.append("                                    <span class=\"r_byte\">0</span>\r\n");
@@ -548,7 +571,7 @@ public class TeacherServiceImpl implements TeacherService{
 			html.append("                                <div class=\"input_div w100p\">\r\n");
 			html.append("                                    <div class=\"form_select_div\">\r\n");
 			html.append("                                        <div class=\"open_area\">\r\n");
-			html.append("                                            <input type=\"hidden\" id=\"schlClCd\" name=\"tceduList[][schlClCd]\" value=\"\"/>\r\n");
+			html.append("                                            <input type=\"hidden\" id=\"schlClCd\" name=\"tceduList[][schlClCd]\" value=\""+ teducationDTO.getSchlClCd() +"\"/>\r\n");
 			html.append("                                            <a class=\"btn_open\" href=\"javascript:\">\r\n");
 			html.append("                                                <span>학교 선택</span>\r\n");
 			html.append("                                            </a>\r\n");
@@ -4828,5 +4851,6 @@ public class TeacherServiceImpl implements TeacherService{
 		
 		return html.toString();
 	}
+
 
 }

@@ -7,7 +7,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.culture.demo.domain.BranchDTO;
+import com.culture.demo.domain.TawardsDTO;
+import com.culture.demo.domain.TcareerDTO;
+import com.culture.demo.domain.TcertificateDTO;
 import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.domain.TeducationDTO;
 
 public interface TeacherMapper {
 	
@@ -52,4 +56,8 @@ public interface TeacherMapper {
 	
 	//임시저장 글 불러오기
 	public TeacherDTO saveOpen(int memberSq);
+	public TawardsDTO saveAwardsOpen(int memberSq);
+	public TcareerDTO saveCareerOpen(int memberSq);
+	public TeducationDTO saveEducationOpen(int memberSq);
+	public TcertificateDTO saveCertificateOpen(int memberSq);
 }
