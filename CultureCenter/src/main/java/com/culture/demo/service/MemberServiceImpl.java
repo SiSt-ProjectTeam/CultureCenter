@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ChildrenDTO;
@@ -22,6 +23,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
 	// 1. 마이페이지 정보 조회
 	@Override
@@ -126,6 +129,62 @@ public class MemberServiceImpl implements MemberService {
 	    log.info(">> MemberServiceImpl.updateCar ...");
 	    this.memberMapper.updateCar(dto);
 	}
+
+	   // 회원정보 수정
+    @Override
+    public boolean updateMember(MemberDTO memberDTO) throws Exception {
+        log.info(">> MemberServiceImpl.updateMember ...");
+        int rowsAffected = this.memberMapper.updateMember(memberDTO);
+        return rowsAffected > 0; // 업데이트가 성공하면 true 반환, 실패하면 false 반환
+    }
+    
+    // 비번 첵크
+    @Override
+    public boolean checkPassword(int member_sq, String enteredPassword) {
+        log.info(">> MemberServiceImpl.checkPassword ...");
+
+        // 회원의 저장된 암호화된 비밀번호 조회
+        String storedPassword = memberMapper.getPasswordByMemberSq(member_sq);
+        System.out.println(storedPassword);
+        
+        // 비밀번호 비교
+        return passwordEncoder.matches(enteredPassword, storedPassword);
+    }
+
+    // 비번 변경
+    @Override
+    public boolean updatePassword(int member_sq, String newPassword) {
+        log.info(">> MemberServiceImpl.updatePassword ...");
+
+        // 새로운 비밀번호를 암호화
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+
+        // 회원의 비밀번호 업데이트
+        int rowsAffected = memberMapper.updatePassword(member_sq, encryptedPassword);
+
+        return rowsAffected > 0; // 업데이트가 성공하면 true 반환, 실패하면 false 반환
+    }
+
+    @Override
+    public boolean checkMemberDelete(int memberSq) {
+        try {
+            // 동반 수강자 정보 삭제
+            memberMapper.deleteChildrenMember(memberSq);
+
+            // 회원 권한 삭제
+            memberMapper.deleteMemberAuthorities(memberSq);
+            
+            // 회원 삭제
+            memberMapper.deleteMember(memberSq);
+
+            return true;
+        } catch (Exception e) {
+            log.error("Error deleting member: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 	
 	
 }

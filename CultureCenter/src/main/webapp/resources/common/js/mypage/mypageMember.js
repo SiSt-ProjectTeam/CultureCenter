@@ -84,7 +84,9 @@ if (confirm("동반 수강자를 삭제하시겠습니까?")) {
             if (data.rtnCode == "H") {
                 alert("현재 수강중인 강좌의 수강이 종료된 후 탈퇴 가능합니다.");
             } else if (confirm("회원탈퇴를 하시겠습니까?")) {
-                members.callScreen('mbrSesUrl');
+            //  members.callScreen('mbrSesUrl');
+               // Ajax 성공 후 리다이렉트
+            window.location.href = '/login/index.do';
             }
         }, "/mypage/member/checkMemberDelete.ajax", "json", false, false);
     }
