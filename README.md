@@ -46,9 +46,6 @@
    6. <a href="https://github.com/SiSt-ProjectTeam/CultureCenter/wiki/API-%EB%AA%85%EC%84%B8%EC%84%9C">API 명세서</a>
    7. <a href="https://github.com/SiSt-ProjectTeam/CultureCenter/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81">시연영상
 
-### ▶ 참고 문서
-   1. 오픈API
-
 ### ▶ 회의록
    1. <a href="https://github.com/SiSt-ProjectTeam/CultureCenter/wiki/CultureCenter-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-1%EC%B0%A8-%ED%9A%8C%EC%9D%98%EB%A1%9D#%ED%9A%8C%EC%9D%98-%EC%9D%BC%EC%8B%9C--2023%EB%85%84-12%EC%9B%94-6%EC%9D%BC">2023-12-06 회의</a>
    2. <a href="https://github.com/SiSt-ProjectTeam/CultureCenter/wiki/CultureCenter-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-2%EC%B0%A8-%ED%9A%8C%EC%9D%98%EB%A1%9D">2023-12-11 회의</a>
