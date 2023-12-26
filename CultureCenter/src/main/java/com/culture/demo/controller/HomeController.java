@@ -1,6 +1,5 @@
 package com.culture.demo.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,8 +85,7 @@ public class HomeController {
 		
 		// 공지사항
 		List<NoticeDTO> noticeList = this.noticeService.getMainNoticeList();
-		for (NoticeDTO noticeDTO : noticeList) {
-			
+		for (NoticeDTO noticeDTO : noticeList) {			
 			Document document = Jsoup.parse(noticeDTO.getPosting_content());
 	        String textContent = Jsoup.clean(document.body().html(), Whitelist.none());
 

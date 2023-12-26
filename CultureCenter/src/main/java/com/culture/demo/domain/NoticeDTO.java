@@ -13,6 +13,7 @@ public class NoticeDTO {
 	
 	private int notice_sq;			// 게시물번호
 	private int branch_id;			// 지점아이디
+	private String branch_nm;		// 지점명
 	private String mustread_fl;		// 필독여부
 	private LocalDate write_dt;		// 작성일자
 	private String posting_title;	// 게시물 제목

@@ -2,7 +2,9 @@ package com.culture.demo.service;
 
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.mapper.MemberMapper;
 
 import lombok.extern.log4j.Log4j;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service
 @Log4j
@@ -72,6 +76,33 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.idCheck(id);
 		log.info(">> MemberServiceImpl.idCheck ...");
 		return memberMapper.idCheck(id);
+	}
+	
+	// 회원가입 휴대폰 인증번호 문자 발송
+	@Override                                                          
+	public JSONObject sendSMS(String verifCode, String to) {                  
+		String api_key = "NCSIN5WS4RQD2HVQ";                           
+	    String api_secret = "I9DTIJUEJQSJOPJVCBZTQ6EZ6W4BWP3Z";
+	    Message coolsms = new Message(api_key, api_secret);            
+	                                                                   
+	    String from = "01049117043";                                   
+	                                                                   
+	    HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", to);                                          
+	    params.put("from", from);                                      
+	    params.put("type", "SMS");                                     
+	    params.put("text", "[문화센터] 인증번호는 " + verifCode + " 입니다.");        
+	    params.put("app_version", "test app 1.2");                     
+	             
+	    JSONObject result = null;
+	    try {                                                          
+	    	result = coolsms.send(params);
+	    	log.info(">> MemberServiceImpl.sendSMS()  result: " + result.toString());
+	    } catch (CoolsmsException e) {                                 
+	        System.out.println(e.getMessage());                        
+	        System.out.println(e.getCode());	                  
+	    }
+    	return result;                                                 
 	}
 
 	// 아이디 찾기

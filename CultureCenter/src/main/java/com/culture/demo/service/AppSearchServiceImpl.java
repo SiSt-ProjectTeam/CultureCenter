@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
@@ -190,7 +192,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					fee = decimalFormat.format(dto.getClass_fee());
 
 					html.append("<div class=\"swiper-slide card_list_v\">");
-					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">");
+					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
 					html.append("      <div class=\"img_resize_w img\">");
 					html.append("		  <img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">");
 					html.append("      </div>");
@@ -227,7 +229,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					fee = decimalFormat.format(dto.getClass_fee());
 
 					html.append("<div class=\"swiper-slide card_list_v\" data-tot-cnt=\""+ dto.getTot_cnt() +"\">");
-					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">");
+					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">");
 					html.append("      <p class=\"small_label wide NEW\"></p>");
 					html.append("      <div class=\"img_resize_w img\">");
 					html.append("		  <img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">");
@@ -265,7 +267,7 @@ public class AppSearchServiceImpl implements AppSearchService {
 					fee = decimalFormat.format(dto.getClass_fee());
 
 					html.append("<div class=\"card_list_h\">");
-					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getClass_semester_sq()+"\" class=\"lec_list\">\r\n");
+					html.append("	<a href=\"/application/search/view.do?branch_id="+dto.getBranch_id()+"&amp;yy="+dto.getOpen_year()+"&amp;lectSmsterCd="+dto.getOpen_smst_id()+"&amp;lectCd="+dto.getDetail_class_sq()+"\" class=\"lec_list\">\r\n");
 					html.append("      <div class=\"img_wrap\">");
 					html.append("      	 <div class=\"img_resize_w img\">");
 					html.append("		  <img src=\"/upload/thumbnail/"+dto.getClass_img()+"\" alt=\""+dto.getClass_img()+"\">\r\n");
@@ -653,6 +655,18 @@ public class AppSearchServiceImpl implements AppSearchService {
 		html.append("</div>");
 		
 		return html.toString();
+	}
+
+	@Override
+	public MemberDTO selectMemberInfo(int member_sq) {
+		log.info("AppSearchServiceImpl.selectMemberInfo() 호출");
+		return this.appSearchMapper.selectMemberInfo(member_sq);
+	}
+
+	@Override
+	public List<ChildrenDTO> selectChildInfo(int member_sq) {
+		log.info("AppSearchServiceImpl.selectChildInfo() 호출");
+		return this.appSearchMapper.selectChildInfo(member_sq);
 	}
 
 }

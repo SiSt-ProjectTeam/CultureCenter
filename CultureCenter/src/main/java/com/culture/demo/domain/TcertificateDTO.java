@@ -14,4 +14,8 @@ public class TcertificateDTO {
 	private String certificate_nm;
 	private String acquisition_dt;
 	
+	private String issueAgncNm;					//발행기관
+	private String issueNm;						//이름
+	private int issueDt;						//취득일, 수상일
+	
 }

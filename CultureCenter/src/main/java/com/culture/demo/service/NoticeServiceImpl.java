@@ -34,37 +34,42 @@ public class NoticeServiceImpl implements NoticeService {
 	public String noticeHTML(FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException {
 		log.info("> NoticeServiceImpl.noitceHTML...");
 			
-		int branch_id = frmSearchDTO.getBrchCd();
+		int branch_id = frmSearchDTO.getBrchCd();		
+		List<NoticeDTO> list = this.noticeMapper.getNoticeList(branch_id, frmSearchDTO); 
 		
-		List<NoticeDTO> list = noticeMapper.getNoticeList(branch_id, frmSearchDTO); 
-		
-		StringBuilder html = new StringBuilder();
-		int totCnt = list.size();  // 게시물 총 갯수
-		
+		StringBuilder html = new StringBuilder();		
 		if (list.isEmpty()) {
 			html.append("<div class=\"no_srch_area no_pb\" data-tot-cnt=\"0\">\r\n");
-			html.append("			<div class=\"no_srch_div\">\r\n");
-			html.append("				<p class=\"txt f_h2\">\r\n");
-			html.append("					<span class=\"srch_value\">검색결과가 없습니다.</span>\r\n");
-			html.append("				</p>\r\n");
-			html.append("			</div>\r\n");
-			html.append("		</div>");
+			html.append("	<div class=\"no_srch_div\">\r\n");
+			html.append("		<p class=\"txt f_h2\">\r\n");
+			html.append("			<span class=\"srch_value\">검색결과가 없습니다.</span>\r\n");
+			html.append("		</p>\r\n");
+			html.append("	</div>\r\n");
+			html.append("</div>");
 		}else {
 			for(NoticeDTO dto : list ) {
-				html.append("<a href=\"javascript:noticeCtrl.detail('notcSeqno' , "+dto.getNotice_sq()+" , '/community/notice/view.do')\" class=\"notice_list typeB\" data-tot-cnt=\""+dto.getTot_cnt()+"\" data-seq=\""+dto.getNotice_sq()+"\">\r\n");
-				html.append("					<div class=\"title\">\r\n");
-				html.append("						<p>"+dto.getPosting_title()+"</p>\r\n");
-				html.append("					</div>\r\n");
-				html.append("					<div class=\"type_div\">\r\n");
-				html.append("						<p class=\"type\">"+dto.getWrite_dt()+"</p>\r\n");
-				html.append("					</div>\r\n");
-				html.append("				</a>");
+				html.append("<a href=\"javascript:$('#notcSeqno').val('"+dto.getNotice_sq()+"'); $('#frmSearch').submit();\" class=\"notice_list typeB\" data-tot-cnt=\""+dto.getTot_cnt()+"\" data-seq=\""+dto.getNotice_sq()+"\">\r\n");
+				html.append("	<div class=\"title\">\r\n");
+				html.append("		<p>"+dto.getPosting_title()+"</p>\r\n");
+				html.append("	</div>\r\n");
+				html.append("	<div class=\"type_div\">\r\n");
+				html.append("		<p class=\"type\">"+dto.getWrite_dt()+"</p>\r\n");
+				html.append("	</div>\r\n");
+				html.append("</a>");
 			} // for
 			
 		} // if
 		
-		return html.toString();
-		
+		return html.toString();		
  	} // noticeHTML
+	
+	
+	// 공지사항 상세 정보 가져오기
+	public NoticeDTO getNotice(int notcSeqno) {
+		log.info("> NoticeServiceImpl.getNotice...");		
+		NoticeDTO noticeDTO = this.noticeMapper.getNotice(notcSeqno);
+		
+		return noticeDTO;
+	};
 
 } // NoticeServiceImpl
