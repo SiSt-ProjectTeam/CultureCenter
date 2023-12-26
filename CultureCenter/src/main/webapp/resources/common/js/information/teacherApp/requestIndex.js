@@ -1,4 +1,5 @@
 var requestIndexCtrl = (function(){
+	
     var popupType;
 
     "use strict";
@@ -26,20 +27,23 @@ var requestIndexCtrl = (function(){
         btnObj.append('<span class="blind"></span>');
         $("#application_popup #popupContent").after(btnObj);
     }
-
+	
     var open_popup = function(html){
+    
+        if($('#wrap').data('isLogin') == "Y"){//로그인 여부 체크 추가
+    
         var $layer = $("#application_popup");
         var $con = $("#popupContent");
         var cont = $(".cont_wrap");
-        
+
         $con.html(html);
 
-        if(html.indexOf("<!doctype html>") > -1){
-            // 로그인 안했을 경우
-            init();
-            return;
-        }
-
+		}else{	
+			if(confirm("로그인이 필요한 서비스입니다.")){
+					fnc.moveLoginPage();
+			}
+		}
+		
         if(typeof init_alert === 'function'){
             init_alert(); //alert
             init_alert = null;
