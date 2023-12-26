@@ -16,9 +16,9 @@ var mypageInquiryCtrl = (function(){
 	}
 	
 	//접수상태검색조건
-	var fn_select_status_change = function(status)
+	var fn_select_status_change = function(faq_status)
 	{
-		$("#status").val(status);
+		$("#faq_status").val(faq_status);
 		
 		fn_search();
 	}
@@ -28,13 +28,13 @@ var mypageInquiryCtrl = (function(){
 	{
 		if($(obj).parent().hasClass('cd1'))
 		{
-			$("#clCd").val(cd);
-		//	alert("구분cd=" + $("#clCd").val());
+			$("#faq_tp_id").val(cd);
+		//	alert("구분cd=" + $("#faq_tp_id").val());
 		}
 		else if ($(obj).parent().hasClass('cd2'))
 		{
-			$("#strCd").val(cd);
-		//	alert("지점cd=" + $("#strCd").val());
+			$("#branch_id").val(cd);
+		//	alert("지점cd=" + $("#branch_id").val());
 		}
 	}
 	
@@ -64,30 +64,27 @@ var mypageInquiryCtrl = (function(){
 	var fn_detail = function(obj , seq){
        // var ds = obj.parentElement.dataset;
         //alert("ds===" + ds);
-        var param = "onlnQuesSeqno="+seq;
+        var param = "personal_faq_sq="+seq;
+        
         location.href = "/mypage/inquiry/view.do?" + param;
     }
 	
 	//문의글 삭제
-	var fn_delete_inquiry = function(obj){
-		
-		if(!confirm("삭제하시겠습니까?")) return;
-		
-		fnc.frmAjax(function(data){
-			
-			if(parseInt(data.actCnt, 10) > 0)
-        	{
-        		alert("삭제되었습니다.");
-        		location.href="./list.do";
-        	}
-			else
-			{
-				alert("삭제 실패했습니다.")
-				return false;
-			}
-            
-        }, "/mypage/inquiry/delete.ajax", $("#inquiryFrm"), null, false, true, true);
-		
+	var fn_delete_inquiry = function(obj, deleteUrl) {
+    if (!confirm("삭제하시겠습니까?")) return;
+
+	var personal_faq_sq = $("#personal_faq_sq").val();
+
+    fnc.frmAjax(function(data) {
+        if (parseInt(data.actCnt, 10) > 0) {
+            alert("삭제되었습니다.");
+            location.href = "./list.do";
+        } else {
+            alert("삭제 실패했습니다.");
+            return false;
+        }
+    }, "/mypage/inquiry/delete.do", { actCnt: parseInt(personal_faq_sq, 10)  }, null, false, true, true);
+
 	}
 	
 	//textarea
@@ -112,7 +109,14 @@ var mypageInquiryCtrl = (function(){
 				, url : "/mypage/inquiry/list.ajax"
 				, pageIndex : $("#frmInquiry #pageIndex").val()
 				, listCnt : $("#frmInquiry #listCnt").val()
-				, callbackFunc : function() { $("#totCnt").text(searchMore.totCnt  + "개"); }
+				, callbackFunc : function() { 
+
+				console.log($("#frmInquiry #pageIndex").val());
+				console.log($("#frmInquiry #listCnt").val());
+				
+				$("#totCnt").text(searchMore.totCnt  + "개"); 
+				console.log($("#totCnt").text());
+				}
 		}
 	
 		searchMore = new fnc.SearchMore(initObj);
@@ -151,26 +155,26 @@ var mypageInquiryCtrl = (function(){
 				}
 		}
 		
-		if(frm.obj("titNm").val().trim() =="")
+		if(frm.obj("faq_title").val().trim() =="")
 		{
 			alert("제목을 입력해주세요.");
-			frm.obj("titNm").focus();
+			frm.obj("faq_title").focus();
 			return false;
 		}
-		if($("#clCd").val() =="")
+		if($("#faq_tp_id").val() =="")
 		{
 			alert("문의 유형을 선택해주세요.");
 			return false;
 		}
-		if($("#strCd").val() =="")
+		if($("#branch_id").val() =="")
 		{
 			alert("지점을 선택해주세요");
 			return false;
 		}
-		if(frm.obj("quesCont").val().trim() == "")
+		if(frm.obj("faq_detail").val().trim() == "")
 		{
 			alert("내용을 입력해주세요");
-			frm.obj("quesCont").focus();
+			frm.obj("faq_detail").focus();
 			return false;
 		}
 		else
@@ -179,13 +183,11 @@ var mypageInquiryCtrl = (function(){
 			if(!confirm("등록하시겠습니까?")) return;
 			
 			fnc.frmAjax(function(data){
-	            
-            	if(parseInt(data.actCnt, 10) > 0)
-            	{
-            		//alert("등록되었습니다.");
-            		location.href="./success.do";
+			
+            		alert("등록되었습니다.");
+            		location.href="http://localhost/mypage/inquiry/list.do";
             		//fn_close_popup();
-            	}
+            	
        	        }, "/mypage/inquiry/insert.ajax", $("#inquiryRegFrm"), "json", true, false, true);
 		}
 		
@@ -194,7 +196,7 @@ var mypageInquiryCtrl = (function(){
 	$(document).ready(function(){
 		
 		pageType = $("#frmInquiry").data("pageType");
-
+				
         if(pageType == "list"){
         	init();
         }
