@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-	<!-- head 부분 -->
         
 <form id="reviewForm" data-page-type="list">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
@@ -168,10 +166,7 @@
                                     </div>
                                 <div class="swiper-pagination"></div>
                             </div>
-                            <!-- 2023-03-29 삭제
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            // 2023-03-29 삭제 -->
+
                         </div>
                     </div>
                 <div class="filter_bar_area no_padding">
