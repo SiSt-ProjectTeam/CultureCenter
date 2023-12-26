@@ -92,8 +92,8 @@
 						<div class="other_info">
 							<p class="f_caption2">회원정보 및 비밀번호 변경은 L.Point에서 수정 가능합니다.</p>
 							<div class="flex_btn_wrap">
-								<a class="border_btn" href="javascript:members.callScreen('chPwdUrl')"><span>비밀번호 변경</span></a> 
-								<a class="border_btn" href="javascript:members.callScreen('mbrMngUrl')"><span>회원정보 변경</span></a>
+								<a class="border_btn" onclick="openNewWindow('/mypage/member/upPw.do')"><span>비밀번호 변경</span></a> 
+								<a class="border_btn" onclick="openNewWindow('/mypage/member/upMember.do')"><span>회원정보 변경</span></a>
 							</div>
 						</div>
 					</div>
@@ -177,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-
+					
     <script>
         // 페이지 로드 시 실행되는 스크립트
         document.addEventListener("DOMContentLoaded", function () {
@@ -198,6 +198,19 @@
 							<div class="right"></div>
 						</div>
 						<div class="info_txt" id="familyList">
+							<div class="info_list">
+						    <c:forEach var="child" items="${mDto.childrenList}">
+						        <div class="writer_info">
+						            <p class="item_name f_body1">${child.children_nm}</p>
+						            <a href="javascript:mypageMember.deleteFamily(${child.children_sq})" class="comment_remove f_caption1">삭제</a>
+						        </div>
+						        <div class="type_div">
+						            <p class="type">자녀</p>
+						            <p class="type">${child.child_birth_dt}</p>
+						            <p class="type">${child.realGender}</p>
+						        </div>
+						    </c:forEach>
+						</div>
 							
 						</div>
 						<div class="other_info btn_right">
@@ -207,6 +220,8 @@
 							</div>
 						</div>
 					</div>
+					
+					
 				</div>
 				<div class="func_btn">
 					<a href="javascript:mypageMember.drawMember();" class="f_btn">롯데백화점 문화센터 탈퇴하기</a> 
@@ -271,6 +286,8 @@
 		</a>
 	</div>
 </div>
+
+
 <div class="layer_popup add_children" id="addFamilyPop" style="display: none">
 	<div class="pop_wrap w800 full">
 		<div class="pop_head">
@@ -300,7 +317,7 @@
 								</div>
 								<div class="td">
 									<div class="form_input">
-										<input type="text" name="korNm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
+										<input type="text" name="children_nm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
 										<div class="input_btn_wrap">
 											<button type="button" class="btn_delete" title="이름 지우기"></button>
 										</div>
@@ -424,5 +441,18 @@
 	</div>
 </div>
 
+<script>
+    function openNewWindow(url) {
+        var width = 450;
+        var height = 470;
+        var left = (screen.width / 2) - (width / 2) + window.screenLeft;
+        var top = (screen.height / 2) - (height / 2) + window.screenTop;
+
+        window.open(url, '_blank', 'width=' + width + ', height=' + height + ', resizable=yes, top=' + top + ', left=' + left);
+    }
+</script>
+<script>
+    var contextPath = '<c:url value="/"/>';
+</script>
 <script type="text/javascript" src="/resources/common/js/mypage/mypageMember.js"></script>
 <script type="text/javascript" src="/resources/common/js/member/addFamilyPop.js"></script>

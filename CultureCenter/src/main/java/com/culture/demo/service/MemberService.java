@@ -37,4 +37,13 @@ public interface MemberService {
 	
 	// 차량번호 수정
 	public void updateCar(MemberDTO dto) throws Exception ;
+
+	// 회원정보 수정
+	public boolean updateMember(MemberDTO memberDTO) throws Exception;	
+	// 비밀번호 확인
+	public boolean checkPassword(int member_sq, String enteredPassword);
+	// 비밀번호 수정
+	public boolean updatePassword(int member_sq, String newPassword);
+	// 회원 탈퇴
+	public boolean checkMemberDelete(int memberSq);
 }
