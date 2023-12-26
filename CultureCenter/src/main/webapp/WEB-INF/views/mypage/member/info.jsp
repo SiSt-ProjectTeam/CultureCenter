@@ -92,8 +92,8 @@
 						<div class="other_info">
 							<p class="f_caption2">회원정보 및 비밀번호 변경은 L.Point에서 수정 가능합니다.</p>
 							<div class="flex_btn_wrap">
-								<a class="border_btn" href="javascript:members.callScreen('chPwdUrl')"><span>비밀번호 변경</span></a> 
-								<a class="border_btn" href="javascript:members.callScreen('mbrMngUrl')"><span>회원정보 변경</span></a>
+								<a class="border_btn" onclick="openNewWindow('/mypage/member/upPw.do')"><span>비밀번호 변경</span></a> 
+								<a class="border_btn" onclick="openNewWindow('/mypage/member/upMember.do')"><span>회원정보 변경</span></a>
 							</div>
 						</div>
 					</div>
@@ -177,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-
+					
     <script>
         // 페이지 로드 시 실행되는 스크립트
         document.addEventListener("DOMContentLoaded", function () {
@@ -199,6 +199,7 @@
 						</div>
 						<div class="info_txt" id="familyList">
 							
+							
 						</div>
 						<div class="other_info btn_right">
 							<div class="flex_btn_wrap">
@@ -207,6 +208,8 @@
 							</div>
 						</div>
 					</div>
+					
+					
 				</div>
 				<div class="func_btn">
 					<a href="javascript:mypageMember.drawMember();" class="f_btn">롯데백화점 문화센터 탈퇴하기</a> 
@@ -271,12 +274,14 @@
 		</a>
 	</div>
 </div>
-<div class="layer_popup add_children" id="addFamilyPop" style="display: none">
-	<div class="pop_wrap w800 full">
+
+
+<div class="layer_popup add_children" id="addFamilyPop" style="display: none; top: 0px; height: 943px;" tabindex="0">
+	<div class="pop_wrap w800 full" style="transform: translate(0px, 0px); margin-left: -400px; margin-top: -377px; height: 754px;">
 		<div class="pop_head">
 			<p class="title">자녀회원 추가하기</p>
 		</div>
-		<div class="pop_cont">
+		<div class="pop_cont" style="transform: translate(0px, 0px); height: 682px;">
 			<div class="for_padding">
 				<div class="scroll_area">
 					<form id="addFamilyFrm" method="post">
@@ -300,7 +305,7 @@
 								</div>
 								<div class="td">
 									<div class="form_input">
-										<input type="text" name="korNm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
+										<input type="text" name="children_nm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
 										<div class="input_btn_wrap">
 											<button type="button" class="btn_delete" title="이름 지우기"></button>
 										</div>
@@ -325,7 +330,7 @@
 								</div>
 								<div class="td">
 									<div class="form_input">
-										<input type="text" name="bday" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023"/>
+										<input type="text" name="child_birth_dt" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023"/>
 										<div class="input_btn_wrap">
 											<button type="button" class="btn_delete" title="생년월일 지우기"></button>
 										</div>
@@ -339,11 +344,11 @@
 								<div class="td small">
 									<div class="radio_flex_box">
 										<div class="form_radio">
-											<input type="radio" id="gender1" name="sexCd" value="M" checked>
+											<input type="radio" id="gender1" name="gender" value="M" checked>
 											<label for="gender1">남성</label>
 										</div>
 										<div class="form_radio">
-											<input type="radio" id="gender2" name="sexCd" value="F">
+											<input type="radio" id="gender2" name="gender" value="F">
 											<label for="gender2">여성</label>
 										</div>
 									</div>
@@ -424,5 +429,18 @@
 	</div>
 </div>
 
+<script>
+    function openNewWindow(url) {
+        var width = 450;
+        var height = 470;
+        var left = (screen.width / 2) - (width / 2) + window.screenLeft;
+        var top = (screen.height / 2) - (height / 2) + window.screenTop;
+
+        window.open(url, '_blank', 'width=' + width + ', height=' + height + ', resizable=yes, top=' + top + ', left=' + left);
+    }
+</script>
+<script>
+    var contextPath = '<c:url value="/"/>';
+</script>
 <script type="text/javascript" src="/resources/common/js/mypage/mypageMember.js"></script>
 <script type="text/javascript" src="/resources/common/js/member/addFamilyPop.js"></script>

@@ -40,4 +40,15 @@ public interface MemberService {
 
 	// 6. 수강결제 완료시 수강내역 추가
 	public int updateOrderClass(int member_sq, int addCnt) throws Exception;
+
+	// 회원정보 수정
+	public boolean updateMember(MemberDTO memberDTO) throws Exception;	
+	// 비밀번호 확인
+	public boolean checkPassword(int member_sq, String enteredPassword);
+	// 비밀번호 수정
+	public boolean updatePassword(int member_sq, String newPassword);
+	// 회원 탈퇴
+	public boolean checkMemberDelete(int memberSq);
+
+	public String familyListHTML(int member_sq) throws ClassNotFoundException, SQLException;
 }

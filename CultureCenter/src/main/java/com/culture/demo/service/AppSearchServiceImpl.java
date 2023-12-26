@@ -612,8 +612,8 @@ public class AppSearchServiceImpl implements AppSearchService {
 		html.append("			<div class=\"txt_wrap\">");
 		html.append("				<div class=\"thum_left\">");
 		html.append("					<div class=\"label_div\">");
-		html.append("						<p class=\"label small border\">"+dto.getLrclsctegery()+"</p>");
-		html.append("						<p class=\"label small border\">"+dto.getMdclsctegery()+"</p>");
+		html.append("						<p class=\"label small border\">"+dto.getLrclsctegry()+"</p>");
+		html.append("						<p class=\"label small border\">"+dto.getMdclsctegry()+"</p>");
 		html.append("					</div>");
 		html.append("					<p class=\"title limit_line_two\">"+dto.getClass_nm()+"</p>");
 		html.append("				</div>");

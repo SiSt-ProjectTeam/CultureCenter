@@ -37,8 +37,21 @@ public interface MemberMapper {
 	String findPw(@Param("id") String id, @Param("phone") String phone);
 	// 차량번호 수정
 	void updateCar(MemberDTO dto) throws Exception;
-
+	// 회원정보 수정
+	public int updateMember(MemberDTO memberDTO) throws Exception;	
+	
 	// 수강내역 추가
 	public int updateOrderClass(@Param("member_sq")int member_sq,@Param("addCnt")int addCnt) throws Exception;
 
+	// 비밀번호 확인
+	public String getPasswordByMemberSq(int member_sq);
+	// 2. 비밀번호 업데이트
+	public int updatePassword(@Param("member_sq") int member_sq, @Param("encryptedPassword") String encryptedPassword);
+
+	// 동반 수강자 정보 삭제
+	public int deleteChildrenMember(int member_sq);
+	// 회원 권한 정보 삭제
+	int deleteMemberAuthorities(int member_sq);
+	// 회원 정보 삭제
+	public int deleteMember(int member_sq);
 }

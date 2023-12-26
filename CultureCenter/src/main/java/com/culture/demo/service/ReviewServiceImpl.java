@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.ReviewDTO;
@@ -27,9 +26,8 @@ public class ReviewServiceImpl implements ReviewService{
 
 
 		int branch_id = frmSearchDTO.getBrchCd();
-		//List<ReviewDTO> list = reviewMapper.getReviewList(orderSet, branch_id, q, frmSearchDTO);
 		List<ReviewDTO> list = reviewMapper.getReviewList(branch_id, frmSearchDTO);
-
+		log.info("reviewHTML !!!!!!!!!!! "+ list);
 		StringBuilder html = new StringBuilder();
 
 		if(list.isEmpty() ) {
@@ -61,9 +59,12 @@ public class ReviewServiceImpl implements ReviewService{
 				html.append("					<p class=\"sub_title limit_line f_body2\">"+dto.getClass_nm()+"</p>\r\n"); 
 				html.append("			</div>\r\n");
 				html.append("				<div class=\"thum_right\">\r\n");
-				html.append("					<div class=\"star_rating\">\r\n");
-				html.append("						<span class=\"star\"></span>".repeat(dto.getRating()) + "\r\n");
-				html.append("					</div>\r\n");
+				html.append("	<div class=\"star_rating\">");
+							for(int i=0; i<5; i++ ) {
+								if(i < dto.getRating()) html.append("<span class=\"star\"></span>\r\n");
+								else html.append("<span class=\"star blank\"></span>\r\n");
+							}
+				html.append("	</div>");
 				html.append("						<div class=\"type_div\">\r\n");
 				html.append("							<p class=\"type f_caption2\">"+dto.getName()+"</p>\r\n");
 				html.append("							<p class=\"type f_caption2\">"+dto.getDate_writingout_dt()+"</p>\r\n");
@@ -80,20 +81,20 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	// 수강후기 상세페이지
-
 	@Override
-	public List<ReviewDTO> dtlReview(ReviewDTO reviewDTO) throws SQLException, ClassNotFoundException{
+	public ReviewDTO dtlReview(int branch_id, int yy, int lectSmsterCd, int lectCd, int teacher_sq, int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException {
 		log.info(">ReviewServiceImpl.dtlReview() 호출");
-		return reviewMapper.dtlReview(reviewDTO);
-
+		log.info("dtlReview" + branch_id + yy + lectSmsterCd + lectCd + teacher_sq + member_sq);
+		return reviewMapper.dtlReview(branch_id, yy, lectSmsterCd, lectCd, teacher_sq, member_sq);
 	}
 
 	// 댓글 ajax
-	/*
 	@Override
-	public String commtHTML(int review_sq, FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException {
+	public String commtHTML(int member_sq, FrmSearchDTO params) throws SQLException{
+		
 		log.info(">ReviewServiceImpl.commtHTML() 호출");
-		List<ReviewDTO> list = reviewMapper.getCommtList(review_sq, frmSearchDTO);
+		List<ReviewDTO> list = reviewMapper.getCommtList(params);
+		log.info("serviceImpl" + list);
 		StringBuilder html = new StringBuilder();
 
 		if(list.isEmpty() ) {
@@ -107,16 +108,31 @@ public class ReviewServiceImpl implements ReviewService{
 				html.append("                            <p class=\"type\">"+dto.getName()+"</p>\r\n");
 				html.append("                            <p class=\"type\">"+dto.getWrite_dt()+"</p>\r\n");
 				html.append("                        </div>\r\n");
-				html.append("                        <a href=\"javascript:\" class=\"comment_remove f_caption1\" role=\"btn\" onclick=\"reviewCtrl.deleteCmnt(this);\" data-sort-seqno=\"8\">삭제</a>\r\n");
+				if (member_sq == dto.getComm_member_sq()) {
+					html.append("                <a href=\"javascript:\" class=\"comment_remove f_caption1\" role=\"btn\" onclick=\"reviewCtrl.deleteCmnt(this);\" data-sort-seqno=\""+dto.getComment_sq()+"\">삭제</a>\r\n");
+				}	            
 				html.append("                    </div>\r\n");
 				html.append("                </div>\r\n");
 				html.append("                <p class=\"comment f_body2\">"+dto.getComment_content()+"</p>\r\n");
 				html.append("</div>");
 			}// for
 		} // if
-		return html.toString();
+		return html.toString();	
+	}
+	
+	// 후기댓글 등록
+	@Override
+	public int insertComm(int review_sq, int member_sq, String comment_content) throws SQLException, ClassNotFoundException {
+		log.info("> ReviewServiceImpl.insertComm() 호출 ");
+		System.out.println();
+		return reviewMapper.insertComm(review_sq, member_sq, comment_content); 
+	}
 
+	@Override
+	public int deleteComm(int sortSeqno) throws SQLException, ClassNotFoundException {
+		log.info("> ReviewServiceImpl.deleteComm() 호출 ");
+		
+		return reviewMapper.deleteComm(sortSeqno);
 	} // commtHTML
-	 */
 
 }// ServiceImpl

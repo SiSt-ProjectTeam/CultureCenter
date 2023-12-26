@@ -2,7 +2,11 @@ package com.culture.demo.service;
 
 import java.util.Map;
 
+import com.culture.demo.domain.TawardsDTO;
+import com.culture.demo.domain.TcareerDTO;
+import com.culture.demo.domain.TcertificateDTO;
 import com.culture.demo.domain.TeacherDTO;
+import com.culture.demo.domain.TeducationDTO;
 
 public interface TeacherService {
 
@@ -37,5 +41,9 @@ public interface TeacherService {
 	
 	//임시저장 글 가져오기
 	public TeacherDTO getSaveTeacherInfo(int memberSq);
+	public TawardsDTO getSaveTeacherAwardsInfo(int memberSq);
+	public TcareerDTO getSaveTeachercareerInfo(int memberSq);
+	public TeducationDTO getSaveTeacherEducationInfo(int memberSq);
+	public TcertificateDTO getSaveTeacherCertificateInfo(int memberSq);
 	
 }

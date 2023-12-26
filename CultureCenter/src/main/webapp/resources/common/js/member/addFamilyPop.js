@@ -28,7 +28,9 @@ var addFamily = (function() {
             //frm.obj("chkAgrYn").focus();
         } else {
             fnc.frmAjax(function(data) {
-
+				var gender = frm.form.find("input[name='gender']:checked").val();
+				console.log(gender);
+		        frm.form.append('<input type="hidden" name="gender" value="' + gender + '">');
                 if (data.rtnCode == "-1") {
                     alert("이미 등록된 동반 수강자입니다.");
                 } else {
@@ -47,10 +49,10 @@ var addFamily = (function() {
     var fn_close = function() {
 	    $("#addFamilyPop").find(".btn_close").click();
 	    $("#addFamilyPop").find(".border_btn").click();
-	    
-	  
+	    $("input[name='gender'][value='M']").prop("checked", true);
+	  	$("#addFamilyFrm input[type='checkbox']").prop("checked", false);
         $("#addFamilyFrm").find("input").not("input[type='hidden'], input[type='radio'], input[type='checkbox'], input[readonly]").val("");
-        $("#addFamilyFrm").find("input[name='sexCd'][value='M']").click();
+        $("#addFamilyFrm").find("input[name='gender'][value='M']").click();
         $("#addFamilyFrm").find("input[type='checkbox']").prop("checked", false);
     }
 
@@ -59,7 +61,8 @@ var addFamily = (function() {
         var bday = bdayStr.replace(/[^0-9]/g, "");
 
         if (bday == "") {
-            alert("생년월일을 입력하세요.")
+            alert("생년월일을 입력하세요.");
+            return false;
         } else if (bday.length != 8) {
             alert("YYYYMMDD 형태로 입력하세요.");
             return false;

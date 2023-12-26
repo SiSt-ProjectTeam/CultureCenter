@@ -3,9 +3,11 @@ package com.culture.demo.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.culture.demo.domain.ChildrenDTO;
@@ -22,6 +24,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
 	// 1. 마이페이지 정보 조회
 	@Override
@@ -133,6 +137,96 @@ public class MemberServiceImpl implements MemberService {
 		log.info(">> MemberServiceImpl.updateOrderClass() ...");
 		return this.memberMapper.updateOrderClass(member_sq,addCnt);
 	}
+
+	   // 회원정보 수정
+    @Override
+    public boolean updateMember(MemberDTO memberDTO) throws Exception {
+        log.info(">> MemberServiceImpl.updateMember ...");
+        int rowsAffected = this.memberMapper.updateMember(memberDTO);
+        return rowsAffected > 0; // 업데이트가 성공하면 true 반환, 실패하면 false 반환
+    }
+    
+    // 비번 첵크
+    @Override
+    public boolean checkPassword(int member_sq, String enteredPassword) {
+        log.info(">> MemberServiceImpl.checkPassword ...");
+
+        // 회원의 저장된 암호화된 비밀번호 조회
+        String storedPassword = memberMapper.getPasswordByMemberSq(member_sq);
+        System.out.println(storedPassword);
+        
+        // 비밀번호 비교
+        return passwordEncoder.matches(enteredPassword, storedPassword);
+    }
+
+    // 비번 변경
+    @Override
+    public boolean updatePassword(int member_sq, String newPassword) {
+        log.info(">> MemberServiceImpl.updatePassword ...");
+
+        // 새로운 비밀번호를 암호화
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+
+        // 회원의 비밀번호 업데이트
+        int rowsAffected = memberMapper.updatePassword(member_sq, encryptedPassword);
+
+        return rowsAffected > 0; // 업데이트가 성공하면 true 반환, 실패하면 false 반환
+    }
+
+    @Override
+    public boolean checkMemberDelete(int memberSq) {
+        try {
+            // 동반 수강자 정보 삭제
+            memberMapper.deleteChildrenMember(memberSq);
+
+            // 회원 권한 삭제
+            memberMapper.deleteMemberAuthorities(memberSq);
+            
+            // 회원 삭제
+            memberMapper.deleteMember(memberSq);
+
+            return true;
+        } catch (Exception e) {
+            log.error("Error deleting member: " + e.getMessage());
+            return false;
+        }
+    }
+
+	@Override
+	public String familyListHTML(int member_sq) throws ClassNotFoundException, SQLException {
+		List<ChildrenDTO> list = getMemberWithChild(member_sq).getChildrenList();
+		
+		StringBuilder html = new StringBuilder();
+		
+		if(list.isEmpty()) {
+			html.append("<div class=\"no_srch_area\">");
+			html.append("	<div class=\"no_srch_div\">");
+			html.append("		<p class=\"txt f_h2\">");
+			html.append("			<span class=\"normal_value\">등록된 정보가 없습니다.</span>");
+			html.append("		</p>");
+			html.append("	</div>");
+			html.append("</div>");
+		} else {
+			for(ChildrenDTO dto : list ) {
+				html.append("<div class=\"info_list\">");
+				html.append("        <div class=\"writer_info\">");
+				html.append("            <p class=\"item_name f_body1\">"+dto.getChildren_nm()+"</p>");
+				html.append("            <a href=\"javascript:mypageMember.deleteFamily("+dto.getChildren_sq()+")\" class=\"comment_remove f_caption1\">삭제</a>");
+				html.append("        </div>");
+				html.append("        <div class=\"type_div\">");
+				html.append("            <p class=\"type\">자녀</p>");
+				html.append("            <p class=\"type\">"+dto.getChild_birth_dt()+"</p>");
+				html.append("			<p class=\"type\">"+dto.getRealGender()+"</p>");
+				html.append("        </div>");
+				html.append("</div>");
+
+			}
+		}
+		
+		return html.toString();
+	}
+
+
 	
 	
 }

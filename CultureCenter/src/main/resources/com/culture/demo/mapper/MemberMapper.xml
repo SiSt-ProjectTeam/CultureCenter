@@ -148,4 +148,78 @@
 		SET order_class_cnt = ${addCnt}
 		WHERE member_sq = #{member_sq}
 	</update>
+	<!-- 회원 정보 업데이트 쿼리 -->
+	<update id="updateMember">
+		UPDATE member
+		SET
+			name = #{name},
+			email = #{email},
+			phone = #{phone},
+			addr = #{addr, jdbcType=VARCHAR}
+		WHERE member_sq = #{member_sq}
+	</update>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="getPasswordByMemberSq" resultType="java.lang.String">
+	    SELECT pw
+	    FROM member
+	    WHERE member_sq = #{member_sq}
+	</select>
+	
+	<!-- 비밀번호 업데이트 -->
+	<update id="updatePassword">
+	    UPDATE member
+	    SET pw = #{encryptedPassword}
+	    WHERE member_sq = #{member_sq}
+	</update>
+
+	 <!-- 동반 수강자 정보 및 회원 삭제 -->
+    <delete id="deleteChildrenMember" parameterType="int">
+        DELETE FROM ACCOMPANYING_CHILDREN WHERE member_sq = #{member_sq}
+    </delete>
+    <delete id="deleteMemberAuthorities" parameterType="int">
+    	DELETE FROM MEMBER_AUTHORITIES WHERE MEMBER_SQ = #{member_sq}
+	</delete>
+    
+    <delete id="deleteMember" parameterType="int">
+        DELETE FROM member WHERE MEMBER_SQ = #{member_sq}
+    </delete>
+	
+	<!-- 회원 정보 업데이트 쿼리 -->
+	<update id="updateMember">
+		UPDATE member
+		SET
+			name = #{name},
+			email = #{email},
+			phone = #{phone},
+			addr = #{addr, jdbcType=VARCHAR}
+		WHERE member_sq = #{member_sq}
+	</update>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="getPasswordByMemberSq" resultType="java.lang.String">
+	    SELECT pw
+	    FROM member
+	    WHERE member_sq = #{member_sq}
+	</select>
+	
+	<!-- 비밀번호 업데이트 -->
+	<update id="updatePassword">
+	    UPDATE member
+	    SET pw = #{encryptedPassword}
+	    WHERE member_sq = #{member_sq}
+	</update>
+
+	 <!-- 동반 수강자 정보 및 회원 삭제 -->
+    <delete id="deleteChildrenMember" parameterType="int">
+        DELETE FROM ACCOMPANYING_CHILDREN WHERE member_sq = #{member_sq}
+    </delete>
+    <delete id="deleteMemberAuthorities" parameterType="int">
+    	DELETE FROM MEMBER_AUTHORITIES WHERE MEMBER_SQ = #{member_sq}
+	</delete>
+    
+    <delete id="deleteMember" parameterType="int">
+        DELETE FROM member WHERE MEMBER_SQ = #{member_sq}
+    </delete>
+	
 </mapper>
