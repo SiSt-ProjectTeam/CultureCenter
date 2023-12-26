@@ -46,4 +46,6 @@ public interface MemberService {
 	public boolean updatePassword(int member_sq, String newPassword);
 	// 회원 탈퇴
 	public boolean checkMemberDelete(int memberSq);
+
+	public String familyListHTML(int member_sq) throws ClassNotFoundException, SQLException;
 }

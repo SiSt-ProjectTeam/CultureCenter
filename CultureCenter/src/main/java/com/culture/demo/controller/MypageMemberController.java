@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,6 @@ import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
-import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -71,9 +70,14 @@ public class MypageMemberController {
 	
 	// 동반수강자(자녀) 추가 Ajax
 	@PostMapping("/mypage/member/family/insert.ajax")
-	public @ResponseBody ResponseEntity<Map<String, String>> insertFamily(@RequestBody ChildrenDTO dto) throws Exception{
+	public @ResponseBody ResponseEntity<Map<String, String>> insertFamily(@RequestBody ChildrenDTO dto, Authentication authentication) throws Exception{
 		log.info("> /mypage/member/family/insert.ajax ... POST : MypageMemberController.insertFamily()");
-		
+		 // 세션에서 회원번호 가져오기
+	    CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+	    int memberSqFromSession = principal.getMember_sq();
+
+	    // DTO에 회원번호 설정
+	    dto.setMember_sq(memberSqFromSession);
 		int rtnCnt = this.memberService.insertChildren(dto);
 		
 		return rtnCnt==1? ResponseEntity.ok(Map.of("rtnCode","1")):ResponseEntity.ok(Map.of("rtnCode","-1"));
@@ -82,8 +86,7 @@ public class MypageMemberController {
 	@PostMapping("/mypage/member/family/delete.ajax")
 	public @ResponseBody ResponseEntity<Map<String, String>> deleteFamily(@RequestBody Map<String, Integer> param) throws Exception{
 		log.info("> /mypage/member/family/delete.ajax ... POST : MypageMemberController.deleteFamily()");
-		
-		int rtnCnt = this.memberService.deleteChildren(param.get("children_sq"));
+		int rtnCnt = this.memberService.deleteChildren(param.get("fmlySeqno"));
 		
 		return rtnCnt==1? ResponseEntity.ok(Map.of("rtnCode","1")):ResponseEntity.ok(Map.of("rtnCode","-1"));
 	}
@@ -182,7 +185,7 @@ public class MypageMemberController {
 
 	    CustomerUser principal = (CustomerUser) authentication.getPrincipal();
 	    int member_sq = principal.getMember_sq();
-System.out.println(":");
+	    System.out.println(":");
 	    boolean updateSuccess = memberService.updatePassword(member_sq, newPassword);
 
 	    if (updateSuccess) {
@@ -204,7 +207,7 @@ System.out.println(":");
             if (success) {
                 log.info("회원 탈퇴 성공 - 회원번호: " + member_sq);
                 session.invalidate();
-                return "login.index";
+                return "redirect:/login/index.do";
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "회원탈퇴 중 오류가 발생했습니다. 다시 시도해주세요.");
                 return "mypage.member.info";
@@ -216,8 +219,24 @@ System.out.println(":");
         }
     }
 
+      
+    // 비밀번호 변경 이동
+ 	@GetMapping(value =  "/mypage/member/family/list.ajax", produces="application/text; charset=UTF-8")
+ 	public ResponseEntity<String> familyList(Authentication authentication) throws Exception {
+ 		log.info("> /login/findId.do : MemberController.familyList() ... ");
+ 		
+ 		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+        int member_sq = principal.getMember_sq();
+ 		
+ 		String html = "";
+ 		log.info("html : " + html);
+ 		html = this.memberService.familyListHTML(member_sq);
 
-
+ 		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+ 	}
+ 	
 
 	
 }

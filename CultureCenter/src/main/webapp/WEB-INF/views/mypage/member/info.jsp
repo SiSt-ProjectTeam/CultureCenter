@@ -198,19 +198,7 @@
 							<div class="right"></div>
 						</div>
 						<div class="info_txt" id="familyList">
-							<div class="info_list">
-						    <c:forEach var="child" items="${mDto.childrenList}">
-						        <div class="writer_info">
-						            <p class="item_name f_body1">${child.children_nm}</p>
-						            <a href="javascript:mypageMember.deleteFamily(${child.children_sq})" class="comment_remove f_caption1">삭제</a>
-						        </div>
-						        <div class="type_div">
-						            <p class="type">자녀</p>
-						            <p class="type">${child.child_birth_dt}</p>
-						            <p class="type">${child.realGender}</p>
-						        </div>
-						    </c:forEach>
-						</div>
+							
 							
 						</div>
 						<div class="other_info btn_right">
@@ -288,12 +276,12 @@
 </div>
 
 
-<div class="layer_popup add_children" id="addFamilyPop" style="display: none">
-	<div class="pop_wrap w800 full">
+<div class="layer_popup add_children" id="addFamilyPop" style="display: none; top: 0px; height: 943px;" tabindex="0">
+	<div class="pop_wrap w800 full" style="transform: translate(0px, 0px); margin-left: -400px; margin-top: -377px; height: 754px;">
 		<div class="pop_head">
 			<p class="title">자녀회원 추가하기</p>
 		</div>
-		<div class="pop_cont">
+		<div class="pop_cont" style="transform: translate(0px, 0px); height: 682px;">
 			<div class="for_padding">
 				<div class="scroll_area">
 					<form id="addFamilyFrm" method="post">
@@ -342,7 +330,7 @@
 								</div>
 								<div class="td">
 									<div class="form_input">
-										<input type="text" name="bday" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023"/>
+										<input type="text" name="child_birth_dt" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023"/>
 										<div class="input_btn_wrap">
 											<button type="button" class="btn_delete" title="생년월일 지우기"></button>
 										</div>
@@ -356,11 +344,11 @@
 								<div class="td small">
 									<div class="radio_flex_box">
 										<div class="form_radio">
-											<input type="radio" id="gender1" name="sexCd" value="M" checked>
+											<input type="radio" id="gender1" name="gender" value="M" checked>
 											<label for="gender1">남성</label>
 										</div>
 										<div class="form_radio">
-											<input type="radio" id="gender2" name="sexCd" value="F">
+											<input type="radio" id="gender2" name="gender" value="F">
 											<label for="gender2">여성</label>
 										</div>
 									</div>

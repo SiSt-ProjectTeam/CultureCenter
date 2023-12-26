@@ -61,17 +61,15 @@ var mypageMember = (function() {
         var paramObj = {
             fmlySeqno: fmlySeqno
         }
-
-        var ajaxUrl = contextPath + "/mypage/member/family/delete.ajax";
-
-if (confirm("동반 수강자를 삭제하시겠습니까?")) {
-    fnc.paramAjax(function(data) {
-        if (data.rtnCode == "1") {
-            alert("삭제되었습니다.");
-         /*   fn_family_list();*/
-        }
-    }, ajaxUrl, paramObj, "json", true, false);
-}
+        
+		if (confirm("동반 수강자를 삭제하시겠습니까?")) {
+		    fnc.paramAjax(function(data) {
+		        if (data.rtnCode == "1") {
+		            alert("삭제되었습니다.");
+		         	//fn_family_list();
+		        }
+		    }, "/mypage/member/family/delete.ajax", paramObj, "json", true, false);
+		}
 
 
 
