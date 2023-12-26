@@ -34,8 +34,7 @@ public class MypageWaitingController{
 	        int rowCount = waitingService.deleteWaiting(late_sq);
 	        if (rowCount > 0) {
 	    	    return "mypage.waiting.list";
-	        } else {
-	        }
+	        } 
 	    } catch (Exception e) {
 	    	logger.info("Processing 404 Error");
 	    }

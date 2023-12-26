@@ -16,9 +16,9 @@ var mypageInquiryCtrl = (function(){
 	}
 	
 	//접수상태검색조건
-	var fn_select_status_change = function(status)
+	var fn_select_status_change = function(faq_status)
 	{
-		$("#status").val(status);
+		$("#faq_status").val(faq_status);
 		
 		fn_search();
 	}
@@ -64,30 +64,26 @@ var mypageInquiryCtrl = (function(){
 	var fn_detail = function(obj , seq){
        // var ds = obj.parentElement.dataset;
         //alert("ds===" + ds);
-        var param = "onlnQuesSeqno="+seq;
+        var param = "personal_faq_sq="+seq;
+        
         location.href = "/mypage/inquiry/view.do?" + param;
     }
 	
 	//문의글 삭제
-	var fn_delete_inquiry = function(obj){
-		
-		if(!confirm("삭제하시겠습니까?")) return;
-		
-		fnc.frmAjax(function(data){
-			
-			if(parseInt(data.actCnt, 10) > 0)
-        	{
-        		alert("삭제되었습니다.");
-        		location.href="./list.do";
-        	}
-			else
-			{
-				alert("삭제 실패했습니다.")
-				return false;
-			}
-            
-        }, "/mypage/inquiry/delete.ajax", $("#inquiryFrm"), null, false, true, true);
-		
+	var fn_delete_inquiry = function(obj, deleteUrl) {
+    if (!confirm("삭제하시겠습니까?")) return;
+
+	var personal_faq_sq = $("#personal_faq_sq").val();
+
+    fnc.frmAjax(function(data) {
+        if (parseInt(data.actCnt, 10) > 0) {
+            alert("삭제되었습니다.");
+            location.href = "./list.do";
+        } else {
+            alert("삭제 실패했습니다.");
+            return false;
+        }
+    }, "/mypage/inquiry/delete.do", { actCnt: parseInt(personal_faq_sq, 10) }, null, false, true, true);
 	}
 	
 	//textarea
@@ -112,7 +108,14 @@ var mypageInquiryCtrl = (function(){
 				, url : "/mypage/inquiry/list.ajax"
 				, pageIndex : $("#frmInquiry #pageIndex").val()
 				, listCnt : $("#frmInquiry #listCnt").val()
-				, callbackFunc : function() { $("#totCnt").text(searchMore.totCnt  + "개"); }
+				, callbackFunc : function() { 
+
+				console.log($("#frmInquiry #pageIndex").val());
+				console.log($("#frmInquiry #listCnt").val());
+				
+				$("#totCnt").text(searchMore.totCnt  + "개"); 
+				console.log($("#totCnt").text());
+				}
 		}
 	
 		searchMore = new fnc.SearchMore(initObj);
@@ -194,7 +197,7 @@ var mypageInquiryCtrl = (function(){
 	$(document).ready(function(){
 		
 		pageType = $("#frmInquiry").data("pageType");
-
+				
         if(pageType == "list"){
         	init();
         }
