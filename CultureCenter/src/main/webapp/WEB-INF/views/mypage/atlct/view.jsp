@@ -265,7 +265,7 @@
 						<div class="sub_inner">
 						  <div class="sub_tit_area">
 						    <div class="left">
-						      <p class="f_h2">L.POINT 적립내역</p>
+						      <p class="f_h2">POINT 적립내역</p>
 						    </div>
 						    <div class="right"></div>
 						  </div>

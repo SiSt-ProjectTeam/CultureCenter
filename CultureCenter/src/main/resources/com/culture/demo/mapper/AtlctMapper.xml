@@ -145,7 +145,7 @@
 		<if test='frmSearchDTO.atlctRsvNo == 0'>
 			<![CDATA[
 				)
-				WHERE #{frmSearchDTO.initIndex}*(#{frmSearchDTO.pageIndex}-1) <= rank AND rank <= #{frmSearchDTO.pageIndex}*#{frmSearchDTO.listCnt}
+				WHERE #{frmSearchDTO.listCnt}*(#{frmSearchDTO.pageIndex}-1)+1 <= rank AND rank <= #{frmSearchDTO.pageIndex}*#{frmSearchDTO.listCnt}
 			]]>
 		</if>
 	</select>	
