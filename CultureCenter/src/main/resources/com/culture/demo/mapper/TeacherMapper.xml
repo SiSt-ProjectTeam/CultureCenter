@@ -300,12 +300,22 @@
 
 	<!-- 임시저장 글 불러오기
 	public TeacherDTO saveOpen(int memberSq); -->
+	<resultMap type="com.culture.demo.domain.TawardsDTO" id="tawardsMap">
+		<result property="issueAgncNm" column="AISSUEAGNCNM"/>
+		<result property="issueNm" column="AISSUENM"/>
+		<result property="issueDt" column="AISSUEDT"/>
+	</resultMap>	
+	<resultMap type="com.culture.demo.domain.TcertificateDTO" id="tcertificateMap">
+		<result property="issueAgncNm" column="UISSUEAGNCNM"/>
+		<result property="issueNm" column="UISSUENM"/>
+		<result property="issueDt" column="UISSUEDT"/>
+	</resultMap>	
 	<select id="saveOpen" resultType="com.culture.demo.domain.TeacherDTO">
 		SELECT *
 		FROM TEMPORARY_TEACHERAPPLICATION
 		WHERE member_sq = #{memberSq}
-	</select>	
-		<select id="saveAwardsOpen" resultType="com.culture.demo.domain.TawardsDTO">
+	</select>		
+	<select id="saveAwardsOpen" resultMap="tawardsMap" parameterType="map">
 		SELECT *
 		FROM TEMPORARY_TEACHERAPPLICATION
 		WHERE member_sq = #{memberSq}
@@ -320,11 +330,10 @@
 		FROM TEMPORARY_TEACHERAPPLICATION
 		WHERE member_sq = #{memberSq}
 	</select>	
-		<select id="saveCertificateOpen" resultType="com.culture.demo.domain.TcertificateDTO">
+		<select id="saveCertificateOpen" resultMap="tcertificateMap" parameterType="map">
 		SELECT *
 		FROM TEMPORARY_TEACHERAPPLICATION
 		WHERE member_sq = #{memberSq}
 	</select>	
-	
 	
 </mapper>

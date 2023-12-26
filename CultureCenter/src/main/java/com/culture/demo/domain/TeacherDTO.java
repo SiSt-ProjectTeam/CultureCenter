@@ -62,30 +62,5 @@ public class TeacherDTO {
 	
 	private CommonsMultipartFile file;			//프로필 사진 업로드
 	private String filesrc;						
-	
-	//임시저장
-	/*
-	schlClCd;
-	grdtClCd;
-	yy;
-	schlNm;
-	mjrNm;
-	
-	tchistList 경력
-	histPlcNm;
-	histStDt;
-	histEndDt;
-
-	
-	tcawrdList 수상
-	aissueAgncNm;
-	aissueNm;
-	aissueDt;
-	
-	tcauthctfList 자격증
-	uissueAgncNm;
-	uissueNm;
-	uissueDt;
-
-	*/
+		
 }
