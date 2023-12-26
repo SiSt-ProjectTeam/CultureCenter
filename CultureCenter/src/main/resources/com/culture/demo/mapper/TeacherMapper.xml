@@ -201,8 +201,45 @@
 	            HOPESTMI = #{saveDataList.hopeStMi},
 	            HOPEENDHH = #{saveDataList.hopeEndHh},
 	            HOPEENDMI = #{saveDataList.hopeEndMi},
-	            LECTINTRDNCONT = #{saveDataList.lectIntrdnCont},
-	            TXFRBIZPRYN = ${saveDataList.txfrBizprYn == null ? 'null' : "'" + saveDataList.txfrBizprYn + "'"}
+	            LECTINTRDNCONT = #{saveDataList.lectIntrdnCont}
+				
+				<if test='saveDataList.txfrBizprYn != null'>
+				    ,TXFRBIZPRYN = #{saveDataList.txfrBizprYn}
+				</if>
+				<if test='saveDataList.txfrBizprYn == null'>
+				    ,TXFRBIZPRYN = 'null'
+				</if>
+				<if test='saveDataList.tceduList != null'>
+					<foreach collection="saveDataList.tceduList" item="item" separator="">
+						,SCHLCLCD = #{item.schlClCd}
+						,GRDTCLCD = #{item.grdtClCd}
+						,YY = #{item.yy}
+						,SCHLNM = #{item.schlNm}
+						,MJRNM = #{item.mjrNm}
+					</foreach>
+				</if>
+				<if test="saveDataList.tchistList != null">
+					<foreach collection="saveDataList.tchistList" item="item" separator="">				
+						,HISTPLCNM = #{item.histPlcNm}
+						,HISTSTDT = #{item.histStDt}
+						,HISTENDDT = #{item.histEndDt}
+					</foreach>
+				</if>
+				<if test="saveDataList.tcawrdList != null">
+					<foreach collection="saveDataList.tcawrdList" item="item" separator="">
+						,AISSUEAGNCNM = #{item.issueAgncNm}
+						,AISSUENM = #{item.issueNm}
+						,AISSUEDT = #{item.issueDt}
+					</foreach>
+				</if>
+				<if test="saveDataList.tcauthctfList != null">
+					<foreach collection="saveDataList.tcauthctfList" item="item" separator="">
+						,UISSUEAGNCNM = #{item.issueAgncNm}
+						,UISSUENM = #{item.issueNm}
+						,UISSUEDT = #{item.issueDt}
+					</foreach>
+				</if>
+				
 	    WHEN NOT MATCHED THEN
 	        INSERT (
 	            IMGPRE, MEMBER_SQ, PRINFCLCTAGRYN, CARRINFOCLCTAGRYN,
@@ -212,7 +249,9 @@
 	            FRSTLRCLSCTEGRYCD, FRSTLRCLSCTEGRYCDNM, FRSTMDCLSCTEGRYCD,
 	            SECLRCLSCTEGRYCD, SECLRCLSCTEGRYCDNM, SECMDCLSCTEGRYCD,
 	            HOPEDAYWVAL, HOPEDAYWVALNM, HOPESTHH, HOPESTMI,
-	            HOPEENDHH, HOPEENDMI, LECTINTRDNCONT, TXFRBIZPRYN
+	            HOPEENDHH, HOPEENDMI, LECTINTRDNCONT, TXFRBIZPRYN, 
+	            SCHLCLCD, GRDTCLCD, YY, SCHLNM, MJRNM, HISTPLCNM, HISTSTDT, HISTENDDT,
+	            AISSUEAGNCNM, AISSUENM, AISSUEDT, UISSUEAGNCNM, UISSUENM, UISSUEDT
 	        ) VALUES (
 	            #{teacherImg}, #{memberSq}, '${saveDataList.prinfClctAgrYn}', '${saveDataList.carrInfoClctAgrYn}',
 	            #{saveDataList.tcTpCd}, #{saveDataList.tcNm}, #{saveDataList.lscCd}, TO_DATE(#{saveDataList.bday}, 'YYMMDD'),
@@ -222,8 +261,33 @@
 	            #{saveDataList.frstLrclsCtegryCd}, #{saveDataList.frstLrclsCtegryCdNm}, #{saveDataList.frstMdclsCtegryCd},
 	            #{saveDataList.secLrclsCtegryCd}, #{saveDataList.secLrclsCtegryCdNm}, #{saveDataList.secMdclsCtegryCd},
 	            #{saveDataList.hopeDaywVal}, #{saveDataList.hopeDaywValNm}, #{saveDataList.hopeStHh}, #{saveDataList.hopeStMi},
-	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont}, 
-	            ${saveDataList.txfrBizprYn == null ? 'null' : "'" + saveDataList.txfrBizprYn + "'"}
+	            #{saveDataList.hopeEndHh}, #{saveDataList.hopeEndMi}, #{saveDataList.lectIntrdnCont}      
+				<if test='saveDataList.txfrBizprYn != null'>
+				    ,#{saveDataList.txfrBizprYn}
+				</if>
+				<if test='saveDataList.txfrBizprYn == null'>
+				    ,'null'
+				</if>
+				<if test="saveDataList.tceduList != null">
+					<foreach collection="saveDataList.tceduList" item="item" separator="">
+						,#{item.schlClCd}, #{item.grdtClCd}, #{item.yy}, #{item.schlNm}, #{item.mjrNm}
+					</foreach>
+				</if>
+				<if test="saveDataList.tchistList != null">
+					<foreach collection="saveDataList.tchistList" item="item" separator="">				
+						,#{item.histPlcNm}, #{item.histStDt}, #{item.histEndDt}
+					</foreach>
+				</if>
+				<if test="saveDataList.tcawrdList != null">
+					<foreach collection="saveDataList.tcawrdList" item="item" separator="">
+						,#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt}
+					</foreach>
+				</if>
+				<if test="saveDataList.tcauthctfList != null">
+					<foreach collection="saveDataList.tcauthctfList" item="item" separator="">
+						,#{item.issueAgncNm}, #{item.issueNm}, #{item.issueDt}
+					</foreach>
+				</if>
 	        )
 	</update>
 
@@ -236,9 +300,40 @@
 
 	<!-- 임시저장 글 불러오기
 	public TeacherDTO saveOpen(int memberSq); -->
+	<resultMap type="com.culture.demo.domain.TawardsDTO" id="tawardsMap">
+		<result property="issueAgncNm" column="AISSUEAGNCNM"/>
+		<result property="issueNm" column="AISSUENM"/>
+		<result property="issueDt" column="AISSUEDT"/>
+	</resultMap>	
+	<resultMap type="com.culture.demo.domain.TcertificateDTO" id="tcertificateMap">
+		<result property="issueAgncNm" column="UISSUEAGNCNM"/>
+		<result property="issueNm" column="UISSUENM"/>
+		<result property="issueDt" column="UISSUEDT"/>
+	</resultMap>	
 	<select id="saveOpen" resultType="com.culture.demo.domain.TeacherDTO">
 		SELECT *
 		FROM TEMPORARY_TEACHERAPPLICATION
 		WHERE member_sq = #{memberSq}
+	</select>		
+	<select id="saveAwardsOpen" resultMap="tawardsMap" parameterType="map">
+		SELECT *
+		FROM TEMPORARY_TEACHERAPPLICATION
+		WHERE member_sq = #{memberSq}
 	</select>	
+		<select id="saveCareerOpen" resultType="com.culture.demo.domain.TcareerDTO">
+		SELECT *
+		FROM TEMPORARY_TEACHERAPPLICATION
+		WHERE member_sq = #{memberSq}
+	</select>	
+		<select id="saveEducationOpen" resultType="com.culture.demo.domain.TeducationDTO">
+		SELECT *
+		FROM TEMPORARY_TEACHERAPPLICATION
+		WHERE member_sq = #{memberSq}
+	</select>	
+		<select id="saveCertificateOpen" resultMap="tcertificateMap" parameterType="map">
+		SELECT *
+		FROM TEMPORARY_TEACHERAPPLICATION
+		WHERE member_sq = #{memberSq}
+	</select>	
+	
 </mapper>

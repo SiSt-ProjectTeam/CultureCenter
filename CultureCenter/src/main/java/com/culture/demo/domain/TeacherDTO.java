@@ -38,7 +38,7 @@ public class TeacherDTO {
 	private String hpLastNo;					//휴대폰 마지막 번호
 	private String email; 						//이메일 아이디
 	private String emailAddrCd; 				//이메일 주소
-	private int pstno; 							//우편번호
+	private String pstno; 						//우편번호
 	private String addr; 						//주소
 	private String dtlAddr; 					//상세주소
 	private String selfIntrdnCont; 				//자기소개 
@@ -62,5 +62,5 @@ public class TeacherDTO {
 	
 	private CommonsMultipartFile file;			//프로필 사진 업로드
 	private String filesrc;						
-	
+		
 }
