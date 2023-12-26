@@ -203,6 +203,12 @@ var members = (function() {
             return;
         }
 
+		if ($('#phoneConfirmed').val() == '') {
+            alert("생년월일 입력이 필요합니다.");
+            event.preventDefault();
+            return;
+        }
+        
         // 주소 유효성 검사
         var postcode = $.trim($('#postcode').val());
         var roadAddress = $.trim($('#roadAddress').val());

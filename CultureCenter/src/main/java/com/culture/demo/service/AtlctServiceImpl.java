@@ -153,7 +153,7 @@ public class AtlctServiceImpl implements AtlctService {
 			    
 			    if (frmSearchDTO.getType().equals("cmplt")) {
 			    	 html.append( "  	<div class=\"full_btn_w\"><div class=\"btn_box\"><div class=\"flex_btn_wrap\">\r\n" );
-			         html.append( "      	<a class=\"s_color_btn gray\" href=\"/application/search/list.do?type=branch&amp;brand_id=" + atlct.getBranch_id() + "&amp;tcCdNo=" + atlct.getTeacher_sq() + "\" style=\"background: #e0f55c;\">\r\n" );
+			    	 html.append( "         <a class=\"s_color_btn gray\" href=\"/application/integration/list.do?q=" + atlct.getTeacher_nm() + "\" style=\"background: #e0f55c;\">\r\n" );
 			         html.append( "        		<span style=\"font-size:14px; line-height:38px;\">이 강사의 강좌 더보기</span>\r\n" );
 			         html.append( "      	</a>\r\n" );
 			         html.append( "  	</div></div></div>\r\n" );

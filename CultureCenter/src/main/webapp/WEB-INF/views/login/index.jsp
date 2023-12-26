@@ -15,7 +15,7 @@ ${not empty alertScript ? alertScript : ''}
 								롯데백화점 문화센터에 <br> 처음 오셨나요?
 							</p>
 							<p class="sub_title">
-								수강신청 관련 서비스를 이용하시려면 <br class="only_mobile"> L.POINT 통합회원에 가입해주세요.
+								수강신청 관련 서비스를 이용하시려면 <br class="only_mobile"> 회원가입해주세요.
 							</p>
 							<p href="javascript:" class="sign_up">
 								<span onclick="javascript:window.location.href = '/member/join.do'">회원가입</span>
@@ -35,7 +35,7 @@ ${not empty alertScript ? alertScript : ''}
 							</div>
 						</div>
 						<p class="sub_title">
-							<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint" class="l_point"> 통합 회원은 롯데 서비스를<br class="only_mobile"> 하나의 ID로 이용할 수 있습니다.
+							<img src="/resources/common/images/logo-lpoint.svg" alt="lpoint" class="l_point"> 로그인 하시면 수강신청 관련 서비스를 이용할 수 있습니다.
 						</p>
 					</div>
 					<div class="login_form">
