@@ -13,9 +13,13 @@ public interface AtlctMapper {
 	
 	// 1. 수강신청
 	// 1-1. 주문 테이블 추가
-	public int insertClassOrder();	
+	public int insertClassOrder(int member_sq, int order_amt, int add_point, int total_amt) throws Exception;	
 	// 1-2. 주문 상세 테이블 추가
-	public int insertOrderDetail();
+	public int insertOrderDetail(int order_sq, int detail_class_sq, String children_nm) throws Exception;
+	// 1-3. 주문 테이블 삭제
+	public int deleteClassOrder(int order_sq) throws Exception;
+	// 1-4. 주문 상세테이블 삭제
+	public int deleteOrderDetail(int order_sq) throws Exception;
 	
 	// 2. 수강 취소
 	// 2-1. 주문 상세 테이블 수정

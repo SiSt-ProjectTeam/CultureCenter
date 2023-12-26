@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.collections.map.HashedMap;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,7 @@ import com.culture.demo.domain.FrmSubmitDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.PaymentFrmDTO;
 import com.culture.demo.security.CustomerUser;
+import com.culture.demo.service.AtlctService;
 import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
 import com.culture.demo.service.PaymentService;
@@ -43,7 +43,8 @@ public class PaymentController {
 	private CartService cartService;
 	private PaymentService paymentService;
 	private MemberService memberService;
-
+	private AtlctService atlctService; 
+	
 	// 수강결제1(step1) 페이지 이동
 	@PostMapping("step1.do")
 	public String goPaymentStep1(FrmSubmitDTO dto, Model model,Authentication authentication) throws Exception{ 
@@ -122,12 +123,12 @@ public class PaymentController {
 																			,@PathVariable("index") String step
 																			,Authentication authentication
 																			) throws Exception{
-		log.info("/payment/validateStep1.ajax + POST :PaymentController.validateStep"+step+"()...");
+		log.info("/payment/validateStep"+step+".ajax + POST :PaymentController.validateStep"+step+"()...");
 		Map<String, Object> rtnMap = new HashedMap();
 		System.out.println((jsonData));
 		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
 		int member_sq = principal.getMember_sq();
-
+		
 		// jsonData를 직접 변환(deserialize)
 		ObjectMapper mapper = new ObjectMapper(); 
 		List<Map<String, Object>> payLectsStudentsList = null;
@@ -146,8 +147,9 @@ public class PaymentController {
 
 		List<Integer> detailLectCdList = new ArrayList();
 		List<String> lectNmList = new ArrayList();
-
+		Map<Integer, List<String>> insData = new HashedMap();
 		for (Map<String, Object> lecStudents : payLectsStudentsList) {
+			List<String> studentNmList = new ArrayList();
 			// 수강자 ( ArrayList로 넘어옴 )
 			StudentsList = (ArrayList<Map<String, Object>>) lecStudents.get("arrActlAtlctNple");
 
@@ -172,17 +174,19 @@ public class PaymentController {
 				rtnMap.put("rsltCd", "-3");
 				rtnMap.put("lectNm", lectNm);
 				return ResponseEntity.ok(rtnMap);
-			}else if(!lrclsCtegryCd.equals("01")) { // 실수강자 확인(영유아,아동강좌 본인이 들어가있는지)
-				for (Map<String, Object> student : StudentsList) {
+			}			
+			for (Map<String, Object> student : StudentsList) {
+				if(!lrclsCtegryCd.equals("01")) {// 실수강자 확인(영유아,아동강좌 본인이 들어가있는지)
 					if(student.get("fmlyRelCdNm").toString().equals("본인")) {
 						rtnMap.put("rsltCd", "-6");
 						rtnMap.put("lectNm", lectNm);
 						return ResponseEntity.ok(rtnMap);
 					}
 				}
-			}//else
+				studentNmList.add((String)student.get("actlAtlctNpleNm"));
+			}
 			lectNmList.add(lectNm);
-			detailLectCdList.add(detailLectCd);
+			insData.put(detailLectCd, studentNmList);			
 		}
 
 		if (step.equals("1")) { // step1 -> step2  
@@ -194,16 +198,17 @@ public class PaymentController {
 			rtnMap.put("atlctType", atlctType);
 
 		}else { // step2 -> 결제 ( fn_validate_step2_callback에 의해 frm_temp를 채울 값들 )
-			// 주문테이블에 추가 // 수강내역테이블에 추가
-			
-			// 주문번호 얻어오기
-			int atlctRsvNo = paymentService.getOrderSq();
+			int totAmt = (int)jsonStr.get("totLectStlmAmt");
+			int lpntAmt = (int)jsonStr.get("lpntUseAmt"); 
+			int crdStlmAmt = totAmt - lpntAmt;
+			int addPoint = (int) (totAmt * 0.01);
+			// 주문, 수강내역테이블에 추가 + 주문번호
+			int atlctRsvNo = atlctService.insOrderDetailOrder(member_sq,totAmt,lpntAmt,crdStlmAmt,addPoint,insData);
 			
 			rtnMap.put("rsltCd", "1"); // check 결과
 			rtnMap.put("atlctRsvNo", atlctRsvNo); // 주문번호
-			rtnMap.put("lpntUseAmt", jsonStr.get("lpntUseAmt"));
+			rtnMap.put("lpntUseAmt", lpntAmt);
 			rtnMap.put("brchCd", (int)payLectsStudentsList.get(0).get("brchCd"));
-			int crdStlmAmt = (int)jsonStr.get("totLectStlmAmt") - (int)jsonStr.get("lpntUseAmt"); 
 			rtnMap.put("crdStlmAmt",crdStlmAmt);
 
 			String goodsName = "";
@@ -236,7 +241,7 @@ public class PaymentController {
 	}
 	
 	//결제창, 결제 -> 인증사의 결제인증 -> NicePay서버 "승인받는 단계"
-	@PostMapping("payment_result.do")
+	@GetMapping("payment_result.do")
 	@ResponseBody
 	public String nicePayAcknowledge(@RequestParam Map<String, Object> param) throws Exception{
 		log.info("/payment/payment_result.do + POST :PaymentController.nicePayAcknowledge()...");
@@ -245,18 +250,29 @@ public class PaymentController {
 		HashMap<String, String> rtnMap = paymentService.getAcknowledgeNicePay(param);
 		System.out.println("rtnMap : "+ rtnMap);
 		// TID를 주문테이블에 추가하는 로직구현
+		
 		String html = "\r\n<script>\r\n"
-				+ "			windows.parent.payment.frmSuccessSubmit();\r\n"
+				+ "			window.parent.document.getElementById('frm_success').submit();\r\n"
 				+ "		   </script>\r\n"; // form_success를 submit하는 쿼리
 		return html;
 	}
 	
 	// 수강결제3(step3)페이지 이동
-	//@PostMapping("payment_step3.do")
-	//@GetMapping("payment_step3.do")
+	@PostMapping("payment_step3.do")
+	@GetMapping("payment_step3.do")
 	public String goStep3(@RequestParam Map<String, Object> param) throws Exception{
 		log.info("/payment/payment_step3.do + POST :PaymentController.goStep3()...");
 		return "payment.step3";	
 	}
 	
+	// 결제창에서 수강결제 취소
+	@GetMapping(value="payment_close.ajax", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> cancelNicePay(@RequestParam("orderSq") int orderSq) throws Exception{
+		// 주문, 수강내역테이블 삭제
+		log.info("/payment/payment_close.ajax + GET :PaymentController.cancelNicePay()...");
+		boolean flag = atlctService.deleteOrder(orderSq);
+		System.out.println("flag :"+flag);
+		return  flag? new ResponseEntity<String>("success", HttpStatus.OK): new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

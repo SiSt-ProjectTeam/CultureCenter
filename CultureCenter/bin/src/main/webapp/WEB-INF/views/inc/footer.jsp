@@ -205,17 +205,10 @@
 <a class="btn_top" href="javascript:" title="페이지 상단으로 이동"></a>
 <div id="dimdBg" class="dimd"></div>	
 			
-<form id="frmSso" method="post">
-	<input type="hidden" name="ssoTkn" 	  id="ssoTkn"  	value="" /> 
-	<input type="hidden" name="acesTkn"   id="acesTkn" 	value="" /> 
+<form id="frmMember" method="post">
+	<input type="hidden" id="csrf_token_input" name="${ _csrf.parameterName }" value="${ _csrf.token }">
 	<input type="hidden" name="rnwTkn"	  id="rnwTkn"  	value="" /> 
-	<input type="hidden" name="onlCstTpC" id="onlCstTpC"value="" /> 
-	<input type="hidden" name="frnYn" 	  id="frnYn" 	value="" /> 
-	<input type="hidden" name="rspClac"   id="rspClac" 	value="" /> 
-	<input type="hidden" name="rspC" 	  id="rspC" 	value="" /> 
-	<input type="hidden" name="rspDtc" 	  id="rspDtc"   value="" /> 
-	<input type="hidden" name="rspMsgCn"  id="rspMsgCn" value="" />
-	<input type="hidden" name="rtnUrl" 	  id="rtnUrl" value="" />
+	<input type="hidden" name="rtnUrl" 	  id="rtnUrl" 	value="" />
 </form>
 
-<script type="text/javascript" src="/resources/common/js/member/sso.js"></script>
+<script type="text/javascript" src="/resources/common/js/member/member.js"></script>

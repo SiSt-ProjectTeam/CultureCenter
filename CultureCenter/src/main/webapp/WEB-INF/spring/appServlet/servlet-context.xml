@@ -56,7 +56,10 @@
 	<interceptors>
 		<!-- 장바구니 갯수 interceptor -->
 		<interceptor>
-			<mapping path="/**"/>
+			<mapping path="/**/*.do"/>
+			<exclude-mapping path="/**/*.ajax"/>
+			<exclude-mapping path="/**/payment_result.do"/>
+			<exclude-mapping path="/**/payment_request.do"/>
 			<beans:bean id="cartNumInterceptor" class="com.culture.demo.interceptor.CartNumInterceptor"/>
 		</interceptor>
 		

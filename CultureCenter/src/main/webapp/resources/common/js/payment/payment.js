@@ -1369,12 +1369,6 @@ var payment = (function(){
 				$('#frm_temp').submit();
 				
 				$('#frm_success').find('input[name=atlctRsvNo]').val(rtnMap.atlctRsvNo);
-				
-				if(checkPlatform(window.navigator.userAgent) == "mobile"){
-					commonScript.openPopupFn("#pgPopup", $(this));
-//					$('#pgPopup').fadeIn();
-//					popupResize();
-				}
 			}else{
 				// 0원결제
 				$('#frm_zeropay').find('input[name=atlctRsvNo]').val(rtnMap.atlctRsvNo);

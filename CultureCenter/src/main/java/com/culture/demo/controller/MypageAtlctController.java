@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.culture.demo.domain.FrmSearchDTO;
-import com.culture.demo.service.AtlctServiceImpl;
+import com.culture.demo.service.AtlctService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -28,7 +28,7 @@ public class MypageAtlctController {
 	private static final Logger logger = LoggerFactory.getLogger(MypageAtlctController.class);
 
 	@Autowired
-	private AtlctServiceImpl atlctService;
+	private AtlctService atlctService;
 	
 	@GetMapping(value = "/list.do")
 	public String goAtlct(@ModelAttribute("frmSearchDTO") FrmSearchDTO frmSearchDTO) {

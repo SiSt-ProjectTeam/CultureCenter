@@ -137,89 +137,28 @@ public class PaymentServiceImpl implements PaymentService{
 		log.info(">>PaymentServiceImpl.getLectName() ...");
 		return paymentMapper.getLectName(detailLectCd);
 	}
-	
+
 	// 주문번호
 	@Override
-	public int getOrderSq() throws Exception{
+	public int getOrderSq(int member_sq) throws Exception{
 		log.info(">>PaymentServiceImpl.getOrderSq() ...");
-		return paymentMapper.getAtlctRsvNo();
+		return paymentMapper.getAtlctRsvNo(member_sq);
 	}
-	
+
 	// frm_temp -> iframe에 들어갈 nicepay 불러오는 html
 	@Override
 	public String createNicePayHtml(PaymentFrmDTO frm) throws Exception {
 		log.info(">>PaymentServiceImpl.createNicePayHtml() ...");
-		StringBuilder nicepayHtml = new StringBuilder();		
+		StringBuilder nicepayHtml = new StringBuilder();	
 		
-		// 인증,승인 모두 완료시 return될 html을 출력해줄 지시자
-		nicepayHtml.append("\r\n<% if (html != null) { %>\r\n"
-				+ "        <%= html %>\r\n"
-				+ "    <% } %>\r\n");
-		
-		// payForm 
-		// 상점키(필)              // 테스트 상점키
-		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; 
-		// 상점아이디(필) // MID   // 테스트아이디
-		String merchantID 		= "nicepay00m"; 
-		// 결제상품명(필)
-		String goodsName 		= frm.getGoodsName(); 	
-		// 결제상품금액(필) // Amt
-		String price 			= frm.getCrdStlmAmt(); 
-		// 구매자명
-		String buyerName 		= frm.getBuyerName(); 	
-		// 구매자메일주소
-		String buyerEmail 		= frm.getMbrId(); 	
-		// 상품주문번호(필) // moid 
-		String orderSq			= frm.getAtlctRsvNo();
-		System.out.println("order_sq : " + orderSq);
-		// 요청응답URL 모바일(필) ( 절대경로 줘야함 ! )
-		String returnURL 		= "localhost/payment/payment_result.do";
-		// 주문 생성일시
-		String ediDate = getyyyyMMddHHmmss();
-		// 위변조검증 데이터(필) EdiDate + MID + Amt + MerchantKey
-		String signData = encrypt(ediDate + merchantID + price + merchantKey);
-		// iframe기반 PG연동시 (필)
-		String ConnWithIframe = "Y";
-		// 휴대폰 소액결제 추가 파라미터 0:컨텐츠, 1:실물
-		String GoodsCl ="1";
+		// js
+		nicepayHtml.append("<html><head><script type=\"text/javascript\" src=\"/resources/common/js/jquery-1.12.4.min.js\"></script>\r\n"
+				+ "<script type=\"text/javascript\" src=\"/resources/common/js/fnc.js\"></script>\r\n"
+				+ "<script type=\"text/javascript\" src=\"/resources/common/js/payment/payment.js\"></script>");
 
-		nicepayHtml.append("\r\n<form id=\"payForm\" name=\"payForm\" method=\"post\" action=\"/payment/payment_result.do\">\r\n"
-				+ "	<input type=\"hidden\" name=\"${_csrf.parameterName}\" value=\"${_csrf.token}\" />\r\n"
-				+ "	<input type=\"hidden\" name=\"PayMethod\" value=\"CARD\">\r\n"
-				+ "	<input type=\"hidden\" name=\"GoodsName\" value=\""+goodsName+"\">\r\n"
-				+ "	<input type=\"hidden\" name=\"Amt\" value=\""+price+"\">\r\n"
-				+ "	<input type=\"hidden\" name=\"MID\" value=\""+merchantID+"\">\r\n"
-				+ "	<input type=\"hidden\" name=\"Moid\" value=\""+orderSq+"\">\r\n"
-				+ "	<input type=\"hidden\" name=\"BuyerName\" value=\""+buyerName+"\">\r\n"
-				+ "	<input type=\"hidden\" name=\"ReturnURL\" value=\""+returnURL+"\">\r\n"
-				+ "	\r\n"
-				+ "	<!-- 옵션 --> \r\n"
-				+ "	<input type=\"hidden\" name=\"GoodsCl\" value=\""+GoodsCl+"\"/>   \r\n"
-				+ "	<input type=\"hidden\" name=\"TransType\" value=\"0\"/> \r\n"   //일반(0)/에스크로(1)
-				+ "	<input type=\"hidden\" name=\"CharSet\" value=\"utf-8\"/>\r\n"  // 응답 파라미터 인코딩 방식
-				+ "	<input type=\"hidden\" name=\"ReqReserved\" value=\"\"/>	<!-- 상점 예약필드 -->\r\n"
-				+ "				\r\n"
-				+ "	<!-- 변경 불가능 -->\r\n"
-				+ "	<input type=\"hidden\" name=\"EdiDate\" value=\""+ediDate+"\"/>\r\n"
-				+ "	<input type=\"hidden\" name=\"SignData\" value=\""+signData+"\"/>\r\n"
-				+ "	<input type=\"hidden\" name=\"ConnWithIframe\" value=\""+ConnWithIframe+"\"/>\r\n"
-				+ "</form>");
-		
 		// nicepay API 사용하기위한 userAgent분류, 결제창 최종 요청, 결제창 종료함수 js 생성
-		// <%@ page contentType="text/html; charset=utf-8"%> 이거 안해주고 produces 설정!(Controller참고)
 		nicepayHtml.append("<script src=\"https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js\" type=\"text/javascript\"></script>\r\n"
 				+ "<script>\r\n"
-				+ "//[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>\r\n"
-				+ "function nicepaySubmit(){\r\n"
-				+ "	document.payForm.submit();\r\n"
-				+ "}\r\n"
-				+ "\r\n"
-				+ "//[PC 결제창 전용]결제창 종료 함수 <<'nicepayClose()' 이름 수정 불가능>>\r\n"
-				+ "function nicepayClose(){\r\n"
-				+ "	//alert(\"결제가 취소 되었습니다\");\r\n"
-				+ "	payment.nicepayClose('"+orderSq+"');\r\n"
-				+ "}\r\n"
-				+ "\r\n"
 				+ "//pc, mobile 구분\r\n"
 				+ "function checkPlatform(ua) {\r\n"
 				+ "	if(ua === undefined) {\r\n"
@@ -258,10 +197,59 @@ public class PaymentServiceImpl implements PaymentService{
 				+ "	\r\n"
 				+ "	return userPlatform;\r\n"
 				+ "}\r\n"
-				+ "</script>");
+				+ "</script></head><body>");
+		// 인증,승인 모두 완료시 return될 html을 출력해줄 지시자	
+		// payForm 
+		// 상점키(필)              // 테스트 상점키
+		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; 
+		// 상점아이디(필) // MID   // 테스트아이디
+		String merchantID 		= "nicepay00m"; 
+		// 결제상품명(필)
+		String goodsName 		= frm.getGoodsName(); 	
+		// 결제상품금액(필) // Amt
+		String price 			= frm.getCrdStlmAmt(); 
+		// 구매자명
+		String buyerName 		= frm.getBuyerName(); 	
+		// 구매자메일주소
+		String buyerEmail 		= frm.getMbrId(); 	
+		// 상품주문번호(필) // moid 
+		String orderSq			= frm.getAtlctRsvNo();
+		System.out.println("order_sq : " + orderSq);
+		// 요청응답URL 모바일(필) ( 절대경로 줘야함 ! )
+		String returnURL 		= "localhost/payment/payment_result.do";
+		// 주문 생성일시
+		String ediDate = getyyyyMMddHHmmss();
+		// 위변조검증 데이터(필) EdiDate + MID + Amt + MerchantKey
+		String signData = encrypt(ediDate + merchantID + price + merchantKey);
+		// iframe기반 PG연동시 (필)
+		String ConnWithIframe = "Y";
+		// 휴대폰 소액결제 추가 파라미터 0:컨텐츠, 1:실물
+		String GoodsCl ="1";
+
+		nicepayHtml.append("\r\n<form id=\"payForm\" name=\"payForm\" method=\"get\" action=\"/payment/payment_result.do\">\r\n"
+				//+ "	<input type=\"hidden\" name=\"${_csrf.parameterName}\" value=\"${_csrf.token}\" />\r\n"
+				+ "	<input type=\"hidden\" name=\"PayMethod\" value=\"CARD\">\r\n"
+				+ "	<input type=\"hidden\" name=\"GoodsName\" value=\""+goodsName+"\">\r\n"
+				+ "	<input type=\"hidden\" name=\"Amt\" value=\""+price+"\">\r\n"
+				+ "	<input type=\"hidden\" name=\"MID\" value=\""+merchantID+"\">\r\n"
+				+ "	<input type=\"hidden\" name=\"Moid\" value=\""+orderSq+"\">\r\n"
+				+ "	<input type=\"hidden\" name=\"BuyerName\" value=\""+buyerName+"\">\r\n"
+				+ "	<input type=\"hidden\" name=\"ReturnURL\" value=\""+returnURL+"\">\r\n"
+				+ "	\r\n"
+				+ "	<!-- 옵션 --> \r\n"
+				+ "	<input type=\"hidden\" name=\"GoodsCl\" value=\""+GoodsCl+"\"/>   \r\n"
+				+ "	<input type=\"hidden\" name=\"TransType\" value=\"0\"/> \r\n"   //일반(0)/에스크로(1)
+				+ "	<input type=\"hidden\" name=\"CharSet\" value=\"utf-8\"/>\r\n"  // 응답 파라미터 인코딩 방식
+				+ "	<input type=\"hidden\" name=\"ReqReserved\" value=\"\"/>	<!-- 상점 예약필드 -->\r\n"
+				+ "				\r\n"
+				+ "	<!-- 변경 불가능 -->\r\n"
+				+ "	<input type=\"hidden\" name=\"EdiDate\" value=\""+ediDate+"\"/>\r\n"
+				+ "	<input type=\"hidden\" name=\"SignData\" value=\""+signData+"\"/>\r\n"
+				+ "	<input type=\"hidden\" name=\"ConnWithIframe\" value=\""+ConnWithIframe+"\"/>\r\n"
+				+ "</form>\r\n");
 		
-		// 모바일,PC NicePay 결제창 진입 goPay
-		nicepayHtml.append("\r\n<script>\r\n"
+		nicepayHtml.append("<script>\r\n"
+				// 모바일,PC NicePay 결제창 진입 goPay
 				+ "	if(checkPlatform(window.navigator.userAgent) == \"mobile\"){//모바일 결제창 진입\r\n"
 				+ "		document.payForm.action = \"https://web.nicepay.co.kr/v3/v3Payment.jsp\";\r\n"
 				+ "		document.payForm.acceptCharset=\"euc-kr\";\r\n"
@@ -269,15 +257,46 @@ public class PaymentServiceImpl implements PaymentService{
 				+ "	}else{//PC 결제창 진입\r\n"
 				+ "		goPay(document.payForm);\r\n"
 				+ "	}\r\n"
-				+ "</script>");
-		
-		// js
-		nicepayHtml.append("\r\n<script type=\"text/javascript\" src=\"/resources/common/js/fnc.js\"></script>\r\n"
-				+ "<script type=\"text/javascript\" src=\"/resources/common/js/payment/payment.js\"></script>");
+				
+				+ "//[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>\r\n"
+				+ "function nicepaySubmit(){\r\n"
+				+ "	document.payForm.submit();\r\n"
+				+ "}\r\n"
+				+ "\r\n"
+				
+				+ "//[PC 결제창 전용]결제창 종료 함수 <<'nicepayClose()' 이름 수정 불가능>>\r\n"
+				+ "function nicepayClose(){\r\n"
+				+ " console.log('nicepayClose호출..');\r\n"
+				+ "		$.ajax({\r\n"
+				+ "			url: \"http://localhost/payment/payment_close.ajax\",\r\n"
+				+ "			type: \"get\",\r\n"
+				+ "			data: { orderSq: "+orderSq+" },\r\n"
+				+ "			contentType: \"application/json; charset=utf-8;\",\r\n"
+				+ "			dataType: \"json\",\r\n"
+				+ "			async: true,"				
+				+ "			cache: false,\r\n"
+				+ "			success: function(data,status,xhr){\r\n"
+				+ "                alert('결제가 취소되었습니다.');\r\n"
+				+ "			},\r\n"
+				+ "			error:function(e,xhr,data){\r\n"
+				+ "				if(e.status==403) {\r\n"
+				+ "					if(confirm(\"자동 로그아웃 처리되었습니다. 로그인 다시 시도해주세요.\")); {\r\n"
+				+ "						fnc.moveLoginPage();\r\n"
+				+ "					}\r\n"
+				+ "				}else {\r\n"
+				+ "					console.log(e);\r\n"
+				+ "				}\r\n"
+				+ "			}\r\n"
+				+ "		});\r\n"
+				+ "}\r\n"
+				+ "\r\n"
+				+ "</script>"
+				+ "</body>");
+
 		//System.out.println(nicepayHtml.toString());
 		return nicepayHtml.toString();
 	}
-	
+
 	// 결제인증 후 승인
 	@Override
 	public HashMap<String, String> getAcknowledgeNicePay(Map<String, Object> params) throws Exception{
@@ -296,112 +315,112 @@ public class PaymentServiceImpl implements PaymentService{
 		String reqReserved = (String) params.get("ReqReserved"); // 상점 예약필드
 		String netCancelURL = (String) params.get("NetCancelURL"); // 망취소 요청 URL
 		String authSignature = (String) params.get("Signature"); // Nicepay에서 내려준 응답값의 무결성 검증 Data
-		
-	    // 승인처리를 위한 파라미터
-	    String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==";
-	    String authComparisonSignature = encrypt(authToken + mid + amt + merchantKey); // 넘어온 authSignature와 비교
-	    // 승인 결과 파라미터
-	    String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
-	    String GoodsName 	= ""; String Amt 		= ""; String TID 		= ""; 
-	    
-	    // 승인 처리 로직
-	    String resultJsonStr = "";
-	    if(authResultCode.equals("0000") && authSignature.equals(authComparisonSignature)){
-	    	//해쉬암호화
-	    	String ediDate  = getyyyyMMddHHmmss();
-	    	String signData = encrypt(authToken + mid + amt + ediDate + merchantKey);
-	    	//승인 요청
-	    	// 승인에 필요한 데이터 생성
-	    	StringBuffer requestData = new StringBuffer();
-	    	requestData.append("TID=").append(txTid).append("&");
-	    	requestData.append("AuthToken=").append(authToken).append("&");
-	    	requestData.append("MID=").append(mid).append("&");
-	    	requestData.append("Amt=").append(amt).append("&");
-	    	requestData.append("EdiDate=").append(ediDate).append("&");
-	    	requestData.append("CharSet=").append("utf-8").append("&");
-	    	requestData.append("SignData=").append(signData);
-	    	
-	    	// server to server 통신을 통해 승인 처리
-	    	resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
 
-	    	// 승인결과를 담을 Map
-	    	HashMap<String, Object> resultData = new HashMap<>();
-	    	// 승인 성공,실패
-	    	boolean paySuccess = false;
-	    	if("9999".equals(resultJsonStr)){ // Exception 발생
-	    		StringBuffer netCancelData = new StringBuffer();
-	    		requestData.append("&").append("NetCancel=").append("1");
-	    		//망취소 요청
-	    		String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
-	    		
-	    		HashMap<String, Object> cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
-	    		ResultCode = (String)cancelResultData.get("ResultCode");
-	    		ResultMsg = (String)cancelResultData.get("ResultMsg");
-	    		/*Signature = (String)cancelResultData.get("Signature");
+		// 승인처리를 위한 파라미터
+		String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==";
+		String authComparisonSignature = encrypt(authToken + mid + amt + merchantKey); // 넘어온 authSignature와 비교
+		// 승인 결과 파라미터
+		String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
+		String GoodsName 	= ""; String Amt 		= ""; String TID 		= ""; 
+
+		// 승인 처리 로직
+		String resultJsonStr = "";
+		if(authResultCode.equals("0000") && authSignature.equals(authComparisonSignature)){
+			//해쉬암호화
+			String ediDate  = getyyyyMMddHHmmss();
+			String signData = encrypt(authToken + mid + amt + ediDate + merchantKey);
+			//승인 요청
+			// 승인에 필요한 데이터 생성
+			StringBuffer requestData = new StringBuffer();
+			requestData.append("TID=").append(txTid).append("&");
+			requestData.append("AuthToken=").append(authToken).append("&");
+			requestData.append("MID=").append(mid).append("&");
+			requestData.append("Amt=").append(amt).append("&");
+			requestData.append("EdiDate=").append(ediDate).append("&");
+			requestData.append("CharSet=").append("utf-8").append("&");
+			requestData.append("SignData=").append(signData);
+
+			// server to server 통신을 통해 승인 처리
+			resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
+
+			// 승인결과를 담을 Map
+			HashMap<String, Object> resultData = new HashMap<>();
+			// 승인 성공,실패
+			boolean paySuccess = false;
+			if("9999".equals(resultJsonStr)){ // Exception 발생
+				StringBuffer netCancelData = new StringBuffer();
+				requestData.append("&").append("NetCancel=").append("1");
+				//망취소 요청
+				String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
+
+				HashMap<String, Object> cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
+				ResultCode = (String)cancelResultData.get("ResultCode");
+				ResultMsg = (String)cancelResultData.get("ResultMsg");
+				/*Signature = (String)cancelResultData.get("Signature");
 	    		String CancelAmt = (String)cancelResultData.get("CancelAmt");
 	    		paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
-	    		rtnMap.put("ResultCode", ResultCode);
-	    		rtnMap.put("ResultMsg", ResultMsg);
-	    		rtnMap.put("paySuccess", "fail");
-	    	}else{ // 성공
-	    		resultData = jsonStringToHashMap(resultJsonStr);
-	    		ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (정상 결과코드:3001)
-	    		ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
-	    		PayMethod 	= (String)resultData.get("PayMethod");	// 결제수단
-	    		GoodsName   = (String)resultData.get("GoodsName");	// 상품명
-	    		Amt       	= (String)resultData.get("Amt");		// 결제 금액
-	    		TID       	= (String)resultData.get("TID");		// 거래번호
-	    		/*
+				rtnMap.put("ResultCode", ResultCode);
+				rtnMap.put("ResultMsg", ResultMsg);
+				rtnMap.put("paySuccess", "fail");
+			}else{ // 성공
+				resultData = jsonStringToHashMap(resultJsonStr);
+				ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (정상 결과코드:3001)
+				ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
+				PayMethod 	= (String)resultData.get("PayMethod");	// 결제수단
+				GoodsName   = (String)resultData.get("GoodsName");	// 상품명
+				Amt       	= (String)resultData.get("Amt");		// 결제 금액
+				TID       	= (String)resultData.get("TID");		// 거래번호
+				/*
 	    		String Signature = (String)resultData.get("Signature"); // NicePay승인 응답값의 무결성검증Data
 	    		String paySignature = encrypt(TID + mid + Amt + merchantKey); //
 	    		// 승인 응답값의 무결성 검증
-	    		*/
-	    		// 결제 성공 여부 확인
-	    		if(PayMethod != null){
-	    			if(PayMethod.equals("CARD")){
-	    				if(ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)       	
-	    			}else if(PayMethod.equals("BANK")){
-	    				if(ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)	
-	    			}else if(PayMethod.equals("CELLPHONE")){
-	    				if(ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)	
-	    			}else if(PayMethod.equals("VBANK")){
-	    				if(ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
-	    			}else if(PayMethod.equals("SSG_BANK")){
-	    				if(ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
-	    			}else if(PayMethod.equals("CMS_BANK")){
-	    				if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
-	    			}
-	    		}
-	    		if(paySuccess) {
-	    			rtnMap.put("paySuccess", "success");
-		    		rtnMap.put("ResultCode", ResultCode);
-		    		rtnMap.put("ResultMsg", ResultMsg);	
-		    		rtnMap.put("PayMethod", PayMethod);	
-		    		rtnMap.put("GoodsName", GoodsName);
-		    		rtnMap.put("Amt", Amt);
-		    		rtnMap.put("TID", TID); // 거래번호
-	    		}else {
-	    			rtnMap.put("paySuccess", "fail");
-		    		rtnMap.put("ResultCode", ResultCode);
-		    		rtnMap.put("ResultMsg", ResultMsg);	
-	    		}
-	    	}
-	    }else if(authSignature.equals(authComparisonSignature)){ // 결제인증이 0000(성공)이 아님
-	    	ResultCode 	= authResultCode; 	
-	    	ResultMsg 	= authResultMsg;
-	    	
-	    	rtnMap.put("paySuccess", "fail");
-    		rtnMap.put("ResultCode", ResultCode);
-    		rtnMap.put("ResultMsg", ResultMsg);
-	    }else{ // 무결성 검증 값이 다름
-	    	rtnMap.put("paySuccess", "error");
-	    	rtnMap.put("ResultMsg", "무결성 검증 값이 다름");
-	    	System.out.println("인증 응답 Signature : " + authSignature);
-	    	System.out.println("인증 생성 Signature : " + authComparisonSignature);
-	    }
-	    return rtnMap;
+				 */
+				// 결제 성공 여부 확인
+				if(PayMethod != null){
+					if(PayMethod.equals("CARD")){
+						if(ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)       	
+					}else if(PayMethod.equals("BANK")){
+						if(ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)	
+					}else if(PayMethod.equals("CELLPHONE")){
+						if(ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)	
+					}else if(PayMethod.equals("VBANK")){
+						if(ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
+					}else if(PayMethod.equals("SSG_BANK")){
+						if(ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
+					}else if(PayMethod.equals("CMS_BANK")){
+						if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
+					}
+				}
+				if(paySuccess) {
+					rtnMap.put("paySuccess", "success");
+					rtnMap.put("ResultCode", ResultCode);
+					rtnMap.put("ResultMsg", ResultMsg);	
+					rtnMap.put("PayMethod", PayMethod);	
+					rtnMap.put("GoodsName", GoodsName);
+					rtnMap.put("Amt", Amt);
+					rtnMap.put("TID", TID); // 거래번호
+				}else {
+					rtnMap.put("paySuccess", "fail");
+					rtnMap.put("ResultCode", ResultCode);
+					rtnMap.put("ResultMsg", ResultMsg);	
+				}
+			}
+		}else if(authSignature.equals(authComparisonSignature)){ // 결제인증이 0000(성공)이 아님
+			ResultCode 	= authResultCode; 	
+			ResultMsg 	= authResultMsg;
+
+			rtnMap.put("paySuccess", "fail");
+			rtnMap.put("ResultCode", ResultCode);
+			rtnMap.put("ResultMsg", ResultMsg);
+		}else{ // 무결성 검증 값이 다름
+			rtnMap.put("paySuccess", "error");
+			rtnMap.put("ResultMsg", "무결성 검증 값이 다름");
+			System.out.println("인증 응답 Signature : " + authSignature);
+			System.out.println("인증 생성 Signature : " + authComparisonSignature);
+		}
+		return rtnMap;
 	}
-	
+
 	// f. 현재 날짜 시간 정보를 가져오는 function
 	public final synchronized String getyyyyMMddHHmmss(){
 		SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -428,7 +447,7 @@ public class PaymentServiceImpl implements PaymentService{
 		BufferedReader resultReader = null;
 		PrintWriter pw 				= null;
 		URL url 					= null;
-		
+
 		int statusCode = 0;
 		StringBuffer recvBuffer = new StringBuffer();
 		try{
@@ -438,28 +457,28 @@ public class PaymentServiceImpl implements PaymentService{
 			conn.setConnectTimeout(15000);
 			conn.setReadTimeout(25000);
 			conn.setDoOutput(true);
-			
+
 			pw = new PrintWriter(conn.getOutputStream());
 			pw.write(data);
 			pw.flush();
-			
+
 			statusCode = conn.getResponseCode();
 			resultReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
 			for(String temp; (temp = resultReader.readLine()) != null;){
 				recvBuffer.append(temp).append("\n");
 			}
-			
+
 			if(!(statusCode == HttpURLConnection.HTTP_OK)){
 				throw new Exception();
 			}
-			
+
 			return recvBuffer.toString().trim();
-			
+
 		}catch (Exception e){
 			return "9999";
 		}finally{
 			recvBuffer.setLength(0);
-			
+
 			try{
 				if(resultReader != null){
 					resultReader.close();
@@ -467,7 +486,7 @@ public class PaymentServiceImpl implements PaymentService{
 			}catch(Exception ex){
 				resultReader = null;
 			}
-			
+
 			try{
 				if(pw != null) {
 					pw.close();
@@ -475,7 +494,7 @@ public class PaymentServiceImpl implements PaymentService{
 			}catch(Exception ex){
 				pw = null;
 			}
-			
+
 			try{
 				if(conn != null) {
 					conn.disconnect();

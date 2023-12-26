@@ -1,9 +1,4 @@
 var requestIndexCtrl = (function(){
-	
-	var pathname = "/" + window.location.pathname.split("/")[1];	
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
     var popupType;
 
     "use strict";
@@ -14,13 +9,12 @@ var requestIndexCtrl = (function(){
         // 강사지원 팝업
         if(type == "teacher"){
             $("#popupTitle").html("롯데문화센터 강사 지원하기");
-
-            fnc.paramAjax(open_popup, contextPath+"/information/application/teacher/request.do",{}, "html", false, false, true);
+            fnc.paramAjax(open_popup, "/information/application/teacher/request.do",{}, "html", false, false, true);
         }
         // 제휴신청 팝업
         else if(type == "cooper"){
             $("#popupTitle").html("롯데문화센터 제휴 신청하기");
-            fnc.paramAjax(open_popup, contextPath+"/information/application/cooperation/request1.ajax",{}, "html", false, false, true);
+            fnc.paramAjax(open_popup, "/information/application/cooperation/request1.ajax",{}, "html", false, false, true);
         }
 
     }
@@ -37,14 +31,7 @@ var requestIndexCtrl = (function(){
         var $layer = $("#application_popup");
         var $con = $("#popupContent");
         var cont = $(".cont_wrap");
-
-
-		if(html == "") {
-			alert("로그인 후 이용가능합니다.");
-			fnc.moveLoginPage();
-			return;
-		}
-		
+        
         $con.html(html);
 
         if(html.indexOf("<!doctype html>") > -1){

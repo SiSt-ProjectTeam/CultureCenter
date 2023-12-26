@@ -11,20 +11,16 @@ var reviewCtrl = (function(){
         $("input[name=orderSet]").val($("#orderSet").val());
         $("input[name=brchCd]").val($("#brchCd").val());
     }
-/* 수정하는중
-    var prcs_param = function(){
-        $("input[name=searchWord]").val($("#searchWord").val());
-        $("input[name=orderSet]").val($("#orderSet").val());
-        $("input[name=brchCd]").val($("#brchCd").val());
-    }
-*/
     var fn_search = function(){
         // form param setting
         prcs_param();
-
-        searchMore.pageIndex = 1;
+        
+		// get list
+		searchMore.pageIndex = 1;
 		searchMore.search();
+		//init_list();
     }
+    
     var fn_search_by_option = function(obj){
         tcCommon.selOptClick(obj);
         fn_search();
@@ -37,7 +33,7 @@ var reviewCtrl = (function(){
     var fn_regist_comment = function(){
         if(!$("#wrap").data("isLogin")){
             alert("로그인 후 이용가능합니다.");
-            location.href = "${contextPath}/login/index.do?rtnUrl=" + encodeURIComponent(window.location.href);
+            location.href = "/login/index.do?rtnUrl=" + encodeURIComponent(window.location.href);
             return;
         }
         var cmntCont1 = $("#cmntCont1").val().trim();
@@ -95,22 +91,19 @@ var reviewCtrl = (function(){
     }
 
     var init_list = function(){
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
+		// var searchMore = null;
 	
-	var searchMore = null;
-
         // 수강후기 리스트 
 		var initObj = {
             form : $("#reviewForm"),
             container : $("#listContainer"),
             moreBtn : $("#moreBtn"),
-            url : contextPath+"/community/review/list.ajax",
+            url : "/community/review/list.ajax",
             pageIndex : $("#reviewForm #pageIndex").val(),
             listCnt : $("#reviewForm #listCnt").val(),
             callbackFunc : function() {
-			  $("#totCnt").text(searchMore.totCnt  + "개"); }
+			  $("#totCnt").text(searchMore.totCnt  + "개"); 
+			}
 		}
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.search();
@@ -148,7 +141,7 @@ var reviewCtrl = (function(){
 
     $(document).ready(function() {
         pageType = $("#reviewForm").data("pageType");
-
+        
         if(pageType == "list"){
 		    init_list();
         }
@@ -167,4 +160,4 @@ var reviewCtrl = (function(){
         queryOnkeyup: fn_query_onkeyup,
         registOnkeyup: fn_regist_onkeyup,
     }
-});
+}());

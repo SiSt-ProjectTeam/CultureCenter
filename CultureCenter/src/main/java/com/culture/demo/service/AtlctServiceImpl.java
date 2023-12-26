@@ -2,13 +2,22 @@ package com.culture.demo.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.culture.demo.domain.AtlctDTO;
 import com.culture.demo.domain.AtlctPersonalDTO;
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.mapper.AtlctMapper;
+import com.culture.demo.mapper.PaymentMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -19,10 +28,42 @@ import lombok.extern.log4j.Log4j;
 public class AtlctServiceImpl implements AtlctService {
 	
 	private AtlctMapper atlctMapper;
-	
+	private PaymentMapper paymentMapper;
 	// 1. 수강 신청하기
+	@Override
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+	public int insOrderDetailOrder(int member_sq, int totAmt, int lpntAmt, int crdStlmAmt, int addPoint,
+			Map<Integer, List<String>> insData) throws Exception {
+		log.info(">> AtlctServiceImpl.insOrderDetailOrder()...");
+		int order_sq = -1;
+		//주문테이블
+		int rntOrderClass = atlctMapper.insertClassOrder(member_sq,totAmt,addPoint,crdStlmAmt);
+		if(rntOrderClass==1) {
+			Set<Entry<Integer, List<String>>> set = insData.entrySet();
+			order_sq = paymentMapper.getAtlctRsvNo(member_sq);
+			//수강내역테이블
+			for (Entry<Integer, List<String>> entry : set) {
+				int detail_class_sq = entry.getKey();
+				Iterator<String> ir = entry.getValue().iterator();
+				while (ir.hasNext()) {
+					String children_nm = (String) ir.next();
+					atlctMapper.insertOrderDetail(order_sq,detail_class_sq,children_nm);
+				}
+			}		
+		}else {
+			throw new Exception("주문,수강내역테이블 insert 오류");
+		}
+		return order_sq;
+	}
+	// 1-2. 수강결제 취소
+	@Override
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+	public boolean deleteOrder(int orderSq) throws Exception {
+		log.info(">> AtlctServiceImpl.deleteOrder()...");
+		atlctMapper.deleteOrderDetail(orderSq);
+		return atlctMapper.deleteClassOrder(orderSq)==1;
+	}
 	
-
 	// 2. 수강 취소하기
 	@Override
 	public boolean cancelAtlct( int member_sq, int order_sq, String orderDetailSqs, int cancelAmt, int cancelReasonId ) throws SQLException{
@@ -167,7 +208,7 @@ public class AtlctServiceImpl implements AtlctService {
 		
 		return html.toString();
 	    
-	} // createAtlctHtml()
+	}// createAtlctHtml()
 
 
 }
