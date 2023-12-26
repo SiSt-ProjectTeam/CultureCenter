@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<html lang="ko">
-
-<body class="main">
 			
 		<form id="frm_submit" name="frm_submit">
 			<input type="hidden" name="csrfPreventionSalt"
