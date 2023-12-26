@@ -18,7 +18,7 @@ public class AtlctDTO {
 	    private int order_amt;					// detail - 결제금액
 	    private int add_point;					// detail - 적립된 포인트
 	    private int total_amt;					// detail - 총 결제금액	
-
+	    private String tid;                         // tid
 		// 세부강좌 테이블  detail_class
 		private int detail_class_sq;			// 세부 강좌 번호
 		private String class_schedule;			// 강의 기간 / 요일 / 시간 / 횟수

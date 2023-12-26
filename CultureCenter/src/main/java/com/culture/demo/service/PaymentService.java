@@ -25,7 +25,7 @@ public interface PaymentService {
 	// 강좌명
 	public String getLectName(int detailLectCd) throws Exception;
 	// 주문번호
-	public int getOrderSq() throws Exception;
+	public int getOrderSq(int member_sq) throws Exception;
 	// iframe에 들어갈 nicepay 불러오는 html
 	public String createNicePayHtml(PaymentFrmDTO frm) throws Exception;
 	// 결제인증 후 NicePay의 승인처리

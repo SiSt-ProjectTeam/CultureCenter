@@ -1,2 +1,13 @@
-<div data-tot-cnt="0"></div>
-        
+
+<div class="review_list" data-tot-cnt="1">
+                <div class="flex_box">
+                    <div class="writer_info">
+                        <div class="type_div">
+                            <p class="type">이*희</p>
+                            <p class="type">2023.12.14</p>
+                        </div>
+                        <a href="javascript:" class="comment_remove f_caption1" role="btn" onclick="reviewCtrl.deleteCmnt(this);" data-sort-seqno="8">삭제</a>
+                    </div>
+                </div>
+                <p class="comment f_body2">한번 들어봐야겠어요</p>
+</div>

@@ -20,4 +20,8 @@ public interface CartService {
 	void autoDelete() throws SQLException, ClassNotFoundException;
 	// 장바구니 총 개수
 	int getTotCartCnt(int member_sq) throws SQLException, ClassNotFoundException;
+	
+	
+	// 주문번호로 세부강좌번호 가져오기
+	String getDetailSqByOrderSq(int order_sq) throws Exception;
 }

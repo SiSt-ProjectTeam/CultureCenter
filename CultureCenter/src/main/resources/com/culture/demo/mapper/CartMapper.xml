@@ -79,6 +79,16 @@
     </if>
 	</delete>
 	
+	<!-- 주문번호로 세부강좌번호 -->
+	<select id="getDetailSqByOrder" resultType="String">
+	 SELECT LISTAGG(detail_class_sq, ',') WITHIN GROUP (ORDER BY detail_class_sq) AS result
+	 FROM (
+	    SELECT DISTINCT detail_class_sq
+	    FROM order_detail
+	    WHERE order_sq = ${order_sq}
+	 )
+	</select>
+	
 	<!-- 장바구니 자동삭제 void autoDelete() -->
 	<delete id="autoDelete">
 	<![CDATA[

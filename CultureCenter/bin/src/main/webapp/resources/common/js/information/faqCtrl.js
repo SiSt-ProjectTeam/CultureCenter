@@ -28,7 +28,7 @@ var faqCtrl = (function(){
 				form : $("#frmSearch")
 				, container : $(".listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/information/faq/list.ajax"
+				, url : "/information/faq/list.ajax"
 				, pageIndex : $("#frmSearch #pageIndex").val()
 				, listCnt : $("#frmSearch #listCnt").val()
 				, callbackFunc : function() {accorRecall()}
@@ -46,7 +46,7 @@ var faqCtrl = (function(){
 				form : $("#frmSearch")
 				, container : $(".listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/information/faq/list.ajax"
+				, url : "/information/faq/list.ajax"
 				, pageIndex : $("#frmSearch #pageIndex").val()
 				, listCnt : $("#frmSearch #listCnt").val()
 				, callbackFunc : function(){accorRecall()}

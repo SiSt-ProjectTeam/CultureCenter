@@ -100,6 +100,6 @@
 	</select>
 	<!-- 주문번호 public String getAtlctRsvNo() -->
 	<select id="getAtlctRsvNo" resultType="int">
-	SELECT MAX(order_sq)+1 order_sq FROM class_order
+	SELECT MAX(order_sq) order_sq FROM class_order WHERE member_sq = #{member_sq}
 	</select>
 </mapper>

@@ -19,5 +19,5 @@ public interface PaymentMapper {
 	// 강좌명 
 	public String getLectName(int detailLectCd) throws Exception;
 	// 주문번호 가져오기
-	public int getAtlctRsvNo() throws Exception;
+	public int getAtlctRsvNo(int member_sq) throws Exception;
 }

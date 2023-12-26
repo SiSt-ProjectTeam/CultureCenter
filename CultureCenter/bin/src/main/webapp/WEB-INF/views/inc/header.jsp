@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <header class="pc">
 	<div class="logo">
-		<a href="/" title="롯데문화센터 메인으로 이동"></a>
+		<a href="/index.do" title="롯데문화센터 메인으로 이동"></a>
 	</div>
 
 	<nav>
@@ -75,49 +76,58 @@
 				<span class="only_pc">관심있는 강좌를 찾아보세요</span> <span class="only_mobile">관심 강좌 찾기</span>
 			</a>
 		</p>
-		<u:isLogin>
+		<sec:authorize access="isAuthenticated()">
 			<p class="mypage_icon">
 				<a href="javascript:" title="마이페이지" onclick="common.getCount(this);"></a>
 			</p>
-		</u:isLogin>	
+		</sec:authorize>		
 		
-		<p class="cart_icon ">
-			<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
-			<%
-				HttpSession httpSession = request.getSession();
-				if (httpSession != null && httpSession.getAttribute("authUser") != null) {
-			%>
-				<a href="/mypage/cart/list.do" title="장바구니"></a>
-				<span class="cart_num"></span>
-			<%
-				} else {
-			%>
-				<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
-			<%
-				}
-			%>
-			
+		
+		<!-- 장바구니에 담긴 갯수가 있을 경우 on class 추가 -->
+		<sec:authorize access="isAuthenticated()">
+		<c:choose>
+		<c:when test="${totCartCnt eq 0}">
+		<p class="cart_icon">
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">0</span>		
+		</c:when>
+		<c:otherwise>
+		<p class="cart_icon on">
+			<a href="/mypage/cart/list.do" title="장바구니"></a>
+			<span class="cart_num">${totCartCnt}</span>
+		</p>
+		</c:otherwise>
+		</c:choose>
+		</sec:authorize>
+		<sec:authorize access="!isAuthenticated()">
+		<p class="cart_icon">
+			<a href="javascript:fnc.moveLoginPage(true);" title="장바구니"></a>
 			<span class="cart_num">0</span>
 		</p>
-
-		<u:isAdmin>
-			<p class="admin_icon">
-				<a href="/administrator/index.do" title="관리자페이지"></a>
-				<a href="javascript:fnc.moveLogout();" title="로그아웃"></a>
-			</p>
-		</u:isAdmin>	
-				
-		<u:notLogin>		
-			<p class="login_icon "><!-- 로그아웃일 경우 logout class 추가 -->
-			   	<a href="javascript:fnc.moveLoginPage();" title="로그인"></a>
-			</p>
-		</u:notLogin>
+		</sec:authorize>
 		
-		<u:isLogin>		
-			<p class="login_icon logout"><!-- 로그아웃일 경우 logout class 추가 -->
+		<!-- 
+		<p class="admin_icon">
+			<a href="/administrator/index.do" title="관리자페이지"></a>
+			<a href="javascript:fnc.moveLogout();" title="로그아웃"></a>
+		</p>	
+		 -->			
+		 
+		<sec:authorize access="isAnonymous()">
+		  <p class="login_icon ">
+		   	<a href="javascript:fnc.moveLoginPage();" title="로그인"></a>
+		  </p>
+		</sec:authorize>
+		
+		<sec:authorize access="isAuthenticated()">
+		  <sec:authentication property="principal" var="principal"/>
+		  <form action="/login/logout.do" method="post" id="frmLogout">			            
+			  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			  <p class="login_icon logout">
 				<a href="javascript:fnc.moveLogout();" title="로그아웃"></a>
-			</p>
-		</u:isLogin>
+			  </p>
+		  </form> 
+		</sec:authorize>
 	</div>
 
 	<div class="header_srch_pop_area">
@@ -165,29 +175,27 @@
 					<a href="javascript:fnc.moveLogout()" class="logout_txt"><span>로그아웃</span></a>
 					<div class="mypage_inner">
 						<p class="name">
-							<a href="/mypage/member/info.do"><span>유희진</span></a>
+							<a href="/mypage/member/info.do"><span id="name"></span></a>
 						</p>
 						<div class="mypage_info_w">
 							<a href="javascript:common.showItrstPop()" class="mypage_info">
 								<p class="f_caption2">관심지점</p>
-								<p class="info"><span>잠실점</span></p>
+								<p class="info"><span id="Intrbranch"></span></p>
 							</a>
 							<a href="/mypage/coupon/list.do" class="mypage_info">
 								<p class="f_caption2">나의 쿠폰</p>
-								<p class="info" ><span id="cpnCnt"></span></p>
+								<p class="info"><span id="cpnCnt">0</span></p>
 							</a>
 							<a href="javascript:" class="mypage_info">
-								<p class="f_caption2">L.POINT</p>
-								<p class="info blue_txt">
-									<span id="lpointSpan" onclick="javascript:common.getLpoint()">조회하기</span>
-								</p>
+								<p class="f_caption2">POINT</p>
+								<p class="info"><span id="pointSpan"></span></p>
 							</a>
 						</div>
 						<div class="mypage_div">
 							<a href="/mypage/cart/list.do" class="mypage_box on">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-class-cart.png" alt=""></p>
 								<p class="f_caption2">장바구니</p>
-								<p class="num" id="cartCnt">2</p>
+								<p class="num" id="cartCnt"></p>
 							</a>
 							<a href="/mypage/atlct/list.do" class="mypage_box">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-class-history.png" alt=""></p>
@@ -212,7 +220,7 @@
 							<a href="/mypage/teachereval/list.do" class="mypage_box eval">
 								<p class="icon"><img src="/resources/common/images/icon-mypage-satisfaction-evaluation.png" alt=""></p>
 								<p class="f_caption2">만족도 평가</p>
-								<p class="num" id="tcevlCnt"></p>
+								<p class="num" id="tcevlCnt">0</p>
 							</a>
 						</div>
 						<div class="mypage_list">
@@ -252,14 +260,14 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="2" data-nm="잠실점" class="place_btn brchBtn "><span>잠실점</span></a> 
 										<a href="javascript:" data-cd="1" data-nm="본점" class="place_btn brchBtn "><span>본점</span></a> 
-										<a href="javascript:" data-cd="0013" data-nm="강남점" class="place_btn brchBtn "><span>강남점</span></a> 
-										<a href="javascript:" data-cd="0028" data-nm="건대스타시티점" class="place_btn brchBtn "><span>건대스타시티점</span></a> 
-										<a href="javascript:" data-cd="0006" data-nm="관악점" class="place_btn brchBtn "><span>관악점</span></a> 
-										<a href="javascript:" data-cd="0340" data-nm="김포공항점" class="place_btn brchBtn "><span>김포공항점</span></a> 
-										<a href="javascript:" data-cd="0022" data-nm="노원점" class="place_btn brchBtn "><span>노원점</span></a> 
-										<a href="javascript:" data-cd="0026" data-nm="미아점" class="place_btn brchBtn "><span>미아점</span></a> 
-										<a href="javascript:" data-cd="0010" data-nm="영등포점" class="place_btn brchBtn "><span>영등포점</span></a> 
-										<a href="javascript:" data-cd="0004" data-nm="청량리점" class="place_btn brchBtn "><span>청량리점</span></a>
+										<a href="javascript:" data-cd="7" data-nm="강남점" class="place_btn brchBtn "><span>강남점</span></a> 
+										<a href="javascript:" data-cd="8" data-nm="건대스타시티점" class="place_btn brchBtn "><span>건대스타시티점</span></a> 
+										<a href="javascript:" data-cd="9" data-nm="관악점" class="place_btn brchBtn "><span>관악점</span></a> 
+										<a href="javascript:" data-cd="10" data-nm="김포공항점" class="place_btn brchBtn "><span>김포공항점</span></a> 
+										<a href="javascript:" data-cd="11" data-nm="노원점" class="place_btn brchBtn "><span>노원점</span></a> 
+										<a href="javascript:" data-cd="12" data-nm="미아점" class="place_btn brchBtn "><span>미아점</span></a> 
+										<a href="javascript:" data-cd="13" data-nm="영등포점" class="place_btn brchBtn "><span>영등포점</span></a> 
+										<a href="javascript:" data-cd="14" data-nm="청량리점" class="place_btn brchBtn "><span>청량리점</span></a>
 									</div>
 								</div>
 							</div>
@@ -271,14 +279,14 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="3" data-nm="인천점" class="place_btn brchBtn "><span>인천점</span></a> 
 										<a href="javascript:" data-cd="4" data-nm="동탄점" class="place_btn brchBtn "><span>동탄점</span></a> 
-										<a href="javascript:" data-cd="0335" data-nm="구리점" class="place_btn brchBtn "><span>구리점</span></a> 
-										<a href="javascript:" data-cd="0008" data-nm="분당점" class="place_btn brchBtn "><span>분당점</span></a> 
-										<a href="javascript:" data-cd="0349" data-nm="수원점" class="place_btn brchBtn "><span>수원점</span></a> 
-										<a href="javascript:" data-cd="0336" data-nm="안산점" class="place_btn brchBtn "><span>안산점</span></a> 
-										<a href="javascript:" data-cd="0011" data-nm="일산점" class="place_btn brchBtn "><span>일산점</span></a> 
-										<a href="javascript:" data-cd="0334" data-nm="중동점" class="place_btn brchBtn "><span>중동점</span></a> 
-										<a href="javascript:" data-cd="0341" data-nm="평촌점" class="place_btn brchBtn "><span>평촌점</span></a> 
-										<a href="javascript:" data-cd="0350" data-nm="롯데몰광명점" class="place_btn brchBtn "><span>롯데몰광명점</span></a>
+										<a href="javascript:" data-cd="15" data-nm="구리점" class="place_btn brchBtn "><span>구리점</span></a> 
+										<a href="javascript:" data-cd="16" data-nm="분당점" class="place_btn brchBtn "><span>분당점</span></a> 
+										<a href="javascript:" data-cd="17" data-nm="수원점" class="place_btn brchBtn "><span>수원점</span></a> 
+										<a href="javascript:" data-cd="18" data-nm="안산점" class="place_btn brchBtn "><span>안산점</span></a> 
+										<a href="javascript:" data-cd="19" data-nm="일산점" class="place_btn brchBtn "><span>일산점</span></a> 
+										<a href="javascript:" data-cd="20" data-nm="중동점" class="place_btn brchBtn "><span>중동점</span></a> 
+										<a href="javascript:" data-cd="21" data-nm="평촌점" class="place_btn brchBtn "><span>평촌점</span></a> 
+										<a href="javascript:" data-cd="22" data-nm="롯데몰광명점" class="place_btn brchBtn "><span>롯데몰광명점</span></a>
 									</div>
 								</div>
 							</div>
@@ -290,18 +298,18 @@
 									<div class="btn_flex_box">
 										<a href="javascript:" data-cd="5" data-nm="부산본점" class="place_btn brchBtn "><span>부산본점</span></a> 
 										<a href="javascript:" data-cd="6" data-nm="광복점" class="place_btn brchBtn "><span>광복점</span></a> 
-										<a href="javascript:" data-cd="0007" data-nm="광주점" class="place_btn brchBtn "><span>광주점</span></a> 
-										<a href="javascript:" data-cd="0023" data-nm="대구점" class="place_btn brchBtn "><span>대구점</span></a> 
-										<a href="javascript:" data-cd="0012" data-nm="대전점" class="place_btn brchBtn "><span>대전점</span></a> 
-										<a href="javascript:" data-cd="0016" data-nm="동래점" class="place_btn brchBtn "><span>동래점</span></a> 
-										<a href="javascript:" data-cd="0354" data-nm="마산점" class="place_btn brchBtn "><span>마산점</span></a> 
-										<a href="javascript:" data-cd="0024" data-nm="상인점" class="place_btn brchBtn "><span>상인점</span></a> 
-										<a href="javascript:" data-cd="0027" data-nm="센텀시티점" class="place_btn brchBtn "><span>센텀시티점</span></a> 
-										<a href="javascript:" data-cd="0015" data-nm="울산점" class="place_btn brchBtn "><span>울산점</span></a> 
-										<a href="javascript:" data-cd="0025" data-nm="전주점" class="place_btn brchBtn "><span>전주점</span></a> 
-										<a href="javascript:" data-cd="0017" data-nm="창원점" class="place_btn brchBtn "><span>창원점</span></a> 
-										<a href="javascript:" data-cd="0014" data-nm="포항점" class="place_btn brchBtn "><span>포항점</span></a> 
-										<a href="javascript:" data-cd="0361" data-nm="롯데몰군산점" class="place_btn brchBtn "><span>롯데몰군산점</span></a>
+										<a href="javascript:" data-cd="23" data-nm="광주점" class="place_btn brchBtn "><span>광주점</span></a> 
+										<a href="javascript:" data-cd="24" data-nm="대구점" class="place_btn brchBtn "><span>대구점</span></a> 
+										<a href="javascript:" data-cd="25" data-nm="대전점" class="place_btn brchBtn "><span>대전점</span></a> 
+										<a href="javascript:" data-cd="26" data-nm="동래점" class="place_btn brchBtn "><span>동래점</span></a> 
+										<a href="javascript:" data-cd="27" data-nm="마산점" class="place_btn brchBtn "><span>마산점</span></a> 
+										<a href="javascript:" data-cd="28" data-nm="상인점" class="place_btn brchBtn "><span>상인점</span></a> 
+										<a href="javascript:" data-cd="29" data-nm="센텀시티점" class="place_btn brchBtn "><span>센텀시티점</span></a> 
+										<a href="javascript:" data-cd="30" data-nm="울산점" class="place_btn brchBtn "><span>울산점</span></a> 
+										<a href="javascript:" data-cd="31" data-nm="전주점" class="place_btn brchBtn "><span>전주점</span></a> 
+										<a href="javascript:" data-cd="32" data-nm="창원점" class="place_btn brchBtn "><span>창원점</span></a> 
+										<a href="javascript:" data-cd="33" data-nm="포항점" class="place_btn brchBtn "><span>포항점</span></a> 
+										<a href="javascript:" data-cd="34" data-nm="롯데몰군산점" class="place_btn brchBtn "><span>롯데몰군산점</span></a>
 									</div>
 								</div>
 							</div>
@@ -341,55 +349,22 @@
 							<div class="content only_pc">
 								<div class="list_w">
 
-									<div class="list">
-               		<p class="f_body3">서울점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0002" class="f_body1">잠실점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0001" class="f_body1">본점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0013" class="f_body1">강남점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0028" class="f_body1">건대스타시티점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0006" class="f_body1">관악점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0340" class="f_body1">김포공항점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0022" class="f_body1">노원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0026" class="f_body1">미아점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0010" class="f_body1">영등포점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0004" class="f_body1">청량리점</a></p>
-	                  	</div>
-               	</div>
-              <div class="list">
-               		<p class="f_body3">수도권점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0344" class="f_body1">인천점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0399" class="f_body1">동탄점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0335" class="f_body1">구리점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0008" class="f_body1">분당점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0349" class="f_body1">수원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0336" class="f_body1">안산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0011" class="f_body1">일산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0334" class="f_body1">중동점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0341" class="f_body1">평촌점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0350" class="f_body1">롯데몰광명점</a></p>
-	                  	</div>
-               	</div>
-              <div class="list">
-               		<p class="f_body3">지방점</p>
-               		<div class="txt_w">
-	               		<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0005" class="f_body1">부산본점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0333" class="f_body1">광복점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0007" class="f_body1">광주점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0023" class="f_body1">대구점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0012" class="f_body1">대전점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0016" class="f_body1">동래점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0354" class="f_body1">마산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0024" class="f_body1">상인점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0027" class="f_body1">센텀시티점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0015" class="f_body1">울산점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0025" class="f_body1">전주점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0017" class="f_body1">창원점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0014" class="f_body1">포항점</a></p>
-	                  	<p class="txt"><a href="/application/search/list.do?type=branch&brchCd=0361" class="f_body1">롯데몰군산점</a></p>
-	                  	</div>
-               	</div>
+									<c:choose>
+								        <c:when test="${not empty bmap}">
+								            <c:forEach var="entry" items="${bmap}">
+								                <div class="list">
+								                    <p class="f_body3">${entry.key}</p>
+								                    <div class="txt_w">
+								                        <c:forEach var="dto" items="${entry.value}">
+								                                <p class="txt">
+								                                    <a href="/application/search/list.do?type=branch&brchCd=${dto.branch_id}" class="f_body1">${dto.branch_nm}</a>
+								                                </p>
+								                        </c:forEach>
+								                    </div>
+								                </div>
+								            </c:forEach>
+								        </c:when>
+								    </c:choose>
               </div>
               
               <div class="img_w">
@@ -505,42 +480,23 @@
           	<div class="content only_pc">
               <div class="list_w">
               
-              	<div class="list">
-		                  <p class="f_body3">성인강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0101" class="f_body1">공예</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0102" class="f_body1">노래</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0103" class="f_body1">댄스</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0104" class="f_body1">드로잉</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0105" class="f_body1">라이프스타일</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0106" class="f_body1">악기</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0107" class="f_body1">어학</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0108" class="f_body1">인문학</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0109" class="f_body1">재테크</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0110" class="f_body1">커리어</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0111" class="f_body1">쿠킹</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=01&mdclsCtegryCd=0112" class="f_body1">피트니스</a></p>
-		                  		</div>
-		                </div>
-	                <div class="list">
-		                  <p class="f_body3">영·유아강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0202" class="f_body1">오감발달</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0201" class="f_body1">창의·체험</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0203" class="f_body1">음악·미술</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0204" class="f_body1">언어·사회성</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=02&mdclsCtegryCd=0205" class="f_body1">신체활동</a></p>
-		                  		</div>
-		                </div>
-	                <div class="list">
-		                  <p class="f_body3">아동강좌</p>
-		                  <div class="txt_w">
-		                  	<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0302" class="f_body1">신체활동</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0303" class="f_body1">창의·체험</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0301" class="f_body1">음악·미술</a></p>
-		                  		<p class="txt"><a href="/application/search/list.do?type=category&lrclsCtegryCd=03&mdclsCtegryCd=0304" class="f_body1">언어·사회성</a></p>
-		                  		</div>
-		                </div>
+              	<c:choose>
+			        <c:when test="${not empty cmap}">
+			            <c:forEach var="entry" items="${cmap}">
+			                <div class="list">
+			                    <p class="f_body3">${entry.key}</p>
+			                    <div class="txt_w">
+			                        <c:forEach var="dto" items="${entry.value}">
+		                                <p class="txt">
+		                                    <a href="/application/search/list.do?type=category&lrclsCtegryCd=${dto.lrclsCtegryCd}&mdclsCtegryCd=${dto.mdclsCtegryCd}" class="f_body1">${dto.mdclsCtegry}</a>
+		                                </p>
+			                        </c:forEach>
+			                    </div>
+			                </div>
+			            </c:forEach>
+			        </c:when>
+			    </c:choose>
+			    
 	                </div>
               <div class="img_w">
                 <div class="img_div">

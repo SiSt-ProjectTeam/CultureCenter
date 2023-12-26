@@ -6,9 +6,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 	<!-- css, js, image 등 접근 제어 대상이 아니기에 보안필터 체인 비적용 -->
-	<security:http pattern="/resources/**" security="none"></security:http>   
-	<security:http pattern="*.ajax" security="none"></security:http>   
-	
+	<security:http pattern="/resources/**" security="none"></security:http>
 	<security:http use-expressions="true">
 		<!-- 접근 제한 설정 -->
 		<security:intercept-url pattern="/mypage/**, /payment/**, /community/dtl.do, /information/application/teacher/**" access="isAuthenticated()"/>
@@ -28,7 +26,11 @@
 	       logout-success-url="/" 
 	   />
 	   
-	</security:http>   
+	   <security:headers>
+	   	 <security:frame-options policy="SAMEORIGIN"/>
+	   </security:headers>
+	   
+	</security:http>  
 	
 	<!-- 스프링에서 제공하는 passwordEncoder 빈 등록 설정 -->
 	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>

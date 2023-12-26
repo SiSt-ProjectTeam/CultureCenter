@@ -1,9 +1,5 @@
 var search = (function(){
 	
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
 	"use strict";
 	var searchMore = null;
 	
@@ -13,9 +9,23 @@ var search = (function(){
 		$("#yy").val(yy);
 		$("#lectSmsterCd").val(lectSmsterCd);
 		$("#lectCd").val(lectCd);
+		$("#lectDetailSq").val(lectCd);
 		$("#optnSeqno").val("");
 		$("#waitPopup .optionAmt").text("");
 		
+		var hrefValue = $('#selectLect a.btn_link.on').attr('href');
+		var functionCallMatch = hrefValue.match(/search\.classInfoSet\((.*)\)/);
+		
+		  var functionParams = functionCallMatch[1];
+		  
+		  var paramsArray = functionParams.split(',').map(function(param) {
+		    return param.trim();
+		  });
+	
+		  var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
+		$("#lectDetailSq").val(lastParam);
+		console.log($("#lectDetailSq").val());
+		console.log($('input[name=optionList]').val());
 		fnc.frmAjax(function(data) {
 			var classDtl = data.classDtl;
 			var teacherDtl = data.teacherDtl;
@@ -214,11 +224,12 @@ var search = (function(){
 			commonScript.resizeFn();
 			commonScript.formChkFn();
 			
-		}, contextPath+"/application/search/view.ajax", $("#classForm"), "json", true, true, true);
+		}, "/application/search/view.ajax", $("#classForm"), "json", true, true, true);
 	}
 	
 	//옵션선택
 	var optionSet = function(optnNm, optnAmt, optnSeqno, partRfndPsblYn) {
+	
 		$(".course_popup .selected_box:eq(1)").remove();
 		$("#waitPopup .optionAmt").text("");
 		
@@ -255,6 +266,7 @@ var search = (function(){
 					totalAmt = parseInt(totalAmt.replaceAll(",", "")) + parseInt(optnAmt);
 				} else {
 					totalAmt = parseInt(optnAmt);
+					console.log("optnAmt : " + optnAmt);
 				}
 			}
 			
@@ -278,9 +290,9 @@ var search = (function(){
 				$("#optionArea .btn_open span").text($(this).find("span").text());
 			}
 		});
-		
+
 		$("#optnSeqno").val(optnSeqno);
-		$("#optnNm").val(optnNm);
+		$("#optnNm").val("재료비/대여료");
 		$("#optnAmt").val(optnAmt);
 		$('#partRfndPsblYn').val(partRfndPsblYn);
 	}
@@ -295,10 +307,9 @@ var search = (function(){
 			}
 			
 			var lectStatCd = $("#lectStatCd").val();
-			console.log(lectStatCd);
-			if (lectStatCd == "02" || lectStatCd == "2") {
+			if (lectStatCd == "2") {
 				//수강 신청
-				$('#classForm').attr('action', contextPath+'/payment/step1.do');
+				$('#classForm').attr('action', '/payment/step1.do');
 				$('#classForm').attr('method', 'POST');
 				$('#classForm').submit();
 			} else if (lectStatCd == "4") {
@@ -442,16 +453,38 @@ var search = (function(){
     }
 	
 	var btnCheck = function() {
+		/*
 		if($(".single_btn_area").closest(".btn_area").css("display") != "none" && $(".single_btn_area").hasClass("one_layer") && !$(".single_btn_area .sign_btn").hasClass("disabled")) {
 			alert("강좌를 선택하세요.");
+		} 
+		*/
+		console.log("!!!!" + $("#lectDetailSq").val());
+		if($("#lectDetailSq").val() == "close") {
+			alert("강좌를 선택하세요.");
+		} else {
+			$('#one').addClass("on");
+			$('div.course_popup.list.multiple').addClass("active");
+			$('#two').css('opacity', '1');
+			$('.total_sum_area.btn_area').css('opacity', '1');
+			
+			var optionList = $('input[name=optionList]').val();
+			
+			var exCharge = fnc.fn_numberComma(optionList.match(/ex_charge=(\d+)/)[1]);
+			console.log(exCharge);
+			$("#optnAmt").val(exCharge);
+			
+			if($("#optnAmt").val() != 0) {
+				$('#optionArea').css('display', 'block');
+			}
 		}
+		
 	}
 	
 	var teacherSet = function() {
 		fnc.bscAjax(function(r) {
 			$("#teacherView").html(r);
     		commonScript.openPopupFn('.instructor_intro_pop', $("#tcBtn"));
-    	}, contextPath+"/application/search/teacherView.ajax?tcCdNo=" + $("#tcBtn").data("tcCdNo"), "html", false, false, false);
+    	}, "/application/search/teacherView.ajax?tcCdNo=" + $("#tcBtn").data("tcCdNo"), "html", false, false, false);
 	}
 	
 	var init = function() {
@@ -467,7 +500,7 @@ var search = (function(){
 				form : $("#classForm")
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/application/search/reviewList.ajax"
+				, url : "/application/search/reviewList.ajax"
 				, pageIndex : $("#classForm #pageIndex").val()
 				, listCnt : $("#classForm #listCnt").val()
 				, callbackFunc : function() {}
@@ -475,6 +508,7 @@ var search = (function(){
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.isParam = false;
 		searchMore.search();
+		classInfoSet();
 	}
 	
 	$(document).ready(function() {
