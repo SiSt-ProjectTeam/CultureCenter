@@ -11,14 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.culture.demo.domain.AtlctDTO;
 import com.culture.demo.domain.CartDTO;
+import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.FrmSubmitDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.PaymentFrmDTO;
@@ -244,23 +248,51 @@ public class PaymentController {
 	@ResponseBody
 	public String nicePayAcknowledge(@RequestParam Map<String, Object> param) throws Exception{
 		log.info("/payment/payment_result.do + POST :PaymentController.nicePayAcknowledge()...");
-		//System.out.println(param);
+		System.out.println(param);
 		// 승인 service
 		HashMap<String, String> rtnMap = paymentService.getAcknowledgeNicePay(param);
 		System.out.println("rtnMap : "+ rtnMap);
 		// TID를 주문테이블에 추가하는 로직구현
-		
-		String html = "\r\n<script>\r\n"
-				+ "			window.parent.document.getElementById('frm_success').submit();\r\n"
-				+ "		   </script>\r\n"; // form_success를 submit하는 쿼리
+		String tid = (String)rtnMap.get("TID");
+		int order_sq = Integer.parseInt( (String)param.get("Moid") );
+		int rntUpdateClassOrder = atlctService.updateTID(order_sq,tid);
+		 // form_success를 submit하는 코드
+		String html = "\r\n<script>window.parent.document.getElementById('frm_success').submit();</script>\r\n";
 		return html;
 	}
 	
 	// 수강결제3(step3)페이지 이동
-	@PostMapping("payment_step3.do")
-	@GetMapping("payment_step3.do")
-	public String goStep3(@RequestParam Map<String, Object> param) throws Exception{
+	@RequestMapping(value="payment_step3.do", method = {RequestMethod.GET,RequestMethod.POST})
+	public String goStep3(@RequestParam("atlctRsvNo") int orderSq, Authentication authentication, Model model) throws Exception{
 		log.info("/payment/payment_step3.do + POST :PaymentController.goStep3()...");
+		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
+		int member_sq = principal.getMember_sq();
+		//장바구니 삭제
+		String cartSeqno = this.cartService.getDetailSqByOrderSq(orderSq);
+		cartService.delete(member_sq, "pay",cartSeqno);
+		//정보
+		FrmSearchDTO dto = new FrmSearchDTO();
+		dto.setAtlctRsvNo(orderSq);
+		ArrayList<AtlctDTO> list = atlctService.getAtlctList(dto, member_sq);
+		System.out.println("step3 response List : " + list);
+		AtlctDTO dtoTemp = new AtlctDTO();
+		int class_fee = 0;
+		int ex_charge = 0;
+		int total_amt = list.get(0).getTotal_amt();
+		for (AtlctDTO atlctdto : list) {
+			class_fee += atlctdto.getClass_fee() * atlctdto.getPersonalList().size();
+			ex_charge += atlctdto.getEx_charge() * atlctdto.getPersonalList().size();
+		}
+		dtoTemp.setClass_fee(class_fee);
+		dtoTemp.setEx_charge(ex_charge);
+		dtoTemp.setOrder_amt(class_fee+ex_charge);
+		dtoTemp.setTotal_amt(total_amt);
+		if(class_fee+ex_charge == total_amt && ex_charge == 0 ) dtoTemp.setTot_cnt(-1); // no_cost, no_sale
+		else if(class_fee+ex_charge == total_amt) dtoTemp.setTot_cnt(-2); // no_sale
+		else if(ex_charge == 0 ) dtoTemp.setTot_cnt(-3); // no_cost
+		
+		list.add(0,dtoTemp);
+		model.addAttribute("list", list);
 		return "payment.step3";	
 	}
 	

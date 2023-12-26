@@ -19,4 +19,7 @@ public interface CartMapper {
 	public void autoDelete() throws ClassNotFoundException, SQLException;
 	// 회원 장바구니 개수
 	public int getTotCartCnt(int member_sq) throws ClassNotFoundException, SQLException;
+	
+	// 주문번호로 세부강좌번호
+	public String getDetailSqByOrder(@Param("order_sq")int order_sq) throws Exception;
 }

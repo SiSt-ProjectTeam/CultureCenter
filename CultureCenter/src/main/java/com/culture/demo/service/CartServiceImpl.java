@@ -154,13 +154,19 @@ public class CartServiceImpl implements CartService{
 	public void autoDelete() throws SQLException, ClassNotFoundException {
 		Date now = new Date();
 		log.info(">>CartService.autoDelete() ... now : "+now);
-		
 		cartMapper.autoDelete();
 	}
-
+	
+	// 장바구니 전체개수
 	@Override
 	public int getTotCartCnt(int member_sq) throws SQLException, ClassNotFoundException {
 		log.info(">>CartService.getTotCartCnt() ...");
 		return this.cartMapper.getTotCartCnt(member_sq);
+	}
+	// 주문번호로 세부강좌번호 가져오기
+	@Override
+	public String getDetailSqByOrderSq(int order_sq) throws Exception {
+		log.info(">>CartService.getDetailSqByOrderSq() ...");
+		return this.cartMapper.getDetailSqByOrder(order_sq);
 	}
 }

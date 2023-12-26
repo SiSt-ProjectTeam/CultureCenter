@@ -27,6 +27,7 @@ public interface AtlctService {
 	// 4. 수강내역 html 생성
 	String createAtlctHtml(FrmSearchDTO frmSearchDTO, int memberSq) throws SQLException;
 	
-
+	// 5. 수강결제 승인까지 완료시 TID
+	int updateTID(int order_sq, String string) throws Exception;
 
 }

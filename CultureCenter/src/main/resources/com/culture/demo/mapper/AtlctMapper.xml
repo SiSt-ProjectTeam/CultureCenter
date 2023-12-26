@@ -24,7 +24,13 @@
 	<delete id="deleteOrderDetail">
 	DELETE FROM order_detail WHERE order_sq = #{order_sq}
 	</delete>
-
+	<!-- 5. TID  -->
+	<update id="updateOrderTID">
+	UPDATE class_order
+	SET tid = #{tid}
+	WHERE order_sq = #{order_sq}
+	</update>
+	
 	<!-- 2. 수강 취소 -->
 	<!-- 2-1. 주문 상세 테이블 수정 -->
 	<update id="updateOrderDetail">
@@ -67,6 +73,7 @@
 		<result property="teacher_nm" column="teacher_nm"/>
 		<result property="branch_id" column="branch_id"/>
 		<result property="branch_nm" column="branch_nm"/>
+		<result property="tid" column="tid"/>
 		<collection property="personalList" resultMap="atlctPersonalMap" />
 	</resultMap>
 	<resultMap type="com.culture.demo.domain.AtlctPersonalDTO" id="atlctPersonalMap">
@@ -94,7 +101,7 @@
 				SELECT
 			</otherwise>
 		</choose>
-					 co.order_sq 
+					 co.order_sq, co.tid
 				   , TO_CHAR(co.order_dt, 'YYYY.MM.DD HH24:MI') order_dt
 				   , co.order_amt, co.add_point, co.total_amt                
 			       , od.order_detail_sq, od.children_nm, TO_CHAR(od.cancel_dt, 'YYYY.MM.DD HH24:MI') cancel_dt, od.cancel_amt, ors.receipt_status, ors.receipt_status_id, cr.cancel_reason

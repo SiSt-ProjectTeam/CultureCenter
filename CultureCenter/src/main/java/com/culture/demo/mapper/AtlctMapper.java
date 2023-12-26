@@ -32,4 +32,7 @@ public interface AtlctMapper {
 		
 	// 4. 수강 내역 조회
 	public ArrayList<AtlctDTO> selectAtlctList(@Param("frmSearchDTO") FrmSearchDTO frmSearchDTO, @Param("member_sq") int member_sq) throws SQLException;
+	
+	// 5. 수강결제 승인완료 후 TID추가
+	public int updateOrderTID(@Param("order_sq") int order_sq,@Param("tid") String tid) throws Exception;
 }

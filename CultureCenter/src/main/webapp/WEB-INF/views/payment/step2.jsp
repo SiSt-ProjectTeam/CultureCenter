@@ -36,7 +36,6 @@
               <div class="sub_tit_area">
                 <div class="left">
                   <p class="f_h2">수강자 정보</p>
-                  <a href="/payment/payment_step3.do">step3 이동</a>
                 </div>
               </div>
               
@@ -607,9 +606,6 @@
 	<input type="hidden" name="mbrId" value="" />
 </form>
 <!-- step3 form -->
-<c:if test="${not empty html}">
-${html}
-</c:if>
 <form id="frm_success" name="frm_success" method="POST" action="/payment/payment_step3.do">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="atlctRsvNo" value="" />

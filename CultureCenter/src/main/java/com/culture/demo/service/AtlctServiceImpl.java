@@ -28,6 +28,7 @@ public class AtlctServiceImpl implements AtlctService {
 	
 	@Autowired
 	private AtlctMapper atlctMapper;
+	@Autowired
 	private PaymentMapper paymentMapper;
 	// 1. 수강 신청하기
 	@Override
@@ -35,6 +36,7 @@ public class AtlctServiceImpl implements AtlctService {
 	public int insOrderDetailOrder(int member_sq, int totAmt, int lpntAmt, int crdStlmAmt, int addPoint,
 			Map<Integer, List<String>> insData) throws Exception {
 		log.info(">> AtlctServiceImpl.insOrderDetailOrder()...");
+		System.out.println(insData);
 		int order_sq = -1;
 		//주문테이블
 		int rntOrderClass = atlctMapper.insertClassOrder(member_sq,totAmt,addPoint,crdStlmAmt);
@@ -62,6 +64,13 @@ public class AtlctServiceImpl implements AtlctService {
 		log.info(">> AtlctServiceImpl.deleteOrder()...");
 		atlctMapper.deleteOrderDetail(orderSq);
 		return atlctMapper.deleteClassOrder(orderSq)==1;
+	}
+	
+	// 4. 수강결제 승인까지 완료후 TID 추가
+	@Override
+	public int updateTID(int order_sq, String string) throws Exception {
+		log.info(">> AtlctServiceImpl.updateTID()...");
+		return this.atlctMapper.updateOrderTID(order_sq,string);
 	}
 	
 	// 2. 수강 취소하기
@@ -209,6 +218,7 @@ public class AtlctServiceImpl implements AtlctService {
 		return html.toString();
 	    
 	}// createAtlctHtml()
+
 
 
 }
