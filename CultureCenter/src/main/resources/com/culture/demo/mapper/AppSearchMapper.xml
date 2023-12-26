@@ -861,4 +861,19 @@
 		AND r.member_sq = #{mbrNo}
 	</select>
 	
+	
+	<!-- MemberDTO selectMemberInfo(int member_sq); -->
+	<select id="selectMemberInfo" resultType="com.culture.demo.domain.MemberDTO">
+		SELECT m.member_sq, name, TO_CHAR(m.birth_dt,'YYYY.MM.DD') m_birth_dt, TO_CHAR(m.birth_dt,'YYYYMMDD') bir
+		FROM member m
+		WHERE m.member_sq = #{member_sq}
+	</select>
+	
+	<!-- List<ChildrenDTO> selectChildInfo(int member_sq); -->
+	<select id="selectChildInfo" resultType="com.culture.demo.domain.ChildrenDTO">
+		SELECT children_sq, children_nm, gender, DECODE(gender,'M','남성','여성') realGender, TO_CHAR(birth_dt,'YYYY.MM.DD') child_birth_dt, TO_CHAR(birth_dt,'YYYYMMDD')
+		FROM accompanying_children
+		WHERE member_sq = #{member_sq}
+	</select>
+	
 </mapper>

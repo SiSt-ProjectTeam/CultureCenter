@@ -251,9 +251,9 @@ var search = (function(){
 			$(".course_popup .selected_box:eq(1)").find(".name").text(optnNm);
 			
 			if(optnAmt == 0) {
-				$("#waitPopup .optionAmt").text("재료비/대여료 " + optnNm);
+				$("#waitPopup .optionAmt").text("" + optnNm);
 			} else {
-				$("#waitPopup .optionAmt").text("재료비/대여료 " + optnNm + " " + fnc.fn_numberComma(optnAmt) + "원");
+				$("#waitPopup .optionAmt").text("" + optnNm + " " + fnc.fn_numberComma(optnAmt) + "원");
 			}
 			
 			if(optnAmt == 0) {

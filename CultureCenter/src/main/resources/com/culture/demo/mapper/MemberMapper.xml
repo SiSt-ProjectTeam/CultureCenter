@@ -104,7 +104,7 @@
 	<!-- public int insertMember(MemberDTO memberDTO); -->
 	<insert id="insertMember">
 		INSERT INTO member (member_sq, id, pw, name, email, birth_dt, addr)
-		VALUES ( seq_member.nextval, #{memberDTO.id}, #{memberDTO.pw}, #{memberDTO.name}, #{memberDTO.email}, '1997-09-21', #{memberDTO.addr} )
+		VALUES ( seq_member.nextval, #{memberDTO.id}, #{memberDTO.pw}, #{memberDTO.name}, #{memberDTO.email}, #{memberDTO.birth_dt}, #{memberDTO.addr} )
 	</insert>
 	<!-- 일반회원 권한 설정 -->
 	<insert id="insertAuth">

@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
@@ -98,5 +100,11 @@ public interface AppSearchService {
 		
 	// 강좌 상세 - 리뷰 팝업 ajax html 생성
 	String reviewDtlHTML(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo) throws Exception;
+	
+	// 대기접수 회원 정보 가져오기
+	MemberDTO selectMemberInfo(int member_sq);
+
+	// 대기접수 자녀회원 정보 가져오기
+	List<ChildrenDTO> selectChildInfo(int member_sq);
 
 }

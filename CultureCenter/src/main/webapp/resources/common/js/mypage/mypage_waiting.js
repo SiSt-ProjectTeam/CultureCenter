@@ -1,3 +1,5 @@
+console.log("mypage_waiting.js loaded");
+
 var mypage_waiting = (function(){
 	
 	"use strict";
@@ -6,11 +8,10 @@ var mypage_waiting = (function(){
 	var callCnt = 0;
 	
 	// 지점 변경
-	var fn_change_brchCd = function(brchCd){
-		$('#frm_search').find('#brchCd').val(brchCd);
+	var fn_changebrchNm = function(brchNm){
+		$('#frm_search').find('#brchNm').val(brchNm);
 		searchMore.pageIndex = 1;
 		searchMore.search();
-//		fn_script();
 		moreStudent();	
 	}
 	
@@ -113,23 +114,24 @@ var mypage_waiting = (function(){
 	}
 	
 	// 대기취소
-	var fn_move_cancel = function(obj){
-		if(confirm("선택한 대기자를 삭제하시겠습니까?")){
-			var atlctRsvNo = $(obj).closest('div.cour_his_list').data('atlctRsvNo');
-			var lectNm = $(obj).closest('div.cour_his_list').data('lectNm');
-			var optnNm = $(obj).closest('div.cour_his_list').data('optnNm');
-			var lectStDtm = $(obj).closest('div.cour_his_list').data('lectStDtm');
-			var lectSt = $(obj).closest('div.cour_his_list').data('lectSt');
-			$('#frm_cancel').attr('action', '/mypage/waiting/cancel.do');
-			$('#frm_cancel').find('input[name=atlctRsvNo]').val(atlctRsvNo);
-			$('#frm_cancel').find('input[name=lectNm]').val(lectNm);
-			$('#frm_cancel').find('input[name=optnNm]').val(optnNm);
-			$('#frm_cancel').find('input[name=lectStDtm]').val(lectStDtm);
-			$('#frm_cancel').find('input[name=lectSt]').val(lectSt);
-			$('#frm_cancel').attr('method', 'POST');
-			$('#frm_cancel').submit();
-		}
-	}
+	var fn_move_cancel = function(obj) {
+    if (confirm("선택한 대기자를 삭제하시겠습니까?")) {
+        var lateSq = $(obj).closest('div.cour_his_list').data('lateSq');
+        var lectNm = $(obj).closest('div.cour_his_list').data('classNm');
+        var optnNm = $(obj).closest('div.cour_his_list').data('optnNm');
+        var lectStDtm = $(obj).closest('div.cour_his_list').data('scheduleStartDt');
+        var lectSt = $(obj).closest('div.cour_his_list').data('classSt');
+        console.log(lateSq);
+        $('#frm_cancel').attr('action', '/mypage/waiting/cancel.do');
+        $('#frm_cancel').find('input[name=atlctRsvNo]').val(lateSq);
+        $('#frm_cancel').find('input[name=lectNm]').val(lectNm);
+        $('#frm_cancel').find('input[name=optnNm]').val(optnNm);
+        $('#frm_cancel').find('input[name=lectStDtm]').val(lectStDtm);
+        $('#frm_cancel').find('input[name=lectSt]').val(lectSt);
+        $('#frm_cancel').attr('method', 'POST');
+        $('#frm_cancel').submit();
+    }
+}
 	
 	var init = function() {
 		var initObj = {
@@ -137,18 +139,19 @@ var mypage_waiting = (function(){
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
 				, url : "/mypage/waiting/list.ajax"
-				, pageIndex : $("#frm_search #pageIndex").val()
-				, listCnt : $("#frm_search #listCnt").val()
-				, callbackFunc : function() {
+				, pageIndex : $("#frm_search #pageIndex").val() 
+				, listCnt : $("#frm_search #listCnt").val()    
+				, callbackFunc : function(data) {
+				
+				console.log($("#frm_search #pageIndex").val());
+				console.log($("#frm_search #listCnt").val());
+				
+							
 					$("#totCnt").text(searchMore.totCnt  + "개");
 					moreStudent();
 					
-//					if(callCnt != 0){
-//						fn_script();
-//					}
-//					callCnt++;
-//					fn_script();
 				}
+			
 		}
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.search();
@@ -159,7 +162,7 @@ var mypage_waiting = (function(){
 	});
 	
 	 return {
-		 changeBrchCd : fn_change_brchCd
+		 changebrchNm : fn_changebrchNm
 		 , movePayment : fn_move_payment
 		 , moveCancel : fn_move_cancel
 	 }

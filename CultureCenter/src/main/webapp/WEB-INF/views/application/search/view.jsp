@@ -287,7 +287,7 @@
 															<p class="sum_txt">총 주문 금액</p>
 															<p class="price_txt">
 																<span class="price">${ fee }</span> 원
-																	</p>
+															</p>
 														</div>
 														<div class="btn_wrap">
 															<a class="cart_btn" href="javascript:search.cartBtn()" role="button" style="display:block;">
@@ -321,7 +321,6 @@
 													</div>
 								
 								<script type="text/javascript">
-									//<![CDATA[
 									function contentHtml() {
 										var body = $('#contemtIframe').contents().find('body').html();
 										var httpsUrl = $('#contemtIframe').data("httpsUrl");
@@ -331,7 +330,6 @@
 									  		$(this).attr("src", $(this).attr("src").replaceAll("https://culture.dpt.co.kr/LDCS/", httpsUrl + "/files/CUL_ONL/OLD/COMMON/")); 
 									  	}); 
 									}
-									//]]>
 								</script>
 								<div class="more_btn_wrap ta_center only_mobile" style="display:none;">
 									<a href="javascript:" class="more_btn">
@@ -496,64 +494,50 @@
 											<tr>
 													<td>
 														<div class="form_checkbox">
-															<input type="checkbox" id="student0" name="student" data-kor-nm="유희진" data-fmly-rel-cd="00" data-bday="19970921" data-fmly-rel-cd-nm="본인" data-sex-cd="F">
+															<input type="checkbox" id="student0" name="student" data-kor-nm="${ member.name }" data-fmly-rel-cd="00" data-bday="${ member.bir }" data-fmly-rel-cd-nm="본인" data-sex-cd="M">
 															<label for="student0"></label>
 														</div>
 													</td>
 													<td>
-														<p class="f_body2">유희진</p>
+														<p class="f_body2">${ member.name }</p>
 													</td>
 													<td>
 														<p class="f_body2">본인</p>
 													</td>
 													<td>
-														<p class="f_body2">1997.09.21</p>
+														<p class="f_body2">${ member.m_birth_dt }</p>
 													</td>
 													<td>
-														<p class="f_body2">여성</p>
+														<p class="f_body2">남성</p>
 													</td>
 												</tr>
-											<tr>
-															<td>
-																<div class="form_checkbox">
-																	<input type="checkbox" id="student1" name="student" data-kor-nm="ddddd" data-fmly-rel-cd="02" data-bday="20150101" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-																	<label for="student1"></label>
-																</div>
-															</td>
-															<td>
-																<p class="f_body2">ddddd</p>
-															</td>
-															<td>
-																<p class="f_body2">자녀</p>
-															</td>
-															<td>
-																<p class="f_body2">2015.01.01</p>
-															</td>
-															<td>
-																<p class="f_body2">남성</p>
-															</td>
-														</tr>
-													<tr>
-															<td>
-																<div class="form_checkbox">
-																	<input type="checkbox" id="student2" name="student" data-kor-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-bday="20201023" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-																	<label for="student2"></label>
-																</div>
-															</td>
-															<td>
-																<p class="f_body2">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-															</td>
-															<td>
-																<p class="f_body2">자녀</p>
-															</td>
-															<td>
-																<p class="f_body2">2020.10.23</p>
-															</td>
-															<td>
-																<p class="f_body2">남성</p>
-															</td>
-														</tr>
-													</tbody>
+												<c:choose>
+													<c:when test="${ not empty children }">
+														<c:forEach var="child" items="${ children }" varStatus="loop">
+															<tr>
+																<td>
+																	<div class="form_checkbox">
+																		<input type="checkbox" id="student${ loop.index+1 }" name="student" data-kor-nm="${ child.children_nm }" data-fmly-rel-cd="0${ loop.index+2 }" data-bday="${ child.bir }" data-fmly-rel-cd-nm="자녀" data-sex-cd="${ child.gender }">
+																		<label for="student${ loop.index+1 }"></label>
+																	</div>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.children_nm }</p>
+																</td>
+																<td>
+																	<p class="f_body2">자녀</p>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.child_birth_dt }</p>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.realGender }</p>
+																</td>
+															</tr>
+														</c:forEach>
+													</c:when>
+												</c:choose>
+										</tbody>
 									</table>
 								</div>
 							<div class="flex_btn_wrap">

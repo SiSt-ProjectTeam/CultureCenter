@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>		
+${not empty alertScript ? alertScript : ''}
 <div class="cont_wrap">
 	<div class="cont_inner no_pb">
 		<div class="login_wrap">

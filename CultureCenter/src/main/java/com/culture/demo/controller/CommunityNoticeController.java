@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.ClassDTO;
@@ -36,13 +37,13 @@ public class CommunityNoticeController {
 	private NoticeSearchService noticeSearchService;
 	
 	// 공지사항 페이지
-	@GetMapping("list.do")
+	@GetMapping("/list.do")
 	public String getNoticeList(FrmSearchDTO frmSearchDTO, Model model) throws ClassNotFoundException, SQLException {
 		//List<ReviewDTO> bList = reviewService.getBranch(branch_nm);
 		log.info("> notice/list getNoitceList() GET.. ");
 		
-		List<ClassDTO> bList = lecSearchService.getBranch();
-		List<NoticeDTO> clCdList =  noticeSearchService.getClCd();
+		List<ClassDTO> bList = this.lecSearchService.getBranch();
+		List<NoticeDTO> clCdList =  this.noticeSearchService.getClCd();
 		model.addAttribute("frmSearchDTO", frmSearchDTO);
 		model.addAttribute("bList", bList);
 		model.addAttribute("clCdList", clCdList);
@@ -51,15 +52,26 @@ public class CommunityNoticeController {
 	}
 	
 	// 공지사항/이벤트 ajax
-	@PostMapping(value = "list.ajax", produces = "application/text; charset=UTF-8")
+	@PostMapping(value = "/list.ajax", produces = "application/text; charset=UTF-8")
 	public @ResponseBody ResponseEntity<String> getList(@RequestBody FrmSearchDTO frmSearchDTO)throws Exception{
 		log.info("> notice/list.ajax : NoticeController.getList() POST 호출 ");
 
 		String html = "";
-		html = noticeService.noticeHTML(frmSearchDTO);
+		html = this.noticeService.noticeHTML(frmSearchDTO);
 		
 		return !html.equals("")
 					? new ResponseEntity<>(html, HttpStatus.OK)
 					: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 상세페이지
+	@GetMapping("/view.do")
+	public String getNoticeView(@RequestParam(name = "notcSeqno", required = false) String notcSeqno,
+            Model model) {
+		log.info("> notice/view.do : NoticeController.getNoticeView() Get 호출 ");
+		int notcSeqnoInt = Integer.parseInt(notcSeqno); 
+		NoticeDTO notice = this.noticeService.getNotice(notcSeqnoInt);		
+		model.addAttribute("notice", notice);
+		return "community.notice.view";
 	}
 }
