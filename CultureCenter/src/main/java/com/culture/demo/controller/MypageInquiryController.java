@@ -46,17 +46,20 @@ public class MypageInquiryController{
 
 	
 	// 문의 삭제
-	@RequestMapping(value = "/delete.do" , method = RequestMethod.POST)
-	public String deleteInquiry(@RequestBody int actCnt) {
+	@RequestMapping(value = "/delete.ajax" , method = RequestMethod.POST)
+	public String deleteInquiry(@RequestBody InquiryDTO params) {
 		logger.info("MypageInquiryController.java > deleteinquiry...");
-	    try {
-	        int rowCount = inquiryService.deleteInquiry(actCnt);
+		System.out.println(params);
+	   
+		try {
+	        int rowCount = inquiryService.deleteInquiry(params.getPersonal_faq_sq());
 	        if (rowCount > 0) {
 	    	    return "mypage.inquiry.list";
 	        } 
 	    } catch (Exception e) {
 	    	logger.info("Processing 404 Error");
 	    }
+	    
 	    return "mypage.inquiry.list";
 	}
 	

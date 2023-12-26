@@ -72,18 +72,42 @@ var mypageInquiryCtrl = (function(){
 	//문의글 삭제
 	var fn_delete_inquiry = function(obj, deleteUrl) {
     if (!confirm("삭제하시겠습니까?")) return;
+		
+    var personal_faq_sq = $("#personal_faq_sq").val();
+    		console.log(personal_faq_sq);
 
-	var personal_faq_sq = $("#personal_faq_sq").val();
+    var deleteData = { personal_faq_sq: parseInt(personal_faq_sq, 10) };
 
-    fnc.frmAjax(function(data) {
-        if (parseInt(data.actCnt, 10) > 0) {
-            alert("삭제되었습니다.");
-            location.href = "./list.do";
-        } else {
-            alert("삭제 실패했습니다.");
-            return false;
-        }
-    }, "/mypage/inquiry/delete.do", { actCnt: parseInt(personal_faq_sq, 10)  }, null, false, true, true);
+	var jsonData = JSON.stringify(deleteData);
+			console.log(jsonData);
+            jQuery.ajax({
+                url: "/mypage/inquiry/delete.ajax",
+                type: "post",
+                timeout: 30000,
+                data: jsonData,
+                contentType : "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                cache: false,
+                
+                success: function(data, status, xhr) {
+                    if (parseInt(personal_faq_sq, 10) > 0) {
+         			   alert("삭제되었습니다.");
+            			location.href = "http://localhost/mypage/inquiry/list.do";
+        			} else {
+            			alert("삭제 실패했습니다.");
+            			return false;
+        			}
+                },
+                error: function(e) {
+                    if (e.status == 403) {
+                        if (confirm("자동 로그아웃 처리되었습니다. 로그인을 다시 시도해주세요.")) {
+                            //moveLoginPage();
+                        }
+                    } else {}
+                }
+                
+            });
 
 	}
 	

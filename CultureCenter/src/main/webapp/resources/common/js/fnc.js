@@ -127,7 +127,7 @@ var fnc = (function() {
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
- 
+ 		console.log(formObj);
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -149,16 +149,18 @@ var fnc = (function() {
 					
 			// 폼 데이터를 배열로 가져오기	
 			var formDataArray = $(formObj).serializeArray();
+			console.log(formDataArray);
 			
 			// 배열을 객체로 변환
 			var formDataObject = {};
 			$.each(formDataArray, function(i, field) {
 			    formDataObject[field.name] = field.value;
 			});
+			console.log(formDataObject);
 			
 			// JSON 형식으로 변환
 			var jsonData = JSON.stringify(formDataObject);
-			
+			console.log(jsonData);
             jQuery.ajax({
                 url: url,
                 type: "post",

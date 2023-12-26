@@ -22,7 +22,7 @@ public class InquiryServiceImpl implements InquiryService{
 	public int deleteInquiry(int personal_faq_sq) throws SQLException, ClassNotFoundException {
 		log.info("InquiryServiceImpl.java > deleteInquiry...");
 		try {
-			
+			System.out.println(personal_faq_sq);
 			mypageInquiryMapper.deleteInquiry(personal_faq_sq);
             return 1; // 성공 시 1 반환
         } catch (Exception e) {
