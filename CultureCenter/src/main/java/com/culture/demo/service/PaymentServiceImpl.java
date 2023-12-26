@@ -266,6 +266,7 @@ public class PaymentServiceImpl implements PaymentService{
 				
 				+ "//[PC 결제창 전용]결제창 종료 함수 <<'nicepayClose()' 이름 수정 불가능>>\r\n"
 				+ "function nicepayClose(){\r\n"
+				+ " alert('결제를 취소합니다.');"
 				+ " console.log('nicepayClose호출..');\r\n"
 				+ "		$.ajax({\r\n"
 				+ "			url: \"http://localhost/payment/payment_close.ajax\",\r\n"
@@ -273,7 +274,7 @@ public class PaymentServiceImpl implements PaymentService{
 				+ "			data: { orderSq: "+orderSq+" },\r\n"
 				+ "			contentType: \"application/json; charset=utf-8;\",\r\n"
 				+ "			dataType: \"json\",\r\n"
-				+ "			async: true,"				
+				+ "			async: true,\r\n"				
 				+ "			cache: false,\r\n"
 				+ "			success: function(data,status,xhr){\r\n"
 				+ "                alert('결제가 취소되었습니다.');\r\n"

@@ -126,6 +126,13 @@ public class MemberServiceImpl implements MemberService {
 	    log.info(">> MemberServiceImpl.updateCar ...");
 	    this.memberMapper.updateCar(dto);
 	}
+
+	// 수강내역 증가
+	@Override
+	public int updateOrderClass(int member_sq, int addCnt) throws Exception {
+		log.info(">> MemberServiceImpl.updateOrderClass() ...");
+		return this.memberMapper.updateOrderClass(member_sq,addCnt);
+	}
 	
 	
 }

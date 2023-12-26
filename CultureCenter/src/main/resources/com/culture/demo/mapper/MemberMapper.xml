@@ -142,4 +142,10 @@
 		WHERE member_sq = #{member_sq}
 	</update>
 	
+	<!-- 수강내역증가 -->
+	<update id="updateOrderClass">
+		UPDATE member
+		SET order_class_cnt = ${addCnt}
+		WHERE member_sq = #{member_sq}
+	</update>
 </mapper>

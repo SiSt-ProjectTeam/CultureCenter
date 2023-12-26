@@ -9,6 +9,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import com.culture.demo.domain.PaymentFrmDTO;
 import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.AtlctService;
 import com.culture.demo.service.CartService;
+import com.culture.demo.service.ComplexService;
 import com.culture.demo.service.MemberService;
 import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -47,6 +49,7 @@ public class PaymentController {
 	private PaymentService paymentService;
 	private MemberService memberService;
 	private AtlctService atlctService; 
+	private ComplexService complexserivce;
 	
 	// 수강결제1(step1) 페이지 이동
 	@PostMapping("step1.do")
@@ -257,7 +260,9 @@ public class PaymentController {
 		int order_sq = Integer.parseInt( (String)param.get("Moid") );
 		int rntUpdateClassOrder = atlctService.updateTID(order_sq,tid);
 		 // form_success를 submit하는 코드
-		String html = "\r\n<script>window.parent.document.getElementById('frm_success').submit();</script>\r\n";
+		String html = "\r\n<script>\r\n"
+				+ "window.parent.document.getElementById('frm_success').submit();\r\n"
+				+ "</script>\r\n";
 		return html;
 	}
 	
@@ -267,31 +272,10 @@ public class PaymentController {
 		log.info("/payment/payment_step3.do + POST :PaymentController.goStep3()...");
 		CustomerUser principal = (CustomerUser) authentication.getPrincipal();
 		int member_sq = principal.getMember_sq();
-		//장바구니 삭제
-		String cartSeqno = this.cartService.getDetailSqByOrderSq(orderSq);
-		cartService.delete(member_sq, "pay",cartSeqno);
-		//정보
-		FrmSearchDTO dto = new FrmSearchDTO();
-		dto.setAtlctRsvNo(orderSq);
-		ArrayList<AtlctDTO> list = atlctService.getAtlctList(dto, member_sq);
-		System.out.println("step3 response List : " + list);
-		AtlctDTO dtoTemp = new AtlctDTO();
-		int class_fee = 0;
-		int ex_charge = 0;
-		int total_amt = list.get(0).getTotal_amt();
-		for (AtlctDTO atlctdto : list) {
-			class_fee += atlctdto.getClass_fee() * atlctdto.getPersonalList().size();
-			ex_charge += atlctdto.getEx_charge() * atlctdto.getPersonalList().size();
-		}
-		dtoTemp.setClass_fee(class_fee);
-		dtoTemp.setEx_charge(ex_charge);
-		dtoTemp.setOrder_amt(class_fee+ex_charge);
-		dtoTemp.setTotal_amt(total_amt);
-		if(class_fee+ex_charge == total_amt && ex_charge == 0 ) dtoTemp.setTot_cnt(-1); // no_cost, no_sale
-		else if(class_fee+ex_charge == total_amt) dtoTemp.setTot_cnt(-2); // no_sale
-		else if(ex_charge == 0 ) dtoTemp.setTot_cnt(-3); // no_cost
-		
-		list.add(0,dtoTemp);
+		System.out.println("member_sq : "+ member_sq+  "/ orderSq : "+ orderSq);
+		// 장바구니삭제, 수강내역증가
+		ArrayList<AtlctDTO> list = complexserivce.paymentStep3(orderSq,member_sq);
+
 		model.addAttribute("list", list);
 		return "payment.step3";	
 	}

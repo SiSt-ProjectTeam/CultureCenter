@@ -1,7 +1,11 @@
 package com.culture.demo.controller;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.HttpStatus;
@@ -37,8 +41,15 @@ public class MyPageCartController {
 	
 	// 장바구니 페이지 이동
 	@GetMapping("list.do")
-	public String goCart(Model model,FrmSearchDTO params) throws Exception{
+	public String goCart(Model model,FrmSearchDTO params, HttpServletRequest request) throws Exception{
 		log.info("/mypage/cart/list.do + GET : MyPageCartController.goCart() 장바구니페이지 이동");
+		
+		String relativePath = "/upload";
+		String absolutePath = request.getServletContext().getRealPath(relativePath);
+
+		// 사용하는 방법 1: Paths.get
+		Path pathUsingPaths = Paths.get(absolutePath);
+		System.out.println("Using Paths: " + pathUsingPaths);
 		
 		System.out.println(params.getPageIndex()+"/"+params.getBrchCd()+"/"+params.getBrchNm());
 		List<ClassDTO> brchList = lecSearchService.getBranch();

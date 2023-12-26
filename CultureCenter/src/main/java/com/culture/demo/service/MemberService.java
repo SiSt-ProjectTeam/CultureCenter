@@ -37,4 +37,7 @@ public interface MemberService {
 	
 	// 차량번호 수정
 	public void updateCar(MemberDTO dto) throws Exception ;
+
+	// 6. 수강결제 완료시 수강내역 추가
+	public int updateOrderClass(int member_sq, int addCnt) throws Exception;
 }

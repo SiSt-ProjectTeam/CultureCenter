@@ -38,4 +38,7 @@ public interface MemberMapper {
 	// 차량번호 수정
 	void updateCar(MemberDTO dto) throws Exception;
 
+	// 수강내역 추가
+	public int updateOrderClass(@Param("member_sq")int member_sq,@Param("addCnt")int addCnt) throws Exception;
+
 }
