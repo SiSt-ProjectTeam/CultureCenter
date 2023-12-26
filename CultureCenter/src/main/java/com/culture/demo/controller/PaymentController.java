@@ -9,7 +9,6 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.AtlctDTO;
 import com.culture.demo.domain.CartDTO;
-import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.FrmSubmitDTO;
 import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.PaymentFrmDTO;

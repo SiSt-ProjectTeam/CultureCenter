@@ -44,7 +44,7 @@ public class MemberController {
 		try {
 			principal = (CustomerUser) authentication.getPrincipal();
 		} catch (Exception e) {
-			System.out.println("/lgnCheck.ajax : 로그인안된상태...");
+			System.out.println("/lgnCheck.ajax + GET  : 로그인안된상태...");
 		}
 		Map<String, Boolean> response;
 		if(principal != null) response = Map.of("lgnYn", true);
