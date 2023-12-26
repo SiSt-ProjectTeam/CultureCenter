@@ -14,4 +14,6 @@ public class ChildrenDTO {
     private String child_birth_dt;
     private char gender;
     private String realGender;
+    
+    private String bir; // YYYYMMDD 형식
 }

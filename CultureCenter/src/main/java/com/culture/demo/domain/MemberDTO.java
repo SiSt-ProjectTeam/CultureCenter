@@ -20,6 +20,7 @@ public class MemberDTO {
 	    private String phone;
 	    private Date birth_dt;
 	    private String m_birth_dt; //2023.12.12 형식
+	    private String bir; //20231212 형식
 	    private String addr;
 	    private String car_no;
 	    

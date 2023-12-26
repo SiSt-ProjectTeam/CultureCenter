@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.ClassFormDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.SearchBranchDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
 
@@ -36,6 +40,7 @@ public class ApplicationSearchController {
 
 	ClassDTO dto = null;
 	ClassDTO classDtl = null;
+	MemberDTO member = null;
 	
 	@GetMapping(value="/application/search/list.do", params="type=branch")
 	public String listPage(Model model, @RequestParam("type") String type, @RequestParam("brchCd") String branch_id) {
@@ -199,11 +204,18 @@ public class ApplicationSearchController {
 	}
 	
 	@GetMapping("/application/search/view.do")
-	public String viewPage(Model model, @RequestParam("branch_id") int branch_id, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd) throws Exception {
+	public String viewPage(Model model, @RequestParam("branch_id") int branch_id, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd, Authentication authentication) throws Exception {
 		log.info("/application/search/view.do ApplicationSearchController.viewPage() GET 호출");
 		dto = this.appSearchService.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
 		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, dto.getClass_id());
+		List<ChildrenDTO> children = null;
 		
+		if (authentication != null) {
+			CustomerUser principal =  (CustomerUser) authentication.getPrincipal();
+			member = this.appSearchService.selectMemberInfo(principal.getMember_sq());
+			children = this.appSearchService.selectChildInfo(principal.getMember_sq());
+		}
+
 		String lectStDtm = String.format("%s ~ %s", classDtl.getSchedule_start_dt().substring(0,10), classDtl.getSchedule_end_dt().substring(0,10));
 		String rceptPrdStDt = String.format("%s ~ %s", classDtl.getReception_start_dt().substring(0,10), classDtl.getReception_end_dt().substring(0,10));
 		String avDay = (classDtl.getMon().equals("Y")?"월":"") + (classDtl.getTue().equals("Y")?"화":"") + (classDtl.getWed().equals("Y")?"수":"") + (classDtl.getThu().equals("Y")?"목":"")
@@ -222,6 +234,8 @@ public class ApplicationSearchController {
 		model.addAttribute("fee", fee);
 		model.addAttribute("ex", ex);
 		model.addAttribute("exCharge", exCharge);
+		model.addAttribute("member", member);
+		model.addAttribute("children", children);
 		
 		return "application.search.view";
 	}
