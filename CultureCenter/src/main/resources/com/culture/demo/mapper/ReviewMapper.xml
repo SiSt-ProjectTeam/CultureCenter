@@ -55,7 +55,7 @@ FROM (
     		        WHEN LENGTH(u.name) = 2 THEN SUBSTR(u.name, 1, 1) || '*' 
            		 ELSE SUBSTR(u.name, 1, 1) || LPAD('*', LENGTH(u.name) - 2, '*') || SUBSTR(u.name, LENGTH(u.name), 1) 
         		END AS name, r.member_sq AS memberNo,
-        		TO_CHAR(date_writingout_dt, 'YYYY') AS yy, TO_CHAR(date_writingout_dt, 'YYYY.MM.DD')AS date_writingout_dt, review_title, rating, review_img, review_content, t.member_sq AS teacher_sq,
+        		TO_CHAR(date_writingout_dt, 'YYYY') AS yy, TO_CHAR(date_writingout_dt, 'YYYY.MM.DD')AS date_writingout_dt, r.review_sq, review_title, rating, review_img, review_content, t.member_sq AS teacher_sq,
         		c.class_img, c.class_st_id,a.class_st, lrclsctegry, mdclsctegry, c.class_nm, b.branch_id, b.branch_nm, t.teacher_nm, e.smst_nm, TO_CHAR(cbs.schedule_start_dt, 'YYYY.MM.DD')AS schedule_start_dt,TO_CHAR(cbs.schedule_end_dt, 'YYYY.MM.DD')schedule_end_dt
 		FROM review r LEFT JOIN review_comm rc ON r.member_sq = rc.member_sq
               		  LEFT JOIN detail_class dc ON r.detail_class_sq = dc.detail_class_sq
@@ -74,16 +74,15 @@ FROM (
 	</select>
 	
 	<!-- 수강후기 댓글 -->
-
 	<select id="getCommtList" parameterType="map" resultType = "com.culture.demo.domain.ReviewDTO">
 SELECT *
 FROM (
         SELECT COUNT(DISTINCT comment_sq) OVER() tot_cnt
-             , DENSE_RANK() OVER(ORDER BY comment_sq) rank
+             , DENSE_RANK() OVER(ORDER BY comment_sq DESC) rank
              , CASE WHEN LENGTH(m.name) = 2 
             	    THEN SUBSTR(m.name, 1, 1) || '*' 
-               ELSE SUBSTR(m.name, 1, 1) || LPAD('*', LENGTH(m.name) - 2, '*') || SUBSTR(m.name, LENGTH(m.name), 1) END AS name, r.review_sq
-               , TO_CHAR(rc.write_dt, 'YYYY.MM.DD') AS yy, comment_content, r.teacher_member_sq, r.member_sq, dc.detail_class_sq, cbs.open_smst_id, b.branch_id AS brchCd
+               ELSE SUBSTR(m.name, 1, 1) || LPAD('*', LENGTH(m.name) - 2, '*') || SUBSTR(m.name, LENGTH(m.name), 1) END AS name
+               , TO_CHAR(rc.write_dt, 'YYYY.MM.DD') AS write_dt, comment_content, r.teacher_member_sq AS teacher_sq, r.member_sq, dc.detail_class_sq, cbs.open_smst_id, b.branch_id, comment_sq, rc.member_sq AS comm_member_sq
         FROM review_comm rc LEFT JOIN review r ON r.review_sq = rc.review_sq
                             LEFT JOIN member m ON rc.member_sq = m.member_sq
                             LEFT JOIN detail_class dc ON dc.detail_class_sq = r.detail_class_sq
@@ -92,21 +91,30 @@ FROM (
                             LEFT JOIN branch b ON b.branch_id = c.branch_id
                             LEFT JOIN teacher t ON t.member_sq = m.member_sq
 
-               	WHERE b.branch_id = #{brchCd}
-                AND TO_CHAR(r.date_writingout_dt, 'YYYY')= #{yy}
-                AND cbs.open_smst_id = #{lectSmsterCd}
-                AND dc.detail_class_sq = #{lectCd}
-    			AND r.teacher_member_sq = #{tcCdNo}
-				AND r.member_sq = #{mbrNo}
+       	WHERE b.branch_id = #{dto.brchCd}
+                AND TO_CHAR(r.date_writingout_dt, 'YYYY')= #{dto.yy}
+                AND cbs.open_smst_id = #{dto.lectSmsterCd}
+                AND dc.detail_class_sq = #{dto.lectCd}
+    			AND r.teacher_member_sq = #{dto.tcCdNo}
+				AND r.member_sq = #{dto.memberNo}
+		ORDER BY rank ASC
     )
 	<![CDATA[
          WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= rank AND rank <= #{dto.pageIndex}*#{dto.listCnt}
     ]]>
+
 	</select>
-	
+
+
 	<!-- 후기댓글 등록-->
-	<insert id="insert">
-		INSERT INTO review_comm
-		VALUES (seq_comment.NEXTVAL, #{review_sq}, #{member_sq}, SYSDATE, #{comment_content})
+	<insert id="insertComm" parameterType="map">
+		INSERT INTO review_comm (comment_sq, review_sq, member_sq, write_dt, comment_content)
+		VALUES (seq_comment.NEXTVAL, #{review_sq}, #{member_sq}, SYSDATE, #{cmntCont1, jdbcType=CLOB})
 	</insert>
+	
+	<!-- 후기댓글 삭제 -->
+	<delete id="deleteComm">
+		DELETE FROM review_comm
+		WHERE comment_sq= #{sortSeqno} 
+	</delete>
 </mapper>

@@ -15,7 +15,7 @@ public class ClassFormDTO {
 	private String lectCd;
 	private String lectStatCd;
 	private String optnUseYn;
-	private String nvgDsplyUseYn;
+	private String mvgDsplyUseYn;
 	private String lectNm;
 	private String optnTypCd;
 	private int lectAmt;
@@ -32,5 +32,8 @@ public class ClassFormDTO {
 	private int listCnt;
 	private String groupLectTpCd;
 	private String groupLectClCd;
+	private String lectDetailSq;
+	
+	private int tcCdNo;
 	
 }

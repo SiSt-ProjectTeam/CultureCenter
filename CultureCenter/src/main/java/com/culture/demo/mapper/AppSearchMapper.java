@@ -3,9 +3,12 @@ package com.culture.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
 import com.culture.demo.domain.TcareerDTO;
@@ -68,4 +71,11 @@ public interface AppSearchMapper {
 								    @Param("dayl") String[] dayl,
 								    @Param("timel") String[] timel,
 								    @Param("amtl") String[] amtl) throws Exception;
+	
+	// 강좌 상세 - 리뷰 목록 정보 가져오기
+	List<ReviewDTO> getReviewList(@Param("classFormDTO") ClassFormDTO classFormDTO) throws Exception;
+
+	// 강좌 상세 - 리뷰 팝업 정보 가져오기
+	ReviewDTO getReviewDtl(@Param("brchCd") int brchCd, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd, @Param("tcNo") int tcNo, @Param("mbrNo") int mbrNo);
+	
 }

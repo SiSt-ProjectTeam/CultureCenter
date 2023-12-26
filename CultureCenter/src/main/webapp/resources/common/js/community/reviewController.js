@@ -18,7 +18,6 @@ var reviewCtrl = (function(){
 		// get list
 		searchMore.pageIndex = 1;
 		searchMore.search();
-		//init_list();
     }
     
     var fn_search_by_option = function(obj){
@@ -50,7 +49,7 @@ var reviewCtrl = (function(){
         fnc.frmAjax(function(res){
             $("#cmntCont1").val("");
             $("#cmntCont2").val("");
-            if(res.cnt > 0){
+            if(res > 0){
                 alert("등록되었습니다.");
                 searchMore.search();
             }
@@ -63,20 +62,11 @@ var reviewCtrl = (function(){
 
     var fn_delete_comment = function(obj){
         if(!confirm("댓글을 삭제하시겠습니까?")) return;
-        
         var ds = obj.dataset;
-        // var newForm = $("<form></form>", {name: "newForm"});
-        // newForm.append($('<input/>', {type: 'hidden', name: 'brchCd', value: ds.brchCd }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'yy', value: ds.yy }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'lectSmsterCd', value: ds.lectSmsterCd }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'lectCd', value: ds.lectCd }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'tcCdNo', value: ds.tcCdNo }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'memberNo', value: ds.mbrNo }));
-        // newForm.append($('<input/>', {type: 'hidden', name: 'sortSeqno', value: ds.sortSeqno }));
         $("#reviewForm input[name=sortSeqno]").val(ds.sortSeqno);
 
         fnc.frmAjax(function(res){
-            if(res.cnt > 0){
+            if(res > 0){
                 alert("삭제되었습니다.");
                 searchMore.search();
             }
@@ -88,6 +78,7 @@ var reviewCtrl = (function(){
         var ds = obj.dataset;
         var param = "brchCd="+ds.brchCd+"&yy="+ds.yy+"&lectSmsterCd="+ds.lectSmsterCd+"&lectCd="+ds.lectCd+"&tcCdNo="+ds.tcCdNo+"&memberNo="+ds.mbrNo;
         location.href = "/community/review/dtl.do?" + param;
+        colsole.log(obj);
     }
 
     var init_list = function(){

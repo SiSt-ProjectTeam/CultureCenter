@@ -6,15 +6,16 @@
     <input type="hidden" id="listCnt" name="listCnt" value="10"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     
-    <input type="hidden" name="brchCd" value="${brchCd}" />
-    <input type="hidden" name="yy" value="${yy}" />
-    <input type="hidden" name="lectSmsterCd" value="" />
-    <input type="hidden" name="lectCd" value="" />
-    <input type="hidden" name="tcCdNo" value="${tcCdNo}" />
-    <input type="hidden" name="memberNo" value="" />
+    <input type="hidden" id= "brchCd" name="brchCd" value="${brchCd}" />
+    <input type="hidden" id= "yy" name="yy" value="${yy}" />
+    <input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="${lectSmsterCd}" />
+    <input type="hidden" id="lectCd" name="lectCd" value="${lectCd}" />
+    <input type="hidden" id="tcCdNo" name="tcCdNo" value="${tcCdNo}" />
+    <input type="hidden" id= "memberNo" name="memberNo" value="${memberNo}" />
 
     <input type="hidden" name="sortSeqno" value="" />
     <input type="hidden" name="cmntCont" value="" />
+    <input type="hidden" name="review_sq" value="${review_sq}" />
 </form>
 
 <div class="cont_inner no_pb">
@@ -44,22 +45,23 @@
                             <a href="javascript:commonScript.openPopupFn('#sharePop');" class="share_btn" title="공유하기"></a>
                         </div>
                         <p class="title">${reviewTitle}</p>
-                        <div class="star_rating">
-							  <% 
-    							int rating = (int)request.getAttribute("rating"); // 여기에 실제로 서버에서 받아온 rating 값을 넣어주세요.
-    
-							    for (int i = 0; i < rating; i++) {
-  							  %>
-    						<span class="star"></span>
-    						<%
-							    }
-  							%>
-                        </div>
+					<div class="star_rating">
+    				<c:forEach var="i" begin="0" end="${rating - 1}">
+        				<c:choose>
+            				<c:when test="${i < dto.rating}">
+	                			<span class="star"></span>
+            				</c:when>
+            				<c:otherwise>
+	    	            		<span class="star blank"></span>
+			            	</c:otherwise>
+        				</c:choose>
+    				</c:forEach>
+					</div>
                     </div>
                     <div class="content">
                         <div class="txt f_body2">
-                            <br> <!-- 2023-02-09 br추가, 링크추가-->
-                            ${reviewContent}<br> <!-- 2023-02-09 br추가, 링크추가-->
+                            <br>
+                            ${reviewContent}<br> 
                             <a target="_blank" href="https://" class="link_txt f_caption2"></a>
                         </div>
                         <div class="thum_list_w">
@@ -68,7 +70,7 @@
                                 <a href="/application/search/view.do?brchCd=0344&yy=2023&lectSmsterCd=3&lectCd=0591" class="thum_list" >
                                     <div class="thum_wrap">
                                         <div class="thum_box img_resize_w">
-                                            <!-- <img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/7/202307220532033520.jpg" alt="20190121163307.jpg"> -->
+                                            
                                             <img src="/upload/thumbnail/${classImg}" alt="${classImg}">
                                             
                                         </div>
@@ -177,8 +179,6 @@
 
 
 <script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
-			<!-- 관계사 사이트 팝업 -->
-
 
 			<a href="/mypage/myreview/list.do" class="review_write">
 					<span>

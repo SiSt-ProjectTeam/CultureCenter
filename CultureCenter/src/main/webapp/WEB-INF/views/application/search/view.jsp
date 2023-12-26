@@ -203,7 +203,6 @@
 									<div class="course_popup list multiple"><!-- 2022-11-23 hide 클래스 삭제 -->
 										<form id="classForm" name="classForm">
 											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-											<input type="hidden" name="csrfPreventionSalt" value="" />
 											<input type="hidden" id="brchCd" name="brchCd" value=""/>
 											<input type="hidden" id="yy" name="yy" value=""/>
 											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value=""/>
@@ -228,6 +227,7 @@
 											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value=""/>
 											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value=""/>
 											<input type="hidden" id="lectDetailSq" name="lectDetailSq" value="${ classDtl.detail_class_sq }"/>
+											<input type="hidden" id="tcCdNo" name="tcCdNo" value="${ dto.member_sq }"/>
 										</form>
 										<div class="pop_wrap">
 											<div class="pop_cont">

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
@@ -69,9 +70,12 @@ public class ApplicationSearchController {
 				cmap.put(lrclsCtegry, cplist);
 			}
 		}
+		
+		String branchNm = this.lecSearchService.getBranchNm(branch_id);
 
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
+		model.addAttribute("branchNm", branchNm);
 		
 		return "application.search.list";
 	}
@@ -116,9 +120,12 @@ public class ApplicationSearchController {
 			smCategory.put(smc.get(i).getSmclsCtegryCd(), smc.get(i).getSmclsCtegry()); 
 		}
 		
+		String mdclsCtegry = this.lecSearchService.getMdCateNm(mdclsCtegryCd);
+		
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		model.addAttribute("smCategory", smCategory);
+		model.addAttribute("mdclsCtegry", mdclsCtegry);
 
 		return "application.search.list";
 	}
@@ -127,7 +134,7 @@ public class ApplicationSearchController {
 	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
 		
 		log.info("> /search/list.ajax ApplicationSearchController.getBranchList() POST 호출");
-		log.info("> SearchBranchDTO : " + searchBranchDTO);
+		
 		String html = "";
 		
 		if(searchBranchDTO.getBrchCd() != null) { // 지점으로 찾기
@@ -196,7 +203,6 @@ public class ApplicationSearchController {
 		log.info("/application/search/view.do ApplicationSearchController.viewPage() GET 호출");
 		dto = this.appSearchService.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
 		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, dto.getClass_id());
-		log.info("classDtl : " + classDtl);
 		
 		String lectStDtm = String.format("%s ~ %s", classDtl.getSchedule_start_dt().substring(0,10), classDtl.getSchedule_end_dt().substring(0,10));
 		String rceptPrdStDt = String.format("%s ~ %s", classDtl.getReception_start_dt().substring(0,10), classDtl.getReception_end_dt().substring(0,10));
@@ -223,9 +229,32 @@ public class ApplicationSearchController {
 	@GetMapping(value="/application/search/teacherView.ajax", produces="application/text; charset=UTF-8")
 	public ResponseEntity<String> teacherView(@RequestParam("tcCdNo") int member_sq) throws Exception {
 		log.info("/application/search/teacherView.ajax ApplicationSearchController.teacherView() GET 호출");
-		log.info("member_sq : " + member_sq);
 		String html = "";
 		html = this.appSearchService.teacherHTML(member_sq);
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping(value="/application/search/reviewList.ajax", produces="application/text; charset=UTF-8")
+	public ResponseEntity<String> reviewList(@RequestBody ClassFormDTO classFormDTO) throws Exception {
+		log.info("/application/search/reviewList.ajax ApplicationSearchController.reviewList() POST 호출");
+		
+		String html = "";
+		html = this.appSearchService.reviewListHTML(classFormDTO);
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping(value="/application/search/reviewDtl.ajax", produces="application/text; charset=UTF-8")
+	public ResponseEntity<String> reviewDtl(@RequestParam("brchCd") int brchCd, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd, @RequestParam("tcNo") int tcNo, @RequestParam("memberNo") int mbrNo) throws Exception {
+		log.info("/application/search/reviewDtl.ajax ApplicationSearchController.reviewDtl() GET 호출");
+		
+		String html = "";
+		html = this.appSearchService.reviewDtlHTML(brchCd, yy, lectSmsterCd, lectCd, tcNo, mbrNo);
 		
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)

@@ -522,6 +522,7 @@ var search = (function(){
 				}
 		}
 		
+		
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.search();
 	}

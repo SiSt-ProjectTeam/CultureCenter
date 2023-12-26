@@ -801,4 +801,64 @@
 			WHERE (#{searchBranchDTO.pageIndex}-1)*#{searchBranchDTO.listCnt} + 1 <= rank AND rank <= #{searchBranchDTO.pageIndex}*#{searchBranchDTO.listCnt}
 		]]>
 	</select>
+	
+	<!-- List<ReviewDTO> getReviewList(ClassFormDTO classFormDTO); -->
+	<select id="getReviewList" resultType="com.culture.demo.domain.ReviewDTO">
+		SELECT *
+		FROM (
+			SELECT COUNT(DISTINCT d.detail_class_sq) OVER() tot_cnt
+				, DENSE_RANK() OVER(ORDER BY r.review_sq) rank
+				, r.review_content, r.member_sq, r.review_sq, b.branch_tp_id, b.branch_id, b.branch_nm, r.review_title, c.class_id, c.class_nm
+			    , r.date_writingout_dt, r.comment_cnt, r.rating, cbs.open_smst_id, c.class_img, TO_CHAR(open_year,'YYYY') open_year
+			    , EXTRACT(YEAR FROM date_writingout_dt) writing_year, t.member_sq AS teacher_sq, cbs.class_semester_sq, r.detail_class_sq
+			    , CASE  
+			       WHEN LENGTH(m.name) = 2 THEN  
+			           SUBSTR(m.name, 1, 1) || '*'  
+			       ELSE  
+			           SUBSTR(m.name, 1, 1) || LPAD('*', LENGTH(m.name) - 2, '*') || SUBSTR(m.name, LENGTH(m.name), 1)  
+			       END AS name
+			FROM review r LEFT JOIN detail_class d ON r.detail_class_sq = d.detail_class_sq 
+			              JOIN class_by_semester cbs ON d.class_semester_sq = cbs.class_semester_sq 
+			              JOIN class c ON cbs.class_id = c.class_id 
+			              JOIN member m ON r.member_sq = m.member_sq 
+			              JOIN branch b ON c.branch_id = b.branch_id
+			              JOIN teacher t ON c.member_sq = t.member_sq    
+			WHERE t.member_sq = #{classFormDTO.tcCdNo}
+	<![CDATA[
+		) 
+		WHERE (#{classFormDTO.pageIndex}-1)*#{classFormDTO.listCnt} + 1 <= rank AND rank <= #{classFormDTO.pageIndex}*#{classFormDTO.listCnt}
+	]]>
+	</select>
+	
+	<!-- ReviewDTO getReviewDtl(int brchCd, int yy, int lectSmsterCd, int lectCd, int tcNo, int mbrNo); -->
+	<select id="getReviewDtl" resultType="com.culture.demo.domain.ReviewDTO">
+		SELECT lrclsCtegry AS lrclsctegery, mdclsCtegry AS mdclsctegery, class_nm, branch_nm, name AS teacher_nm, TO_CHAR(open_year,'YYYY') open_year, class_img
+		     , smst_nm, TO_CHAR(schedule_start_dt,'YYYY-MM-DD') schedule_start_dt, TO_CHAR(schedule_end_dt,'YYYY-MM-DD') schedule_end_dt
+		     , CASE                                                                                                                        
+		       WHEN LENGTH(m.name) = 2 THEN                                                                                               
+		           SUBSTR(m.name, 1, 1) || '*'                                                                                            
+		       ELSE                                                                                                                       
+		           SUBSTR(m.name, 1, 1) || LPAD('*', LENGTH(m.name) - 2, '*') || SUBSTR(m.name, LENGTH(m.name), 1)                        
+		       END AS name
+		     , TO_CHAR(date_writingout_dt,'YYYY-MM-DD') writingout_dt, rating
+		     ,  r.review_title, r.review_content, review_img
+		     , branch_id, sem.open_smst_id, r.detail_class_sq
+		FROM review r LEFT JOIN detail_class d ON r.detail_class_sq = d.detail_class_sq                                                   
+		              JOIN class_by_semester cbs ON d.class_semester_sq = cbs.class_semester_sq                                           
+		              JOIN class c ON cbs.class_id = c.class_id                                                                           
+		              JOIN member m ON r.member_sq = m.member_sq                                                                          
+		              JOIN branch b ON c.branch_id = b.branch_id                                                                          
+		              JOIN teacher t ON c.member_sq = t.member_sq    
+		              JOIN class_type ct ON c.class_type_id = ct.class_type_id
+		              JOIN large_category lc ON lc.lrclsCtegryCd = ct.lrclsCtegryCd
+		              JOIN medium_category mc ON mc.mdclsCtegryCd = ct.mdclsCtegryCd
+		              JOIN semester sem ON cbs.open_smst_id = sem.open_smst_id
+		WHERE branch_id = #{brchCd}
+		AND TO_CHAR(open_year,'YYYY') = #{yy}
+		AND sem.open_smst_id = #{lectSmsterCd}
+		AND r.detail_class_sq = #{lectCd}
+		AND t.member_sq = #{tcNo}
+		AND r.member_sq = #{mbrNo}
+	</select>
+	
 </mapper>

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.domain.ReviewDTO;
@@ -14,20 +15,16 @@ public interface ReviewService {
 	String reviewHTML(FrmSearchDTO frmSearchDTO) throws SQLException;
 
 	// 리뷰 상세페이지
-	//List<ReviewDTO> dtlReview(ReviewDTO reviewDTO) throws SQLException, ClassNotFoundException;
-
 	ReviewDTO dtlReview(@Param("brchCd") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd")int lectSmsterCd, @Param("lectCd")int lectCd
-					  , @Param("tcCdNo")int teacher_sq, @Param("memberNo")int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException;
-
+					  , @Param("tcCdNo")int teacher_sq, @Param("mbrNo")int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException;
 
 	// 댓글목록 ajax html
-	// , @Param("lectSmsterCd")int lectSmsterCd, @Param("lectCd")int lectCd, @Param("mbrNo")int member_sq
-	String commtHTML(@Param("brchCd") int branch_id, @Param("yy") int yy, @Param("lectSmsterCd")int lectSmsterCd, @Param("lectCd")int lectCd
-					, @Param("tcCdNo")int teacher_sq, @Param("memberNo")int member_sq, FrmSearchDTO frmSearchDTO) throws SQLException;
-	
+	String commtHTML(int member_sq, FrmSearchDTO params) throws SQLException;
+
 	// 댓글 등록
 	int insertComm(int review_sq, int member_sq, String comment_content) throws SQLException, ClassNotFoundException;
 
-
+	// 댓글 삭제
+	int deleteComm(int sortSeqno) throws SQLException, ClassNotFoundException; 
 	
 }

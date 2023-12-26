@@ -30,4 +30,5 @@ public class FrmSearchDTO {
 	private int lectCd;
 	private int tcCdNo;	// 강사회원번호
 	private int memberNo; // 댓글작성자번호
+	private String cmntCont; // 댓글작성내용
 } // class

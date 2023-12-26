@@ -15,6 +15,7 @@ public class ReviewDTO {
    private int review_sq; // 게시물번호
    private int teacher_sq; // 강사(회원)번호
    private int member_sq; // 회원번호
+   private int comm_member_sq; // 댓글작성자번호
    private int rating; // 평점
    private String date_writingout_dt; // 작성날짜
    private String review_title; // 후기제목
@@ -37,7 +38,7 @@ public class ReviewDTO {
    
    // 후기 상세보기
    private String teacher_nm; // 강사이름
-   private int yy; // 후기 작성년도
+   private String yy; // 후기 작성년도
    private String lrclsctegry; // 대분류
    private String mdclsctegry; // 중분류
    private String smclsctegry; // 소분류
@@ -69,5 +70,8 @@ public class ReviewDTO {
    private char orderSet;
    
    private int tot_cnt;  // 후기 총 갯수
+   
+   private String writingout_dt; // 작성날짜 - 가공
+   private int detail_class_sq; // 세부 강좌 번호
  
 }
