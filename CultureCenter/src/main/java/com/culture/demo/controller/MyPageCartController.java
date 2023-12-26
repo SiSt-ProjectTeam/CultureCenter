@@ -3,6 +3,8 @@ package com.culture.demo.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class MyPageCartController {
 	
 	// 장바구니 페이지 이동
 	@GetMapping("list.do")
-	public String goCart(Model model,FrmSearchDTO params) throws Exception{
+	public String goCart(Model model,FrmSearchDTO params, HttpServletRequest request) throws Exception{
 		log.info("/mypage/cart/list.do + GET : MyPageCartController.goCart() 장바구니페이지 이동");
 		
 		System.out.println(params.getPageIndex()+"/"+params.getBrchCd()+"/"+params.getBrchNm());

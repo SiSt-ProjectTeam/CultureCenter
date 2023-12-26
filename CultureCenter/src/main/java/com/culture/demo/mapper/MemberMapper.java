@@ -39,6 +39,9 @@ public interface MemberMapper {
 	void updateCar(MemberDTO dto) throws Exception;
 	// 회원정보 수정
 	public int updateMember(MemberDTO memberDTO) throws Exception;	
+	
+	// 수강내역 추가
+	public int updateOrderClass(@Param("member_sq")int member_sq,@Param("addCnt")int addCnt) throws Exception;
 
 	// 비밀번호 확인
 	public String getPasswordByMemberSq(int member_sq);

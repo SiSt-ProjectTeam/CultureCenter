@@ -59,8 +59,10 @@
 		<interceptor>
 			<mapping path="/**/*.do"/>
 			<exclude-mapping path="/**/*.ajax"/>
+			<exclude-mapping path="/lgnCheck.ajax"/>
 			<exclude-mapping path="/**/payment_result.do"/>
 			<exclude-mapping path="/**/payment_request.do"/>
+			<exclude-mapping path="/login/**"/>
 			<beans:bean id="cartNumInterceptor" class="com.culture.demo.interceptor.CartNumInterceptor"/>
 		</interceptor>
 		
