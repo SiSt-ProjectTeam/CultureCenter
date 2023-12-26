@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
@@ -653,6 +655,18 @@ public class AppSearchServiceImpl implements AppSearchService {
 		html.append("</div>");
 		
 		return html.toString();
+	}
+
+	@Override
+	public MemberDTO selectMemberInfo(int member_sq) {
+		log.info("AppSearchServiceImpl.selectMemberInfo() 호출");
+		return this.appSearchMapper.selectMemberInfo(member_sq);
+	}
+
+	@Override
+	public List<ChildrenDTO> selectChildInfo(int member_sq) {
+		log.info("AppSearchServiceImpl.selectChildInfo() 호출");
+		return this.appSearchMapper.selectChildInfo(member_sq);
 	}
 
 }

@@ -3,11 +3,12 @@ package com.culture.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
 import com.culture.demo.domain.ClassFormDTO;
 import com.culture.demo.domain.MainLectSearchDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.ReviewDTO;
 import com.culture.demo.domain.SearchBranchDTO;
 import com.culture.demo.domain.TawardsDTO;
@@ -77,5 +78,11 @@ public interface AppSearchMapper {
 
 	// 강좌 상세 - 리뷰 팝업 정보 가져오기
 	ReviewDTO getReviewDtl(@Param("brchCd") int brchCd, @Param("yy") int yy, @Param("lectSmsterCd") int lectSmsterCd, @Param("lectCd") int lectCd, @Param("tcNo") int tcNo, @Param("mbrNo") int mbrNo);
+	
+	// 대기접수 회원정보 가져오기
+	MemberDTO selectMemberInfo(int member_sq);
+
+	// 대기접수 자녀회원 정보 가져오기
+	List<ChildrenDTO> selectChildInfo(int member_sq);
 	
 }
