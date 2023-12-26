@@ -65,5 +65,18 @@ public class InquiryServiceImpl implements InquiryService{
 		}
 		return html.toString();
 	}
+
+	@Override
+	public int insertInquiry(int member_sq, InquiryDTO params) throws SQLException, ClassNotFoundException {
+		
+		log.info("InquiryServiceImpl.java > deleteInquiry...");
+		try {	
+			mypageInquiryMapper.deleteInquiry(member_sq);
+            return 1; // 성공 시 1 반환
+        } catch (Exception e) {
+            log.error("Error cancelling waiting: " + e.getMessage());
+            return 0; // 실패 시 0 반환
+        }
+	}
 	
 }

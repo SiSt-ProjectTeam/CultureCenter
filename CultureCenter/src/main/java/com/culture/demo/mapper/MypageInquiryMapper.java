@@ -19,6 +19,8 @@ public interface MypageInquiryMapper {
 
 	public int deleteInquiry(int personal_faq_sq) throws ClassNotFoundException, SQLException;
 
+	public int insertInquiry(int personal_faq_sq) throws ClassNotFoundException, SQLException;
+
 	public int totCnt(@Param("member_sq") int member_sq, @Param("dto") InquiryDTO params)throws ClassNotFoundException, SQLException;;
 	
 }

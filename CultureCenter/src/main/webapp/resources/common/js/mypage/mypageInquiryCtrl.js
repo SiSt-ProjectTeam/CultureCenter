@@ -83,7 +83,8 @@ var mypageInquiryCtrl = (function(){
             alert("삭제 실패했습니다.");
             return false;
         }
-    }, "/mypage/inquiry/delete.do", { actCnt: parseInt(personal_faq_sq, 10) }, null, false, true, true);
+    }, "/mypage/inquiry/delete.do", { actCnt: parseInt(personal_faq_sq, 10)  }, null, false, true, true);
+
 	}
 	
 	//textarea
@@ -136,6 +137,8 @@ var mypageInquiryCtrl = (function(){
 		$("#inquiryRegFrm").find("input").not("input[type='hidden'], input[readonly]").val("");
 		$("#inquiryRegFrm").find("textarea").val('');
 		$("#inquiryRegFrm").find(".check_byte .r_byte").html('0');
+		
+		console.log(inquiryRegFrm);
 		
 		//셀렉트박스 초기화
 		//$("#inquiryRegFrm").find(".form_select_div .list_wrap").find("a:eq(1)").click();

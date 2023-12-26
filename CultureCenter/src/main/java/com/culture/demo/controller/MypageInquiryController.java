@@ -3,6 +3,8 @@ package com.culture.demo.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.PropertyKey;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,22 @@ public class MypageInquiryController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageInquiryController.class);
 	
+	// 문의하기
+	@RequestMapping(value = "/insert.ajax", method = RequestMethod.POST, produces = "application/text; charset=UTF-8") 
+    public @ResponseBody ResponseEntity<String> inquiryInsert(@PropertyKey InquiryDTO params) throws Exception {
+        logger.info("MypageInquiryController.java > inquiryInsert...");
+        
+        
+        
+        return null;
+	}
+	
 	// 문의 삭제
 	@RequestMapping(value = "/delete.do" , method = RequestMethod.POST)
-	public String deleteInquiry(@RequestParam("actCnt") int personal_faq_sq) {
+	public String deleteInquiry(@RequestBody int actCnt) {
 		logger.info("MypageInquiryController.java > deleteinquiry...");
 	    try {
-	        int rowCount = inquiryService.deleteInquiry(personal_faq_sq);
+	        int rowCount = inquiryService.deleteInquiry(actCnt);
 	        if (rowCount > 0) {
 	    	    return "mypage.inquiry.list";
 	        } 

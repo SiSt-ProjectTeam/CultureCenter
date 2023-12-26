@@ -10,4 +10,6 @@ public interface InquiryService {
 		
 	int deleteInquiry(int personal_faq_sq) throws SQLException, ClassNotFoundException;
 	
+	int insertInquiry(int member_sq, InquiryDTO params) throws SQLException, ClassNotFoundException;
+	
 }

@@ -27,6 +27,12 @@
 		
 	</select>
 	
+	<!-- 1:1 문의하기 -->
+	<insert id="insertInquiry" >
+		INSERT INTO personal_faq (personal_faq_sq, branch_id, member_sq, faq_tp_id, faq_title, faq_detail, faq_status, faq_dt)
+		VALUES (seq_personal_faq.nextval, #{branch_id}, #{member_sq}, #{faq_tp_id}, #{faq_title}, #{faq_detail}, '접수중', SYSDATE)
+	</insert>
+	
 	<!-- 1:1 문의 뷰 -->
 	<select id="getInquiryView" resultType="com.culture.demo.domain.InquiryDTO">
 		SELECT pf.* ,ft.faq_tp ,b.branch_nm
