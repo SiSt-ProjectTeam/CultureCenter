@@ -66,14 +66,7 @@ public class MypageInquiryController{
 	    logger.info("MypageInquiryController.java > inquirylistPage...");
 
 	    try {
-	    	
-//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    	User user = (User) authentication.getPrincipal();
-//	    	
-//	        // 여기서 WaitingListDTO 가져오기
-//	        List<WaitingListDTO> waitingListDTO = waitingService.createWaitingHtml(user.getUsername(n), params); // 여기서 1은 member_sq에 해당하는 값으로 바꿔주세요.
 
-	        // 모델에 데이터 추가
 	    	System.out.println(params);
 	        model.addAttribute("params", params);
 	    } catch (Exception e) {
@@ -89,16 +82,8 @@ public class MypageInquiryController{
     public @ResponseBody ResponseEntity<String> inquiryFilterList(@RequestBody InquiryDTO params) throws Exception {
         logger.info("MypageInquiryController.java > inquiryFilterList...");
     	    	
-//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    	User user = (User) authentication.getPrincipal();
-//	    	
-//	        // 여기서 WaitingListDTO 가져오기
-//	        WaitingListDTO waitingListDTO = waitingListMapper.getWaitingList(user.getUsername()); 
-//          String member_sq = user.getUsername();
-
-//      	List<WaitingListDTO> filteredList = waitingListMapper.getWaitingList(member_sq, branch_nm);
         	System.out.println("Controller : " + params);
-        	int member_sq = 12;
+        	int member_sq = 149;
             String html = inquiryService.createInquiryListHtml(member_sq, params);
             
             return !html.isEmpty()? new ResponseEntity<>(html,HttpStatus.OK)
@@ -111,14 +96,7 @@ public class MypageInquiryController{
 	public String inquiryViewPage(Model model ,@RequestParam("personal_faq_sq") int personal_faq_sq) throws Exception {
 	    logger.info("MypageInquiryController.java > inquiryViewPage...");
 
-	   
-	    	
-//	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    	User user = (User) authentication.getPrincipal();
-//	    	
-//	        // 여기서 WaitingListDTO 가져오기
-//	        List<WaitingListDTO> waitingListDTO = waitingService.createWaitingHtml(user.getUsername(n), params); 
-	    List<InquiryDTO> list = inquiryService.getInquiryView(12, personal_faq_sq); 
+	    List<InquiryDTO> list = inquiryService.getInquiryView(149, personal_faq_sq); 
 
         model.addAttribute("inquiryView", list);
 

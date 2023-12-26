@@ -78,7 +78,7 @@ public class MypageWaitingController{
 
 //      	List<WaitingListDTO> filteredList = waitingListMapper.getWaitingList(member_sq, branch_nm);
         	System.out.println("Controller : " + params);
-        	int member_sq = 50;
+        	int member_sq = 149;
             String html = waitingService.createWaitingHtml(member_sq, params);
             
             return !html.isEmpty()? new ResponseEntity<>(html,HttpStatus.OK)

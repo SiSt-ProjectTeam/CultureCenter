@@ -100,7 +100,7 @@
 			INNER JOIN class c ON cs.class_id = c.class_id
 			INNER JOIN branch b ON c.branch_id = b.branch_id
 		</if>
-		WHERE lc.member_sq = 50
+		WHERE lc.member_sq = 149
 		<if test="dto.brchNm != null and dto.brchNm != ''">
 			AND b.branch_nm = #{dto.brchNm}
 		</if>		 
