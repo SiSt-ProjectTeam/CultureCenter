@@ -1,9 +1,5 @@
 var fnc = (function() {
 
-	var pathname = "/" + window.location.pathname.split("/")[1];
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
     "use strict";
 
     var submitFlag = false;
@@ -86,6 +82,10 @@ var fnc = (function() {
                 sync = true;
             }
 
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
             jQuery.ajax({ // ajax 실행
 
                 url: url,
@@ -94,14 +94,13 @@ var fnc = (function() {
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
-console.log("Request URL: " + url);
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
-// console.log("success data : " + data);	
                     if (callbackAjax) {
                         callbackAjax(data);
                     }
@@ -130,6 +129,7 @@ console.log("Request URL: " + url);
      * note : ajax 폼데이터
      */
     var frmAjax = function(callbackAjax, url, formObj, dataType, loading, sync, btnFlag) {
+    
         if (typeof btnFlag == "undefined") {
             btnFlag = false;
         }
@@ -148,19 +148,36 @@ console.log("Request URL: " + url);
             if (typeof sync == "undefined") {
                 sync = true;
             }
-
+					
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+					
+			// 폼 데이터를 배열로 가져오기	
+			var formDataArray = $(formObj).serializeArray();
+			
+			// 배열을 객체로 변환
+			var formDataObject = {};
+			$.each(formDataArray, function(i, field) {
+			    formDataObject[field.name] = field.value;
+			});
+			
+			// JSON 형식으로 변환
+			var jsonData = JSON.stringify(formDataObject);
+			
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: $(formObj).serializeArray(),
+                data: jsonData,
+                contentType : "application/json; charset=utf-8",
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
                     if (callbackAjax) {
@@ -209,19 +226,23 @@ console.log("Request URL: " + url);
                 sync = true;
             }
 
-
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
-                data: data,
+                data: JSON.stringify(data),//추가
+                contentType : "application/json; charset=utf-8",//추가
                 dataType: dataType,
                 async: sync,
                 cache: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
 					if (callbackAjax) {
@@ -439,7 +460,7 @@ console.log("Request URL: " + url);
         if (alrtFlag) {
             alert("로그인 후 이용가능합니다.");
         }
-        var loginPage = contextPath+"/login/index.do",
+        var loginPage = "/login/index.do",
             pathname = location.pathname;
 
         if (pathname.indexOf("/login/") == -1) {
@@ -842,9 +863,14 @@ console.log("Request URL: " + url);
     // 장바구니
     var cartBtn = function(brchCd, yy, lectSmsterCd, lectCd, lectStatCd) {
         fnc.bscAjax(function(data) {
+        		console.log("cartBtn bscAjax callback_data :");
+        		console.log(data);
             if (data.lgnYn) {
-                fnc.paramAjax(function(data) {
-                    var rtnMap = data.rtnMap;
+               console.log("carBtn paramAjax");
+               fnc.paramAjax(function(rtnMap) {
+                	console.log("carBtn paramAjax callback_data :");
+                	console.log(rtnMap);
+                    //var rtnMap = data.rtnMap;
                     if (rtnMap.result == "S") {
 
                         if (Number($('div.util_area p.cart_icon span.cart_num').text()) < 50) {
@@ -861,12 +887,12 @@ console.log("Request URL: " + url);
                         alert(rtnMap.msg);
                         return;
                     }
-                }, "/mypage/cart/insert.ajax", {
-                    brchCd: brchCd,
-                    yy: yy,
-                    lectSmsterCd: lectSmsterCd,
-                    lectCd: lectCd,
-                    lectStatCd: lectStatCd
+                }, "/mypage/cart/insert.ajax",{
+                    branch_id: brchCd,
+                    open_year: yy,
+                    open_smst_id: lectSmsterCd,
+                    detail_class_sq: lectCd,
+                    class_st_id: lectStatCd
                 }, "json", false, false);
             } else {
                 if (confirm("로그인이 필요한 서비스입니다.")) {

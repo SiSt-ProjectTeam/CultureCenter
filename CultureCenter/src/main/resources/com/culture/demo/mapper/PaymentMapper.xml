@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.PaymentMapper">
+	<!-- 세부강좌 -> 강좌정보 List<CartDTO> selectLect(String lectDetailSq) -->
+	<select id="selectLect" resultType="com.culture.demo.domain.CartDTO">
+	SELECT
+		dc.detail_class_sq
+		, CASE
+            WHEN SUBSTR(dc.start_time,4,1) =' ' THEN
+                SUBSTR(dc.start_time, 1, 1) || ':' || SUBSTR(dc.start_time, 2)
+            ELSE
+                SUBSTR(dc.start_time, 1, 2) || ':' || SUBSTR(dc.start_time, 3, 2)
+         END as start_time
+		, CASE
+            WHEN SUBSTR(dc.start_time,4,1) =' ' THEN
+                SUBSTR(dc.start_time, 1, 1) || ':' || SUBSTR(dc.start_time, 2)
+            ELSE
+                SUBSTR(dc.end_time, 1, 2) || ':' || SUBSTR(dc.end_time, 3, 2)
+        END as end_time
+		, dc.class_cnt
+		, TO_CHAR(cbs.open_year,'yyyy') AS open_year
+        , TO_CHAR(TRUNC(cbs.schedule_start_dt),'yyyy.MM.dd') as schedule_start_dt
+        , TO_CHAR(TRUNC(cbs.schedule_end_dt),'yyyy.MM.dd') as schedule_end_dt
+        , cbs.class_fee, cbs.ex_charge
+		, cbs.open_smst_id ,s.smst_nm
+		, c.class_nm, c.class_id
+        , ct.lrclsctegrycd, lc.lrclsctegry
+		, cs.class_st_id, cs.class_st
+		, bh.branch_id, bh.branch_nm
+		, t.teacher_nm
+		, CASE 
+            WHEN MON = 'Y' THEN '월' 
+            WHEN TUE = 'Y' THEN '화'
+            WHEN WED = 'Y' THEN '수'
+            WHEN THU = 'Y' THEN '목'
+            WHEN FRI = 'Y' THEN '금'
+            WHEN SAT = 'Y' THEN '토'
+            WHEN SUN = 'Y' THEN '일'
+         END as day
+	FROM detail_class dc
+	    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	    LEFT JOIN semester s ON cbs.open_smst_id = s.open_smst_id
+	    LEFT JOIN class c ON c.class_id = cbs.class_id
+	    LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id
+	    LEFT JOIN large_category lc ON lc.lrclsctegrycd = ct.lrclsctegrycd
+	    LEFT JOIN class_state cs ON c.class_st_id = cs.class_st_id
+	    LEFT JOIN branch bh ON bh.branch_id = c.branch_id
+	    LEFT JOIN teacher t ON c.member_sq = t.member_sq
+	WHERE dc.detail_class_sq = #{detail_class_sq}
+	</select>
+	<!-- int cntPeopleTotAv(int detail_class_sq,int cnt) -->
+	<select id="cntPeopleTotAv" resultType="int">
+	SELECT people_tot 
+		   - 
+		   (SELECT COUNT(*)+ ${cnt} 
+			FROM order_detail 
+			WHERE detail_class_sq = 37 
+			AND receipt_status_id IN (1,2)
+			)
+	FROM detail_class dc
+		LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	WHERE dc.detail_class_sq = #{detail_class_sq}
+	</select>
+	<!-- int cntClassOrderMatch(int member_sq,int detail_class_sq) -->
+	<select id="cntClassOrderMatch" resultType="int">
+	SELECT COUNT(*)
+	FROM order_detail od 
+		LEFT JOIN class_order co ON od.order_sq = co.order_sq
+	WHERE co.member_sq = #{member_sq}
+		AND od.receipt_status_id IN (1,2)
+		AND od.detail_class_sq = #{detail_class_sq}
+	</select>
+	<!-- 세부강좌번호 -> 강좌상태 getClassStId -->
+	<select id="getClassStId" resultType="int">
+	SELECT c.class_st_id
+	FROM detail_class dc 
+	    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	    LEFT JOIN class c ON c.class_id = cbs.class_id
+	WHERE dc.detail_class_sq = #{detail_class_sq}
+	</select>
+	<!-- 세부강좌번호 -> 강좌 대유형 getLrclsctegrycd -->
+	<select id="getLrclsctegrycd" resultType="String">
+	SELECT ct.lrclsctegrycd
+	FROM detail_class dc 
+	    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	    LEFT JOIN class c ON c.class_id = cbs.class_id
+        LEFT JOIN class_type ct ON ct.class_type_id = c.class_type_id
+	WHERE dc.detail_class_sq = #{detail_class_sq}
+	</select>
+	<!-- 세부강좌번호 -> 강좌명 getLectName -->
+	<select id="getLectName" resultType="String">
+	SELECT c.class_nm
+	FROM detail_class dc 
+	    LEFT JOIN class_by_semester cbs ON dc.class_semester_sq = cbs.class_semester_sq
+	    LEFT JOIN class c ON c.class_id = cbs.class_id
+	WHERE dc.detail_class_sq = #{detail_class_sq}	
+	</select>
+	<!-- 주문번호 public String getAtlctRsvNo() -->
+	<select id="getAtlctRsvNo" resultType="int">
+	SELECT MAX(order_sq) order_sq FROM class_order WHERE member_sq = #{member_sq}
+	</select>
+</mapper>

@@ -131,7 +131,7 @@ var search = (function(){
 		if($("#q").val().trim() != "") {
 			innerHtml += '<p class="word swiper-slide">';
 			innerHtml += '<span>' + fnc.convertHtml($("#q").val()) + '</span>';	
-			innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','q',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+			innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','q',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 			innerHtml += '</p>';
 			htmlFlag = true;
 		}
@@ -142,7 +142,7 @@ var search = (function(){
 					if($(this).data("yy") == data.split("||")[0] && $(this).data("lectSmsterCd") == data.split("||")[1]) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("yy") + "||" + $(this).data("lectSmsterCd") + "','yyList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("yy") + "||" + $(this).data("lectSmsterCd") + "','yyList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -156,7 +156,7 @@ var search = (function(){
 					if($(this).data("lectClCd") == data) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("lectClCd") + "','lectClCdList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("lectClCd") + "','lectClCdList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -170,7 +170,7 @@ var search = (function(){
 					if($(this).data("lectStatCd") == data) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("lectStatCd") + "','lectStatCdList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("lectStatCd") + "','lectStatCdList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -184,7 +184,7 @@ var search = (function(){
 					if($(this).data("stDaywCd") == data) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("stDaywCd") + "','stDaywCdList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("stDaywCd") + "','stDaywCdList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -198,7 +198,7 @@ var search = (function(){
 					if($(this).data("timeType") == data) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("timeType") + "','timeTypeList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("timeType") + "','timeTypeList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -212,7 +212,7 @@ var search = (function(){
 					if($(this).data("amtType") == data) {
 						innerHtml += '<p class="word swiper-slide">';
 						innerHtml += '<span>' + $(this).find("span").text() + '</span>';	
-						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("amtType") + "','amtTypeList',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+						innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'" + $(this).data("amtType") + "','amtTypeList',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 						innerHtml += '</p>';
 					}
 				});
@@ -223,14 +223,14 @@ var search = (function(){
 		if($("#stAmt").val().trim() != "" && $("#endAmt").val().trim() != "") {
 			innerHtml += '<p class="word swiper-slide">';
 			innerHtml += '<span>' + fnc.fn_numberComma($("#stAmt").val()) + '원 ~ ' + fnc.fn_numberComma($("#endAmt").val()) + '원</span>';	
-			innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','stAmt||endAmt',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+			innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','stAmt||endAmt',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 			innerHtml += '</p>';
 			htmlFlag = true;
 		} else {
 			if($("#stAmt").val().trim() != "") {
 				innerHtml += '<p class="word swiper-slide">';
 				innerHtml += '<span>' + fnc.fn_numberComma($("#stAmt").val()) + '원 ~</span>';	
-				innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','stAmt',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+				innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','stAmt',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 				innerHtml += '</p>';
 				htmlFlag = true;
 			}
@@ -238,7 +238,7 @@ var search = (function(){
 			if($("#endAmt").val().trim() != "") {
 				innerHtml += '<p class="word swiper-slide">';
 				innerHtml += '<span>~ ' + fnc.fn_numberComma($("#endAmt").val()) + '원</span>';	
-				innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','endAmt',this" + ');"><img src="/common/images/btn-search-data-delete.png" alt=""></button>';
+				innerHtml += '<button type="button" class="delete_btn" onclick="search.delbtn(' + "'','endAmt',this" + ');"><img src="/resources/common/images/btn-search-data-delete.png" alt=""></button>';
 				innerHtml += '</p>';
 				htmlFlag = true;
 			}
@@ -518,8 +518,10 @@ var search = (function(){
 					if (listScrollY && listScrollY > 0) {
 						window.scrollTo(0, listScrollY);
 					}
+					
 				}
 		}
+		
 		
 		searchMore = new fnc.SearchMore(initObj);
 		searchMore.search();

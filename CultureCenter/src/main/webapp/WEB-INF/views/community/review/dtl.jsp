@@ -1,20 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         		
-	<form id="reviewForm" data-page-type="dtl">
+<form id="reviewForm" data-page-type="dtl">
     <input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
     <input type="hidden" id="listCnt" name="listCnt" value="10"/>
     <input type="hidden" id="initIndex" name="initIndex" value="1"/>
     
-    <input type="hidden" name="brchCd" value="${dto.branch_id}" />
-    <input type="hidden" name="yy" value="${dto.open_year}" />
-    <input type="hidden" name="lectSmsterCd" value="${dto.open_smst_id}" />
-    <input type="hidden" name="lectCd" value="${dto.lectCd}" />
-    <input type="hidden" name="tcCdNo" value="${dto.teachar_nm}" />
-    <input type="hidden" name="memberNo" value="${dto.member_sq}" />
+    <input type="hidden" id= "brchCd" name="brchCd" value="${brchCd}" />
+    <input type="hidden" id= "yy" name="yy" value="${yy}" />
+    <input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="${lectSmsterCd}" />
+    <input type="hidden" id="lectCd" name="lectCd" value="${lectCd}" />
+    <input type="hidden" id="tcCdNo" name="tcCdNo" value="${tcCdNo}" />
+    <input type="hidden" id= "memberNo" name="memberNo" value="${memberNo}" />
 
     <input type="hidden" name="sortSeqno" value="" />
     <input type="hidden" name="cmntCont" value="" />
+    <input type="hidden" name="review_sq" value="${review_sq}" />
 </form>
 
 <div class="cont_inner no_pb">
@@ -36,25 +37,31 @@
                 <div class="view_con review_con">
                     <div class="top_area">
                         <div class="type_div">
-                            <p class="type">${dto.name}</p>
-                            <p class="type">${dto.date_writingout_dt}</p>
+                            <p class="type">${name}</p>
+                            <p class="type">${dateWritingoutDt}</p>
                         </div>
                         <div class="share_area only_pc">
                             <!-- 2022-11-23 class 추가 -->
                             <a href="javascript:commonScript.openPopupFn('#sharePop');" class="share_btn" title="공유하기"></a>
                         </div>
-                        <p class="title">${dto.review_title}</p>
-                        <div class="star_rating">
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            <span class="star"></span>
-                            </div>
+                        <p class="title">${reviewTitle}</p>
+					<div class="star_rating">
+    				<c:forEach var="i" begin="0" end="${rating - 1}">
+        				<c:choose>
+            				<c:when test="${i < dto.rating}">
+	                			<span class="star"></span>
+            				</c:when>
+            				<c:otherwise>
+	    	            		<span class="star blank"></span>
+			            	</c:otherwise>
+        				</c:choose>
+    				</c:forEach>
+					</div>
                     </div>
                     <div class="content">
                         <div class="txt f_body2">
-                            ${dto.review_content}<br> <!-- 2023-02-09 br추가, 링크추가-->
+                            <br>
+                            ${reviewContent}<br> 
                             <a target="_blank" href="https://" class="link_txt f_caption2"></a>
                         </div>
                         <div class="thum_list_w">
@@ -63,24 +70,27 @@
                                 <a href="/application/search/view.do?brchCd=0344&yy=2023&lectSmsterCd=3&lectCd=0591" class="thum_list" >
                                     <div class="thum_wrap">
                                         <div class="thum_box img_resize_w">
-                                            <img src="https://culture.lotteshopping.com/files/CUL_ONL/2023/7/202307220532033520.jpg" alt="20190121163307.jpg">
+                                            
+                                            <img src="/upload/thumbnail/${classImg}" alt="${classImg}">
+                                            
                                         </div>
                                     </div>
                                     <div class="txt_wrap">
                                         <div class="thum_left">
                                             <div class="label_div">
-                                                <p class="label small light_gray">${dto.class_st}</p>
-                                                <p class="label small border">${dto.lrclsctegery}</p>
-                                                <p class="label small border">${dto.mdclsctegery}</p>
+                                                <p class="label small light_gray">${classSt}</p>
+                                                <p class="label small border">${lrclsctegry}</p>
+                                                <p class="label small border">${mdclsctegry}</p>
                                             </div>
-                                            <p class="title limit_line_two">${dto.class_nm}</p>
+                                            
+                                            <p class="title limit_line_two">${classNm}</p>
                                         </div>
                                         <div class="thum_right">
                                             <div class="type_div">
-                                                <p class="type f_caption2">${dto.branch_nm}</p>
-                                                <p class="type f_caption2">${dto.teacher_nm}</p>
-                                                <p class="type contour f_caption2">${dto.class_st}</p>
-                                                <p class="type contour f_caption2">${dto.schedule_start_dt} ~ ${dto.schedule_end_dt}</p>
+                                                <p class="type f_caption2">${branchNm}</p>
+                                                <p class="type f_caption2">${teacherNm}</p>
+                                                <p class="type contour f_caption2">${smstNm}</p>
+                                                <p class="type contour f_caption2">${rceptPrdStDt}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -168,9 +178,7 @@
 </div>
 
 
-<script type="text/javascript" src="/common/js/community/reviewController.js"></script>
-			<!-- 관계사 사이트 팝업 -->
-
+<script type="text/javascript" src="/resources/common/js/community/reviewController.js"></script>
 
 			<a href="/mypage/myreview/list.do" class="review_write">
 					<span>
@@ -178,9 +186,3 @@
 						<span class="txt">나의 수강후기</span>
 					</span>
 				</a>
-			
-			
-			
-<!--  end wrap -->
-	</body>
-</html>

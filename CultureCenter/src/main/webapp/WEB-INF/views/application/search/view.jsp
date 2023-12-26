@@ -20,7 +20,7 @@
 			<div class="top_visual full only_mobile">
 				<p class="bg_img">
 					
-					<img class="webPath" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951087660.jpg" alt="upload.jpg">
+					<img class="webPath" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }">
 				</p>
 			</div>
 			<div class="bg_inner pd_bot"><!-- pd_bot 클래스 추가 -->
@@ -30,7 +30,7 @@
 							<div class="fix_box_area">
 								<!-- 2022-11-24 course_popup 한번 더 감쌈 -->
 								<div class="shadow_div">
-									<div class="course_popup">
+									<div class="course_popup" id="one">
 										<div class="pop_wrap">
 											<div class="pop_cont">
 												<div class="for_padding">
@@ -38,7 +38,7 @@
 														<div class="pop_head">
 															<div class="top_area">
 																<div class="label_div">
-																	<p class="label large lime lectStatNm">${ dto.class_st }</p>
+																	<p class="label large lectStatNm">${ dto.class_st }</p>
 																	<p class="label large border lectClNm">${ dto.class_div }</p>
 																</div>
 																<div class="share_btn_wrap only_pc">
@@ -47,7 +47,7 @@
 															</div>
 															<div class="tit_box">
 																<p class="thum_img only_pc">
-																	<img class="webPath" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951087660.jpg" alt="upload.jpg">
+																	<img class="webPath" src="/upload/thumbnail/${ dto.class_img }" alt="${ dto.class_img }"/>
 																</p>
 																<div class="txt_wrap">
 																	<p class="tit lectNm">${ dto.class_nm }</p>
@@ -70,11 +70,52 @@
 																</div>
 															</div>
 														</div>
-
 														<div class="box_con">
 															<div class="content_area">
 																<div class="anchor_con">
 																	<p class="sub_tit f_h2">강좌정보</p>
+																	<c:choose>
+																		<c:when test="${ classDtl.optionList.size() > 1 }">
+																			<div class="form_txt_wrap" id="selectLect">
+																				<p class="txt">강좌를 선택하세요.</p>
+																				<div class="form_select_div change">
+																					<!-- 2022-11-25 round class 삭제 -->
+																					<div class="open_area">
+																						<a class="btn_open" href="javascript:">
+																							<div class="option_div">
+																								<span>선택하세요</span>
+																							</div>
+																						</a>
+																					</div>
+																					<div class="dimd"></div>
+																					<div class="list_wrap">
+																						<div class="tit_area">
+																							<p class="tit">강좌정보</p>
+																							<a href="javascript:" role="button" class="close"></a>
+																						</div>
+																						<div class="scroll_wrap">
+																							<a class="btn_link on" href="javascript:search.classInfoSet('${ classDtl.branch_id }', '${ classDtl.open_year }', '${ classDtl.open_smst_id }', '${ dto.detail_class_sq }', 'close');">
+																								<div class="option_div">
+																									<span>선택하세요</span>
+																								</div>
+																							</a>
+																							<c:forEach var="cdto" items="${ classDtl.optionList }">
+																								<a class="btn_link" href="javascript:search.classInfoSet('${ classDtl.branch_id }', '${ classDtl.open_year }', '${ classDtl.open_smst_id }', '${ cdto.detail_class_sq }');">
+																									<div class="option_div">
+																										<span>${ cdto.day }</span> <span>${ cdto.start_time }~${ cdto.end_time }</span> <span>${ cdto.class_cnt }회</span>
+																									</div>
+																								</a>
+																							</c:forEach>
+
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+
+																		</c:when>
+																	</c:choose>
+
+																	
 																	
 																	<div class="data_box">
 																		<div class="selected_info">
@@ -114,7 +155,7 @@
 																			</dl>
 																			<dl>
 																				<dt>강의실</dt>
-																				<dd class="lectRmNm">${ dto.classroom_nm }</dd>
+																				<dd class="lectRmNm">${ classDtl.classroom_nm }</dd>
 																			</dl>
 																			<dl>
 																				<dt>수강료</dt>
@@ -143,10 +184,12 @@
 												</div>
 												<div class="fixed_btn_area btn_area" style="display:block;">
 													<!-- 수강신청, 대기신청, 지점문의, 접수마감 -->
-													<div class="single_btn_area"> 
+													<div class="single_btn_area one_layer"> 
 														<div class="btn_wrap">
-															<a class="sign_btn b_color_btn" href="javascript:search.btnCheck();">
-																<span class="lectStatCd">수강 신청하기</span>
+															<a class="sign_btn" href="javascript:search.btnCheck();">
+																
+																<span class="lectStatCd"></span>
+																
 															</a> 
 														</div>
 													</div>				
@@ -159,30 +202,32 @@
 									
 									<div class="course_popup list multiple"><!-- 2022-11-23 hide 클래스 삭제 -->
 										<form id="classForm" name="classForm">
-											<input type="hidden" name="csrfPreventionSalt" value="7eTIBXS8bYYIUOpV9A5Q" />
-											<input type="hidden" id="brchCd" name="brchCd" value="0001"/>
-											<input type="hidden" id="yy" name="yy" value="2023"/>
-											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value="4"/>
-											<input type="hidden" id="lectCd" name="lectCd" value="0486"/>
-											<input type="hidden" id="lectStatCd" name="lectStatCd" value="03"/>
-											<input type="hidden" id="optnUseYn" name="optnUseYn" value="N"/>
-											<input type="hidden" id="mvgDsplyUseYn" name="mvgDsplyUseYn" value="N"/>
-											<input type="hidden" id="lectNm" name="lectNm" value="[12/16 외부] 티와 위스키가 함께하는 미식차회"/>
-											<input type="hidden" id="optnTypCd" name="optnTypCd" value="02"/>
-											<input type="hidden" id="lectAmt" name="lectAmt" value="100000"/>
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+											<input type="hidden" id="brchCd" name="brchCd" value=""/>
+											<input type="hidden" id="yy" name="yy" value=""/>
+											<input type="hidden" id="lectSmsterCd" name="lectSmsterCd" value=""/>
+											<input type="hidden" id="lectCd" name="lectCd" value="${ classDtl.detail_class_sq }"/>
+											<input type="hidden" id="lectStatCd" name="lectStatCd" value="${ classDtl.class_st_id }"/>
+											<input type="hidden" id="optnUseYn" name="optnUseYn" value=""/>
+											<input type="hidden" id="mvgDsplyUseYn" name="mvgDsplyUseYn" value=""/>
+											<input type="hidden" id="lectNm" name="lectNm" value=""/>
+											<input type="hidden" id="optnTypCd" name="optnTypCd" value=""/>
+											<input type="hidden" id="lectAmt" name="lectAmt" value=""/>
 											<input type="hidden" id="optnSeqno" name="optnSeqno" value=""/>
 											<input type="hidden" id="optnNm" name="optnNm" value=""/>
 											<input type="hidden" id="optnAmt" name="optnAmt" value=""/>
-											<input type="hidden" id="lectStDtm" name="lectStDtm" value="2023.12.16"/>
-											<input type="hidden" id="lectSt" name="lectStDtm" value="11:30"/>
+											<input type="hidden" id="lectStDtm" name="lectStDtm" value=""/>
+											<input type="hidden" id="lectSt" name="lectStDtm" value=""/>
 											<input type="hidden" id="partRfndPsblYn" name="partRfndPsblYn" value=""/>
-											<input type="hidden" id="pblPmprcustParntBrchCd" name="pblPmprcustParntBrchCd" value="0002" />
-											<input type="hidden" id="pblPmprcustParntLectCd" name="pblPmprcustParntLectCd" value="0709" />
+											<input type="hidden" id="pblPmprcustParntBrchCd" name="pblPmprcustParntBrchCd" value="" />
+											<input type="hidden" id="pblPmprcustParntLectCd" name="pblPmprcustParntLectCd" value="" />
 											<input type="hidden" id="pageIndex" name="pageIndex" value="1"/>
 											<input type="hidden" id="initIndex" name="initIndex" value="1"/>
 											<input type="hidden" id="listCnt" name="listCnt" value="10"/>
-											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value="04"/>
-											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value="3"/>
+											<input type="hidden" id="groupLectTpCd" name="groupLectTpCd" value=""/>
+											<input type="hidden" id="groupLectClCd" name="groupLectClCd" value=""/>
+											<input type="hidden" id="lectDetailSq" name="lectDetailSq" value="${ classDtl.detail_class_sq }"/>
+											<input type="hidden" id="tcCdNo" name="tcCdNo" value="${ dto.member_sq }"/>
 										</form>
 										<div class="pop_wrap">
 											<div class="pop_cont">
@@ -193,8 +238,8 @@
 																<a href="javascript:" class="box_prev_btn" title="뒤로가기"></a>
 															</div>
 														</div>
-
-														<div class="box_con">
+															
+														<div class="box_con" id="two">
 															<div class="content_area">
 																<div class="form_txt_wrap" id="optionArea" style="display:none;">
 																	<p class="txt">재료비/대여료 선택</p>
@@ -212,19 +257,23 @@
 																			</div>
 																			<div class="scroll_wrap">
 																				<a class="btn_link default" href="javascript:search.optionSet('', '', '', '');"><span>옵션선택</span></a>
-																				</div>
+																				
+																				<a class="btn_link" data-optn-seqno="11653" href="javascript:search.optionSet('재료비/대여료', ${ ex }, '11653', 'N');">
+																						<span>재료비/대여료 (+${ exCharge }원)</span>
+																				</a>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															
 																<div class="selected_box">
 																	<div class="content_txt">
-																		<p class="name">[12/16 외부] 티와 위스키가 함께하는 미식차회</p>
+																		<p class="name">${ classDtl.class_nm }</p>
 																		<div class="option_div">
 																			</div>
 																	</div>
 																	<p class="price_txt">
-																		<span class="price">100,000</span>원
+																		<span class="price">${ fee }</span>원
 																			</p>
 																</div>
 															</div>
@@ -237,18 +286,15 @@
 														<div class="txt_div">
 															<p class="sum_txt">총 주문 금액</p>
 															<p class="price_txt">
-																<span class="price">100,000</span> 원
-																	</p>
+																<span class="price">${ fee }</span> 원
+															</p>
 														</div>
 														<div class="btn_wrap">
 															<a class="cart_btn" href="javascript:search.cartBtn()" role="button" style="display:block;">
 																<span class="blind">장바구니</span>
 															</a>
 															<a class="sign_btn b_color_btn" href="javascript:search.paymentBtn();">
-																<span>
-																	
-																			수강신청
-																		</span>
+																<span></span>
 															</a>
 														</div>
 													</div>
@@ -268,13 +314,13 @@
 								<p class="sub_tit f_h2">강좌소개</p>
 
 								<div class="info_img_txt">
-									<p class="img"><img class="only_pc" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951088290.jpg" alt="웨이티하우스앤레스토랑2.jpg"><img class="only_mobile" src="https://culture.lotteshopping.com/files/CUL_ONL/2023/10/202310260951088290.jpg" alt="웨이티하우스앤레스토랑2.jpg"></p>
+									<p class="img"><img class="only_pc" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }" alt="${ dto.detail_img }">
+									<img class="only_mobile" src="/upload/detail/${ dto.detail_img }" alt="${ dto.detail_img }" alt="${ dto.detail_img }"></p>
 														<div class="txt_box">
 															${ dto.class_content }</div>
 													</div>
 								
 								<script type="text/javascript">
-									//<![CDATA[
 									function contentHtml() {
 										var body = $('#contemtIframe').contents().find('body').html();
 										var httpsUrl = $('#contemtIframe').data("httpsUrl");
@@ -284,7 +330,6 @@
 									  		$(this).attr("src", $(this).attr("src").replaceAll("https://culture.dpt.co.kr/LDCS/", httpsUrl + "/files/CUL_ONL/OLD/COMMON/")); 
 									  	}); 
 									}
-									//]]>
 								</script>
 								<div class="more_btn_wrap ta_center only_mobile" style="display:none;">
 									<a href="javascript:" class="more_btn">
@@ -317,7 +362,7 @@
 											</a>
 											<div class="hide_con">
 												<div class="info_dot_txt">
-													${ dto.supplies }
+													${ classDtl.supplies }
 													</div>
 											</div>
 										</div>
@@ -406,17 +451,16 @@
 					<div class="info_box">
 						<div class="con">
 							<div class="label_div">
-								<p class="label large border brchNm">${ dto.branch_nm }</p>
+								<p class="label large border brchNm">${ classDtl.branch_nm }</p>
 									</div>
-							<p class="tit lectNm">${ dto.class_nm }</p>
+							<p class="tit lectNm">${ classDtl.class_nm }</p>
 							<div class="info_con">
 								<div class="type_div">
-									<p class="type lectSmsterNm">${ dto.smst_nm }</p>
-									<p class="type tcNm">${ dto.name }</p>
+									<p class="type lectSmsterNm">${ classDtl.smst_nm }</p>
+									<p class="type tcNm">${ classDtl.name }</p>
 								</div>
-								<p class="time lectSt">${ lectTime }, 총 ${ dto.class_cnt }회 </p>
-								<p class="sub_tit lectAmt2">강좌료 
-									${ fee }원
+								<p class="time lectSt">${ lectTime }, 총 ${ classDtl.class_cnt }회 </p>
+								<p class="sub_tit lectAmt2">강좌료 ${ fee }원
 										</p>
 								<p class="txt optionAmt"></p>
 							</div>
@@ -450,64 +494,50 @@
 											<tr>
 													<td>
 														<div class="form_checkbox">
-															<input type="checkbox" id="student0" name="student" data-kor-nm="유희진" data-fmly-rel-cd="00" data-bday="19970921" data-fmly-rel-cd-nm="본인" data-sex-cd="F">
+															<input type="checkbox" id="student0" name="student" data-kor-nm="${ member.name }" data-fmly-rel-cd="00" data-bday="${ member.bir }" data-fmly-rel-cd-nm="본인" data-sex-cd="M">
 															<label for="student0"></label>
 														</div>
 													</td>
 													<td>
-														<p class="f_body2">유희진</p>
+														<p class="f_body2">${ member.name }</p>
 													</td>
 													<td>
 														<p class="f_body2">본인</p>
 													</td>
 													<td>
-														<p class="f_body2">1997.09.21</p>
+														<p class="f_body2">${ member.m_birth_dt }</p>
 													</td>
 													<td>
-														<p class="f_body2">여성</p>
+														<p class="f_body2">남성</p>
 													</td>
 												</tr>
-											<tr>
-															<td>
-																<div class="form_checkbox">
-																	<input type="checkbox" id="student1" name="student" data-kor-nm="ddddd" data-fmly-rel-cd="02" data-bday="20150101" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-																	<label for="student1"></label>
-																</div>
-															</td>
-															<td>
-																<p class="f_body2">ddddd</p>
-															</td>
-															<td>
-																<p class="f_body2">자녀</p>
-															</td>
-															<td>
-																<p class="f_body2">2015.01.01</p>
-															</td>
-															<td>
-																<p class="f_body2">남성</p>
-															</td>
-														</tr>
-													<tr>
-															<td>
-																<div class="form_checkbox">
-																	<input type="checkbox" id="student2" name="student" data-kor-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-bday="20201023" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-																	<label for="student2"></label>
-																</div>
-															</td>
-															<td>
-																<p class="f_body2">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-															</td>
-															<td>
-																<p class="f_body2">자녀</p>
-															</td>
-															<td>
-																<p class="f_body2">2020.10.23</p>
-															</td>
-															<td>
-																<p class="f_body2">남성</p>
-															</td>
-														</tr>
-													</tbody>
+												<c:choose>
+													<c:when test="${ not empty children }">
+														<c:forEach var="child" items="${ children }" varStatus="loop">
+															<tr>
+																<td>
+																	<div class="form_checkbox">
+																		<input type="checkbox" id="student${ loop.index+1 }" name="student" data-kor-nm="${ child.children_nm }" data-fmly-rel-cd="0${ loop.index+2 }" data-bday="${ child.bir }" data-fmly-rel-cd-nm="자녀" data-sex-cd="${ child.gender }">
+																		<label for="student${ loop.index+1 }"></label>
+																	</div>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.children_nm }</p>
+																</td>
+																<td>
+																	<p class="f_body2">자녀</p>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.child_birth_dt }</p>
+																</td>
+																<td>
+																	<p class="f_body2">${ child.realGender }</p>
+																</td>
+															</tr>
+														</c:forEach>
+													</c:when>
+												</c:choose>
+										</tbody>
 									</table>
 								</div>
 							<div class="flex_btn_wrap">
@@ -549,5 +579,48 @@
 		</a>
 	</div>
 </div>
+<input type="hidden" name="cst" value="${classDtl.class_st_id}">
+<input type="hidden" name="optionList" value="${classDtl.optionList}">
 
+<script>
+	//강좌상태별 아이콘 색
+	// 강좌상태별 버튼
+	var cst = $('input[name=cst]').val(); // 강좌 상태 코드
+	var className = "";
+	var addText = "";
+	var classText = "";
+
+	if(cst == 1) {
+		className = "black";
+	}
+	else if(cst == 2) {
+		className = "lime";
+		addText = "수강 신청하기";
+		console.log(addText);
+		classText = "sign_btn b_color_btn";
+		$(".course_popup .total_sum_area .sign_btn span").text("수강신청");
+	} else if(cst == 4) {
+		className = "gray";
+		addText = "대기 신청하기";
+		classText = "sign_btn border_btn"
+		$(".course_popup .total_sum_area .sign_btn span").text("대기신청");
+	} else if(cst == "5") {
+		className = "gray";
+		addText = "접수마감";
+		classText = "sign_btn b_color_btn disabled"
+	} else if(cst == "3") {
+		className = "light_gray";
+		addText = "지점문의";
+		classText = "sign_btn b_color_btn disabled"
+	} else {
+		className = "light_gray";
+		$(".fixed_btn_area").hide();
+	}
+	$(".lectStatNm").addClass(className)
+	$(".lectStatCd").text(addText);
+	$(".lectStatCd").closest("a").attr("class", classText).closest(".fixed_btn_area").show();
+	
+	$("#lectDetailSq").val($('#lectCd'));
+	
+</script>
 <script type="text/javascript" src="/resources/common/js/application/search/searchView.js"></script>

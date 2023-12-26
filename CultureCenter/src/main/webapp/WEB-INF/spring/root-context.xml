@@ -16,7 +16,7 @@
 	<!-- 커넥션 풀을 제공해주는 빈 객체 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"    value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.10.174:1521:xe"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
 		<property name="username" value="mvcpro"></property>
 		<property name="password" value="mvc1team"></property> 
 	</bean>
@@ -47,6 +47,23 @@
 	</bean>
 	
 	<!-- 장바구니 자동 삭제하기 위한 스케쥴러 설정(Namespaces:task) -->
-	<task:scheduler id="deleteScheduler" pool-size="10" />
-	<task:annotation-driven scheduler="deleteScheduler" />
+	<task:scheduler id="jobScheduler" pool-size="10" />
+	<task:annotation-driven scheduler="jobScheduler" />
+	
+	<!-- mail -->
+	<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="defaultEncoding" value="utf-8"/>
+		<property name="username" value="yuhuijin270@gmail.com" />
+		<property name="password" value="lpbonezfrzpausez" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop> <!-- 2단계본인인증을 했으니 보안적으로 true라고 준다 -->
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

@@ -31,13 +31,13 @@
 			<div class="con_list">
 			<p class="sub_tit f_caption1">메인에서 강좌찾기</p>
 			<div class="img_wrap">
-			<div class="img"><img src="/common/images/img-online-guide01.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile01.png" alt="" class="only_mobile"></div>
-			<div class="img"><img src="/common/images/img-online-guide02.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile02.png" alt="" class="only_mobile"></div></div></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide01.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile01.png" alt="" class="only_mobile"></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide02.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile02.png" alt="" class="only_mobile"></div></div></div>
 			<div class="con_list">
 			<p class="sub_tit f_caption1">수강신청에서 강좌찾기</p>
 			<div class="img_wrap">
-			<div class="img"><img src="/common/images/img-online-guide03.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile03.png" alt="" class="only_mobile"></div>
-			<div class="img"><img src="/common/images/img-online-guide04.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile04.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide03.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile03.png" alt="" class="only_mobile"></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide04.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile04.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
 			<div class="list_box">
 			<div class="num_wrap">
 			<div class="num">2</div>
@@ -50,7 +50,7 @@
 			<div class="con">
 			<div class="con_list"><!-- <p class="sub_tit f_caption1">메인에서 강좌찾기</p> -->
 			<div class="img_wrap">
-			<div class="img"><img src="/common/images/img-online-guide05.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile05.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide05.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile05.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
 			<div class="list_box">
 			<div class="num_wrap">
 			<div class="num">3</div>
@@ -63,8 +63,8 @@
 			<div class="con">
 			<div class="con_list"><!-- <p class="sub_tit f_caption1">메인에서 강좌찾기</p> -->
 			<div class="img_wrap">
-			<div class="img"><img src="/common/images/img-online-guide06.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile06.png" alt="" class="only_mobile"></div>
-			<div class="img"><img src="/common/images/img-online-guide07.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile07.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide06.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile06.png" alt="" class="only_mobile"></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide07.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile07.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div>
 			<div class="list_box">
 			<div class="num_wrap">
 			<div class="num">4</div>
@@ -78,6 +78,6 @@
 			<div class="con">
 			<div class="con_list"><!-- <p class="sub_tit f_caption1">메인에서 강좌찾기</p> -->
 			<div class="img_wrap">
-			<div class="img"><img src="/common/images/img-online-guide08.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile08.png" alt="" class="only_mobile"></div>
-			<div class="img"><img src="/common/images/img-online-guide09.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile09.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div></div></div></div></div></div></div></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide08.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile08.png" alt="" class="only_mobile"></div>
+			<div class="img"><img src="/resources/common/images/img-online-guide09.png" alt="" class="only_pc"> <img src="/common/images/img-online-guide-mobile09.png" alt="" class="only_mobile"></div></div></div></div></div><!-- // 2023-01-03 구조수정 --></div></div></div></div></div></div></div></div></div>
 			</div>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.NoticeMapper">
+	
+	<!-- 1. 메인페이지 공지사항 리스트 -->
+	<select id="selectMainNoticeList" resultType="com.culture.demo.domain.NoticeDTO">
+		<![CDATA[
+			SELECT *
+			FROM ( 
+				SELECT notice_sq, branch_id, mustread_fl, write_dt, posting_title, posting_content, notice_event
+					, RANK() OVER (ORDER BY write_dt DESC, notice_sq DESC) rank
+				FROM notice_event )
+			
+			WHERE rank <= 4
+		]]>
+	</select>
+	
+	
+	<!-- 공지사항/이벤트 목록조회 -->
+	<select id="getNoticeList" parameterType="map" resultType="com.culture.demo.domain.NoticeDTO">
+	SELECT * 
+		FROM (
+	SELECT COUNT(DISTINCT ne.notice_sq) OVER() tot_cnt, DENSE_RANK() OVER(ORDER BY mustread_fl DESC, notice_sq DESC) AS rank
+          ,posting_title, write_dt, notice_sq
+    FROM notice_event ne LEFT JOIN branch b ON ne.branch_id = b.branch_id
+	<where>
+	<if test="branch_id != null and branch_id != 0">
+    	AND ne.branch_id = #{branch_id}
+    </if>
+    <if test="dto.q != null and dto.q != '' ">
+    	AND posting_title LIKE '%' || #{dto.q} || '%'
+    </if>
+    <if test='dto.clCd == "8"'>
+        AND notice_event = 'notice'
+    </if>
+    <if test='dto.clCd == "4"'>
+        AND notice_event = 'event'
+    </if>
+    </where>
+    ORDER BY rank
+
+	<![CDATA[
+	    )
+    	WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= rank AND rank <= #{dto.pageIndex}*#{dto.listCnt}
+    ]]>
+	</select>
+</mapper>

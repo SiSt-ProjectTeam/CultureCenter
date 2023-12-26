@@ -1,27 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
-<script>
-	/* function dataImg(){
-		
-		$.each($('.dataImg'), function(index, item){
-			var src = $(item).attr('src');
-			
-			if( src == "" ){
-				$(item).attr('src', $(item).data().src);
-				
-			}
-				
-		});
-		imgResizingFn();		
-	} */
-</script>
-			
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>			
 <form id="frm_submit" name="frm_submit">
-	<input type="hidden" name="csrfPreventionSalt" value="" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="hidden" name="jsonStr" value="" />
 	<input type="hidden" name="atlctType" value="normal" />
 </form>
+
 <div class="cont_wrap">
   <div class="cont_inner no_pb">
     <div class="page_title_area">
@@ -72,6 +57,7 @@
 				data-yy="${dto.open_year}" data-lect-smster-cd="${dto.open_smst_id}"
 				data-lect-cd="${dto.detail_class_sq}" data-obj-cl-cd="01"
 				data-lect-nm="${dto.class_nm}" data-lect-amt="${dto.class_fee}"
+				data-class-st-id="${dto.class_st_id}"
 				data-optn-typ-cd-nm="재료비/대여료" data-optn-nm=""
 				data-optn-amt="${dto.ex_charge}" data-optn-seqno=""
 				data-optn-use-yn="${empty dto.ex_charge ? 'Y':'N'}"
@@ -118,18 +104,27 @@
 				</div>
 			<!-- 수강자 정보 -->
 			<div class="cour_detail_w">
-				<div class="cour_detail" data-kor-nm="유희진" data-fmly-rel-cd="00"
+				 <div class="cour_detail" data-kor-nm="${mDto.name}" data-fmly-rel-cd="00"
 						data-fmly-rel-cd-nm="본인" data-bday="${mDto.m_birth_dt}" data-sex-cd="">
 						<div class="left">
 							<div class="tit f_body1">${mDto.name}(본인)</div>
 							<div class="flex_btn_wrap">
+								<c:choose>
+								<c:when test="${dto.lrclsctegrycd eq '01'}">
 								<a style="background-color: #e0f55c;" class="border_btn"
 									href="javascript:" role="button"
 									onclick="payment.openFmlyPopup(this, 'fmly')">
-									<!-- onclick="payment.openFmlyPopup(this, 'child')"> -->
 								<span style="color: #000;">수강자 변경/추가</span>
-								<!-- <span style="color: #000;">자녀회원 선택</span> -->
 								</a>
+								</c:when>
+								<c:otherwise>
+								<a style="background-color: #e0f55c;" class="border_btn"
+									href="javascript:" role="button"
+									onclick="payment.openFmlyPopup(this, 'child')">
+								<span style="color: #000;">자녀회원 선택</span>
+								</a>
+								</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div class="right">
@@ -310,7 +305,7 @@
 									<tr>
 										<td>
 											<div class="form_checkbox">
-												<input type="checkbox" id="student0" name="" data-kor-nm="${mDto.name}" data-fmly-rel-cd="00" data-bday="${mDto.m_birth_dt}" data-fmly-rel-cd-nm="본인" data-sex-cd="">
+												<input type="checkbox" id="student0" name="" data-kor-nm="${mDto.name}" data-fmly-rel-cd="${mDto.member_sq}" data-bday="${mDto.m_birth_dt}" data-fmly-rel-cd-nm="본인" data-sex-cd="">
 												<label for="student0"></label>
 											</div>
 										</td>
@@ -406,47 +401,46 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<tr>
-					                    <td>
-					                      <div class="form_checkbox">
-					                        <input type="checkbox" id="childStudent1" name="" data-kor-nm="ddddd" data-fmly-rel-cd="02" data-bday="20150101" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-					                        <label for="childStudent1"></label>
-					                      </div>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">ddddd</p>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">자녀</p>
-					                    </td>
-					                    <td>
-					                    <p class="f_body2">2015.01.01</p>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">남성</p>
-					                    </td>
-					                </tr>
-                				<tr>
-					                    <td>
-					                      <div class="form_checkbox">
-					                        <input type="checkbox" id="childStudent2" name="" data-kor-nm="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" data-fmly-rel-cd="02" data-bday="20201023" data-fmly-rel-cd-nm="자녀" data-sex-cd="M">
-					                        <label for="childStudent2"></label>
-					                      </div>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">자녀</p>
-					                    </td>
-					                    <td>
-					                    <p class="f_body2">2020.10.23</p>
-					                    </td>
-					                    <td>
-					                      <p class="f_body2">남성</p>
-					                    </td>
-					                </tr>
-                				</tbody>
+                	<input type="hidden" name="자녀수" value="${ mDto.childrenList.size() }"/> 
+                	<c:choose>
+                	<c:when test="${mDto.childrenList.size() > 0}">
+					<c:forEach items="${mDto.childrenList}" var="childDto" varStatus="i">
+						<tr>
+							<td>
+								<div class="form_checkbox no_txt">
+									<input type="checkbox" id="childStudent${i.index+1}" name="" 
+									data-kor-nm="${childDto.children_nm}" 
+									data-fmly-rel-cd="${childDto.member_sq}" 
+									data-bday="${childDto.child_birth_dt}" 
+									data-fmly-rel-cd-nm="자녀" 
+									data-sex-cd="${childDto.gender}" >
+									<label for="childStudent${i.index+1}"></label>
+								</div>
+							</td>
+							<td>
+								<p class="f_body2">${childDto.children_nm}</p>
+							</td>
+							<td>
+								<p class="f_body2">자녀</p>
+							</td>
+							<td>
+								<p class="f_body2">${childDto.child_birth_dt}</p>
+							</td>
+							<td>
+								<p class="f_body2">${childDto.realGender}</p>
+							</td>
+						</tr>
+					</c:forEach>
+					</c:when>
+					<c:otherwise>
+					<tr>
+						<td colspan="5">
+							<p class="f_body2">등록된 정보가 없습니다.</p>
+						</td>
+					</tr>
+					</c:otherwise>
+					</c:choose>
+                </tbody>
               </table>
             </div>
             <div class="flex_btn_wrap">
@@ -467,6 +461,159 @@
   </div>
 </div>
 
+<!-- "자녀회원 추가" 팝업 -->
+<div class="layer_popup add_children" id="addFamilyPop" style="display: none; top: 0px; height: 943px;" tabindex="0">
+	<div class="pop_wrap w800 full" style="transform: translate(0px, 0px); margin-left: -400px; margin-top: -377px; height: 754px;">
+		<div class="pop_head">
+			<p class="title">자녀회원 추가하기</p>
+		</div>
+		<div class="pop_cont" style="transform: translate(0px, 0px); height: 682px;">
+			<div class="for_padding">
+				<div class="scroll_area">
+					<form id="addFamilyFrm" method="post">
+					<p class="notice_txt f_body2">만 14세 미만의 아동 및 미성년자 수강 시 법정 대리인의 개인정보 수집 및 취급위탁업무에 동의가 필요합니다.</p>
+					<p class="notice_txt f_body2">회원님의 동의를 통해 수집된 동반 수강자의 정보는 수강신청 및 의사소통의 용도로만 사용됩니다.</p>
+					<div class="sub_inner">
+						<div class="sub_tit_area">
+							<div class="left">
+								<p class="pop_sec_tit">자녀회원 정보</p>
+							</div>
+							<div class="right">
+								<p class="f_caption2">
+									<span class="softly_txt">*</span> 모든 항목은 필수입력 사항입니다.
+								</p>
+							</div>
+						</div>
+						<div class="data_input_wrap">
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">이름</p>
+								</div>
+								<div class="td">
+									<div class="form_input">
+										<input type="text" name="children_nm" placeholder="동반 수강자의 이름을 입력해주세요." oninput="$(this).val($(this).val().replace(/[^(가-힣ㄱ-ㅎㅏ-ㅣㆍᆢ\w\s\-)]/gi, ''))" maxlength="30">
+										<div class="input_btn_wrap">
+											<button type="button" class="btn_delete" title="이름 지우기" style="display: none;"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">관계</p>
+								</div>
+								<div class="td">
+									<div class="form_input disabled">
+										<!-- 2022-12-06 클래스 추가-->
+										<input type="hidden" name="member_sq" value="${mDto.member_sq}">
+										<input type="text" name="fmlyRelCdNm" value="자녀">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">생년월일</p>
+								</div>
+								<div class="td">
+									<div class="form_input">
+										<input type="text" name="child_birth_dt" inputmode="numeric" maxlength="10" oninput="$(this).val(fnc.setDateFormat($(this).val()))" placeholder="예) 20201023">
+										<div class="input_btn_wrap">
+											<button type="button" class="btn_delete" title="생년월일 지우기"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="th">
+									<p class="tit f_body1">성별</p>
+								</div>
+								<div class="td small">
+									<div class="radio_flex_box">
+										<div class="form_radio">
+											<input type="radio" id="gender1" name="gender" value="M" checked>
+											<label for="gender1">남성</label>
+										</div>
+										<div class="form_radio">
+											<input type="radio" id="gender2" name="gender" value="F">
+											<label for="gender2">여성</label>
+										</div>
+									</div>
+									<div class="form_checkbox">
+										<input type="checkbox" id="chkAgrYn" name="chkAgrYn"> 
+										<label for="chkAgrYn">자녀회원 정보 수집 및 활용동의</label>
+									</div>
+									<div class="terms_for_msg small">
+										<div class="msg_div table_type">
+											<!-- 2022-12-14 클래스 변경-->
+											<!-- 2022-12-14 구조수정-->
+											<div class="caption_txt_w">
+												<p class="dot_txt">만 14세 미만의 아동 및 미성년자 가족 수강 시 법정 대리인의 개인정보 수집 및 취급위탁업무에 동의가 필요합니다.</p>
+												<p class="dot_txt">회원님의 동의를 통해 수집된 가족 정보는 수강신청 및 의사소통의 용도로만 사용됩니다.</p>
+											</div>
+											<div class="tit_w">
+												<p class="tit">수강신청을 위한 가족정보 수집 및 활용동의</p>
+											</div>
+											<div class="txt_box">
+												<p class="info">1. 개인정보 수집항목, 수집목적 및 보유/이용 기간</p>
+												<div class="table_div">
+													<div class="form_table gray">
+														<table>
+															<caption>테이블 캡션 내용이 들어갑니다.</caption>
+															<colgroup>
+																<col width="12%">
+																<col width="25%">
+																<col width="38%">
+																<col width="25%">
+															</colgroup>
+															<thead>
+																<tr>
+																	<th>구분</th>
+																	<th>개인정보 수집항목</th>
+																	<th>수집목적</th>
+																	<th>보유 및 이용기간</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<th class="border_t"><p>가족</p></th>
+																	<td class="border_t"><p>가족회원 이름, 관계, 성별, 생년월일</p></td>
+																	<td class="border_t"><p>가족회원(14세 미만 자녀)의 수강신청 시 회원 확인</p></td>
+																	<td class="border_t"><p class="bold">동반수강자 삭제 시, 문화센터 회원 탈퇴 시</p></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<p class="info">2. 본인은 롯데백화점 문화센터에 가입하기를 희망하며, 개인정보의 수집내용을 이해하고 동의합니다.</p>
+												<p class="info">3. 가족정보 수집 및 이용 동의에 거부할 수 있으며, 이 경우 수강신청이 제한됩니다.</p>
+											</div>
+											<!-- // 2022-12-14 구조수정-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="dot_txt_box">
+							<p class="dot_txt">
+								등록 가능 관계 : 만 14세 미만 자녀<br>(14세 이상 자녀는 회원가입을 통해 수강 신청이 가능합니다.)
+							</p>
+							<p class="dot_txt">등록 불가능 관계 : 부모(배우자 부모 포함), 부부, 형제, 자매, 친구, 지인</p>
+							<p class="dot_txt">14세 이상 동반 수강자의 경우 동반 수강자가 별도 회원가입 후 데스크 방문하시어 본인확인 후 진행하셔야 합니다.</p>
+						</div>
+						<div class="flex_btn_wrap">
+							<a class="border_btn" href="javascript:addFamily.close()"><span>취소하기</span></a> 
+							<a class="b_color_btn" href="javascript:addFamily.save()"><span>저장하기</span></a>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<a class="btn_close" href="javascript:addFamily.close()" title="닫기">
+			<span class="blind"></span>
+		</a>
+	</div>
+</div>
 
 <script type="text/javascript" src="/resources/common/js/member/addFamilyPop.js"></script>
 <!-- <script type="text/javascript" src="/resources/common/js/mypage/mypageMember.js"></script> -->

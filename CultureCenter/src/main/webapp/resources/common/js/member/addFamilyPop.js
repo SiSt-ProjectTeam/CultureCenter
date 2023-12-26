@@ -1,3 +1,4 @@
+
 var addFamily = (function() {
 
     "use strict";
@@ -17,18 +18,20 @@ var addFamily = (function() {
             }
         }
 
-        if (frm.obj("korNm").val().trim() == "") {
+        if (frm.obj("children_nm").val().trim() == "") {
             alert("이름을 입력하세요.");
-            //frm.obj("korNm").focus();
-        } else if (!fn_chk_age(frm.obj("bday").val())) {
-            //frm.obj("bday").focus();
+            //frm.obj("children_nm").focus();
+        } else if (!fn_chk_age(frm.obj("child_birth_dt").val())) {
+            //frm.obj("child_birth_dt").focus();
         } else if (!frm.obj("chkAgrYn").is(":checked")) {
             alert("가족정보 수집 및 활용동의에 체크하세요.");
             //frm.obj("chkAgrYn").focus();
         } else {
             fnc.frmAjax(function(data) {
-
-                if (data.rtnCode == "91") {
+				var gender = frm.form.find("input[name='gender']:checked").val();
+				console.log(gender);
+		        frm.form.append('<input type="hidden" name="gender" value="' + gender + '">');
+                if (data.rtnCode == "-1") {
                     alert("이미 등록된 동반 수강자입니다.");
                 } else {
                     alert("동반 수강자가 추가되었습니다.");
@@ -46,10 +49,10 @@ var addFamily = (function() {
     var fn_close = function() {
 	    $("#addFamilyPop").find(".btn_close").click();
 	    $("#addFamilyPop").find(".border_btn").click();
-	    
-	  
+	    $("input[name='gender'][value='M']").prop("checked", true);
+	  	$("#addFamilyFrm input[type='checkbox']").prop("checked", false);
         $("#addFamilyFrm").find("input").not("input[type='hidden'], input[type='radio'], input[type='checkbox'], input[readonly]").val("");
-        $("#addFamilyFrm").find("input[name='sexCd'][value='M']").click();
+        $("#addFamilyFrm").find("input[name='gender'][value='M']").click();
         $("#addFamilyFrm").find("input[type='checkbox']").prop("checked", false);
     }
 
@@ -58,7 +61,8 @@ var addFamily = (function() {
         var bday = bdayStr.replace(/[^0-9]/g, "");
 
         if (bday == "") {
-            alert("생년월일을 입력하세요.")
+            alert("생년월일을 입력하세요.");
+            return false;
         } else if (bday.length != 8) {
             alert("YYYYMMDD 형태로 입력하세요.");
             return false;

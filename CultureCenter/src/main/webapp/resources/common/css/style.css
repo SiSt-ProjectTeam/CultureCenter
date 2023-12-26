@@ -820,7 +820,7 @@
 .pay_step .dropdown_btn .right span:after {display: block; content: ""; position: absolute; right: 0; top: 0; width: 20px; height: 20px; background: url("/resources/common/images/icon-select-arr.png") no-repeat center center/20px auto; opacity: 1; transition: transform .3s ease; transform: rotateZ(180deg);}
 .pay_step .dropdown_btn.active .right span:after {transform: rotateZ(0deg); opacity: .4;}
 .pay_step .process_con {position: relative; padding: 60px 220px; border-top-left-radius: 12px; border-top-right-radius: 12px; background: #fff; box-shadow: 10px 45px 40px rgb(101 69 36 / .05);}
-.pay_step .process_con::after {content: ""; position: absolute; bottom: -10px; left: 0; display: block; width: 100%; height: 10px; background: url(../images//img-wave-pattern.png) repeat-x;}
+.pay_step .process_con::after {content: ""; position: absolute; bottom: -10px; left: 0; display: block; width: 100%; height: 10px; background: url(../images/img-wave-pattern.png) repeat-x;}
 .pay_step .process_con .txt_box {text-align: center;}
 .pay_step .process_con .txt_box .tit {margin-top: 40px;}
 .pay_step .process_con .txt_box .txt {margin-top: 20px;}

@@ -1,9 +1,5 @@
 var teacherRequestCtrl = (function(){
-	
-    var pathname = "/" + window.location.pathname.split("/")[1];	
-	var origin = window.location.origin;	
-	var contextPath = origin + pathname;
-	
+    
     "use strict";
     
     var fn_close = function(){
@@ -30,11 +26,9 @@ var teacherRequestCtrl = (function(){
     }
 
     var fn_next = function(step){
-console.log("fn_next step : " + step)	
         switch (step) {
             case 1:
                 if(!fn_validate1()) return;
-console.log("fn_next case 1....")
                 fn_submit1();
                 break;
             case 2:
@@ -52,8 +46,6 @@ console.log("fn_next case 1....")
         fn_process_data();
         if($("input[name=carrInfoClctAgrYn]").val() == 'Y'){
             tcRqst2HistCtrl.processData();
-			("#form").val(json);
-			
         }
         
         var json = $("#request_form").serializeJSON();
@@ -87,7 +79,7 @@ console.log("fn_next case 1....")
             else {
                 alert("다시 시도해주세요.");
             }
-        }, contextPath+"/information/application/teacher/save.ajax", $("#submit_form"), null, false, true, true);
+        }, "/information/application/teacher/save.ajax", $("#submit_form"), null, false, true, true);
     }
 
     var fn_cancel = function(step){
@@ -118,7 +110,7 @@ console.log("fn_next case 1....")
                 
                 alert("지원 취소되었습니다.");
                 fn_close();
-            }, contextPath+"/information/application/teacher/delete.ajax", $("#request_form"), false, true, true);
+            }, "/information/application/teacher/delete.ajax", $("#request_form"), false, true, true);
         }
         
     }
@@ -146,14 +138,13 @@ console.log("fn_next case 1....")
             }
 
             if(data.cnt > 0){
-console.log("fn_submit1 if..")
-                fnc.bscAjax(set_popup_content, contextPath+"/information/application/teacher/request.do" , "html", false, false, false);
+                fnc.bscAjax(set_popup_content, "/information/application/teacher/request.do" , "html", false, false, false);
             } else {
                 alert("다시 시도해주세요.");
                 fn_close();
             }
 
-        }, contextPath+"/information/application/teacher/insert.ajax", $("#request_form"), "json", false, true, true);
+        }, "/information/application/teacher/insert.ajax", $("#request_form"), "json", false, true, true);
     }
     var fn_submit2 = function(){
         
@@ -164,7 +155,7 @@ console.log("fn_submit1 if..")
         var json = $("#request_form").serializeJSON();
         $("#form").val(json);
 
-        fnc.fileFrmAjax(set_popup_content, contextPath+"/information/application/teacher/submit.ajax", $("#submit_form"), "html", false, true, true);
+        fnc.fileFrmAjax(set_popup_content, "/information/application/teacher/submit.ajax", $("#submit_form"), "html", false, true, true);
     }
 
     var set_popup_content = function(html){

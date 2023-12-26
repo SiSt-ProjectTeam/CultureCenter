@@ -7,9 +7,9 @@ var noticeCtrl = (function(){
 	
 	var searchMore = null;
 	
-	var select_brch_change = function(branchId)
+	var select_brch_change = function(brchCd)
 	{
-		$("#branchId").val(branchId);
+		$("#brchCd").val(brchCd);
 		
 		fn_search();
 	}
@@ -37,16 +37,12 @@ var noticeCtrl = (function(){
     	if(target == null && seq == null){
     		location.href = url;
     	}else{
-    		if (strPam.indexOf(target + "=") < 0)
-    		{
+    		if (strPam.indexOf(target + "=") < 0) {
     			location.href = url + "?" + (strPam ? "&" : "") + target + "=" + seq;
-    		}
-    		else
-    		{
+    		} else {
     			var paramArr = strPam.split("&").map(function(value){
     				return value.indexOf(target + "=") < 0 ? value : target + "=" + seq;
     			});
-
     			location.href = url + "?" + paramArr.join("&");
     		}
     	}
@@ -71,15 +67,12 @@ var noticeCtrl = (function(){
 	//초기화
 	var init = function() {
 		var noticeEvent = $("#noticeEvent").val();
-		var pathname = "/" + window.location.pathname.split("/")[1];
-		var origin = window.location.origin;	
-		var contextPath = origin + pathname;
 		
 		var initObj = {
 				form : $("#frmSearch")
 				, container : $("#listContainer")
 				, moreBtn : $("#moreBtn")
-				, url : contextPath+"/community/notice/list.ajax"
+				, url : "/community/notice/list.ajax"
 				, pageIndex : $("#frmSearch #pageIndex").val()
 				, listCnt : $("#frmSearch #listCnt").val()
 				, callbackFunc : function() {

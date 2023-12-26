@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="main cont_wrap">
 	<div class="cont_inner">
 		<!-- 비주얼 -->
@@ -8,7 +9,7 @@
 				<div class="visual_div">
 					<div class="swiper-container">
 						<div class="swiper-wrapper">
-							<a href="https://culture.lotteshopping.com/community/notice/view.do?branchCd=&amp;clCd=8&amp;notcSeqno=285&amp;" class="swiper-slide" target="_blank">
+							<a href="/community/notice/view.do?brchCd=&clCd=8&notcSeqno=3&q=&pageIndex=2&initIndex=2&listCnt=10" class="swiper-slide" target="_blank">
 									<div class="bg_div" data-swiper-parallax-x="100%" data-swiper-parallax-scale="1.2">
 										
 										<p class="bg only_pc">

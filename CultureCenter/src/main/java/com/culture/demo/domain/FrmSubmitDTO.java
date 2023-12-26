@@ -15,4 +15,7 @@ public class FrmSubmitDTO {
     private String optnSeqno;
     private String optnUseYn;
     private String lectDetailSq;
+    
+    private String jsonStr;
+    private String atlctType;
 }

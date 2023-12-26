@@ -1,5 +1,5 @@
 var teacherRequestCtrl = (function(){
-	
+    
     "use strict";
     
     var fn_close = function(){
@@ -25,12 +25,10 @@ var teacherRequestCtrl = (function(){
         }
     }
 
-    var fn_next = function(step){
-console.log("fn_next step : " + step)	
+    var fn_next = function(step){     
         switch (step) {
             case 1:
-                if(!fn_validate1()) return;
-console.log("fn_next case 1....")
+                if(!fn_validate1()) return;      
                 fn_submit1();
                 break;
             case 2:
@@ -43,19 +41,19 @@ console.log("fn_next case 1....")
     }
 
     var fn_save = function(){
-        if(!fn_duplicate2()) return;
+        if(!fn_duplicate2()) return; //희망분야, 지점 중복되었는지 유효성검사
         
-        fn_process_data();
+        fn_process_data(); //전송 전 데이터 가공
         if($("input[name=carrInfoClctAgrYn]").val() == 'Y'){
-            tcRqst2HistCtrl.processData();
-			("#form").val(json);
-			
+            tcRqst2HistCtrl.processData(); //임시저장 전 데이터 가공
+            //$("#form").val(json);
         }
         
         var json = $("#request_form").serializeJSON();
         $("#form").val(json);
 
         fnc.fileFrmAjax(function(data){
+
             switch (data.errorCode) {
                 case "0":
                     alert("지원중인 강사 정보가 없습니다. 처음부터 다시 시도하여 주십시오.");
@@ -75,7 +73,7 @@ console.log("fn_next case 1....")
                 default:
                     break;
             }
-
+            
             if(data.cnt > 0){
                 alert("임시 저장되었습니다.");
                 fn_close();
@@ -118,13 +116,13 @@ console.log("fn_next case 1....")
         }
         
     }
-
     /**
      * 강사정보 제출
      * @returns 통과: true / 실패: false
      */
     var fn_submit1 = function(){
         fnc.frmAjax(function(data){
+
             switch (data.errorCode) {
                 case 1:
                     alert("강사 지원 정보가 존재합니다.");
@@ -142,7 +140,6 @@ console.log("fn_next case 1....")
             }
 
             if(data.cnt > 0){
-console.log("fn_submit1 if..")
                 fnc.bscAjax(set_popup_content, "/information/application/teacher/request.do" , "html", false, false, false);
             } else {
                 alert("다시 시도해주세요.");

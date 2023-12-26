@@ -240,8 +240,7 @@
 													<p class="f_body4">신용카드</p>
 													<p class="txt_detail f_caption2">
 							                              <span></span>
-							                              <a class="border_btn" href="https://npg.nicepay.co.kr/issue/IssueLoader.do?type=0&amp;TID=lottecc02m01012311292325263226" onclick="window.open(this.href, '_blank', 'popup'); return false;" role="button">
-							                                <span>영수증</span>
+							                              <a class="border_btn" href="https://npg.nicepay.co.kr/issue/IssueLoader.do?type=0&amp;TID=${atlctDTO.tid}" onclick="window.open(this.href, '_blank', 'popup'); return false;" role="button">							                                <span>영수증</span>
 							                              </a>
 							                            </p>
 													</div>
@@ -266,7 +265,7 @@
 						<div class="sub_inner">
 						  <div class="sub_tit_area">
 						    <div class="left">
-						      <p class="f_h2">L.POINT 적립내역</p>
+						      <p class="f_h2">POINT 적립내역</p>
 						    </div>
 						    <div class="right"></div>
 						  </div>

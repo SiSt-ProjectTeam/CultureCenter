@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.culture.demo.mapper.MypageInquiryMapper">
+	
+	<!-- 1:1 문의 리스트 -->
+	<select id="getInquiryList" resultType="com.culture.demo.domain.InquiryDTO">
+		SELECT *
+		FROM(		
+			SELECT pf.* ,ft.faq_tp ,b.branch_nm,ROW_NUMBER() OVER(ORDER BY pf.personal_faq_sq ASC) AS page_index
+			FROM personal_faq pf
+			JOIN faq_type ft
+		   		ON pf.faq_tp_id = ft.faq_tp_id
+			JOIN branch b
+			   ON pf.branch_id = b.branch_id
+			WHERE member_sq = #{member_sq}
+			<if test="dto.faq_status != null and dto.faq_status != ''">
+				AND pf.faq_status = #{dto.faq_status}
+			</if>
+			)
+		<![CDATA[
+         	WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= page_index AND page_index <= #{dto.pageIndex}*#{dto.listCnt}
+         ]]>
+		
+		
+	</select>
+	
+	<!-- 1:1 문의하기 -->
+	<insert id="insertInquiry" >
+    	INSERT INTO personal_faq (personal_faq_sq, branch_id, member_sq, faq_tp_id, faq_title, faq_detail, faq_status, faq_dt)
+	    VALUES (seq_personal_faq.nextval, #{branch_id}, 149, #{faq_tp_id}, #{faq_title}, #{faq_detail}, '접수중', SYSDATE)
+	</insert>
+	
+	<!-- 1:1 문의 뷰 -->
+	<select id="getInquiryView" resultType="com.culture.demo.domain.InquiryDTO">
+		SELECT pf.* ,ft.faq_tp ,b.branch_nm
+		FROM personal_faq pf
+		JOIN faq_type ft
+		   ON pf.faq_tp_id = ft.faq_tp_id
+		JOIN branch b
+		   ON pf.branch_id = b.branch_id
+		WHERE personal_faq_sq = #{personal_faq_sq}
+	</select>
+	
+	<!-- 1:1 문의 지우기 -->
+	<delete id="deleteInquiry" parameterType="int">
+		DELETE FROM personal_faq
+		WHERE personal_faq_sq = #{personal_faq_sq}
+	</delete>
+	
+	<!-- 1:1 문의 게시글 수 -->
+	<select id="totCnt" resultType="int" >
+		SELECT Count(*)
+		FROM personal_faq pf
+		WHERE pf.member_sq = 149
+		<if test="dto.faq_status != null and dto.faq_status != ''">
+			AND pf.faq_status = #{dto.faq_status}
+		</if>	
+	</select>
+</mapper>

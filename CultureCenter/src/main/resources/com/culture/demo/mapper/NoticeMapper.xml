@@ -18,4 +18,40 @@
 		]]>
 	</select>
 	
+	
+	<!-- 2. 공지사항/이벤트 목록조회 -->
+	<select id="getNoticeList" parameterType="map" resultType="com.culture.demo.domain.NoticeDTO">
+	SELECT * 
+		FROM (
+	SELECT COUNT(DISTINCT ne.notice_sq) OVER() tot_cnt, DENSE_RANK() OVER(ORDER BY mustread_fl DESC, notice_sq DESC) AS rank
+          ,posting_title, write_dt, notice_sq
+    FROM notice_event ne LEFT JOIN branch b ON ne.branch_id = b.branch_id
+	<where>
+	<if test="branch_id != null and branch_id != 0">
+    	AND ne.branch_id = #{branch_id}
+    </if>
+    <if test="dto.q != null and dto.q != '' ">
+    	AND posting_title LIKE '%' || #{dto.q} || '%'
+    </if>
+    <if test='dto.clCd == "8"'>
+        AND notice_event = 'notice'
+    </if>
+    <if test='dto.clCd == "4"'>
+        AND notice_event = 'event'
+    </if>
+    </where>
+    ORDER BY rank
+
+	<![CDATA[
+	    )
+    	WHERE (#{dto.pageIndex}-1)*#{dto.listCnt} + 1 <= rank AND rank <= #{dto.pageIndex}*#{dto.listCnt}
+    ]]>
+	</select>
+	
+	<!-- 3. 공지사항 상세 정보 -->
+	<select id="getNotice" resultType="com.culture.demo.domain.NoticeDTO">
+		SELECT ne.notice_sq, ne.branch_id, ne.mustread_fl, ne.write_Dt, ne.posting_title, ne.posting_content, ne.notice_event, b.branch_nm 
+		FROM notice_event ne LEFT JOIN branch b ON ne.branch_id = b.branch_id
+		WHERE notice_sq = #{notice_sq}
+	</select>
 </mapper>

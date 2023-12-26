@@ -19,4 +19,23 @@
 		ORDER BY mdclsCtegryCd
 	</select>
 	
+	<!-- List<ClassDTO> getSmCate(); -->
+	<select id="getSmCate" resultType="com.culture.demo.domain.ClassDTO">
+		SELECT smclsCtegrycd, smclsCtegry
+		FROM small_category
+	</select>
+	
+	<!-- String getMdCateNm(String mdclsCtegryCd); -->
+	<select id="getMdCateNm" resultType="String">
+		SELECT mdclsCtegry
+		FROM medium_category
+		WHERE mdclsCtegryCd = #{mdclsCtegryCd}
+	</select>
+	
+	<!-- String getBranchNm(String branch_id); -->
+	<select id="getBranchNm" resultType="String">
+		SELECT branch_nm
+		FROM branch
+		WHERE branch_id = #{branch_id}
+	</select>
 </mapper>

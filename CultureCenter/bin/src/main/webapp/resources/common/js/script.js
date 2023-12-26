@@ -857,7 +857,7 @@ var commonScript = (function() {
                 });
 
                 $(".page_title_area .tit_popup .branch a").on("click", function() {
-                    var txtVal = $(this).text();
+                    var txtVal = $(this).find('p.f_desc').text();
 					console.log(txtVal);
 
                     $("body").removeClass("stop_scroll");
