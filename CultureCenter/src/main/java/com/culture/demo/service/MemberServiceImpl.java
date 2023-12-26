@@ -3,6 +3,7 @@ package com.culture.demo.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,6 +184,40 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
     }
+
+	@Override
+	public String familyListHTML(int member_sq) throws ClassNotFoundException, SQLException {
+		List<ChildrenDTO> list = getMemberWithChild(member_sq).getChildrenList();
+		
+		StringBuilder html = new StringBuilder();
+		
+		if(list.isEmpty()) {
+			html.append("<div class=\"no_srch_area\">");
+			html.append("	<div class=\"no_srch_div\">");
+			html.append("		<p class=\"txt f_h2\">");
+			html.append("			<span class=\"normal_value\">등록된 정보가 없습니다.</span>");
+			html.append("		</p>");
+			html.append("	</div>");
+			html.append("</div>");
+		} else {
+			for(ChildrenDTO dto : list ) {
+				html.append("<div class=\"info_list\">");
+				html.append("        <div class=\"writer_info\">");
+				html.append("            <p class=\"item_name f_body1\">"+dto.getChildren_nm()+"</p>");
+				html.append("            <a href=\"javascript:mypageMember.deleteFamily("+dto.getChildren_sq()+")\" class=\"comment_remove f_caption1\">삭제</a>");
+				html.append("        </div>");
+				html.append("        <div class=\"type_div\">");
+				html.append("            <p class=\"type\">자녀</p>");
+				html.append("            <p class=\"type\">"+dto.getChild_birth_dt()+"</p>");
+				html.append("			<p class=\"type\">"+dto.getRealGender()+"</p>");
+				html.append("        </div>");
+				html.append("</div>");
+
+			}
+		}
+		
+		return html.toString();
+	}
 
 
 	
