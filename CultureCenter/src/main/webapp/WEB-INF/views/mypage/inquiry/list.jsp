@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 
 <div class="cont_wrap">
@@ -10,6 +9,7 @@
 			<input type="hidden" id="initIndex"  name="initIndex"  value="1"/>
 			<input type="hidden" id="listCnt" 	 name="listCnt"    value="2"/>
 		</form>
+
 		<div class="page_title_area">
 			<div class="inner">
 				<div class="top_area">
@@ -106,8 +106,8 @@
 			<div class="for_padding">
 				<div class="scroll_area">
 					<form id="inquiryRegFrm" method="post">
-						<input type="hidden" id="strCd" name="strCd" value="" /> 
-						<input type="hidden" id="clCd" name="clCd" value="" />
+						<input type="hidden" id="branch_id" name="branch_id" value="" /> 
+						<input type="hidden" id="faq_tp_id" name="faq_tp_id" value="" />
 						<div class="dot_txt_box">
 							<p class="dot_txt">고객서비스의 [자주하는 문의]에서 자주 질문하는 답변을 보실 수 있습니다.</p>
 							<p class="dot_txt">자주하는 문의에 없는 질문은 1:1 문의를 해주시면 빠른 시일 안에 답변을
@@ -122,7 +122,7 @@
 									</div>
 									<div class="td">
 										<div class="form_input">
-											<input type="text" name="titNm" placeholder="제목을 입력해주세요" autocomplete="off" maxlength="50">
+											<input type="text" name="faq_title" placeholder="제목을 입력해주세요" autocomplete="off" maxlength="50">
 											<div class="input_btn_wrap">
 												<button type="button" class="btn_delete" title="제목 지우기"></button>
 											</div>
@@ -223,7 +223,7 @@
 									<div class="td">
 										<div class="form_textarea">
 											<div class="wrap_for_msg">
-												<textarea name="quesCont" id="" cols="" rows="" placeholder="문의 내용을 입력해주세요." data-maxlength="250" onkeyup="mypageInquiryCtrl.textareaOnkeyup(this)"></textarea>
+												<textarea name="faq_detail" id="" cols="" rows="" placeholder="문의 내용을 입력해주세요." data-maxlength="250" onkeyup="mypageInquiryCtrl.textareaOnkeyup(this)"></textarea>
 											</div>
 											<p class="check_byte">
 			                                    <span class="r_byte">0</span>

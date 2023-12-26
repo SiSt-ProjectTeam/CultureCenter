@@ -67,16 +67,32 @@ public class InquiryServiceImpl implements InquiryService{
 	}
 
 	@Override
-	public int insertInquiry(int member_sq, InquiryDTO params) throws SQLException, ClassNotFoundException {
+	public int insertInquiry(InquiryDTO params) throws SQLException, ClassNotFoundException {
 		
-		log.info("InquiryServiceImpl.java > deleteInquiry...");
-		try {	
-			mypageInquiryMapper.deleteInquiry(member_sq);
-            return 1; // 성공 시 1 반환
-        } catch (Exception e) {
-            log.error("Error cancelling waiting: " + e.getMessage());
-            return 0; // 실패 시 0 반환
-        }
+		log.info("InquiryServiceImpl.java > insertInquiry...");
+	    try {   
+	        int rowCount = mypageInquiryMapper.insertInquiry(params);
+	        return rowCount; // 성공 시 영향을 받은 행의 수 반환
+	    } catch (Exception e) {
+	        log.error("Error inserting inquiry: " + e.getMessage());
+	        return 0; // 실패 시 0 반환
+	    }
+	}
+
+	@Override
+	public List<InquiryDTO> getInquiryView(int member_sq, int personal_faq_sq) throws SQLException, ClassNotFoundException {
+		
+		log.info("InquiryServiceImpl.java > createInquiryViewHtml...");
+		
+        List<InquiryDTO> list = null;
+		try {
+			list = mypageInquiryMapper.getInquiryView(member_sq, personal_faq_sq);
+		} catch (SQLException e) {
+			System.out.println("licontroller view > list error : " + list);
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 }

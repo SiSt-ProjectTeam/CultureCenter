@@ -28,13 +28,13 @@ var mypageInquiryCtrl = (function(){
 	{
 		if($(obj).parent().hasClass('cd1'))
 		{
-			$("#clCd").val(cd);
-		//	alert("구분cd=" + $("#clCd").val());
+			$("#faq_tp_id").val(cd);
+		//	alert("구분cd=" + $("#faq_tp_id").val());
 		}
 		else if ($(obj).parent().hasClass('cd2'))
 		{
-			$("#strCd").val(cd);
-		//	alert("지점cd=" + $("#strCd").val());
+			$("#branch_id").val(cd);
+		//	alert("지점cd=" + $("#branch_id").val());
 		}
 	}
 	
@@ -138,8 +138,6 @@ var mypageInquiryCtrl = (function(){
 		$("#inquiryRegFrm").find("textarea").val('');
 		$("#inquiryRegFrm").find(".check_byte .r_byte").html('0');
 		
-		console.log(inquiryRegFrm);
-		
 		//셀렉트박스 초기화
 		//$("#inquiryRegFrm").find(".form_select_div .list_wrap").find("a:eq(1)").click();
 		//$("#inquiryRegFrm").find("input[type='checkbox']").prop("checked", false);
@@ -157,26 +155,26 @@ var mypageInquiryCtrl = (function(){
 				}
 		}
 		
-		if(frm.obj("titNm").val().trim() =="")
+		if(frm.obj("faq_title").val().trim() =="")
 		{
 			alert("제목을 입력해주세요.");
-			frm.obj("titNm").focus();
+			frm.obj("faq_title").focus();
 			return false;
 		}
-		if($("#clCd").val() =="")
+		if($("#faq_tp_id").val() =="")
 		{
 			alert("문의 유형을 선택해주세요.");
 			return false;
 		}
-		if($("#strCd").val() =="")
+		if($("#branch_id").val() =="")
 		{
 			alert("지점을 선택해주세요");
 			return false;
 		}
-		if(frm.obj("quesCont").val().trim() == "")
+		if(frm.obj("faq_detail").val().trim() == "")
 		{
 			alert("내용을 입력해주세요");
-			frm.obj("quesCont").focus();
+			frm.obj("faq_detail").focus();
 			return false;
 		}
 		else
@@ -185,13 +183,11 @@ var mypageInquiryCtrl = (function(){
 			if(!confirm("등록하시겠습니까?")) return;
 			
 			fnc.frmAjax(function(data){
-	            
-            	if(parseInt(data.actCnt, 10) > 0)
-            	{
-            		//alert("등록되었습니다.");
-            		location.href="./success.do";
+			
+            		alert("등록되었습니다.");
+            		location.href="http://localhost/mypage/inquiry/list.do";
             		//fn_close_popup();
-            	}
+            	
        	        }, "/mypage/inquiry/insert.ajax", $("#inquiryRegFrm"), "json", true, false, true);
 		}
 		

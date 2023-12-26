@@ -1,9 +1,6 @@
 package com.culture.demo.controller;
 
-import java.sql.SQLException;
 import java.util.List;
-
-import javax.annotation.PropertyKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.culture.demo.domain.InquiryDTO;
-import com.culture.demo.mapper.MypageInquiryMapper;
 import com.culture.demo.service.InquiryService;
 
 @Controller
@@ -28,21 +24,26 @@ public class MypageInquiryController{
 	
 	@Autowired
 	private InquiryService inquiryService;  
-	@Autowired
-	private MypageInquiryMapper mypageInquiryMapper;
-
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageInquiryController.class);
 	
 	// 문의하기
-	@RequestMapping(value = "/insert.ajax", method = RequestMethod.POST, produces = "application/text; charset=UTF-8") 
-    public @ResponseBody ResponseEntity<String> inquiryInsert(@PropertyKey InquiryDTO params) throws Exception {
-        logger.info("MypageInquiryController.java > inquiryInsert...");
-        
-        
-        
-        return null;
+	@RequestMapping(value = "/insert.ajax", method = RequestMethod.POST)
+    public ResponseEntity<String> insertInquiry(@RequestBody InquiryDTO params) {
+		System.out.println(params);
+			try {
+				int rowCount = inquiryService.insertInquiry(params);
+				if (rowCount > 0) {
+					return new ResponseEntity<>("Success", HttpStatus.OK);
+				} else {
+					return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 	}
+
 	
 	// 문의 삭제
 	@RequestMapping(value = "/delete.do" , method = RequestMethod.POST)
@@ -117,22 +118,10 @@ public class MypageInquiryController{
 //	    	
 //	        // 여기서 WaitingListDTO 가져오기
 //	        List<WaitingListDTO> waitingListDTO = waitingService.createWaitingHtml(user.getUsername(n), params); 
-	   
-    	int member_sq = 12;
-        List<InquiryDTO> list = null;
-		try {
-			list = mypageInquiryMapper.getInquiryView(member_sq, personal_faq_sq);
-		} catch (SQLException e) {
-			System.out.println("licontroller view > list error : " + list);
-			e.printStackTrace();
-		}
-        
-        // 모델에 데이터 추가
+	    List<InquiryDTO> list = inquiryService.getInquiryView(12, personal_faq_sq); 
+
         model.addAttribute("inquiryView", list);
 
-
-    	
-    	
         return "mypage.inquiry.view";
 	}
 	
