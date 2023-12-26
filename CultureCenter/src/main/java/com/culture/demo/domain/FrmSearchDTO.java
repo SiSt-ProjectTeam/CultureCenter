@@ -25,4 +25,6 @@ public class FrmSearchDTO {
 	private String brchNm;
 	private char orderSet;	// 최신,별점순 정렬
 	private int clCd;
+	
+	private int notcSeqno;  // 공지사항/이벤트
 } // class

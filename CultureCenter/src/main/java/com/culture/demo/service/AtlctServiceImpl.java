@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,14 +20,13 @@ import com.culture.demo.domain.FrmSearchDTO;
 import com.culture.demo.mapper.AtlctMapper;
 import com.culture.demo.mapper.PaymentMapper;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@AllArgsConstructor
 @Log4j
 public class AtlctServiceImpl implements AtlctService {
 	
+	@Autowired
 	private AtlctMapper atlctMapper;
 	private PaymentMapper paymentMapper;
 	// 1. 수강 신청하기

@@ -1,7 +1,6 @@
 package com.culture.demo.controller;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.CartService;
 import com.culture.demo.service.MemberService;
-import com.culture.demo.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -13,19 +13,18 @@ var search = (function(){
 		$("#optnSeqno").val("");
 		$("#waitPopup .optionAmt").text("");
 		
+		var match =  $('input[name=optionList]').val().match(/detail_class_sq=(\d+)/);
+		$("#lectDetailSq").val(match[1]);
+
 		var hrefValue = $('#selectLect a.btn_link.on').attr('href');
 		var functionCallMatch = hrefValue.match(/search\.classInfoSet\((.*)\)/);
-		
-		  var functionParams = functionCallMatch[1];
-		  
-		  var paramsArray = functionParams.split(',').map(function(param) {
-		    return param.trim();
-		  });
+		var functionParams = functionCallMatch[1];
+		var paramsArray = functionParams.split(',').map(function(param) {
+		  return param.trim();
+		});
 	
-		  var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
+		var lastParam = paramsArray[paramsArray.length - 1].replaceAll("'", "");
 		$("#lectDetailSq").val(lastParam);
-		console.log($("#lectDetailSq").val());
-		console.log($('input[name=optionList]').val());
 		fnc.frmAjax(function(data) {
 			var classDtl = data.classDtl;
 			var teacherDtl = data.teacherDtl;
@@ -252,9 +251,9 @@ var search = (function(){
 			$(".course_popup .selected_box:eq(1)").find(".name").text(optnNm);
 			
 			if(optnAmt == 0) {
-				$("#waitPopup .optionAmt").text("재료비/대여료 " + optnNm);
+				$("#waitPopup .optionAmt").text("" + optnNm);
 			} else {
-				$("#waitPopup .optionAmt").text("재료비/대여료 " + optnNm + " " + fnc.fn_numberComma(optnAmt) + "원");
+				$("#waitPopup .optionAmt").text("" + optnNm + " " + fnc.fn_numberComma(optnAmt) + "원");
 			}
 			
 			if(optnAmt == 0) {
@@ -453,12 +452,6 @@ var search = (function(){
     }
 	
 	var btnCheck = function() {
-		/*
-		if($(".single_btn_area").closest(".btn_area").css("display") != "none" && $(".single_btn_area").hasClass("one_layer") && !$(".single_btn_area .sign_btn").hasClass("disabled")) {
-			alert("강좌를 선택하세요.");
-		} 
-		*/
-		console.log("!!!!" + $("#lectDetailSq").val());
 		if($("#lectDetailSq").val() == "close") {
 			alert("강좌를 선택하세요.");
 		} else {
@@ -468,9 +461,7 @@ var search = (function(){
 			$('.total_sum_area.btn_area').css('opacity', '1');
 			
 			var optionList = $('input[name=optionList]').val();
-			
 			var exCharge = fnc.fn_numberComma(optionList.match(/ex_charge=(\d+)/)[1]);
-			console.log(exCharge);
 			$("#optnAmt").val(exCharge);
 			
 			if($("#optnAmt").val() != 0) {

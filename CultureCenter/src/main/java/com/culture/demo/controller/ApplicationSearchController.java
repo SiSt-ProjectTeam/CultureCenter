@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.ClassDTO;
+import com.culture.demo.domain.ClassFormDTO;
+import com.culture.demo.domain.MemberDTO;
 import com.culture.demo.domain.SearchBranchDTO;
+import com.culture.demo.security.CustomerUser;
 import com.culture.demo.service.AppSearchService;
 import com.culture.demo.service.LecSearchService;
 
@@ -35,10 +40,11 @@ public class ApplicationSearchController {
 
 	ClassDTO dto = null;
 	ClassDTO classDtl = null;
+	MemberDTO member = null;
 	
 	@GetMapping(value="/application/search/list.do", params="type=branch")
 	public String listPage(Model model, @RequestParam("type") String type, @RequestParam("brchCd") String branch_id) {
-		log.info("> /list.do ApplicationSearchController.listPage() GET 호출");
+		log.info("> /application/search/list.do ApplicationSearchController.listPage() GET 호출");
 		
 		Map<String, List<ClassDTO>> bmap = new HashMap<>();
 		List<ClassDTO> blist = this.lecSearchService.getBranch();
@@ -69,9 +75,12 @@ public class ApplicationSearchController {
 				cmap.put(lrclsCtegry, cplist);
 			}
 		}
+		
+		String branchNm = this.lecSearchService.getBranchNm(branch_id);
 
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
+		model.addAttribute("branchNm", branchNm);
 		
 		return "application.search.list";
 	}
@@ -116,20 +125,24 @@ public class ApplicationSearchController {
 			smCategory.put(smc.get(i).getSmclsCtegryCd(), smc.get(i).getSmclsCtegry()); 
 		}
 		
+		String mdclsCtegry = this.lecSearchService.getMdCateNm(mdclsCtegryCd);
+		
 		model.addAttribute("bmap", bmap);
 		model.addAttribute("cmap", cmap);
 		model.addAttribute("smCategory", smCategory);
+		model.addAttribute("mdclsCtegry", mdclsCtegry);
 
 		return "application.search.list";
 	}
 	
 	@PostMapping(value="/search/list.ajax", produces="application/text; charset=UTF-8")
 	public ResponseEntity<String> getBranchList(@RequestBody SearchBranchDTO searchBranchDTO) throws Exception {
-		log.info("> /list.ajax ApplicationSearchController.getBranchList() POST 호출");
-		log.info("> SearchBranchDTO : " + searchBranchDTO);
+		
+		log.info("> /search/list.ajax ApplicationSearchController.getBranchList() POST 호출");
+		
 		String html = "";
 		
-		if(searchBranchDTO.getBrchCd() != null) {
+		if(searchBranchDTO.getBrchCd() != null) { // 지점으로 찾기
 			int branch_id = Integer.parseInt(searchBranchDTO.getBrchCd());
 			String yyl[] = null; 
 			String lectcll[] = null; 
@@ -146,7 +159,7 @@ public class ApplicationSearchController {
 			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 			
 			html = this.appSearchService.lecHTML(branch_id, searchBranchDTO, yyl, lectcll, lectstl, dayl, timel, amtl);
-		} else { // 강좌로 찾기
+		} else if(searchBranchDTO.getBrchCd() == null && searchBranchDTO.getLrclsCtegryCd() != null) { // 강좌로 찾기
 			String brchCdl[] = null;
 			String yyl[] = null; 
 			String lectcll[] = null; 
@@ -164,6 +177,24 @@ public class ApplicationSearchController {
 			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
 			
 			html = this.appSearchService.cateLecHTML(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
+		} else if(searchBranchDTO.getBrchCd() == null && searchBranchDTO.getLrclsCtegryCd() == null && searchBranchDTO.getQ() != null) { // 강좌 검색
+			String brchCdl[] = null;
+			String yyl[] = null; 
+			String lectcll[] = null; 
+			String lectstl[] = null; 
+			String dayl[] = null; 
+			String timel[] = null; 
+			String amtl[] = null;
+			
+			if(!searchBranchDTO.getBrchCdList().isEmpty()) brchCdl = searchBranchDTO.getBrchCdList().split(",");
+			if(!searchBranchDTO.getYyList().isEmpty()) yyl = searchBranchDTO.getYyList().split(",");
+			if(!searchBranchDTO.getLectClCdList().isEmpty()) lectcll = searchBranchDTO.getLectClCdList().split(",");
+			if(!searchBranchDTO.getLectStatCdList().isEmpty()) lectstl = searchBranchDTO.getLectStatCdList().split(",");
+			if(!searchBranchDTO.getStDaywCdList().isEmpty()) dayl = searchBranchDTO.getStDaywCdList().split(",");
+			if(!searchBranchDTO.getTimeTypeList().isEmpty()) timel = searchBranchDTO.getTimeTypeList().split(",");
+			if(!searchBranchDTO.getAmtTypeList().isEmpty()) amtl = searchBranchDTO.getAmtTypeList().split(",");
+			
+			html = this.appSearchService.inteHTML(searchBranchDTO, brchCdl, yyl, lectcll, lectstl, dayl, timel, amtl);
 		}
 		
 		return !html.equals("")
@@ -173,12 +204,18 @@ public class ApplicationSearchController {
 	}
 	
 	@GetMapping("/application/search/view.do")
-	public String viewPage(Model model, @RequestParam("branch_id") int branch_id, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd) throws Exception {
+	public String viewPage(Model model, @RequestParam("branch_id") int branch_id, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd, Authentication authentication) throws Exception {
 		log.info("/application/search/view.do ApplicationSearchController.viewPage() GET 호출");
 		dto = this.appSearchService.DetailClassInfo(branch_id, yy, lectSmsterCd, lectCd);
 		classDtl = this.appSearchService.selectClassInfo(branch_id, yy, lectSmsterCd, dto.getClass_id());
-		log.info("classDtl : " + classDtl);
+		List<ChildrenDTO> children = null;
 		
+		if (authentication != null) {
+			CustomerUser principal =  (CustomerUser) authentication.getPrincipal();
+			member = this.appSearchService.selectMemberInfo(principal.getMember_sq());
+			children = this.appSearchService.selectChildInfo(principal.getMember_sq());
+		}
+
 		String lectStDtm = String.format("%s ~ %s", classDtl.getSchedule_start_dt().substring(0,10), classDtl.getSchedule_end_dt().substring(0,10));
 		String rceptPrdStDt = String.format("%s ~ %s", classDtl.getReception_start_dt().substring(0,10), classDtl.getReception_end_dt().substring(0,10));
 		String avDay = (classDtl.getMon().equals("Y")?"월":"") + (classDtl.getTue().equals("Y")?"화":"") + (classDtl.getWed().equals("Y")?"수":"") + (classDtl.getThu().equals("Y")?"목":"")
@@ -197,6 +234,8 @@ public class ApplicationSearchController {
 		model.addAttribute("fee", fee);
 		model.addAttribute("ex", ex);
 		model.addAttribute("exCharge", exCharge);
+		model.addAttribute("member", member);
+		model.addAttribute("children", children);
 		
 		return "application.search.view";
 	}
@@ -204,7 +243,6 @@ public class ApplicationSearchController {
 	@GetMapping(value="/application/search/teacherView.ajax", produces="application/text; charset=UTF-8")
 	public ResponseEntity<String> teacherView(@RequestParam("tcCdNo") int member_sq) throws Exception {
 		log.info("/application/search/teacherView.ajax ApplicationSearchController.teacherView() GET 호출");
-		log.info("member_sq : " + member_sq);
 		String html = "";
 		html = this.appSearchService.teacherHTML(member_sq);
 		
@@ -212,5 +250,30 @@ public class ApplicationSearchController {
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@PostMapping(value="/application/search/reviewList.ajax", produces="application/text; charset=UTF-8")
+	public ResponseEntity<String> reviewList(@RequestBody ClassFormDTO classFormDTO) throws Exception {
+		log.info("/application/search/reviewList.ajax ApplicationSearchController.reviewList() POST 호출");
+		
+		String html = "";
+		html = this.appSearchService.reviewListHTML(classFormDTO);
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping(value="/application/search/reviewDtl.ajax", produces="application/text; charset=UTF-8")
+	public ResponseEntity<String> reviewDtl(@RequestParam("brchCd") int brchCd, @RequestParam("yy") int yy, @RequestParam("lectSmsterCd") int lectSmsterCd, @RequestParam("lectCd") int lectCd, @RequestParam("tcNo") int tcNo, @RequestParam("memberNo") int mbrNo) throws Exception {
+		log.info("/application/search/reviewDtl.ajax ApplicationSearchController.reviewDtl() GET 호출");
+		
+		String html = "";
+		html = this.appSearchService.reviewDtlHTML(brchCd, yy, lectSmsterCd, lectCd, tcNo, mbrNo);
+		
+		return !html.equals("")
+				? new ResponseEntity<>(html, HttpStatus.OK)
+				: new ResponseEntity<>(html, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 	
 }

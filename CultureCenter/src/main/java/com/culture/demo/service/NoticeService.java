@@ -13,4 +13,7 @@ public interface NoticeService {
 	
 	// 공지사항/이벤트 ajax
 	String noticeHTML(FrmSearchDTO frmSearchDTO) throws SQLException, ClassNotFoundException;
+	
+	// 공지사항 상세 정보 가져오기
+	NoticeDTO getNotice(int notcSeqno);
 }

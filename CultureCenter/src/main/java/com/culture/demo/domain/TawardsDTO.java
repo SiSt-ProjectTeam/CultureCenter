@@ -14,4 +14,8 @@ public class TawardsDTO {
 	private String awards_history;
 	private String awards_dt;
 	
+	private String issueAgncNm;					//발행기관
+	private String issueNm;						//이름
+	private int issueDt;						//취득일, 수상일	
+	
 }

@@ -2,6 +2,8 @@ package com.culture.demo.service;
 
 import java.sql.SQLException;
 
+import org.json.simple.JSONObject;
+
 import com.culture.demo.domain.ChildrenDTO;
 import com.culture.demo.domain.MemberDTO;
 
@@ -22,8 +24,11 @@ public interface MemberService {
 	// 3. 회원 등록
 	int registMember(MemberDTO memberDTO);
 	
-	//  회원가입 - 아이디 체크
+	// 회원가입 - 아이디 체크
 	public int idCheck(String id) ;
+	
+	// 회원가입 휴대폰 인증번호 문자 발송  
+	public JSONObject sendSMS(String verifCode, String to);               
 	
 	// 아이디 찾기 
 	public String findId(String name, String phone);

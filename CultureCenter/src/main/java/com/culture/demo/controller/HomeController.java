@@ -1,6 +1,5 @@
 package com.culture.demo.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,8 +85,7 @@ public class HomeController {
 		
 		// 공지사항
 		List<NoticeDTO> noticeList = this.noticeService.getMainNoticeList();
-		for (NoticeDTO noticeDTO : noticeList) {
-			
+		for (NoticeDTO noticeDTO : noticeList) {			
 			Document document = Jsoup.parse(noticeDTO.getPosting_content());
 	        String textContent = Jsoup.clean(document.body().html(), Whitelist.none());
 
@@ -118,6 +114,28 @@ public class HomeController {
 		return !html.equals("")
 				? new ResponseEntity<>(html, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping(value="/application/integration/list.do")
+	public String integration(Model model) {
+		Map<String, List<ClassDTO>> bmap = new HashMap<>();
+		List<ClassDTO> blist = lecSearchService.getBranch();
+		List<ClassDTO> bplist = null;
+		
+		for(int i=0; i<blist.size(); i++) {
+			String type = blist.get(i).getBranch_tp();
+			if (bmap.containsKey(type)) {
+				bmap.get(type).add(blist.get(i));
+			} else {
+				bplist = new ArrayList<>();
+				bplist.add(blist.get(i));
+				bmap.put(type, bplist);
+			}
+		}
+		
+		model.addAttribute("bmap", bmap);
+		
+		return "application.integration.list";
 	}
 	
 }

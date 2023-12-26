@@ -228,12 +228,13 @@ var fnc = (function() {
 
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-			
+						
             jQuery.ajax({
                 url: url,
                 type: "post",
                 timeout: 30000,
                 data: JSON.stringify(data),//추가
+                //data: data,
                 contentType : "application/json; charset=utf-8",//추가
                 dataType: dataType,
                 async: sync,
@@ -245,7 +246,7 @@ var fnc = (function() {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
-					if (callbackAjax) {
+					if (callbackAjax) {				
                         callbackAjax(data);
                     }
                 },
@@ -303,11 +304,14 @@ var fnc = (function() {
             // 파일 업로드
             var inputFile = $("input[type=file]");
             for (var input of inputFile) {
-                if (input.files[0] != undefined) {
-                    formData.append(input.name, input.files[0]);
+                if (input.files[0] != undefined) { //파일이 첨부되어 있으면
+                    formData.append(input.name, input.files[0]); //파일이름, 실제파일
                 }
             }
-
+            
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+      
             jQuery.ajax({
                 url: url,
                 type: "post",
@@ -318,10 +322,11 @@ var fnc = (function() {
                 cache: false,
                 contentType: false,
                 processData: false,
-                beforeSend: function() {
+                beforeSend: function(xhr) {
                     if (loading) {
                         fnc.startProgress(jQuery("#dimdBg"));
                     }
+                    xhr.setRequestHeader(header, token);
                 },
                 success: function(data, status, xhr) {
                     if (callbackAjax) {
